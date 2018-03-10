@@ -78,7 +78,7 @@ Parameter | Required | Description
 user | true | All data that we know about the current user at the time. (MANDATORY)
 event | true | Details about the event (MANDATORY)
 context | false | Details about the user’s device and location (OPTIONAL)
-
+timestamp | false | An ISO-8601 date string in UTC time for when the event happened(OPTIONAL)
 <aside class="success">
   Parameter breakdown
 </aside>
@@ -106,6 +106,8 @@ User Identification (one of the two is mandatory, we will take `user_id` if you 
 - `user_agent`: If you don’t specify one, we will store the user_agent from the request header.
 NOTE: This only applies if you are registering events from client side or frontend code running on a browser, typically in a single page application. If your store is rendered on the server for instance with PHP, you must specify these fields as the request IP and user_agent we receive will be from your server.
 
+#### Timestamp
+
 - `timestamp`: An ISO-8601 date string in UTC time for when the event happened (OPTIONAL)
 If you don’t specify this, we will log the event at current UTC time. It is recommended to only specify this field if you are sending us any historical data.
 
@@ -113,158 +115,150 @@ If you don’t specify this, we will log the event at current UTC time. It is re
 
 ```php
 <?
-require 'kittn'
+$url = "http://datacue/v1/events";
+$data = array(
+  'user' => array(
+	  'user_id' =>  '019mr8mf4r',
+	    'anonymous_id' => 'asdsadasd',
+	    'profile' =>  array(
+	  	  'sex' => 'female',
+	  	  'location' => 'Santiago',
+		 'dob' => '1980-01-23',
+		'income' => 'high',
+		'occupation' => 'engineer',
+		'marital_status' => 'married'
+	    )
+  ),
+  'event' =>  array(
+  	  'type' =>  'pageview',
+	  'subtype' =>  'home'
+  ),
+  'context' =>  array(
+    'ip' =>  '24.5.68.47',
+	'user-agent' =>  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6'
+  ),
+  'timestamp' =>  '2012-12-02T00 => 30 => 08.276Z'
+);
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
+$content = json_encode($data);
+
+$curl = curl_init($url);
+curl_setopt($curl, CURLOPT_HEADER, false);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER,
+        array("Content-type: application/json"));
+curl_setopt($curl, CURLOPT_POST, true);
+curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+
+$json_response = curl_exec($curl);
 ?>
 ```
 
 ```python
-import kittn
+import requests
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
-```
-
-> The above command returns JSON structured like this:
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
+url = 'http://datacue/v1/events'
+headers = {'Content-type': 'application/json'}
+data = {
+  "user": {
+	  "user_id": "019mr8mf4r",
+	    "anonymous_id":"asdsadasd",
+	    "profile": {
+	  	  "sex":"female",
+	  	  "location":"Santiago",
+		 "dob":"1980-01-23",
+		"income":"high",
+		"occupation":"engineer",
+		"marital_status":"married"
+	    }
   },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
+  "event": {
+  	  "type": "pageview",
+	  "subtype": "home"
+  },
+  "context": {
+    "ip": "24.5.68.47",
+	"user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
+  },
+  "timestamp": "2012-12-02T00:30:08.276Z"
+}
 
-This endpoint retrieves all kittens.
 
-### HTTP Request
-
-`GET http://example.com/api/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-## Get a Specific Kitten
-
-```php
-<?
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-?>
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
+response = requests.post(url, json=data, headers=headers)
 ```
 
 ```javascript
-const kittn = require('kittn');
 
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
+const url = 'https://randomuser.me/api';
+let data = {
+  "user": {
+	  "user_id": "019mr8mf4r",
+	    "anonymous_id":"asdsadasd",
+	    "profile": {
+	  	  "sex":"female",
+	  	  "location":"Santiago",
+		 "dob":"1980-01-23",
+		"income":"high",
+		"occupation":"engineer",
+		"marital_status":"married"
+	    }
+  },
+  "event": {
+  	  "type": "pageview",
+	  "subtype": "home"
+  },
+  "context": {
+    "ip": "24.5.68.47",
+	"user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
+  },
+  "timestamp": "2012-12-02T00:30:08.276Z"
+}
+// The parameters we are gonna pass to the fetch function
+let fetchData = {
+    method: 'POST',
+    body: data,
+    headers: new Headers('Content-Type', 'application/json')
+}
+fetch(url, fetchData)
+.then((res) => res.json())
+.then((data) =>  console.log(data))
+.catch((err) => console.log(err))
+
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
 {
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+    "main_banners": [
+        {
+            "banner_id": "B4",
+            "photo_url": "/banners/living-room/livingroom-min.jpeg",
+            "title": "Living Room",
+            "link": "/category/living-room"
+        },
+    ],
+    "sub_banners": [
+        {
+            "banner_id": "B16",
+            "photo_url": "/banners/living-room/subbanner_lamps.jpeg",
+            "title": "Lamps",
+            "link": "/category/living-room/lamps"
+        },
+    ],
+    "related_product_skus": [       
+      {
+            "id": "48",
+            "category_1": "kitchen",
+            "category_2": "dining-table",
+            "category_3": "scandinavian",
+            "category_4": "modern",
+            "name": "Modern Table",
+            "link": "/table-1",
+            "price": "219",
+            "photo_url": "/products/48.jpg"
+        }
+     ]
 }
+
 ```
-
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
-
-## Delete a Specific Kitten
-
-```php
-<?
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-?>2
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "deleted" : ":("
-}
-```
-
-This endpoint deletes a specific kitten.
-
-### HTTP Request
-
-`DELETE http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
