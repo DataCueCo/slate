@@ -6,10 +6,6 @@ language_tabs: # must be one of https://git.io/vQNgJ
   - python
   - javascript
 
-toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/lord/slate'>Documentation Powered by Slate</a>
-
 includes:
   - errors
 
@@ -18,9 +14,9 @@ search: true
 
 # Introduction
 
-Welcome to the DataCue API! You can use our API to access DataCue API endpoints, which can get information on ****\*\*\*****
+Welcome to the DataCue API. This API documentation is to help get your e-commerce store setup to apply real time personalization to your website.
 
-We have language bindings in Javascripy, PHP, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+We have language bindings in Javascript, PHP, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
 
 # Headers
 
@@ -77,10 +73,10 @@ All events are registered in a similar format. There are 4 main objects in each 
 
 | Parameter | Required | Description                                                               |
 | --------- | -------- | ------------------------------------------------------------------------- |
-| user      | true     | All data that we know about the current user at the time. (MANDATORY)     |
-| event     | true     | Details about the event (MANDATORY)                                       |
-| context   | false    | Details about the user’s device and location (OPTIONAL)                   |
-| timestamp | false    | An ISO-8601 date string in UTC time for when the event happened(OPTIONAL) |
+| user      | true     | All data that we know about the current user at the time.       |
+| event     | true     | Details about the event                                         |
+| context   | false    | Details about the user’s device and location                    |
+| timestamp | false    | An ISO-8601 date string in UTC time for when the event happened |
 
 <aside class="success">
   Parameter breakdown
@@ -116,13 +112,15 @@ User Identification (one of the two is mandatory, we will take `user_id` if you 
 
 ## Home Page View
 
+Request banner and product recommendations when a user visits your home page
+
 ```php
 <?
-$url = "http://datacue/v1/events";
+$url = "https://api.datacue.co/v1/events";
 $data = array(
   'user' => array(
     'user_id' =>  '019mr8mf4r',
-    'anonymous_id' => 'asdsadasd',
+    'anonymous_id' => 'a1',
     'profile' =>  array(
   	  'sex' => 'female',
   	  'location' => 'Santiago',
@@ -160,12 +158,12 @@ $json_response = curl_exec($curl);
 ```python
 import requests
 
-url = 'http://datacue/v1/events'
+url = 'https://api.datacue.co/v1/events'
 headers = {'Content-type': 'application/json'}
 data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "asdsadasd",
+    "anonymous_id": "a1",
     "profile": {
   	  "sex": "female",
   	  "location": "Santiago",
@@ -191,11 +189,11 @@ response = requests.post(url, json=data, headers=headers)
 ```
 
 ```javascript
-const url = 'https://randomuser.me/api';
+const url = 'https://api.datacue.co/v1/events';
 let data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "asdsadasd",
+    "anonymous_id": "a1",
     "profile": {
   	  "sex": "female",
   	  "location": "Santiago",
@@ -249,7 +247,8 @@ fetch(url, fetchData)
   ],
   "related_product_skus": [       
     {
-      "id": "48",
+      "product_id": "48",
+      "variant_id": "1"
       "category_1": "kitchen",
       "category_2": "dining-table",
       "category_3": "scandinavian",
@@ -265,13 +264,15 @@ fetch(url, fetchData)
 
 ## Product Page View
 
+Request product recommendations when a user visits a product page
+
 ```php
 <?
-$url = "http://datacue/v1/events";
+$url = "https://api.datacue.co/v1/events";
 $data = array(
   'user' => array(
     'user_id' =>  '019mr8mf4r',
-    'anonymous_id' => 'asdsadasd',
+    'anonymous_id' => 'a1',
     'profile' =>  array(
   	  'sex' => 'female',
   	  'location' => 'Santiago',
@@ -284,7 +285,8 @@ $data = array(
   'event' =>  array(
     'type' =>  'pageview',
     'subtype' =>  'product',
-    'product_id' => 'p1'
+    'product_id' => 'p1',
+    'variant_id' => 'v1'
   ),
   'context' =>  array(
     'ip' =>  '24.5.68.47',
@@ -310,12 +312,12 @@ $json_response = curl_exec($curl);
 ```python
 import requests
 
-url = 'http://datacue/v1/events'
+url = 'https://api.datacue.co/v1/events'
 headers = {'Content-type': 'application/json'}
 data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "asdsadasd",
+    "anonymous_id": "a1",
     "profile": {
   	  "sex": "female",
   	  "location": "Santiago",
@@ -328,7 +330,8 @@ data = {
   "event": {
     "type": "pageview",
     "subtype": "product",
-    "product_id": "p1"
+    "product_id": "p1",
+    "variant_id": "v1"
   },
   "context": {
     "ip": "24.5.68.47",
@@ -342,11 +345,11 @@ response = requests.post(url, json=data, headers=headers)
 ```
 
 ```javascript
-const url = 'https://randomuser.me/api';
+const url = 'https://api.datacue.co/v1/events';
 let data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "asdsadasd",
+    "anonymous_id": "a1",
     "profile": {
   	  "sex": "female",
   	  "location": "Santiago",
@@ -359,7 +362,8 @@ let data = {
   "event": {
   	"type": "pageview",
     "subtype": "product",
-    "product_id": "p1"
+    "product_id": "p1",
+    "variant_id": "v1"
   },
   "context": {
     "ip": "24.5.68.47",
@@ -385,7 +389,8 @@ fetch(url, fetchData)
 {
   "related_product_skus": [       
     {
-      "id": "48",
+      "product_id": "48",
+      "variant_id":"1",
       "category_1": "kitchen",
       "category_2": "dining-table",
       "category_3": "scandinavian",
@@ -393,12 +398,14 @@ fetch(url, fetchData)
       "name": "Modern Table",
       "link": "/table-1",
       "price": "219",
-      "photo_url": "/products/48.jpg"
+      "photo_url": "/products/48.jpg",
+       "extras": {"discount":"10%"}
     }
   ],
   "similar_product_skus": [
     {
-      "id": "37",
+      "product_id": "37",
+      "variant_id":"1",
       "category_1": "outdoors",
       "category_2": "sofa",
       "category_3": "scandinavian",
@@ -406,7 +413,8 @@ fetch(url, fetchData)
       "name": "Outdoor Armchair",
       "link": "/outdoor-sofa-2",
       "price": "199",
-      "photo_url": "/products/37.jpg"
+      "photo_url": "/products/37.jpg",
+      "extras": {"promotion":true}
     },
   ]
 }
@@ -414,13 +422,15 @@ fetch(url, fetchData)
 
 ## Shopping Cart (View Cart, Add/Remove Item)
 
+Record activity on a users shopping cart, typically when the cart is viewed, or an item is added or removed.
+
 ```php
 <?
-$url = "http://datacue/v1/events";
+$url = "https://api.datacue.co/v1/events";
 $data = array(
   'user' => array(
     'user_id' =>  '019mr8mf4r',
-    'anonymous_id' => 'asdsadasd',
+    'anonymous_id' => 'a1',
     'profile' =>  array(
   	  'sex' => 'female'
     )
@@ -453,12 +463,12 @@ $json_response = curl_exec($curl);
 ```python
 import requests
 
-url = 'http://datacue/v1/events'
+url = 'https://api.datacue.co/v1/events'
 headers = {'Content-type': 'application/json'}
 data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "asdsadasd",
+    "anonymous_id": "a1",
     "profile": {
   	  "sex": "female"
     }
@@ -479,11 +489,11 @@ response = requests.post(url, json=data, headers=headers)
 ```
 
 ```javascript
-const url = 'https://randomuser.me/api';
+const url = 'https://api.datacue.co/v1/events';
 let data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "asdsadasd",
+    "anonymous_id": "a1",
     "profile": {
   	  "sex": "female"
     }
@@ -516,7 +526,8 @@ fetch(url, fetchData)
 {
   "related_product_skus": [
     {
-      "id": "37",
+      "product_id": "37",
+      "variant_id": "v1",
       "category_1": "outdoors",
       "category_2": "sofa",
       "category_3": "scandinavian",
@@ -524,7 +535,8 @@ fetch(url, fetchData)
       "name": "Outdoor Armchair",
       "link": "/outdoor-sofa-2",
       "price": "199",
-      "photo_url": "/products/37.jpg"
+      "photo_url": "/products/37.jpg",
+      "extras": {"discount":"10%"}
     },
   ]
 }
@@ -532,13 +544,15 @@ fetch(url, fetchData)
 
 ## Search Page View
 
+Record when performs a search on your website
+
 ```php
 <?
-$url = "http://datacue/v1/events";
+$url = "https://api.datacue.co/v1/events";
 $data = array(
   'user' => array(
     'user_id' =>  '019mr8mf4r',
-    'anonymous_id' => 'asdsadasd',
+    'anonymous_id' => 'a1',
     'profile' =>  array(
   	  'sex' => 'female'
     )
@@ -571,12 +585,12 @@ $json_response = curl_exec($curl);
 ```python
 import requests
 
-url = 'http://datacue/v1/events'
+url = 'https://api.datacue.co/v1/events'
 headers = {'Content-type': 'application/json'}
 data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "asdsadasd",
+    "anonymous_id": "a1",
     "profile": {
   	  "sex": "female"
     }
@@ -597,11 +611,11 @@ response = requests.post(url, json=data, headers=headers)
 ```
 
 ```javascript
-const url = 'https://randomuser.me/api';
+const url = 'https://api.datacue.co/v1/events';
 let data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "asdsadasd",
+    "anonymous_id": "a1",
     "profile": {
   	  "sex": "female"
     }
@@ -634,7 +648,8 @@ fetch(url, fetchData)
 {
   "related_product_skus": [
     {
-      "id": "37",
+      "product_id": "37",
+      "variant_id": "1",
       "category_1": "outdoors",
       "category_2": "sofa",
       "category_3": "scandinavian",
@@ -642,136 +657,40 @@ fetch(url, fetchData)
       "name": "Outdoor Armchair",
       "link": "/outdoor-sofa-2",
       "price": "199",
-      "photo_url": "/products/37.jpg"
+      "photo_url": "/products/37.jpg",
+      "extras": {"discount":"10%"}
     },
   ]
 }
 ```
-## Add Product To Wishlist
+## Update Wishlist
+
+Record changes to users wishlist, typically when the wishlist is viewed, or a product is added or removed from the wishlist.
 
 ```php
 <?
-$url = "http://datacue/v1/events";
+$url = "https://api.datacue.co/v1/events";
 $data = array(
   'user' => array(
     'user_id' =>  '019mr8mf4r',
-    'anonymous_id' => 'asdsadasd',
+    'anonymous_id' => 'a1',
     'profile' =>  array(
   	  'sex' => 'female'
     )
   ),
   'event' =>  array(
     'type' => 'wishlist',
-    'subtype' => 'add',
-    'product_id' => 'p1',
-    'variant_id' => 'v1'
-  ),
-  'context' =>  array(
-    'ip' =>  '24.5.68.47',
-    'user-agent' =>  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6'
-  ),
-  'timestamp' =>  '2012-12-02T00 => 30 => 08.276Z'
-);
-
-$content = json_encode($data);
-
-$curl = curl_init($url);
-curl_setopt($curl, CURLOPT_HEADER, false);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_HTTPHEADER,
-        array("Content-type: application/json"));
-curl_setopt($curl, CURLOPT_POST, true);
-curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
-
-$json_response = curl_exec($curl);
-?>
-```
-
-```python
-import requests
-
-url = 'http://datacue/v1/events'
-headers = {'Content-type': 'application/json'}
-data = {
-  "user": {
-    "user_id": "019mr8mf4r",
-    "anonymous_id": "asdsadasd",
-    "profile": {
-  	  "sex": "female"
-    }
-  },
-  "event": {
-    "type": "wishlist",
-    "subtype": "add",
-    "product_id": "p1",
-    "variant_id": "v1"
-  },
-  "context": {
-    "ip": "24.5.68.47",
-    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
-  },
-  "timestamp": "2012-12-02T00:30:08.276Z"
-}
-
-
-response = requests.post(url, json=data, headers=headers)
-```
-
-```javascript
-const url = 'https://randomuser.me/api';
-let data = {
-  "user": {
-    "user_id": "019mr8mf4r",
-    "anonymous_id": "asdsadasd",
-    "profile": {
-  	  "sex": "female"
-    }
-  },
-  "event": {
-    "type": "wishlist",
-    "subtype": "add",
-    "product_id": "p1",
-    "variant_id": "v1"
-  },
-  "context": {
-    "ip": "24.5.68.47",
-    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
-  },
-  "timestamp": "2012-12-02T00:30:08.276Z"
-}
-// The parameters we are gonna pass to the fetch function
-let fetchData = {
-    method: 'POST',
-    body: data,
-    headers: new Headers('Content-Type', 'application/json')
-}
-fetch(url, fetchData)
-.then((res) => res.json())
-.then((data) =>  console.log(data))
-.catch((err) => console.log(err))
-```
-
-> The above command returns a 204 response code
-
-## Remove Product To Wishlist
-
-```php
-<?
-$url = "http://datacue/v1/events";
-$data = array(
-  'user' => array(
-    'user_id' =>  '019mr8mf4r',
-    'anonymous_id' => 'asdsadasd',
-    'profile' =>  array(
-  	  'sex' => 'mujer'
+    'wishlist' => array(
+      array(
+        'product_id' => 'p1',
+        'variant_id' => 'v1'
+      ),
+      array(
+        'product_id' => 'p2',
+        'variant_id' => 'v2'
+      )
     )
   ),
-  'event' =>  array(
-    'type' => 'wishlist',
-    'subtype' => 'remove',
-    'product_id' => 'p1',
-    'variant_id' => 'v1'
-  ),
   'context' =>  array(
     'ip' =>  '24.5.68.47',
     'user-agent' =>  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6'
@@ -796,21 +715,28 @@ $json_response = curl_exec($curl);
 ```python
 import requests
 
-url = 'http://datacue/v1/events'
+url = 'https://api.datacue.co/v1/events'
 headers = {'Content-type': 'application/json'}
 data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "asdsadasd",
+    "anonymous_id": "a1",
     "profile": {
-  	  "sex": "mujer"
+  	  "sex": "female"
     }
   },
   "event": {
     "type": "wishlist",
-    "subtype": "remove",
-    "product_id": "p1",
-    "variant_id": "v1"
+    "wishlist": [
+      {
+        'product_id': 'p1',
+        'variant_id': 'v1'
+      },
+      {
+        'product_id': 'p2',
+        'variant_id': 'v2'
+      }
+    ]
   },
   "context": {
     "ip": "24.5.68.47",
@@ -824,20 +750,27 @@ response = requests.post(url, json=data, headers=headers)
 ```
 
 ```javascript
-const url = 'https://randomuser.me/api';
+const url = 'https://api.datacue.co/v1/events';
 let data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "asdsadasd",
+    "anonymous_id": "a1",
     "profile": {
-  	  "sex": "mujer"
+  	  "sex": "female"
     }
   },
   "event": {
     "type": "wishlist",
-    "subtype": "remove",
-    "product_id": "p1",
-    "variant_id": "v1"
+    "wishlist": [
+      {
+        'product_id': 'p1',
+        'variant_id': 'v1'
+      },
+      {
+        'product_id': 'p2',
+        'variant_id': 'v2'
+      }
+    ]
   },
   "context": {
     "ip": "24.5.68.47",
@@ -863,11 +796,11 @@ fetch(url, fetchData)
 
 ```php
 <?
-$url = "http://datacue/v1/events";
+$url = "https://api.datacue.co/v1/events";
 $data = array(
   'user' => array(
     'user_id' =>  '019mr8mf4r',
-    'anonymous_id' => 'asdsadasd',
+    'anonymous_id' => 'a1',
     'profile' =>  array(
   	  'sex' => 'mujer'
     )
@@ -901,12 +834,12 @@ $json_response = curl_exec($curl);
 ```python
 import requests
 
-url = 'http://datacue/v1/events'
+url = 'https://api.datacue.co/v1/events'
 headers = {'Content-type': 'application/json'}
 data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "asdsadasd",
+    "anonymous_id": "a1",
     "profile": {
   	  "sex": "mujer"
     }
@@ -928,11 +861,11 @@ response = requests.post(url, json=data, headers=headers)
 ```
 
 ```javascript
-const url = 'https://randomuser.me/api';
+const url = 'https://api.datacue.co/v1/events';
 let data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "asdsadasd",
+    "anonymous_id": "a1",
     "profile": {
   	  "sex": "mujer"
     }
@@ -966,11 +899,11 @@ fetch(url, fetchData)
 
 ```php
 <?
-$url = "http://datacue/v1/events";
+$url = "https://api.datacue.co/v1/events";
 $data = array(
   'user' => array(
     'user_id' =>  '019mr8mf4r',
-    'anonymous_id' => 'asdsadasd',
+    'anonymous_id' => 'a1',
     'profile' =>  array(
   	  'sex' => 'mujer'
     )
@@ -1004,12 +937,12 @@ $json_response = curl_exec($curl);
 ```python
 import requests
 
-url = 'http://datacue/v1/events'
+url = 'https://api.datacue.co/v1/events'
 headers = {'Content-type': 'application/json'}
 data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "asdsadasd",
+    "anonymous_id": "a1",
     "profile": {
   	  "sex": "mujer"
     }
@@ -1031,11 +964,11 @@ response = requests.post(url, json=data, headers=headers)
 ```
 
 ```javascript
-const url = 'https://randomuser.me/api';
+const url = 'https://api.datacue.co/v1/events';
 let data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "asdsadasd",
+    "anonymous_id": "a1",
     "profile": {
   	  "sex": "mujer"
     }
@@ -1069,11 +1002,11 @@ fetch(url, fetchData)
 
 ```php
 <?
-$url = "http://datacue/v1/events";
+$url = "https://api.datacue.co/v1/events";
 $data = array(
   'user' => array(
     'user_id' =>  '019mr8mf4r',
-    'anonymous_id' => 'asdsadasd',
+    'anonymous_id' => 'a1',
     'profile' =>  array(
   	  'sex' => 'female'
     )
@@ -1085,10 +1018,10 @@ $data = array(
     'cart' => array(
       array(
         'product_id' => 'p1',
-        'variant' => array(),
+        'variant' => 'v1',
         'quantity' => 1,
         'price' => 24,
-        'currency' => 'CLP'
+        'currency' => 'USD'
       )
     )
   ),
@@ -1116,12 +1049,12 @@ $json_response = curl_exec($curl);
 ```python
 import requests
 
-url = 'http://datacue/v1/events'
+url = 'https://api.datacue.co/v1/events'
 headers = {'Content-type': 'application/json'}
 data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "asdsadasd",
+    "anonymous_id": "a1",
     "profile": {
   	  "sex": "female"
     }
@@ -1133,10 +1066,10 @@ data = {
     "cart": [
       {
         "product_id": "p1",
-        "variant": {},
+        "variant": "v1",
         "quantity": 1,
         "price": 24,
-        "currency": "CLP"
+        "currency": "USD"
       }
     ]
   },
@@ -1152,11 +1085,11 @@ response = requests.post(url, json=data, headers=headers)
 ```
 
 ```javascript
-const url = 'https://randomuser.me/api';
+const url = 'https://api.datacue.co/v1/events';
 let data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "asdsadasd",
+    "anonymous_id": "a1",
     "profile": {
   	  "sex": "female"
     }
@@ -1168,10 +1101,10 @@ let data = {
     "cart": [
       {
         "product_id": "p1",
-        "variant": {},
+        "variant": "v1",
         "quantity": 1,
         "price": 24,
-        "currency": "CLP"
+        "currency": "USD"
       }
     ]
   },
@@ -1199,11 +1132,11 @@ fetch(url, fetchData)
 
 ```php
 <?
-$url = "http://datacue/v1/events";
+$url = "https://api.datacue.co/v1/events";
 $data = array(
   'user' => array(
     'user_id' =>  '019mr8mf4r',
-    'anonymous_id' => 'asdsadasd',
+    'anonymous_id' => 'a1',
     'profile' =>  array(
   	  'sex' => 'female'
     )
@@ -1219,7 +1152,8 @@ $data = array(
         'product_id' => 'p1',
         'variant_id' => 'v1',
         'quantity' => 1,
-        'unit_price' => 24000
+        'unit_price' => 24000,
+        'currency' => "USD"
       )
     )
   ),
@@ -1247,12 +1181,12 @@ $json_response = curl_exec($curl);
 ```python
 import requests
 
-url = 'http://datacue/v1/events'
+url = 'https://api.datacue.co/v1/events'
 headers = {'Content-type': 'application/json'}
 data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "asdsadasd",
+    "anonymous_id": "a1",
     "profile": {
   	  "sex": "female"
     }
@@ -1268,7 +1202,8 @@ data = {
         "product_id": "p1",
         "variant_id": 'v1',
         "quantity": 1,
-        "unit_price": 24000
+        "unit_price": 24000,
+        "currency": "USD"
       }
     ]
   },
@@ -1284,11 +1219,11 @@ response = requests.post(url, json=data, headers=headers)
 ```
 
 ```javascript
-const url = 'https://randomuser.me/api';
+const url = 'https://api.datacue.co/v1/events';
 let data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "asdsadasd",
+    "anonymous_id": "a1",
     "profile": {
   	  "sex": "female"
     }
@@ -1304,7 +1239,8 @@ let data = {
         "product_id": "p1",
         "variant_id": 'v1',
         "quantity": 1,
-        "unit_price": 24000
+        "unit_price": 24000,
+        "currency": "USD"
       }
     ]
   },
@@ -1332,11 +1268,11 @@ fetch(url, fetchData)
 
 ```php
 <?
-$url = "http://datacue/v1/events";
+$url = "https://api.datacue.co/v1/events";
 $data = array(
   'user' => array(
     'user_id' =>  '019mr8mf4r',
-    'anonymous_id' => 'asdsadasd',
+    'anonymous_id' => 'a1',
     'profile' =>  array(
   	  'sex' => 'female'
     )
@@ -1368,12 +1304,12 @@ $json_response = curl_exec($curl);
 ```python
 import requests
 
-url = 'http://datacue/v1/events'
+url = 'https://api.datacue.co/v1/events'
 headers = {'Content-type': 'application/json'}
 data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "asdsadasd",
+    "anonymous_id": "a1",
     "profile": {
   	  "sex": "female"
     }
@@ -1393,11 +1329,11 @@ response = requests.post(url, json=data, headers=headers)
 ```
 
 ```javascript
-const url = 'https://randomuser.me/api';
+const url = 'https://api.datacue.co/v1/events';
 let data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "asdsadasd",
+    "anonymous_id": "a1",
     "profile": {
   	  "sex": "female"
     }
