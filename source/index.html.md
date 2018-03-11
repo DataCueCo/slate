@@ -559,7 +559,7 @@ $data = array(
   ),
   'event' =>  array(
     'type' => 'search',
-	  'term' => 'blue jeans'
+    'term' => 'blue jeans'
   ),
   'context' =>  array(
     'ip' =>  '24.5.68.47',
