@@ -26,37 +26,45 @@ We have language bindings in Javascript, PHP, and Python! You can view code exam
 
 ```php
 <?
-$encode = base64_encode('API-key');
+$encode = base64_encode("API-key:"); # only API key for events endpoint
+
+$encode = base64_encode("API-key:API-secret"); # apikey:apisecret for all other endpoints
+
 $auth = "Basic $encode";
 ?>
 ```
 
 ```python
 import base64
+# for events endpoint, use apikey:
+auth = "Basic {}".format(base64.b64encode(b"API-key:").decode("ascii"))
 
-auth = "Basic {}".format(base64.b64encode('API-key'))
+# for other endpoints, use apikey:apisecret
+auth = "Basic {}".format(base64.b64encode(b"API-key:API-secret").decode("ascii"))
 ```
 
 ```javascript
-let auth = `Basic ${btoa('API-key')}`;
+# for events endpoint, use apikey:
+let auth = `Basic ${btoa("API-key:")}`;
+
+# for other endpoints, use apikey:apisecret
+let auth = `Basic ${btoa("API-key:APi-secret")}`;
 ```
 
 > Make sure to replace `API-key` with your API key.
 >
-> Response
+> Sample Headers
 
-```json
-{
+```
   "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-}
 ```
 
 You will receive a API key and an API secret. Each end-point requires either just an API key or both key and secret to authenticate.
-We use HTTP Basic Authentication, which is in the format `apikey:apisecret` that is base64 encoded and prepended with the string 'Basic '.
+We use HTTP Basic Authentication, which is in the format `apikey:apisecret` that is base64 encoded and prepended with the string "Basic ".
 
 For example if the end requires only an API Key:
 Leave the api secret field empty.
-Base64 encode 'abc123:', no password after the colon, and the final result will be 'YWJjMTIzOg=='.
+Base64 encode "abc123:", no password after the colon, and the final result will be "YWJjMTIzOg==".
 
 This is passed in the authorization header like so `Authorization: Basic YWJjMTIzOg==`.
 
@@ -64,7 +72,7 @@ For API endpoints requiring API key and secret, do the same as above, except in 
 
 ## Content-Type
 
-You must set a content-type header to 'application/json'.
+You must set a content-type header to "application/json".
 `Content-Type: application/json`
 
 # Events
@@ -94,7 +102,7 @@ User Identification (one of the two is mandatory, we will take `user_id` if you 
 
 #### Event
 
--   `type`: a mandatory field: it can be 'pageview', 'viewcart', 'search', 'wishlist', 'click', 'order' or 'login'
+-   `type`: a mandatory field: it can be "pageview", "viewcart", "search", "wishlist", "click", "order" or "login"
 
 -   `subtype`: required depending on the event type. For instance, pageview, wishlist and click require a subtype.
 
@@ -118,27 +126,27 @@ Request banner and product recommendations when a user visits your home page
 <?
 $url = "https://api.datacue.co/v1/events";
 $data = array(
-  'user' => array(
-    'user_id' =>  '019mr8mf4r',
-    'anonymous_id' => 'a1',
-    'profile' =>  array(
-  	  'sex' => 'female',
-  	  'location' => 'Santiago',
-      'dob' => '1980-01-23',
-      'income' => 'high',
-      'occupation' => 'engineer',
-      'marital_status' => 'married'
+  "user" => array(
+    "user_id" =>  "019mr8mf4r",
+    "anonymous_id" => "a1",
+    "profile" =>  array(
+  	  "sex" => "female",
+  	  "location" => "Santiago",
+      "dob" => "1980-01-23",
+      "income" => "high",
+      "occupation" => "engineer",
+      "marital_status" => "married"
     )
   ),
-  'event' => array(
-  	'type' => 'pageview',
-    'subtype' => 'home'
+  "event" => array(
+  	"type" => "pageview",
+    "subtype" => "home"
   ),
-  'context' =>  array(
-    'ip' => '24.5.68.47',
-    'user-agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6'
+  "context" =>  array(
+    "ip" => "24.5.68.47",
+    "user-agent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
   ),
-  'timestamp' => '2012-12-02T00 => 30 => 08.276Z'
+  "timestamp" => "2012-12-02T00 => 30 => 08.276Z"
 );
 
 $content = json_encode($data);
@@ -147,7 +155,10 @@ $curl = curl_init($url);
 curl_setopt($curl, CURLOPT_HEADER, false);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($curl, CURLOPT_HTTPHEADER,
-        array("Content-type: application/json"));
+        array(
+          "Content-type: application/json",
+          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+        ));
 curl_setopt($curl, CURLOPT_POST, true);
 curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
 
@@ -158,8 +169,11 @@ $json_response = curl_exec($curl);
 ```python
 import requests
 
-url = 'https://api.datacue.co/v1/events'
-headers = {'Content-type': 'application/json'}
+url = "https://api.datacue.co/v1/events"
+headers = {
+  "Content-type": "application/json",
+  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+}
 data = {
   "user": {
     "user_id": "019mr8mf4r",
@@ -189,7 +203,7 @@ response = requests.post(url, json=data, headers=headers)
 ```
 
 ```javascript
-const url = 'https://api.datacue.co/v1/events';
+const url = "https://api.datacue.co/v1/events";
 let data = {
   "user": {
     "user_id": "019mr8mf4r",
@@ -215,9 +229,12 @@ let data = {
 }
 // The parameters we are gonna pass to the fetch function
 let fetchData = {
-    method: 'POST',
+    method: "POST",
     body: data,
-    headers: new Headers('Content-Type', 'application/json')
+    headers: new Headers(
+      "Content-Type", "application/json",
+      "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+    )
 }
 fetch(url, fetchData)
 .then((res) => res.json())
@@ -270,29 +287,29 @@ Request product recommendations when a user visits a product page
 <?
 $url = "https://api.datacue.co/v1/events";
 $data = array(
-  'user' => array(
-    'user_id' =>  '019mr8mf4r',
-    'anonymous_id' => 'a1',
-    'profile' =>  array(
-  	  'sex' => 'female',
-  	  'location' => 'Santiago',
-      'dob' => '1980-01-23',
-      'income' => 'high',
-      'occupation' => 'engineer',
-      'marital_status' => 'married'
+  "user" => array(
+    "user_id" =>  "019mr8mf4r",
+    "anonymous_id" => "a1",
+    "profile" =>  array(
+  	  "sex" => "female",
+  	  "location" => "Santiago",
+      "dob" => "1980-01-23",
+      "income" => "high",
+      "occupation" => "engineer",
+      "marital_status" => "married"
     )
   ),
-  'event' =>  array(
-    'type' =>  'pageview',
-    'subtype' =>  'product',
-    'product_id' => 'p1',
-    'variant_id' => 'v1'
+  "event" =>  array(
+    "type" =>  "pageview",
+    "subtype" =>  "product",
+    "product_id" => "p1",
+    "variant_id" => "v1"
   ),
-  'context' =>  array(
-    'ip' =>  '24.5.68.47',
-    'user-agent' =>  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6'
+  "context" =>  array(
+    "ip" =>  "24.5.68.47",
+    "user-agent" =>  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
   ),
-  'timestamp' =>  '2012-12-02T00 => 30 => 08.276Z'
+  "timestamp" =>  "2012-12-02T00 => 30 => 08.276Z"
 );
 
 $content = json_encode($data);
@@ -301,7 +318,10 @@ $curl = curl_init($url);
 curl_setopt($curl, CURLOPT_HEADER, false);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($curl, CURLOPT_HTTPHEADER,
-        array("Content-type: application/json"));
+        array(
+          "Content-type: application/json",
+          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+        ));
 curl_setopt($curl, CURLOPT_POST, true);
 curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
 
@@ -312,8 +332,11 @@ $json_response = curl_exec($curl);
 ```python
 import requests
 
-url = 'https://api.datacue.co/v1/events'
-headers = {'Content-type': 'application/json'}
+url = "https://api.datacue.co/v1/events"
+headers = {
+  "Content-type": "application/json",
+  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+}
 data = {
   "user": {
     "user_id": "019mr8mf4r",
@@ -345,7 +368,7 @@ response = requests.post(url, json=data, headers=headers)
 ```
 
 ```javascript
-const url = 'https://api.datacue.co/v1/events';
+const url = "https://api.datacue.co/v1/events";
 let data = {
   "user": {
     "user_id": "019mr8mf4r",
@@ -373,9 +396,12 @@ let data = {
 }
 // The parameters we are gonna pass to the fetch function
 let fetchData = {
-    method: 'POST',
+    method: "POST",
     body: data,
-    headers: new Headers('Content-Type', 'application/json')
+    headers: new Headers(
+      "Content-Type", "application/json",
+      "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+      )
 }
 fetch(url, fetchData)
 .then((res) => res.json())
@@ -428,22 +454,22 @@ Record activity on a users shopping cart, typically when the cart is viewed, or 
 <?
 $url = "https://api.datacue.co/v1/events";
 $data = array(
-  'user' => array(
-    'user_id' =>  '019mr8mf4r',
-    'anonymous_id' => 'a1',
-    'profile' =>  array(
-  	  'sex' => 'female'
+  "user" => array(
+    "user_id" =>  "019mr8mf4r",
+    "anonymous_id" => "a1",
+    "profile" =>  array(
+  	  "sex" => "female"
     )
   ),
-  'event' =>  array(
-    'type' => 'viewcart',
-	  'cart' => array("p1","p2","p3")
+  "event" =>  array(
+    "type" => "viewcart",
+	  "cart" => array("p1","p2","p3")
   ),
-  'context' =>  array(
-    'ip' =>  '24.5.68.47',
-    'user-agent' =>  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6'
+  "context" =>  array(
+    "ip" =>  "24.5.68.47",
+    "user-agent" =>  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
   ),
-  'timestamp' =>  '2012-12-02T00 => 30 => 08.276Z'
+  "timestamp" =>  "2012-12-02T00 => 30 => 08.276Z"
 );
 
 $content = json_encode($data);
@@ -452,7 +478,10 @@ $curl = curl_init($url);
 curl_setopt($curl, CURLOPT_HEADER, false);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($curl, CURLOPT_HTTPHEADER,
-        array("Content-type: application/json"));
+        array(
+          "Content-type: application/json",
+          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+      ));
 curl_setopt($curl, CURLOPT_POST, true);
 curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
 
@@ -463,8 +492,11 @@ $json_response = curl_exec($curl);
 ```python
 import requests
 
-url = 'https://api.datacue.co/v1/events'
-headers = {'Content-type': 'application/json'}
+url = "https://api.datacue.co/v1/events"
+headers = {
+  "Content-type": "application/json",
+  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+}
 data = {
   "user": {
     "user_id": "019mr8mf4r",
@@ -489,7 +521,7 @@ response = requests.post(url, json=data, headers=headers)
 ```
 
 ```javascript
-const url = 'https://api.datacue.co/v1/events';
+const url = "https://api.datacue.co/v1/events";
 let data = {
   "user": {
     "user_id": "019mr8mf4r",
@@ -510,9 +542,12 @@ let data = {
 }
 // The parameters we are gonna pass to the fetch function
 let fetchData = {
-    method: 'POST',
+    method: "POST",
     body: data,
-    headers: new Headers('Content-Type', 'application/json')
+    headers: new Headers(
+      "Content-Type", "application/json",
+      "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+      )
 }
 fetch(url, fetchData)
 .then((res) => res.json())
@@ -550,22 +585,22 @@ Record when performs a search on your website
 <?
 $url = "https://api.datacue.co/v1/events";
 $data = array(
-  'user' => array(
-    'user_id' =>  '019mr8mf4r',
-    'anonymous_id' => 'a1',
-    'profile' =>  array(
-  	  'sex' => 'female'
+  "user" => array(
+    "user_id" =>  "019mr8mf4r",
+    "anonymous_id" => "a1",
+    "profile" =>  array(
+  	  "sex" => "female"
     )
   ),
-  'event' =>  array(
-    'type' => 'search',
-    'term' => 'blue jeans'
+  "event" =>  array(
+    "type" => "search",
+    "term" => "blue jeans"
   ),
-  'context' =>  array(
-    'ip' =>  '24.5.68.47',
-    'user-agent' =>  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6'
+  "context" =>  array(
+    "ip" =>  "24.5.68.47",
+    "user-agent" =>  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
   ),
-  'timestamp' =>  '2012-12-02T00 => 30 => 08.276Z'
+  "timestamp" =>  "2012-12-02T00 => 30 => 08.276Z"
 );
 
 $content = json_encode($data);
@@ -574,7 +609,10 @@ $curl = curl_init($url);
 curl_setopt($curl, CURLOPT_HEADER, false);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($curl, CURLOPT_HTTPHEADER,
-        array("Content-type: application/json"));
+        array(
+          "Content-type: application/json",
+          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+        ));
 curl_setopt($curl, CURLOPT_POST, true);
 curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
 
@@ -585,8 +623,11 @@ $json_response = curl_exec($curl);
 ```python
 import requests
 
-url = 'https://api.datacue.co/v1/events'
-headers = {'Content-type': 'application/json'}
+url = "https://api.datacue.co/v1/events"
+headers = {
+  "Content-type": "application/json",
+  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+}
 data = {
   "user": {
     "user_id": "019mr8mf4r",
@@ -611,7 +652,7 @@ response = requests.post(url, json=data, headers=headers)
 ```
 
 ```javascript
-const url = 'https://api.datacue.co/v1/events';
+const url = "https://api.datacue.co/v1/events";
 let data = {
   "user": {
     "user_id": "019mr8mf4r",
@@ -632,9 +673,12 @@ let data = {
 }
 // The parameters we are gonna pass to the fetch function
 let fetchData = {
-    method: 'POST',
+    method: "POST",
     body: data,
-    headers: new Headers('Content-Type', 'application/json')
+    headers: new Headers(
+      "Content-Type", "application/json",
+      "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+      )
 }
 fetch(url, fetchData)
 .then((res) => res.json())
@@ -671,31 +715,31 @@ Record changes to users wishlist, typically when the wishlist is viewed, or a pr
 <?
 $url = "https://api.datacue.co/v1/events";
 $data = array(
-  'user' => array(
-    'user_id' =>  '019mr8mf4r',
-    'anonymous_id' => 'a1',
-    'profile' =>  array(
-  	  'sex' => 'female'
+  "user" => array(
+    "user_id" =>  "019mr8mf4r",
+    "anonymous_id" => "a1",
+    "profile" =>  array(
+  	  "sex" => "female"
     )
   ),
-  'event' =>  array(
-    'type' => 'wishlist',
-    'wishlist' => array(
+  "event" =>  array(
+    "type" => "wishlist",
+    "wishlist" => array(
       array(
-        'product_id' => 'p1',
-        'variant_id' => 'v1'
+        "product_id" => "p1",
+        "variant_id" => "v1"
       ),
       array(
-        'product_id' => 'p2',
-        'variant_id' => 'v2'
+        "product_id" => "p2",
+        "variant_id" => "v2"
       )
     )
   ),
-  'context' =>  array(
-    'ip' =>  '24.5.68.47',
-    'user-agent' =>  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6'
+  "context" =>  array(
+    "ip" =>  "24.5.68.47",
+    "user-agent" =>  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
   ),
-  'timestamp' =>  '2012-12-02T00 => 30 => 08.276Z'
+  "timestamp" =>  "2012-12-02T00 => 30 => 08.276Z"
 );
 
 $content = json_encode($data);
@@ -704,7 +748,10 @@ $curl = curl_init($url);
 curl_setopt($curl, CURLOPT_HEADER, false);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($curl, CURLOPT_HTTPHEADER,
-        array("Content-type: application/json"));
+        array(
+          "Content-type: application/json",
+          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+        ));
 curl_setopt($curl, CURLOPT_POST, true);
 curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
 
@@ -715,8 +762,11 @@ $json_response = curl_exec($curl);
 ```python
 import requests
 
-url = 'https://api.datacue.co/v1/events'
-headers = {'Content-type': 'application/json'}
+url = "https://api.datacue.co/v1/events"
+headers = {
+  "Content-type": "application/json",
+  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+}
 data = {
   "user": {
     "user_id": "019mr8mf4r",
@@ -729,12 +779,12 @@ data = {
     "type": "wishlist",
     "wishlist": [
       {
-        'product_id': 'p1',
-        'variant_id': 'v1'
+        "product_id": "p1",
+        "variant_id": "v1"
       },
       {
-        'product_id': 'p2',
-        'variant_id': 'v2'
+        "product_id": "p2",
+        "variant_id": "v2"
       }
     ]
   },
@@ -750,7 +800,7 @@ response = requests.post(url, json=data, headers=headers)
 ```
 
 ```javascript
-const url = 'https://api.datacue.co/v1/events';
+const url = "https://api.datacue.co/v1/events";
 let data = {
   "user": {
     "user_id": "019mr8mf4r",
@@ -763,12 +813,12 @@ let data = {
     "type": "wishlist",
     "wishlist": [
       {
-        'product_id': 'p1',
-        'variant_id': 'v1'
+        "product_id": "p1",
+        "variant_id": "v1"
       },
       {
-        'product_id': 'p2',
-        'variant_id': 'v2'
+        "product_id": "p2",
+        "variant_id": "v2"
       }
     ]
   },
@@ -780,9 +830,12 @@ let data = {
 }
 // The parameters we are gonna pass to the fetch function
 let fetchData = {
-    method: 'POST',
+    method: "POST",
     body: data,
-    headers: new Headers('Content-Type', 'application/json')
+    headers: new Headers(
+      "Content-Type", "application/json",
+      "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+      )
 }
 fetch(url, fetchData)
 .then((res) => res.json())
@@ -798,23 +851,23 @@ fetch(url, fetchData)
 <?
 $url = "https://api.datacue.co/v1/events";
 $data = array(
-  'user' => array(
-    'user_id' =>  '019mr8mf4r',
-    'anonymous_id' => 'a1',
-    'profile' =>  array(
-  	  'sex' => 'mujer'
+  "user" => array(
+    "user_id" =>  "019mr8mf4r",
+    "anonymous_id" => "a1",
+    "profile" =>  array(
+  	  "sex" => "mujer"
     )
   ),
-  'event' =>  array(
-    'type' => 'click',
-    'subtype' => 'banner',
-    'banner_id' => 'b1'
+  "event" =>  array(
+    "type" => "click",
+    "subtype" => "banner",
+    "banner_id" => "b1"
   ),
-  'context' =>  array(
-    'ip' =>  '24.5.68.47',
-    'user-agent' =>  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6'
+  "context" =>  array(
+    "ip" =>  "24.5.68.47",
+    "user-agent" =>  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
   ),
-  'timestamp' =>  '2012-12-02T00 => 30 => 08.276Z'
+  "timestamp" =>  "2012-12-02T00 => 30 => 08.276Z"
 );
 
 $content = json_encode($data);
@@ -823,7 +876,10 @@ $curl = curl_init($url);
 curl_setopt($curl, CURLOPT_HEADER, false);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($curl, CURLOPT_HTTPHEADER,
-        array("Content-type: application/json"));
+        array(
+          "Content-type: application/json",
+          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+        ));
 curl_setopt($curl, CURLOPT_POST, true);
 curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
 
@@ -834,8 +890,11 @@ $json_response = curl_exec($curl);
 ```python
 import requests
 
-url = 'https://api.datacue.co/v1/events'
-headers = {'Content-type': 'application/json'}
+url = "https://api.datacue.co/v1/events"
+headers = {
+  "Content-type": "application/json",
+  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+}
 data = {
   "user": {
     "user_id": "019mr8mf4r",
@@ -861,7 +920,7 @@ response = requests.post(url, json=data, headers=headers)
 ```
 
 ```javascript
-const url = 'https://api.datacue.co/v1/events';
+const url = "https://api.datacue.co/v1/events";
 let data = {
   "user": {
     "user_id": "019mr8mf4r",
@@ -883,9 +942,12 @@ let data = {
 }
 // The parameters we are gonna pass to the fetch function
 let fetchData = {
-    method: 'POST',
+    method: "POST",
     body: data,
-    headers: new Headers('Content-Type', 'application/json')
+    headers: new Headers(
+      "Content-Type", "application/json",
+      "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+      )
 }
 fetch(url, fetchData)
 .then((res) => res.json())
@@ -901,23 +963,23 @@ fetch(url, fetchData)
 <?
 $url = "https://api.datacue.co/v1/events";
 $data = array(
-  'user' => array(
-    'user_id' =>  '019mr8mf4r',
-    'anonymous_id' => 'a1',
-    'profile' =>  array(
-  	  'sex' => 'mujer'
+  "user" => array(
+    "user_id" =>  "019mr8mf4r",
+    "anonymous_id" => "a1",
+    "profile" =>  array(
+  	  "sex" => "mujer"
     )
   ),
-  'event' =>  array(
-    'type' => 'click',
-    'subtype' => 'product',
-    'product_id' => 'p2'
+  "event" =>  array(
+    "type" => "click",
+    "subtype" => "product",
+    "product_id" => "p2"
   ),
-  'context' =>  array(
-    'ip' =>  '24.5.68.47',
-    'user-agent' =>  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6'
+  "context" =>  array(
+    "ip" =>  "24.5.68.47",
+    "user-agent" =>  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
   ),
-  'timestamp' =>  '2012-12-02T00 => 30 => 08.276Z'
+  "timestamp" =>  "2012-12-02T00 => 30 => 08.276Z"
 );
 
 $content = json_encode($data);
@@ -926,7 +988,10 @@ $curl = curl_init($url);
 curl_setopt($curl, CURLOPT_HEADER, false);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($curl, CURLOPT_HTTPHEADER,
-        array("Content-type: application/json"));
+        array(
+          "Content-type: application/json",
+          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+        ));
 curl_setopt($curl, CURLOPT_POST, true);
 curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
 
@@ -937,8 +1002,11 @@ $json_response = curl_exec($curl);
 ```python
 import requests
 
-url = 'https://api.datacue.co/v1/events'
-headers = {'Content-type': 'application/json'}
+url = "https://api.datacue.co/v1/events"
+headers = {
+  "Content-type": "application/json",
+  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+}
 data = {
   "user": {
     "user_id": "019mr8mf4r",
@@ -964,7 +1032,7 @@ response = requests.post(url, json=data, headers=headers)
 ```
 
 ```javascript
-const url = 'https://api.datacue.co/v1/events';
+const url = "https://api.datacue.co/v1/events";
 let data = {
   "user": {
     "user_id": "019mr8mf4r",
@@ -986,9 +1054,12 @@ let data = {
 }
 // The parameters we are gonna pass to the fetch function
 let fetchData = {
-    method: 'POST',
+    method: "POST",
     body: data,
-    headers: new Headers('Content-Type', 'application/json')
+    headers: new Headers(
+      "Content-Type", "application/json",
+      "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+      )
 }
 fetch(url, fetchData)
 .then((res) => res.json())
@@ -1004,32 +1075,32 @@ fetch(url, fetchData)
 <?
 $url = "https://api.datacue.co/v1/events";
 $data = array(
-  'user' => array(
-    'user_id' =>  '019mr8mf4r',
-    'anonymous_id' => 'a1',
-    'profile' =>  array(
-  	  'sex' => 'female'
+  "user" => array(
+    "user_id" =>  "019mr8mf4r",
+    "anonymous_id" => "a1",
+    "profile" =>  array(
+  	  "sex" => "female"
     )
   ),
-  'event' =>  array(
-    'type' => 'order',
-    'subtype' => 'started',
-    'order_id' => 'o1',
-    'cart' => array(
+  "event" =>  array(
+    "type" => "order",
+    "subtype" => "started",
+    "order_id" => "o1",
+    "cart" => array(
       array(
-        'product_id' => 'p1',
-        'variant' => 'v1',
-        'quantity' => 1,
-        'price' => 24,
-        'currency' => 'USD'
+        "product_id" => "p1",
+        "variant" => "v1",
+        "quantity" => 1,
+        "price" => 24,
+        "currency" => "USD"
       )
     )
   ),
-  'context' =>  array(
-    'ip' =>  '24.5.68.47',
-    'user-agent' =>  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6'
+  "context" =>  array(
+    "ip" =>  "24.5.68.47",
+    "user-agent" =>  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
   ),
-  'timestamp' =>  '2012-12-02T00 => 30 => 08.276Z'
+  "timestamp" =>  "2012-12-02T00 => 30 => 08.276Z"
 );
 
 $content = json_encode($data);
@@ -1038,7 +1109,10 @@ $curl = curl_init($url);
 curl_setopt($curl, CURLOPT_HEADER, false);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($curl, CURLOPT_HTTPHEADER,
-        array("Content-type: application/json"));
+        array(
+          "Content-type: application/json",
+          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+        ));
 curl_setopt($curl, CURLOPT_POST, true);
 curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
 
@@ -1049,8 +1123,11 @@ $json_response = curl_exec($curl);
 ```python
 import requests
 
-url = 'https://api.datacue.co/v1/events'
-headers = {'Content-type': 'application/json'}
+url = "https://api.datacue.co/v1/events"
+headers = {
+  "Content-type": "application/json",
+  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+}
 data = {
   "user": {
     "user_id": "019mr8mf4r",
@@ -1085,7 +1162,7 @@ response = requests.post(url, json=data, headers=headers)
 ```
 
 ```javascript
-const url = 'https://api.datacue.co/v1/events';
+const url = "https://api.datacue.co/v1/events";
 let data = {
   "user": {
     "user_id": "019mr8mf4r",
@@ -1116,9 +1193,12 @@ let data = {
 }
 // The parameters we are gonna pass to the fetch function
 let fetchData = {
-    method: 'POST',
+    method: "POST",
     body: data,
-    headers: new Headers('Content-Type', 'application/json')
+    headers: new Headers(
+      "Content-Type", "application/json",
+      "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+      )
 }
 fetch(url, fetchData)
 .then((res) => res.json())
@@ -1134,34 +1214,34 @@ fetch(url, fetchData)
 <?
 $url = "https://api.datacue.co/v1/events";
 $data = array(
-  'user' => array(
-    'user_id' =>  '019mr8mf4r',
-    'anonymous_id' => 'a1',
-    'profile' =>  array(
-  	  'sex' => 'female'
+  "user" => array(
+    "user_id" =>  "019mr8mf4r",
+    "anonymous_id" => "a1",
+    "profile" =>  array(
+  	  "sex" => "female"
     )
   ),
-  'event' =>  array(
-    'type' => 'order',
-    'subtype' => 'completed',
-    'order_id' => 'o1',
-    'buyer_id' => '',
-    'payment_method' => '',
-    'cart' => array(
+  "event" =>  array(
+    "type" => "order",
+    "subtype" => "completed",
+    "order_id" => "o1",
+    "buyer_id" => "",
+    "payment_method" => "",
+    "cart" => array(
       array(
-        'product_id' => 'p1',
-        'variant_id' => 'v1',
-        'quantity' => 1,
-        'unit_price' => 24000,
-        'currency' => "USD"
+        "product_id" => "p1",
+        "variant_id" => "v1",
+        "quantity" => 1,
+        "unit_price" => 24000,
+        "currency" => "USD"
       )
     )
   ),
-  'context' =>  array(
-    'ip' =>  '24.5.68.47',
-    'user-agent' =>  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6'
+  "context" =>  array(
+    "ip" =>  "24.5.68.47",
+    "user-agent" =>  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
   ),
-  'timestamp' =>  '2012-12-02T00 => 30 => 08.276Z'
+  "timestamp" =>  "2012-12-02T00 => 30 => 08.276Z"
 );
 
 $content = json_encode($data);
@@ -1170,7 +1250,10 @@ $curl = curl_init($url);
 curl_setopt($curl, CURLOPT_HEADER, false);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($curl, CURLOPT_HTTPHEADER,
-        array("Content-type: application/json"));
+        array(
+          "Content-type: application/json",
+          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+        ));
 curl_setopt($curl, CURLOPT_POST, true);
 curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
 
@@ -1181,8 +1264,11 @@ $json_response = curl_exec($curl);
 ```python
 import requests
 
-url = 'https://api.datacue.co/v1/events'
-headers = {'Content-type': 'application/json'}
+url = "https://api.datacue.co/v1/events"
+headers = {
+  "Content-type": "application/json",
+  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+}
 data = {
   "user": {
     "user_id": "019mr8mf4r",
@@ -1200,7 +1286,7 @@ data = {
     "cart": [
       {
         "product_id": "p1",
-        "variant_id": 'v1',
+        "variant_id": "v1",
         "quantity": 1,
         "unit_price": 24000,
         "currency": "USD"
@@ -1219,7 +1305,7 @@ response = requests.post(url, json=data, headers=headers)
 ```
 
 ```javascript
-const url = 'https://api.datacue.co/v1/events';
+const url = "https://api.datacue.co/v1/events";
 let data = {
   "user": {
     "user_id": "019mr8mf4r",
@@ -1237,7 +1323,7 @@ let data = {
     "cart": [
       {
         "product_id": "p1",
-        "variant_id": 'v1',
+        "variant_id": "v1",
         "quantity": 1,
         "unit_price": 24000,
         "currency": "USD"
@@ -1252,9 +1338,12 @@ let data = {
 }
 // The parameters we are gonna pass to the fetch function
 let fetchData = {
-    method: 'POST',
+    method: "POST",
     body: data,
-    headers: new Headers('Content-Type', 'application/json')
+    headers: new Headers(
+      "Content-Type", "application/json",
+      "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+      )
 }
 fetch(url, fetchData)
 .then((res) => res.json())
@@ -1270,21 +1359,21 @@ fetch(url, fetchData)
 <?
 $url = "https://api.datacue.co/v1/events";
 $data = array(
-  'user' => array(
-    'user_id' =>  '019mr8mf4r',
-    'anonymous_id' => 'a1',
-    'profile' =>  array(
-  	  'sex' => 'female'
+  "user" => array(
+    "user_id" =>  "019mr8mf4r",
+    "anonymous_id" => "a1",
+    "profile" =>  array(
+  	  "sex" => "female"
     )
   ),
-  'event' =>  array(
-    'type' => 'login'
+  "event" =>  array(
+    "type" => "login"
   ),
-  'context' =>  array(
-    'ip' =>  '24.5.68.47',
-    'user-agent' =>  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6'
+  "context" =>  array(
+    "ip" =>  "24.5.68.47",
+    "user-agent" =>  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
   ),
-  'timestamp' =>  '2012-12-02T00 => 30 => 08.276Z'
+  "timestamp" =>  "2012-12-02T00 => 30 => 08.276Z"
 );
 
 $content = json_encode($data);
@@ -1293,7 +1382,10 @@ $curl = curl_init($url);
 curl_setopt($curl, CURLOPT_HEADER, false);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($curl, CURLOPT_HTTPHEADER,
-        array("Content-type: application/json"));
+        array(
+          "Content-type: application/json",
+          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+        ));
 curl_setopt($curl, CURLOPT_POST, true);
 curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
 
@@ -1304,8 +1396,11 @@ $json_response = curl_exec($curl);
 ```python
 import requests
 
-url = 'https://api.datacue.co/v1/events'
-headers = {'Content-type': 'application/json'}
+url = "https://api.datacue.co/v1/events"
+headers = {
+  "Content-type": "application/json",
+  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+}
 data = {
   "user": {
     "user_id": "019mr8mf4r",
@@ -1329,7 +1424,7 @@ response = requests.post(url, json=data, headers=headers)
 ```
 
 ```javascript
-const url = 'https://api.datacue.co/v1/events';
+const url = "https://api.datacue.co/v1/events";
 let data = {
   "user": {
     "user_id": "019mr8mf4r",
@@ -1349,9 +1444,12 @@ let data = {
 }
 // The parameters we are gonna pass to the fetch function
 let fetchData = {
-    method: 'POST',
+    method: "POST",
     body: data,
-    headers: new Headers('Content-Type', 'application/json')
+    headers: new Headers(
+      "Content-Type", "application/json",
+      "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+      )
 }
 fetch(url, fetchData)
 .then((res) => res.json())
