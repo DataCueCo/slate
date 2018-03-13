@@ -594,7 +594,7 @@ $data = array(
   ),
   "event" =>  array(
     "type" => "search",
-    "term" => "blue jeans"
+    "term" => "tables"
   ),
   "context" =>  array(
     "ip" =>  "24.5.68.47",
@@ -638,7 +638,7 @@ data = {
   },
   "event": {
     "type": "search",
-    "term": "blue jeans"
+    "term": "tables"
   },
   "context": {
     "ip": "24.5.68.47",
@@ -663,7 +663,7 @@ let data = {
   },
   "event": {
     "type": "search",
-    "term": "blue jeans"
+    "term": "tables"
   },
   "context": {
     "ip": "24.5.68.47",
@@ -752,7 +752,7 @@ curl_setopt($curl, CURLOPT_HTTPHEADER,
           "Content-type: application/json",
           "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
         ));
-curl_setopt($curl, CURLOPT_POST, true);
+curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
 curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
 
 $json_response = curl_exec($curl);
@@ -796,7 +796,7 @@ data = {
 }
 
 
-response = requests.post(url, json=data, headers=headers)
+response = requests.put(url, json=data, headers=headers)
 ```
 
 ```javascript
@@ -830,7 +830,7 @@ let data = {
 }
 // The parameters we are gonna pass to the fetch function
 let fetchData = {
-    method: "POST",
+    method: "PUT",
     body: data,
     headers: new Headers(
       "Content-Type", "application/json",
@@ -1460,6 +1460,725 @@ let fetchData = {
       "Content-Type", "application/json",
       "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
       )
+}
+fetch(url, fetchData)
+.then((res) => res.json())
+.then((data) =>  console.log(data))
+.catch((err) => console.log(err))
+```
+
+> The above command returns a 204 response code
+
+# Product Management
+
+## Create Product
+
+Whenever a new product is created, send this request from your backend.
+
+```php
+<?
+$url = "https://api.datacue.co/v1/products";
+$data = array(
+  "product_id" => "p1",
+  "variant_id" => "v1",
+  "category_1" => "men",
+  "category_2" => "jeans",
+  "category_3" => "skinny",
+  "category_4" => "c4",
+  "category_extra" => array(
+    "category_5" => "c5"
+  ),
+  "name" => "cool jeans",
+  "brand" => "zara",
+  "description" => "very fashionable jeans",
+  "color" => "blue"
+  "size" => "M",
+  "price" => 25000,
+  "stock" => 5,
+  "extra" => array(
+    "extra_feature" => "details"
+  ),
+  "photo_url" => "https://s3.amazon.com/image.png",
+  "link" => "/product/p1",
+  "owner_id" => "user_id_3"
+);
+
+$content = json_encode($data);
+
+$curl = curl_init($url);
+curl_setopt($curl, CURLOPT_HEADER, false);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER,
+        array(
+          "Content-type: application/json",
+          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+        ));
+curl_setopt($curl, CURLOPT_POST, true);
+curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+
+$json_response = curl_exec($curl);
+?>
+```
+
+```python
+import requests
+
+url = "https://api.datacue.co/v1/products"
+headers = {
+  "Content-type": "application/json",
+  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+}
+data = {
+   "product_id": "p1",
+   "variant_id": "v1",
+   "category_1": "men",
+   "category_2": "jeans",
+   "category_3": "skinny",
+   "category_4": "c4",
+   "category_extra": {
+     "category_5": "c5"
+   },
+   "name": "cool jeans",
+   "brand": "zara",
+   "description": "very fashionable jeans",
+   "color": "blue"
+   "size": "M",
+   "price": 25000,
+   "stock": 5,
+   "extra": {
+     "extra_feature": "details"
+   },
+   "photo_url": "https://s3.amazon.com/image.png",
+   "link": "/product/p1",
+   "owner_id": "user_id_3"
+ }
+
+response = requests.post(url, json=data, headers=headers)
+```
+
+```javascript
+const url = "https://api.datacue.co/v1/products";
+let data = {
+   "product_id": "p1",
+   "variant_id": "v1",
+   "category_1": "men",
+   "category_2": "jeans",
+   "category_3": "skinny",
+   "category_4": "c4",
+   "category_extra": {
+     "category_5": "c5"
+   },
+   "name": "cool jeans",
+   "brand": "zara",
+   "description": "very fashionable jeans",
+   "color": "blue"
+   "size": "M",
+   "price": 25000,
+   "stock": 5,
+   "extra": {
+     "extra_feature": "details"
+   },
+   "photo_url": "https://s3.amazon.com/image.png",
+   "link": "/product/p1",
+   "owner_id": "user_id_3"
+ }
+// The parameters we are gonna pass to the fetch function
+let fetchData = {
+    method: "POST",
+    body: data,
+    headers: new Headers(
+      "Content-Type", "application/json",
+      "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+      )
+}
+fetch(url, fetchData)
+.then((res) => res.json())
+.then((data) =>  console.log(data))
+.catch((err) => console.log(err))
+```
+
+> The above command returns a 201 response code
+
+
+## Update Product
+
+Whenever an existing product is updated such as image, name, price or new discounts, send this request from your backend.
+
+Remember that when an order is completed this is also a product update as the stock level of the product will change. Sending us a product update after an order will ensure that if a product is out of stock, it is no longer recommended to other users.
+
+```php
+<?
+$url = "https://api.datacue.co/v1/products/:product_id/:variant_id";
+$data = array(
+  "category_1" => "men",
+  "category_2" => "jeans",
+  "category_3" => "skinny",
+  "stock" => 6
+);
+
+$content = json_encode($data);
+
+$curl = curl_init($url);
+curl_setopt($curl, CURLOPT_HEADER, false);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER,
+        array(
+          "Content-type: application/json",
+          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+        ));
+curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
+curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+
+$json_response = curl_exec($curl);
+?>
+```
+
+```python
+import requests
+
+url = "https://api.datacue.co/v1/products/:product_id/:variant_id"
+headers = {
+  "Content-type": "application/json",
+  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+}
+data = {
+   "category_1": "men",
+   "category_2": "jeans",
+   "category_3": "skinny",
+   "stock": 6
+ }
+
+response = requests.put(url, json=data, headers=headers)
+```
+
+```javascript
+const url = "https://api.datacue.co/v1/products/:product_id/:variant_id";
+let data = {
+   "category_1": "men",
+   "category_2": "jeans",
+   "category_3": "skinny"
+   "stock": 6
+ }
+// The parameters we are gonna pass to the fetch function
+let fetchData = {
+    method: "PUT",
+    body: data,
+    headers: new Headers(
+      "Content-Type", "application/json",
+      "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+      )
+}
+fetch(url, fetchData)
+.then((res) => res.json())
+.then((data) =>  console.log(data))
+.catch((err) => console.log(err))
+```
+
+> The above command returns a 204 response code
+
+## Delete Product
+
+When you delete a banner on your system. Does not apply if you're using DataCue to manage your banners.
+
+```php
+<?
+$url = "https://api.datacue.co/v1/products/:product_id/:variant_id";
+
+$curl = curl_init($url);
+curl_setopt($curl, CURLOPT_HEADER, false);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER,
+        array(
+          "Content-type: application/json",
+          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+        ));
+curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+
+$json_response = curl_exec($curl);
+?>
+```
+
+```python
+import requests
+
+url = "https://api.datacue.co/v1/products/:product_id/:variant_id"
+headers = {
+  "Content-type": "application/json",
+  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+}
+
+response = requests.delete(url, headers=headers)
+```
+
+```javascript
+const url = "https://api.datacue.co/v1/products/:product_id/:variant_id";
+
+// The parameters we are gonna pass to the fetch function
+let fetchData = {
+  method: "DELETE",
+  headers: new Headers(
+    "Content-Type", "application/json",
+    "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+  )
+}
+fetch(url, fetchData)
+.then((res) => res.json())
+.then((data) =>  console.log(data))
+.catch((err) => console.log(err))
+```
+
+> The above command returns a 204 response code
+
+
+# Banner Management
+
+## Create Banner
+
+When you create a new banner on your system. Does not apply if you're using DataCue to manage your banners.
+
+```php
+<?
+$url = "https://api.datacue.co/v1/banners";
+$data = array(
+  "banner_id" => "b1",
+  "type" => "sub",
+  "title" => "friendly name for b1",
+  "category_1" => "women",
+  "category_2" => "summer",
+  "category_3" => "dresses",
+  "category_4" => "casual",
+  "photos" => array(
+    "mobile" => "http://s3.amazon.com/photoMobile.png",
+    "desktop" => "http://s3.amazon.com/photoDesktop.png"
+  ),
+  "link" => "path/to/anything"
+);
+
+$content = json_encode($data);
+
+$curl = curl_init($url);
+curl_setopt($curl, CURLOPT_HEADER, false);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER,
+        array(
+          "Content-type: application/json",
+          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+        ));
+curl_setopt($curl, CURLOPT_POST, true);
+curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+
+$json_response = curl_exec($curl);
+?>
+```
+
+```python
+import requests
+
+url = "https://api.datacue.co/v1/banners"
+headers = {
+  "Content-type": "application/json",
+  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+}
+data = {
+   "banner_id": "b1",
+   "type": "sub",
+   "title": "friendly name for b1",
+   "category_1": "women",
+   "category_2": "summer",
+   "category_3": "dresses",
+   "category_4": "casual",
+   "photos": {
+     "mobile": "http://s3.amazon.com/photoMobile.png",
+     "desktop": "http://s3.amazon.com/photoDesktop.png",
+   },
+   "link": "path/to/anything"
+ }
+
+response = requests.post(url, json=data, headers=headers)
+```
+
+```javascript
+const url = "https://api.datacue.co/v1/banners";
+let data = {
+   "banner_id": "b1",
+   "type": "sub",
+   "title": "friendly name for b1",
+   "category_1": "women",
+   "category_2": "summer",
+   "category_3": "dresses",
+   "category_4": "casual",
+   "photos": {
+     "mobile": "http://s3.amazon.com/photoMobile.png",
+     "desktop": "http://s3.amazon.com/photoDesktop.png",
+   },
+   "link": "path/to/anything"
+ }
+
+// The parameters we are gonna pass to the fetch function
+let fetchData = {
+    method: "POST",
+    body: data,
+    headers: new Headers(
+      "Content-Type", "application/json",
+      "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+      )
+}
+fetch(url, fetchData)
+.then((res) => res.json())
+.then((data) =>  console.log(data))
+.catch((err) => console.log(err))
+```
+
+> The above command returns a 201 response code
+
+
+## Update Banner
+
+When you update your banner in any way like changing the banner image, link or assigned categories on your system. Does not apply if you're using DataCue to manage your banners.
+
+Only send fields to be updated
+
+```php
+<?
+$url = "https://api.datacue.co/v1/banners/:banner_id";
+$data = array(
+  "link" => "/new-link"
+);
+
+$content = json_encode($data);
+
+$curl = curl_init($url);
+curl_setopt($curl, CURLOPT_HEADER, false);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER,
+        array(
+          "Content-type: application/json",
+          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+        ));
+curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
+curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+
+$json_response = curl_exec($curl);
+?>
+```
+
+```python
+import requests
+
+url = "https://api.datacue.co/v1/banners/:banner_id"
+headers = {
+  "Content-type": "application/json",
+  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+}
+data = {
+   "link": "/new-link"
+ }
+
+response = requests.put(url, json=data, headers=headers)
+```
+
+```javascript
+const url = "https://api.datacue.co/v1/banners/:banner_id";
+let data = {
+   "link": "/new-link"
+ }
+// The parameters we are gonna pass to the fetch function
+let fetchData = {
+    method: "PUT",
+    body: data,
+    headers: new Headers(
+      "Content-Type", "application/json",
+      "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+      )
+}
+fetch(url, fetchData)
+.then((res) => res.json())
+.then((data) =>  console.log(data))
+.catch((err) => console.log(err))
+```
+
+> The above command returns a 204 response code
+
+## Delete Banner
+
+When you delete a banner on your system. Does not apply if you're using DataCue to manage your banners.
+
+```php
+<?
+$url = "https://api.datacue.co/v1/banners/:banner_id";
+
+$curl = curl_init($url);
+curl_setopt($curl, CURLOPT_HEADER, false);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER,
+        array(
+          "Content-type: application/json",
+          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+        ));
+curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+
+$json_response = curl_exec($curl);
+?>
+```
+
+```python
+import requests
+
+url = "https://api.datacue.co/v1/banners/:banner_id"
+headers = {
+  "Content-type": "application/json",
+  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+}
+
+response = requests.delete(url, headers=headers)
+```
+
+```javascript
+const url = "https://api.datacue.co/v1/banners/:banner_id";
+
+// The parameters we are gonna pass to the fetch function
+let fetchData = {
+  method: "DELETE",
+  headers: new Headers(
+    "Content-Type", "application/json",
+    "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+  )
+}
+fetch(url, fetchData)
+.then((res) => res.json())
+.then((data) =>  console.log(data))
+.catch((err) => console.log(err))
+```
+
+> The above command returns a 204 response code
+
+
+# User Management
+
+## Create User
+
+When a new user has successfully signed up / registered on your system.
+
+```php
+<?
+$url = "https://api.datacue.co/v1/users";
+$data = array(
+  "user_id" => "u1",
+  "anonymous_ids" => "v1"
+  "email" => "xyz@abc.com",
+  "title" => "Mr",
+  "first_name" => "John",
+  "last_name" => "Smith",
+  "profile" => array(
+    "dob" => "25/01/1980",
+    "location" => "santiago",
+    "sex" => "male",
+    "income" => "S1",
+    "occupation" => "Engineer",
+    "marital_status" => "married"
+  ),
+  "cart" => array("product_id1","product_id2")
+)
+
+$content = json_encode($data);
+
+$curl = curl_init($url);
+curl_setopt($curl, CURLOPT_HEADER, false);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER,
+        array(
+          "Content-type: application/json",
+          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+        ));
+curl_setopt($curl, CURLOPT_POST, true);
+curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+
+$json_response = curl_exec($curl);
+?>
+```
+
+```python
+import requests
+
+url = "https://api.datacue.co/v1/users"
+headers = {
+  "Content-type": "application/json",
+  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+}
+data = {
+   "user_id": "u1",
+   "anonymous_ids": "v1"
+   "email": "xyz@abc.com",
+   "title": "Mr",
+   "first_name": "John",
+   "last_name": "Smith",
+   "profile": {
+       "dob": "25/01/1980",
+       "location": "santiago",
+       "sex": "male",
+       "income": "S1",
+       "occupation": "Engineer",
+       "marital_status": "married"
+   },
+   "cart": ["product_id1","product_id2"]
+}
+
+response = requests.post(url, json=data, headers=headers)
+```
+
+```javascript
+const url = "https://api.datacue.co/v1/users";
+let data = {
+   "user_id": "u1",
+   "anonymous_ids": "v1"
+   "email": "xyz@abc.com",
+   "title": "Mr",
+   "first_name": "John",
+   "last_name": "Smith",
+   "profile": {
+       "dob": "25/01/1980",
+       "location": "santiago",
+       "sex": "male",
+       "income": "S1",
+       "occupation": "Engineer",
+       "marital_status": "married"
+   },
+   "cart": ["product_id1","product_id2"]
+}
+
+// The parameters we are gonna pass to the fetch function
+let fetchData = {
+    method: "POST",
+    body: data,
+    headers: new Headers(
+      "Content-Type", "application/json",
+      "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+      )
+}
+fetch(url, fetchData)
+.then((res) => res.json())
+.then((data) =>  console.log(data))
+.catch((err) => console.log(err))
+```
+
+> The above command returns a 201 response code
+
+
+## Update User
+
+When the user makes changes to their profile or when they configure any relevant preferences. For instance if they indicate their gender, this is very helpful for recommendations.
+
+```php
+<?
+$url = "https://api.datacue.co/v1/users/:user_id";
+$data = array(
+  "profile" => array(
+    "dob" => "29/01/1980"
+  )
+);
+
+$content = json_encode($data);
+
+$curl = curl_init($url);
+curl_setopt($curl, CURLOPT_HEADER, false);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER,
+        array(
+          "Content-type: application/json",
+          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+        ));
+curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
+curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+
+$json_response = curl_exec($curl);
+?>
+```
+
+```python
+import requests
+
+url = "https://api.datacue.co/v1/users/:user_id"
+headers = {
+  "Content-type": "application/json",
+  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+}
+data = {
+   "profile": {
+     "dob": "29/01/1980"
+   }
+ }
+
+response = requests.put(url, json=data, headers=headers)
+```
+
+```javascript
+const url = "https://api.datacue.co/v1/users/:user_id";
+let data = {
+   "profile": {
+     "dob" => "29/01/1980"
+   }
+ }
+// The parameters we are gonna pass to the fetch function
+let fetchData = {
+    method: "PUT",
+    body: data,
+    headers: new Headers(
+      "Content-Type", "application/json",
+      "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+      )
+}
+fetch(url, fetchData)
+.then((res) => res.json())
+.then((data) =>  console.log(data))
+.catch((err) => console.log(err))
+```
+
+> The above command returns a 204 response code
+
+## Delete Banner
+
+When you delete a banner on your system. Does not apply if you're using DataCue to manage your banners.
+
+```php
+<?
+$url = "https://api.datacue.co/v1/users/:user_id";
+
+$curl = curl_init($url);
+curl_setopt($curl, CURLOPT_HEADER, false);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER,
+        array(
+          "Content-type: application/json",
+          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+        ));
+curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+
+$json_response = curl_exec($curl);
+?>
+```
+
+```python
+import requests
+
+url = "https://api.datacue.co/v1/users/:user_id"
+headers = {
+  "Content-type": "application/json",
+  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+}
+
+response = requests.delete(url, headers=headers)
+```
+
+```javascript
+const url = "https://api.datacue.co/v1/users/:user_id";
+
+// The parameters we are gonna pass to the fetch function
+let fetchData = {
+  method: "DELETE",
+  headers: new Headers(
+    "Content-Type", "application/json",
+    "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+  )
 }
 fetch(url, fetchData)
 .then((res) => res.json())
