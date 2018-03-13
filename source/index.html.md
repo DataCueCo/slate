@@ -847,6 +847,8 @@ fetch(url, fetchData)
 
 ## Banner Click
 
+Record clicks to a banner or a sub banner, typically on your home page
+
 ```php
 <?
 $url = "https://api.datacue.co/v1/events";
@@ -959,6 +961,8 @@ fetch(url, fetchData)
 
 ## Product Click
 
+Record clicks on a product anywhere on your website.
+
 ```php
 <?
 $url = "https://api.datacue.co/v1/events";
@@ -1070,6 +1074,8 @@ fetch(url, fetchData)
 > The above command returns a 204 response code
 
 ## Check Out (Start Order)
+
+Record the moment the user initiates the check out process, typically from their shopping cart.
 
 ```php
 <?
@@ -1209,6 +1215,8 @@ fetch(url, fetchData)
 > The above command returns a 204 response code
 
 ## Complete Order
+
+Record the moment the order (or checkout) is completed.
 
 ```php
 <?
@@ -1354,6 +1362,8 @@ fetch(url, fetchData)
 > The above command returns a 204 response code
 
 ## User Login
+
+Record logins by a user on your website, if the user login is cached, you do not need to fire this event when the user returns.
 
 ```php
 <?
