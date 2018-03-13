@@ -199,7 +199,7 @@ data = {
 }
 
 
-response = requests.post(url, json=data, headers=headers)
+response = requests.post(url, data=data, headers=headers)
 ```
 
 ```javascript
@@ -364,7 +364,7 @@ data = {
 }
 
 
-response = requests.post(url, json=data, headers=headers)
+response = requests.post(url, data=data, headers=headers)
 ```
 
 ```javascript
@@ -517,7 +517,7 @@ data = {
 }
 
 
-response = requests.post(url, json=data, headers=headers)
+response = requests.post(url, data=data, headers=headers)
 ```
 
 ```javascript
@@ -648,7 +648,7 @@ data = {
 }
 
 
-response = requests.post(url, json=data, headers=headers)
+response = requests.post(url, data=data, headers=headers)
 ```
 
 ```javascript
@@ -796,7 +796,7 @@ data = {
 }
 
 
-response = requests.put(url, json=data, headers=headers)
+response = requests.put(url, data=data, headers=headers)
 ```
 
 ```javascript
@@ -918,7 +918,7 @@ data = {
 }
 
 
-response = requests.post(url, json=data, headers=headers)
+response = requests.post(url, data=data, headers=headers)
 ```
 
 ```javascript
@@ -1032,7 +1032,7 @@ data = {
 }
 
 
-response = requests.post(url, json=data, headers=headers)
+response = requests.post(url, data=data, headers=headers)
 ```
 
 ```javascript
@@ -1164,7 +1164,7 @@ data = {
 }
 
 
-response = requests.post(url, json=data, headers=headers)
+response = requests.post(url, data=data, headers=headers)
 ```
 
 ```javascript
@@ -1309,7 +1309,7 @@ data = {
 }
 
 
-response = requests.post(url, json=data, headers=headers)
+response = requests.post(url, data=data, headers=headers)
 ```
 
 ```javascript
@@ -1430,7 +1430,7 @@ data = {
 }
 
 
-response = requests.post(url, json=data, headers=headers)
+response = requests.post(url, data=data, headers=headers)
 ```
 
 ```javascript
@@ -1553,7 +1553,7 @@ data = {
    "owner_id": "user_id_3"
  }
 
-response = requests.post(url, json=data, headers=headers)
+response = requests.post(url, data=data, headers=headers)
 ```
 
 ```javascript
@@ -1648,7 +1648,7 @@ data = {
    "stock": 6
  }
 
-response = requests.put(url, json=data, headers=headers)
+response = requests.put(url, data=data, headers=headers)
 ```
 
 ```javascript
@@ -1794,7 +1794,7 @@ data = {
    "link": "path/to/anything"
  }
 
-response = requests.post(url, json=data, headers=headers)
+response = requests.post(url, data=data, headers=headers)
 ```
 
 ```javascript
@@ -1874,7 +1874,7 @@ data = {
    "link": "/new-link"
  }
 
-response = requests.put(url, json=data, headers=headers)
+response = requests.put(url, data=data, headers=headers)
 ```
 
 ```javascript
@@ -2023,7 +2023,7 @@ data = {
    "cart": ["product_id1","product_id2"]
 }
 
-response = requests.post(url, json=data, headers=headers)
+response = requests.post(url, data=data, headers=headers)
 ```
 
 ```javascript
@@ -2108,7 +2108,7 @@ data = {
    }
  }
 
-response = requests.put(url, json=data, headers=headers)
+response = requests.put(url, data=data, headers=headers)
 ```
 
 ```javascript
