@@ -227,11 +227,23 @@ html, body {
 
 // button to show navigation on mobile devices
 #nav-button {
+  // span {
+  //   display: block;
+  //   $side-pad: $main-padding / 2 - 8px;
+  //   padding: $side-pad $side-pad $side-pad;
+  //   background-color: rgba($main-bg, 0.7);
+  //   transform-origin: 0 0;
+  //   transform: rotate(-90deg) translate(-100%, 0);
+  //   border-radius: 0 0 0 5px;
+  // }
   span {
     display: block;
     margin-top: $nav-v-padding;
     padding: $nav-padding;
-    background-color: $tg-slate;
+    background-color: 'transparent';
+    // background-color: $tg-slate;
+    transform-origin: 0 0;
+    transform: rotate(-90deg) translate(-100%, 0);
     border-radius: 0 3px 3px 0;
   }
   padding: 0 1.5em 5em 0; // increase touch size area
