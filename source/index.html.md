@@ -2,10 +2,10 @@
 title: API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
+  - javascript--browser: javascript
   - php
   - python
-  - javascript
-
+  - javascript--node: node
 includes:
   - errors
 
@@ -30,9 +30,8 @@ If you have a staging / test version of your website, you can test your implemen
 
 ```php
 <?
-$encode = base64_encode("API-key:"); # only API key for events endpoint
 
-$encode = base64_encode("API-key:API-secret"); # apikey:apisecret for all other endpoints
+$encode = base64_encode("API-key:API-secret");
 
 $auth = "Basic $encode";
 ?>
@@ -40,22 +39,20 @@ $auth = "Basic $encode";
 
 ```python
 import base64
-# for events endpoint, use apikey:
-auth = "Basic {}".format(base64.b64encode(b"API-key:").decode("ascii"))
 
-# for other endpoints, use apikey:apisecret
 auth = "Basic {}".format(base64.b64encode(b"API-key:API-secret").decode("ascii"))
 ```
 
-```javascript
-# for events endpoint, use apikey:
-let auth = `Basic ${btoa("API-key:")}`;
-
-# for other endpoints, use apikey:apisecret
-let auth = `Basic ${btoa("API-key:APi-secret")}`;
+```javascript--node
+const auth = `Basic ${btoa("API-key:API-secret")}`;
 ```
 
-> Make sure to replace `API-key` with your API key.
+```javascript--browser
+# for events endpoint, use apikey:
+const auth = `Basic ${btoa("API-key:")}`;
+```
+
+> Make sure to replace `API-key` with your API key and `API-secret` with your API secret.
 >
 > Sample Headers
 
@@ -64,15 +61,18 @@ let auth = `Basic ${btoa("API-key:APi-secret")}`;
   "Content-Type": "application/json"
 ```
 
-You will receive a API key and an API secret. Public end-points like event tracking only needs an API key. Private end-points that define product, orders etc require both your API key and secret to authenticate.
+You can find your API key and API secret in your [DataCue Dashboard](https://app.datacue.co "Dashboard"). 
+
+The `events` endpoint only require an API key to be run from a browser.
+All other end-points require both an API key and API secret and should only be run from your backend to keep your API secret... a secret.
 We use HTTP Basic Authentication, which encodes the string `apikey:apisecret` into a token that is base64 encoded and prepended with the string "Basic ".
 
-### End points requring API Key:
+### Browser Events (only API key):
 If your API key is `abc123`, then Base64 encode "abc123:", no password after the colon, and the final result will be "YWJjMTIzOg==".
 
 Your authorization header should look like `Authorization: Basic YWJjMTIzOg==`.
 
-### End points requring API Key and API Secret:
+### Backend End points (API Key and API Secret):
 If your API key is `abc123`, and API secret is `secret123` then Base64 encode "abc123:secret123". The final result will be "Basic YWJjMTIzOnNlY3JldDEyMw==".
 
 Your authorization header should look like `Authorization: Basic YWJjMTIzOnNlY3JldDEyMw==`.
@@ -83,7 +83,7 @@ Your authorization header should look like `Authorization: Basic YWJjMTIzOnNlY3J
 You must set a content-type header to "application/json".
 `Content-Type: application/json`
 
-# Events
+# Browser Events
 
 ## Authorization
 
@@ -168,71 +168,7 @@ Request banner and product recommendations when a user visits your home page
 type|String|Set to 'pageview'|Yes
 subtype|String|Set to 'home'|Yes
 
-```php
-<?
-$url = "https://api.datacue.co/v1/events";
-$data = array(
-  "user" => array(
-    "user_id" =>  "019mr8mf4r",
-    "anonymous_id" => "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502",
-    "profile" =>  array(
-  	  "sex" => "female",
-  	  "location" => "santiago",
-      "segment" => "platinum"
-    )
-  ),
-  "event" => array(
-  	"type" => "pageview",
-    "subtype" => "home"
-  )
-);
-
-$content = json_encode($data);
-
-$curl = curl_init($url);
-curl_setopt($curl, CURLOPT_HEADER, false);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_HTTPHEADER,
-        array(
-          "Content-type: application/json",
-          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-        ));
-curl_setopt($curl, CURLOPT_POST, true);
-curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
-
-$json_response = curl_exec($curl);
-?>
-```
-
-```python
-import requests
-
-url = "https://api.datacue.co/v1/events"
-headers = {
-  "Content-type": "application/json",
-  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-}
-data = {
-  "user": {
-    "user_id": "019mr8mf4r",
-    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502",
-    "profile": {
-  	  "sex": "female",
-  	  "location": "santiago",
-      "segment": "platinum"
-    }
-  },
-  "event": {
-  	"type": "pageview",
-    "subtype": "home"
-  }
-}
-
-
-response = requests.post(url, data=data, headers=headers)
-```
-
-```javascript
+```javascript--browser
 const url = "https://api.datacue.co/v1/events";
 let data = {
   "user": {
@@ -262,6 +198,20 @@ fetch(url, fetchData)
 .then((res) => res.json())
 .then((data) =>  console.log(data))
 .catch((err) => console.log(err))
+```
+
+```php
+<?
+//browser only event (refer to the javascript tab)
+?>
+```
+
+```python
+#browser only event (refer to the javascript tab)
+```
+
+```javascript--node
+//browser only event (refer to the javascript tab)
 ```
 
 > The above command returns JSON structured like this:
@@ -378,75 +328,7 @@ type|String|Set to 'pageview'|Yes
 subtype|String|Set to 'product'|Yes
 product_id|String|Set to product id being viewed|Yes
 
-```php
-<?
-$url = "https://api.datacue.co/v1/events";
-$data = array(
-  "user" => array(
-    "user_id" =>  "019mr8mf4r",
-    "anonymous_id" => "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502",
-    "profile" =>  array(
-  	  "sex" => "female",
-  	  "location" => "santiago",
-      "segment" => "platinum"
-    )
-  ),
-  "event" =>  array(
-    "type" =>  "pageview",
-    "subtype" =>  "product",
-    "product_id" => "p1",
-    "variant_id" => "v1"
-  )
-);
-
-$content = json_encode($data);
-
-$curl = curl_init($url);
-curl_setopt($curl, CURLOPT_HEADER, false);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_HTTPHEADER,
-        array(
-          "Content-type: application/json",
-          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-        ));
-curl_setopt($curl, CURLOPT_POST, true);
-curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
-
-$json_response = curl_exec($curl);
-?>
-```
-
-```python
-import requests
-
-url = "https://api.datacue.co/v1/events"
-headers = {
-  "Content-type": "application/json",
-  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-}
-data = {
-  "user": {
-    "user_id": "019mr8mf4r",
-    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502",
-    "profile": {
-  	  "sex": "female",
-  	  "location": "santiago",
-      "segment": "platinum"
-    }
-  },
-  "event": {
-    "type": "pageview",
-    "subtype": "product",
-    "product_id": "p1",
-    "variant_id": "v1"
-  }
-}
-
-
-response = requests.post(url, data=data, headers=headers)
-```
-
-```javascript
+```javascript--browser
 const url = "https://api.datacue.co/v1/events";
 let data = {
   "user": {
@@ -478,6 +360,20 @@ fetch(url, fetchData)
 .then((res) => res.json())
 .then((data) =>  console.log(data))
 .catch((err) => console.log(err))
+```
+
+```php
+<?
+//browser only event (refer to the javascript tab)
+?>
+```
+
+```python
+#browser only event (refer to the javascript tab)
+```
+
+```javascript--node
+//browser only event (refer to the javascript tab)
 ```
 
 > The above command returns JSON structured like this:
@@ -568,73 +464,7 @@ subtype|String|Set to 'category'|Yes
 category_name|String|Set to the name of the category being viewed|Yes
 
 
-```php
-<?
-$url = "https://api.datacue.co/v1/events";
-$data = array(
-  "user" => array(
-    "user_id" =>  "019mr8mf4r",
-    "anonymous_id" => "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502",
-    "profile" =>  array(
-  	  "sex" => "female",
-  	  "location" => "santiago",
-      "segment" => "platinum"
-    )
-  ),
-  "event" =>  array(
-    "type" =>  "pageview",
-    "subtype" =>  "category",
-    "category_name" => "living-room"
-  )
-);
-
-$content = json_encode($data);
-
-$curl = curl_init($url);
-curl_setopt($curl, CURLOPT_HEADER, false);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_HTTPHEADER,
-        array(
-          "Content-type: application/json",
-          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-        ));
-curl_setopt($curl, CURLOPT_POST, true);
-curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
-
-$json_response = curl_exec($curl);
-?>
-```
-
-```python
-import requests
-
-url = "https://api.datacue.co/v1/events"
-headers = {
-  "Content-type": "application/json",
-  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-}
-data = {
-  "user": {
-    "user_id": "019mr8mf4r",
-    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502",
-    "profile": {
-  	  "sex": "female",
-  	  "location": "santiago",
-      "segment": "platinum"
-    }
-  },
-  "event": {
-    "type": "pageview",
-    "subtype": "category",
-    "category_name": "living-room"
-  }
-}
-
-
-response = requests.post(url, data=data, headers=headers)
-```
-
-```javascript
+```javascript--browser
 const url = "https://api.datacue.co/v1/events";
 let data = {
   "user": {
@@ -667,6 +497,20 @@ fetch(url, fetchData)
 .catch((err) => console.log(err))
 ```
 
+```php
+<?
+//browser only event (refer to the javascript tab)
+?>
+```
+
+```python
+#browser only event (refer to the javascript tab)
+```
+
+```javascript--node
+//browser only event (refer to the javascript tab)
+```
+
 > The above command returns a 204 response code
 
 
@@ -679,80 +523,8 @@ Record activity on a users shopping cart, typically when the cart is viewed, or 
 type|String|Set to 'viewcart'|Yes
 cart|Array|Specify an array of product_ids and optionally variant_ids|Yes
 
-```php
-<?
-$url = "https://api.datacue.co/v1/events";
-$data = array(
-  "user" => array(
-    "user_id" =>  "019mr8mf4r",
-    "anonymous_id" => "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502",
-    "profile" =>  array(
-  	  "sex" => "female"
-    )
-  ),
-  "event" =>  array(
-    "type" => "viewcart",
-	  "cart" => array(
-      array("product_id" => "p1","variant_id" => "v1"),
-      array("product_id" => "p2","variant_id" => "v1"),
-      array("product_id" => "p3","variant_id" => "v1")
-  )
-);
 
-$content = json_encode($data);
-
-$curl = curl_init($url);
-curl_setopt($curl, CURLOPT_HEADER, false);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_HTTPHEADER,
-        array(
-          "Content-type: application/json",
-          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-      ));
-curl_setopt($curl, CURLOPT_POST, true);
-curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
-
-$json_response = curl_exec($curl);
-?>
-```
-
-```python
-import requests
-
-url = "https://api.datacue.co/v1/events"
-headers = {
-  "Content-type": "application/json",
-  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-}
-data = {
-  "user": {
-    "user_id": "019mr8mf4r",
-    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502",
-    "profile": {
-  	  "sex": "female"
-    }
-  },
-  "event": {
-    "type": "viewcart",
-    "cart": [{
-                "product_id":"p1",
-                "variant_id":"v1"
-              },{
-                "product_id":"p2",
-                "variant_id":"v1"
-              },{
-                "product_id":"p3",
-                "variant_id":"v1"
-              }
-          ]
-  }
-}
-
-
-response = requests.post(url, data=data, headers=headers)
-```
-
-```javascript
+```javascript--browser
 const url = "https://api.datacue.co/v1/events";
 let data = {
   "user": {
@@ -790,6 +562,20 @@ fetch(url, fetchData)
 .then((res) => res.json())
 .then((data) =>  console.log(data))
 .catch((err) => console.log(err))
+```
+
+```php
+<?
+//browser only event (refer to the javascript tab)
+?>
+```
+
+```python
+#browser only event (refer to the javascript tab)
+```
+
+```javascript--node
+//browser only event (refer to the javascript tab)
 ```
 
 > The above command returns JSON structured like this:
@@ -831,67 +617,7 @@ Record when a user performs a search on your website
 type|String|Set to 'search'|Yes
 term|String|Set to the user's search term|Yes
 
-```php
-<?
-$url = "https://api.datacue.co/v1/events";
-$data = array(
-  "user" => array(
-    "user_id" =>  "019mr8mf4r",
-    "anonymous_id" => "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502",
-    "profile" =>  array(
-  	  "sex" => "female"
-    )
-  ),
-  "event" =>  array(
-    "type" => "search",
-    "term" => "tables"
-  )
-);
-
-$content = json_encode($data);
-
-$curl = curl_init($url);
-curl_setopt($curl, CURLOPT_HEADER, false);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_HTTPHEADER,
-        array(
-          "Content-type: application/json",
-          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-        ));
-curl_setopt($curl, CURLOPT_POST, true);
-curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
-
-$json_response = curl_exec($curl);
-?>
-```
-
-```python
-import requests
-
-url = "https://api.datacue.co/v1/events"
-headers = {
-  "Content-type": "application/json",
-  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-}
-data = {
-  "user": {
-    "user_id": "019mr8mf4r",
-    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502",
-    "profile": {
-  	  "sex": "female"
-    }
-  },
-  "event": {
-    "type": "search",
-    "term": "tables"
-  }
-}
-
-
-response = requests.post(url, data=data, headers=headers)
-```
-
-```javascript
+```javascript--browser
 const url = "https://api.datacue.co/v1/events";
 let data = {
   "user": {
@@ -919,6 +645,20 @@ fetch(url, fetchData)
 .then((res) => res.json())
 .then((data) =>  console.log(data))
 .catch((err) => console.log(err))
+```
+
+```php
+<?
+//browser only event (refer to the javascript tab)
+?>
+```
+
+```python
+#browser only event (refer to the javascript tab)
+```
+
+```javascript--node
+//browser only event (refer to the javascript tab)
 ```
 
 > The above command returns JSON structured like this:
@@ -951,85 +691,8 @@ Record changes to users wishlist, typically when the wishlist is viewed, or a pr
 type|String|Set to 'wishlist'|Yes
 wishlist|Array|Provide an array of product_ids and optionally variant_ids|Yes
 
-```php
-<?
-$url = "https://api.datacue.co/v1/events";
-$data = array(
-  "user" => array(
-    "user_id" =>  "019mr8mf4r",
-    "anonymous_id" => "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1",
-    "profile" =>  array(
-  	  "sex" => "female"
-    )
-  ),
-  "event" =>  array(
-    "type" => "wishlist",
-    "wishlist" => array(
-      array(
-        "product_id" => "p1",
-        "variant_id" => "v1"
-      ),
-      array(
-        "product_id" => "p2",
-        "variant_id" => "v2"
-      )
-    )
-  )
-);
 
-$content = json_encode($data);
-
-$curl = curl_init($url);
-curl_setopt($curl, CURLOPT_HEADER, false);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_HTTPHEADER,
-        array(
-          "Content-type: application/json",
-          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-        ));
-curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
-curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
-
-$json_response = curl_exec($curl);
-?>
-```
-
-```python
-import requests
-
-url = "https://api.datacue.co/v1/events"
-headers = {
-  "Content-type": "application/json",
-  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-}
-data = {
-  "user": {
-    "user_id": "019mr8mf4r",
-    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1",
-    "profile": {
-  	  "sex": "female"
-    }
-  },
-  "event": {
-    "type": "wishlist",
-    "wishlist": [
-      {
-        "product_id": "p1",
-        "variant_id": "v1"
-      },
-      {
-        "product_id": "p2",
-        "variant_id": "v2"
-      }
-    ]
-  }
-}
-
-
-response = requests.put(url, data=data, headers=headers)
-```
-
-```javascript
+```javascript--browser
 const url = "https://api.datacue.co/v1/events";
 let data = {
   "user": {
@@ -1068,6 +731,20 @@ fetch(url, fetchData)
 .catch((err) => console.log(err))
 ```
 
+```php
+<?
+//browser only event (refer to the javascript tab)
+?>
+```
+
+```python
+#browser only event (refer to the javascript tab)
+```
+
+```javascript--node
+//browser only event (refer to the javascript tab)
+```
+
 > The above command returns a 204 response code
 
 ## Banner Click
@@ -1080,69 +757,8 @@ type|String|Set to 'click'|Yes
 subtype|String|Set to 'banner'|Yes
 banner_id|String|Set to the id of the clicked banner|Yes
 
-```php
-<?
-$url = "https://api.datacue.co/v1/events";
-$data = array(
-  "user" => array(
-    "user_id" =>  "019mr8mf4r",
-    "anonymous_id" => "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1",
-    "profile" =>  array(
-  	  "sex" => "female"
-    )
-  ),
-  "event" =>  array(
-    "type" => "click",
-    "subtype" => "banner",
-    "banner_id" => "b1"
-  )
-);
 
-$content = json_encode($data);
-
-$curl = curl_init($url);
-curl_setopt($curl, CURLOPT_HEADER, false);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_HTTPHEADER,
-        array(
-          "Content-type: application/json",
-          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-        ));
-curl_setopt($curl, CURLOPT_POST, true);
-curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
-
-$json_response = curl_exec($curl);
-?>
-```
-
-```python
-import requests
-
-url = "https://api.datacue.co/v1/events"
-headers = {
-  "Content-type": "application/json",
-  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-}
-data = {
-  "user": {
-    "user_id": "019mr8mf4r",
-    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1",
-    "profile": {
-  	  "sex": "female"
-    }
-  },
-  "event": {
-    "type": "click",
-    "subtype": "banner",
-    "banner_id": "b1"
-  }
-}
-
-
-response = requests.post(url, data=data, headers=headers)
-```
-
-```javascript
+```javascript--browser
 const url = "https://api.datacue.co/v1/events";
 let data = {
   "user": {
@@ -1173,6 +789,21 @@ fetch(url, fetchData)
 .catch((err) => console.log(err))
 ```
 
+```php
+<?
+//browser only event (refer to the javascript tab)
+?>
+```
+
+```python
+#browser only event (refer to the javascript tab)
+```
+
+```javascript--node
+//browser only event (refer to the javascript tab)
+```
+
+
 > The above command returns a 204 response code
 
 ## Product Click
@@ -1185,69 +816,8 @@ type|String|Set to 'click'|Yes
 subtype|String|Set to 'product'|Yes
 banner_id|String|Set to the id of the clicked product|Yes
 
-```php
-<?
-$url = "https://api.datacue.co/v1/events";
-$data = array(
-  "user" => array(
-    "user_id" =>  "019mr8mf4r",
-    "anonymous_id" => "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1",
-    "profile" =>  array(
-  	  "sex" => "female"
-    )
-  ),
-  "event" =>  array(
-    "type" => "click",
-    "subtype" => "product",
-    "product_id" => "p2"
-  )
-);
 
-$content = json_encode($data);
-
-$curl = curl_init($url);
-curl_setopt($curl, CURLOPT_HEADER, false);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_HTTPHEADER,
-        array(
-          "Content-type: application/json",
-          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-        ));
-curl_setopt($curl, CURLOPT_POST, true);
-curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
-
-$json_response = curl_exec($curl);
-?>
-```
-
-```python
-import requests
-
-url = "https://api.datacue.co/v1/events"
-headers = {
-  "Content-type": "application/json",
-  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-}
-data = {
-  "user": {
-    "user_id": "019mr8mf4r",
-    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1",
-    "profile": {
-  	  "sex": "female"
-    }
-  },
-  "event": {
-    "type": "click",
-    "subtype": "product",
-    "product_id": "p2"
-  }
-}
-
-
-response = requests.post(url, data=data, headers=headers)
-```
-
-```javascript
+```javascript--browser
 const url = "https://api.datacue.co/v1/events";
 let data = {
   "user": {
@@ -1276,6 +846,20 @@ fetch(url, fetchData)
 .then((res) => res.json())
 .then((data) =>  console.log(data))
 .catch((err) => console.log(err))
+```
+
+```php
+<?
+//browser only event (refer to the javascript tab)
+?>
+```
+
+```python
+#browser only event (refer to the javascript tab)
+```
+
+```javascript--node
+//browser only event (refer to the javascript tab)
 ```
 
 > The above command returns a 204 response code
@@ -1291,87 +875,8 @@ subtype|String|Set to 'started'|Yes
 order_id|String|Set to the id of the order (if available)|No
 cart|Array|Cart contents as an array of product, variant, unit price, quantity and currency|Yes
 
-```php
-<?
-$url = "https://api.datacue.co/v1/events";
-$data = array(
-  "user" => array(
-    "user_id" =>  "019mr8mf4r",
-    "anonymous_id" => "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1a1",
-    "profile" =>  array(
-  	  "sex" => "female"
-    )
-  ),
-  "event" =>  array(
-    "type" => "order",
-    "subtype" => "started",
-    "order_id" => "o1",
-    "cart" => array(
-      array(
-        "product_id" => "p1",
-        "variant" => "v1",
-        "quantity" => 1,
-        "price" => 24,
-        "currency" => "USD"
-      )
-    )
-  )
-);
 
-$content = json_encode($data);
-
-$curl = curl_init($url);
-curl_setopt($curl, CURLOPT_HEADER, false);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_HTTPHEADER,
-        array(
-          "Content-type: application/json",
-          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-        ));
-curl_setopt($curl, CURLOPT_POST, true);
-curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
-
-$json_response = curl_exec($curl);
-?>
-```
-
-```python
-import requests
-
-url = "https://api.datacue.co/v1/events"
-headers = {
-  "Content-type": "application/json",
-  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-}
-data = {
-  "user": {
-    "user_id": "019mr8mf4r",
-    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1",
-    "profile": {
-  	  "sex": "female"
-    }
-  },
-  "event": {
-    "type": "order",
-    "subtype": "started",
-    "order_id": "o1",
-    "cart": [
-      {
-        "product_id": "p1",
-        "variant": "v1",
-        "quantity": 1,
-        "price": 24,
-        "currency": "USD"
-      }
-    ]
-  }
-}
-
-
-response = requests.post(url, data=data, headers=headers)
-```
-
-```javascript
+```javascript--browser
 const url = "https://api.datacue.co/v1/events";
 let data = {
   "user": {
@@ -1409,6 +914,20 @@ fetch(url, fetchData)
 .then((res) => res.json())
 .then((data) =>  console.log(data))
 .catch((err) => console.log(err))
+```
+
+```php
+<?
+//browser only event (refer to the javascript tab)
+?>
+```
+
+```python
+#browser only event (refer to the javascript tab)
+```
+
+```javascript--node
+//browser only event (refer to the javascript tab)
 ```
 
 > The above command returns a 204 response code
@@ -1425,89 +944,8 @@ order_id|String|Set to the id of the order|Yes
 cart|Array|Cart contents as an array of product, variant, unit price, quantity and currency|Yes
 payment_method|String|Specify the payment method used (for analytics)|No
 
-```php
-<?
-$url = "https://api.datacue.co/v1/events";
-$data = array(
-  "user" => array(
-    "user_id" =>  "019mr8mf4r",
-    "anonymous_id" => "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1",
-    "profile" =>  array(
-  	  "sex" => "female"
-    )
-  ),
-  "event" =>  array(
-    "type" => "order",
-    "subtype" => "completed",
-    "order_id" => "o1",
-    "payment_method" => "credit card",
-    "cart" => array(
-      array(
-        "product_id" => "p1",
-        "variant_id" => "v1",
-        "quantity" => 1,
-        "unit_price" => 24000,
-        "currency" => "USD"
-      )
-    )
-  )
-);
 
-$content = json_encode($data);
-
-$curl = curl_init($url);
-curl_setopt($curl, CURLOPT_HEADER, false);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_HTTPHEADER,
-        array(
-          "Content-type: application/json",
-          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-        ));
-curl_setopt($curl, CURLOPT_POST, true);
-curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
-
-$json_response = curl_exec($curl);
-?>
-```
-
-```python
-import requests
-
-url = "https://api.datacue.co/v1/events"
-headers = {
-  "Content-type": "application/json",
-  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-}
-data = {
-  "user": {
-    "user_id": "019mr8mf4r",
-    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1",
-    "profile": {
-  	  "sex": "female"
-    }
-  },
-  "event": {
-    "type": "order",
-    "subtype": "completed",
-    "order_id": "o1",
-    "payment_method": "credit card",
-    "cart": [
-      {
-        "product_id": "p1",
-        "variant_id": "v1",
-        "quantity": 1,
-        "unit_price": 24000,
-        "currency": "USD"
-      }
-    ]
-  }
-}
-
-
-response = requests.post(url, data=data, headers=headers)
-```
-
-```javascript
+```javascript--browser
 const url = "https://api.datacue.co/v1/events";
 let data = {
   "user": {
@@ -1549,6 +987,20 @@ fetch(url, fetchData)
 .catch((err) => console.log(err))
 ```
 
+```php
+<?
+//browser only event (refer to the javascript tab)
+?>
+```
+
+```python
+#browser only event (refer to the javascript tab)
+```
+
+```javascript--node
+//browser only event (refer to the javascript tab)
+```
+
 > The above command returns a 204 response code
 
 ## Cancel Order
@@ -1562,69 +1014,7 @@ subtype|String|Set to 'cancelled'|Yes
 order_id|String|Set to the id of the order|Yes
 
 
-```php
-<?
-$url = "https://api.datacue.co/v1/events";
-$data = array(
-  "user" => array(
-    "user_id" =>  "019mr8mf4r",
-    "anonymous_id" => "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1",
-    "profile" =>  array(
-  	  "sex" => "female"
-    )
-  ),
-  "event" =>  array(
-    "type" => "order",
-    "subtype" => "cancelled",
-    "order_id" => "o1"
-  )
-);
-
-$content = json_encode($data);
-
-$curl = curl_init($url);
-curl_setopt($curl, CURLOPT_HEADER, false);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_HTTPHEADER,
-        array(
-          "Content-type: application/json",
-          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-        ));
-curl_setopt($curl, CURLOPT_POST, true);
-curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
-
-$json_response = curl_exec($curl);
-?>
-```
-
-```python
-import requests
-
-url = "https://api.datacue.co/v1/events"
-headers = {
-  "Content-type": "application/json",
-  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-}
-data = {
-  "user": {
-    "user_id": "019mr8mf4r",
-    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1",
-    "profile": {
-  	  "sex": "female"
-    }
-  },
-  "event": {
-    "type": "order",
-    "subtype": "cancelled",
-    "order_id": "o1"
-  }
-}
-
-
-response = requests.post(url, data=data, headers=headers)
-```
-
-```javascript
+```javascript--browser
 const url = "https://api.datacue.co/v1/events";
 let data = {
   "user": {
@@ -1653,6 +1043,20 @@ fetch(url, fetchData)
 .then((res) => res.json())
 .then((data) =>  console.log(data))
 .catch((err) => console.log(err))
+```
+
+```php
+<?
+//browser only event (refer to the javascript tab)
+?>
+```
+
+```python
+#browser only event (refer to the javascript tab)
+```
+
+```javascript--node
+//browser only event (refer to the javascript tab)
 ```
 
 > The above command returns a 204 response code
@@ -1665,65 +1069,7 @@ Record logins by a user on your website, if the user login is cached, you do not
 :-----:|:-----:|:-----:|:-----:
 type|String|Set to 'login'|Yes
 
-```php
-<?
-$url = "https://api.datacue.co/v1/events";
-$data = array(
-  "user" => array(
-    "user_id" =>  "019mr8mf4r",
-    "anonymous_id" => "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1",
-    "profile" =>  array(
-  	  "sex" => "female"
-    )
-  ),
-  "event" =>  array(
-    "type" => "login"
-  )
-);
-
-$content = json_encode($data);
-
-$curl = curl_init($url);
-curl_setopt($curl, CURLOPT_HEADER, false);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_HTTPHEADER,
-        array(
-          "Content-type: application/json",
-          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-        ));
-curl_setopt($curl, CURLOPT_POST, true);
-curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
-
-$json_response = curl_exec($curl);
-?>
-```
-
-```python
-import requests
-
-url = "https://api.datacue.co/v1/events"
-headers = {
-  "Content-type": "application/json",
-  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-}
-data = {
-  "user": {
-    "user_id": "019mr8mf4r",
-    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1",
-    "profile": {
-  	  "sex": "female"
-    }
-  },
-  "event": {
-    "type": "login"
-  }
-}
-
-
-response = requests.post(url, data=data, headers=headers)
-```
-
-```javascript
+```javascript--browser
 const url = "https://api.datacue.co/v1/events";
 let data = {
   "user": {
@@ -1750,6 +1096,20 @@ fetch(url, fetchData)
 .then((res) => res.json())
 .then((data) =>  console.log(data))
 .catch((err) => console.log(err))
+```
+
+```php
+<?
+//browser only event (refer to the javascript tab)
+?>
+```
+
+```python
+#browser only event (refer to the javascript tab)
+```
+
+```javascript--node
+//browser only event (refer to the javascript tab)
 ```
 
 > The above command returns a 204 response code
@@ -1780,6 +1140,10 @@ extra|JSON Object|Any other fields you want to store about the product that you 
 photo_url|String|URL of the photo, you can use relative URLs as this is purely for your front-end to request the image|Yes
 link|String|URL of product page for this product e.g. https://mysite.com/products/p1|Yes
 owner_id|String|If you're running a marketplace, store the product's owner or seller's user ID here.|No
+
+```javascript--browser
+//backend only event (refer to the python, php or node tab)
+```
 
 ```php
 <?
@@ -1862,7 +1226,7 @@ data = {
 response = requests.post(url, data=data, headers=headers)
 ```
 
-```javascript
+```javascript--node
 const url = "https://api.datacue.co/v1/products";
 let data = {
    "product_id": "p1",
@@ -1912,6 +1276,10 @@ Whenever an existing product is updated such as image, name, price or new discou
 
 Remember that when an order is completed this is also a product update as the stock level of the product will change. Sending us a product update after an order will ensure that if a product is out of stock, it is no longer recommended to other users.
 
+```javascript--browser
+//backend only event (refer to the python, php or node tab)
+```
+
 ```php
 <?
 $url = "https://api.datacue.co/v1/products/:product_id/:variant_id";
@@ -1957,7 +1325,7 @@ data = {
 response = requests.put(url, data=data, headers=headers)
 ```
 
-```javascript
+```javascript--node
 const url = "https://api.datacue.co/v1/products/:product_id/:variant_id";
 let data = {
    "category_1": "men",
@@ -1985,6 +1353,10 @@ fetch(url, fetchData)
 ## Delete Product
 
 When you delete a banner on your system. Does not apply if you're using DataCue to manage your banners.
+
+```javascript--browser
+//backend only event (refer to the python, php or node tab)
+```
 
 ```php
 <?
@@ -2016,7 +1388,7 @@ headers = {
 response = requests.delete(url, headers=headers)
 ```
 
-```javascript
+```javascript--node
 const url = "https://api.datacue.co/v1/products/:product_id/:variant_id";
 
 // The parameters we are going to pass to the fetch function
@@ -2038,7 +1410,531 @@ fetch(url, fetchData)
 
 # Banner Management
 
-We recommend that you use your DataCue dashboard to upload and manage your banners. However, If you want DataCue to use your existing banner management solution, you can use these endpoints to do so.
+We recommend that you use your DataCue dashboard to upload and manage your banners. However, if you want DataCue to use your existing banner management solution, you can use these endpoints to do so.
+
+## Create Banner
+
+When you create a new banner on your system.
+
+**Field**|**Data Type**|**Description**|**Mandatory**
+:-----:|:-----:|:-----:|:-----:
+banner_id|String|The product id or SKU number|Yes
+type|String|The type of banner. Set to 'main' for main banner or 'sub' for sub banner|Yes
+name|String|Friendly name for the banner|No
+category_1|String|The top category level this product belongs to. In a fashion store, this could be 'Men' , 'Women' or 'Children''.|Yes
+category_2|String|The second category level this product belongs to. In a fashion store, this could be 'Shoes or 'Dresses'|No
+category_3|String|The third category level this product belongs to. In a fashion store, this could be 'Sports' or 'Sandals'|No
+category_4|String|The fourth category level this product belongs to. In a fashion store, this could be 'Running shoes'|No
+photo_url|String|URL of the banner image, you can use relative URLs as this is purely for your front-end to request the image|Yes
+link|String|Which page to take the user to when they click on the banner on your website. Typically a collection or catalog page for the banner's associated category.|Yes
+extra|JSON Object|Any other information you would like to use about your banners. For instance, you can store URLs of a mobile optimized version of your banner here.|No
+
+```javascript--browser
+//backend only event (refer to the python, php or node tab)
+```
+
+```php
+<?
+$url = "https://api.datacue.co/v1/banners";
+$data = array(
+  "banner_id" => "b1",
+  "type" => "sub",
+  "title" => "friendly name for b1",
+  "category_1" => "women",
+  "category_2" => "summer",
+  "category_3" => "dresses",
+  "category_4" => "casual",
+  "photos" => array(
+    "mobile" => "http://s3.amazon.com/photoMobile.png",
+    "desktop" => "http://s3.amazon.com/photoDesktop.png"
+  ),
+  "link" => "path/to/anything"
+);
+
+$content = json_encode($data);
+
+$curl = curl_init($url);
+curl_setopt($curl, CURLOPT_HEADER, false);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER,
+        array(
+          "Content-type: application/json",
+          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+        ));
+curl_setopt($curl, CURLOPT_POST, true);
+curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+
+$json_response = curl_exec($curl);
+?>
+```
+
+```python
+import requests
+
+url = "https://api.datacue.co/v1/banners"
+headers = {
+  "Content-type": "application/json",
+  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+}
+data = {
+   "banner_id": "b1",
+   "type": "sub",
+   "title": "friendly name for b1",
+   "category_1": "women",
+   "category_2": "summer",
+   "category_3": "dresses",
+   "category_4": "casual",
+   "photos": {
+     "mobile": "http://s3.amazon.com/photoMobile.png",
+     "desktop": "http://s3.amazon.com/photoDesktop.png",
+   },
+   "link": "path/to/anything"
+ }
+
+response = requests.post(url, data=data, headers=headers)
+```
+
+```javascript--node
+const url = "https://api.datacue.co/v1/banners";
+let data = {
+   "banner_id": "b1",
+   "type": "sub",
+   "title": "friendly name for b1",
+   "category_1": "women",
+   "category_2": "summer",
+   "category_3": "dresses",
+   "category_4": "casual",
+   "photos": {
+     "mobile": "http://s3.amazon.com/photoMobile.png",
+     "desktop": "http://s3.amazon.com/photoDesktop.png",
+   },
+   "link": "path/to/anything"
+ }
+
+// The parameters we are going to pass to the fetch function
+let fetchData = {
+    method: "POST",
+    body: data,
+    headers: new Headers(
+      "Content-Type", "application/json",
+      "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+      )
+}
+fetch(url, fetchData)
+.then((res) => res.json())
+.then((data) =>  console.log(data))
+.catch((err) => console.log(err))
+```
+
+> The above command returns a 201 response code
+
+
+## Update Banner
+
+When you update your banner in any way like changing the banner image, link or assigned categories on your system. Does not apply if you're using DataCue to manage your banners.
+
+Only send fields to be updated
+
+```javascript--browser
+//backend only event (refer to the python, php or node tab)
+```
+
+```php
+<?
+$url = "https://api.datacue.co/v1/banners/:banner_id";
+$data = array(
+  "link" => "/new-link"
+);
+
+$content = json_encode($data);
+
+$curl = curl_init($url);
+curl_setopt($curl, CURLOPT_HEADER, false);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER,
+        array(
+          "Content-type: application/json",
+          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+        ));
+curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
+curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+
+$json_response = curl_exec($curl);
+?>
+```
+
+```python
+import requests
+
+url = "https://api.datacue.co/v1/banners/:banner_id"
+headers = {
+  "Content-type": "application/json",
+  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+}
+data = {
+   "link": "/new-link"
+ }
+
+response = requests.put(url, data=data, headers=headers)
+```
+
+```javascript--node
+const url = "https://api.datacue.co/v1/banners/:banner_id";
+let data = {
+   "link": "/new-link"
+ }
+// The parameters we are going to pass to the fetch function
+let fetchData = {
+    method: "PUT",
+    body: data,
+    headers: new Headers(
+      "Content-Type", "application/json",
+      "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+      )
+}
+fetch(url, fetchData)
+.then((res) => res.json())
+.then((data) =>  console.log(data))
+.catch((err) => console.log(err))
+```
+
+> The above command returns a 204 response code
+
+## Delete Banner
+
+When you delete a banner on your system. Does not apply if you're using DataCue to manage your banners.
+
+```javascript--browser
+//backend only event (refer to the python, php or node tab)
+```
+
+```php
+<?
+$url = "https://api.datacue.co/v1/banners/:banner_id";
+
+$curl = curl_init($url);
+curl_setopt($curl, CURLOPT_HEADER, false);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER,
+        array(
+          "Content-type: application/json",
+          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+        ));
+curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+
+$json_response = curl_exec($curl);
+?>
+```
+
+```python
+import requests
+
+url = "https://api.datacue.co/v1/banners/:banner_id"
+headers = {
+  "Content-type": "application/json",
+  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+}
+
+response = requests.delete(url, headers=headers)
+```
+
+```javascript--node
+const url = "https://api.datacue.co/v1/banners/:banner_id";
+
+// The parameters we are going to pass to the fetch function
+let fetchData = {
+  method: "DELETE",
+  headers: new Headers(
+    "Content-Type", "application/json",
+    "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+  )
+}
+fetch(url, fetchData)
+.then((res) => res.json())
+.then((data) =>  console.log(data))
+.catch((err) => console.log(err))
+```
+
+> The above command returns a 204 response code
+
+
+# User Management
+
+## Create User
+
+When a new user has successfully signed up / registered on your system.
+
+**Field**|**Data Type**|**Description**|**Mandatory**
+:-----:|:-----:|:-----:|:-----:
+user\_id|String|The unique user id assigned|Yes
+anonymous\_id|String|Anonymous ID that was previously associated with this user prior to user sign up|No
+email|String|User's email address|Yes, if using email marketing
+title|String|Salutation e.g. Mr. , Ms., Dr.|No
+first\_name|String|User's first name, if you store all the names in one field assign the name to this field|Yes
+last\_name|String|User's last name|No
+profile|JSON object|User's profile. See table below for field description|No
+cart|Array|An array of product ids and variant ids representing the current products in the users shopping cart.|No
+
+### Profile
+
+**Field**|**Data Type**|**Description**|**Mandatory**
+:-----:|:-----:|:-----:|:-----:
+sex|String|Sex of the user|No
+location|String|Aggregate location like commune, city or country of the user|No
+segment|String|Custom segment name that you store e.g. Gold class / Member|No
+
+```javascript--browser
+//backend only event (refer to the python, php or node tab)
+```
+
+```php
+<?
+$url = "https://api.datacue.co/v1/users";
+$data = array(
+  "user_id" => "u1",
+  "anonymous_ids" => "v1"
+  "email" => "xyz@abc.com",
+  "title" => "Mr",
+  "first_name" => "John",
+  "last_name" => "Smith",
+  "profile" => array(
+    "location" => "santiago",
+    "sex" => "male",
+    "segment" => "platinum"
+  ),
+  "cart" => array(
+    array("product_id" => "p1","variant_id" => "v1"),
+    array("product_id" => "p2","variant_id" => "v1")
+  )
+)
+
+$content = json_encode($data);
+
+$curl = curl_init($url);
+curl_setopt($curl, CURLOPT_HEADER, false);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER,
+        array(
+          "Content-type: application/json",
+          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+        ));
+curl_setopt($curl, CURLOPT_POST, true);
+curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+
+$json_response = curl_exec($curl);
+?>
+```
+
+```python
+import requests
+
+url = "https://api.datacue.co/v1/users"
+headers = {
+  "Content-type": "application/json",
+  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+}
+data = {
+   "user_id": "u1",
+   "anonymous_ids": "v1"
+   "email": "xyz@abc.com",
+   "title": "Mr",
+   "first_name": "John",
+   "last_name": "Smith",
+   "profile": {
+       "location": "santiago",
+       "sex": "male",
+       "segment": "platinum"
+   },
+   "cart": [
+     {
+       "product_id":"p1"
+       "variant_id":"v1"
+     },
+     {
+       "product_id":"p2"
+       "variant_id":"v1"
+     },
+  ]
+}
+
+response = requests.post(url, data=data, headers=headers)
+```
+
+```javascript--node
+const url = "https://api.datacue.co/v1/users";
+let data = {
+   "user_id": "u1",
+   "anonymous_ids": "v1"
+   "email": "xyz@abc.com",
+   "title": "Mr",
+   "first_name": "Noob",
+   "last_name": "Saibot",
+   "profile": {
+       "location": "santiago",
+       "sex": "male",
+       "segment": "platinum"
+   },
+    "cart": [
+     {
+       "product_id":"p1"
+       "variant_id":"v1"
+     },
+     {
+       "product_id":"p2"
+       "variant_id":"v1"
+     },
+  ]
+}
+
+// The parameters we are going to pass to the fetch function
+let fetchData = {
+    method: "POST",
+    body: data,
+    headers: new Headers(
+      "Content-Type", "application/json",
+      "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+      )
+}
+fetch(url, fetchData)
+.then((res) => res.json())
+.then((data) =>  console.log(data))
+.catch((err) => console.log(err))
+```
+
+> The above command returns a 201 response code
+
+
+## Update User
+
+When the user makes changes to their profile or when they configure any relevant preferences. For instance if they indicate their gender, this is very helpful for recommendations.
+
+```javascript--browser
+//backend only event (refer to the python, php or node tab)
+```
+
+```php
+<?
+$url = "https://api.datacue.co/v1/users/:user_id";
+$data = array(
+  "profile" => array(
+    "location" => "singapore"
+  )
+);
+
+$content = json_encode($data);
+
+$curl = curl_init($url);
+curl_setopt($curl, CURLOPT_HEADER, false);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER,
+        array(
+          "Content-type: application/json",
+          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+        ));
+curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
+curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+
+$json_response = curl_exec($curl);
+?>
+```
+
+```python
+import requests
+
+url = "https://api.datacue.co/v1/users/:user_id"
+headers = {
+  "Content-type": "application/json",
+  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+}
+data = {
+   "profile": {
+     "location": "singapore"
+   }
+ }
+
+response = requests.put(url, data=data, headers=headers)
+```
+
+```javascript--node
+const url = "https://api.datacue.co/v1/users/:user_id";
+let data = {
+   "profile": {
+     "location" : "singapore"
+   }
+ }
+// The parameters we are going to pass to the fetch function
+let fetchData = {
+    method: "PUT",
+    body: data,
+    headers: new Headers(
+      "Content-Type", "application/json",
+      "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+      )
+}
+fetch(url, fetchData)
+.then((res) => res.json())
+.then((data) =>  console.log(data))
+.catch((err) => console.log(err))
+```
+
+> The above command returns a 204 response code
+
+## Delete User
+
+When a user account is deleted from your system.
+
+```javascript--browser
+//backend only event (refer to the python, php or node tab)
+```
+
+```php
+<?
+$url = "https://api.datacue.co/v1/users/:user_id";
+
+$curl = curl_init($url);
+curl_setopt($curl, CURLOPT_HEADER, false);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER,
+        array(
+          "Content-type: application/json",
+          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+        ));
+curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+
+$json_response = curl_exec($curl);
+?>
+```
+
+```python
+import requests
+
+url = "https://api.datacue.co/v1/users/:user_id"
+headers = {
+  "Content-type": "application/json",
+  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+}
+
+response = requests.delete(url, headers=headers)
+```
+
+```javascript--node
+const url = "https://api.datacue.co/v1/users/:user_id";
+
+// The parameters we are going to pass to the fetch function
+let fetchData = {
+  method: "DELETE",
+  headers: new Headers(
+    "Content-Type", "application/json",
+    "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+  )
+}
+fetch(url, fetchData)
+.then((res) => res.json())
+.then((data) =>  console.log(data))
+.catch((err) => console.log(err))
+```
+
+> The above command returns a 204 response code
 
 # Batch
 
@@ -2048,7 +1944,7 @@ Use the batch endpoint if you want to do a bulk import, typically when you first
 
 Tell us what you're sending via the 'type' and insert an array of your requests in the batch field.
 
-Best explained with an example, you want to create 500 products in one go. As seen in the previous section, a product create payload looks like this:
+Best explained with an example: lets say you want to create 500 products in one go. As seen in the previous section, a product create payload looks like this:
 ```json
 {
   "product_id":"P1",
@@ -2087,6 +1983,14 @@ to submit multiple, just set type to "products" and insert an array of product r
 :-----:|:-----:|:-----:|:-----:
 type|String|Set to products, orders or users|Yes
 batch|Array|Array of objects you are sending|Yes
+
+```javascript--browser
+//backend only event (refer to the python, php or node tab)
+```
+
+```javascript--browser
+//backend only event (refer to the python, php or node tab)
+```
 
 ```php
 <?
@@ -2146,7 +2050,7 @@ data = {
 response = requests.post(url, data=data, headers=headers)
 ```
 
-```javascript
+```javascript--node
 const url = "https://api.datacue.co/v1/batch";
 let data = {
    "type": "users",
@@ -2206,6 +2110,10 @@ We will send you a status for each item you sent, so you can handle and resend o
 To make a batch update, make a `PUT` request to the batch endpoint in a similar format as above.
 
 
+```javascript--browser
+//backend only event (refer to the python, php or node tab)
+```
+
 ```php
 <?
 $url = "https://api.datacue.co/v1/batch";
@@ -2264,7 +2172,7 @@ data = {
 response = requests.put(url, data=data, headers=headers)
 ```
 
-```javascript
+```javascript--node
 const url = "https://api.datacue.co/v1/batch";
 let data = {
    "type": "users",
@@ -2330,6 +2238,10 @@ products|product_id and variant_id
 users|user_id
 
 
+```javascript--browser
+//backend only event (refer to the python, php or node tab)
+```
+
 ```php
 <?
 $url = "https://api.datacue.co/v1/batch";
@@ -2386,7 +2298,7 @@ data = {
 response = requests.delete(url, data=data, headers=headers)
 ```
 
-```javascript
+```javascript--node
 const url = "https://api.datacue.co/v1/batch";
 let data = {
    "type": "users",
