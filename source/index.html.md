@@ -18,13 +18,13 @@ Welcome to the DataCue API. This API documentation is to help you setup your e-c
 
 We have language bindings in Javascript, PHP, and Python. You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right. On a mobile device, switch the language using the hamburger menu on the rop left.
 
-# API URL
+## API URL
 The API is located at `https://api.datacue.co`
 If you have a staging / test version of your website, you can test your implementation with our staging API at `https://staging-api.datacue.co`.
 
-# Headers
+## Headers
 
-## Authentication
+### Authentication
 
 > To authorize, use this code:
 
@@ -67,18 +67,18 @@ The `events` endpoint only require an API key to be run from a browser.
 All other end-points require both an API key and API secret and should only be run from your backend to keep your API secret... a secret.
 We use HTTP Basic Authentication, which encodes the string `apikey:apisecret` into a token that is base64 encoded and prepended with the string "Basic ".
 
-### Browser Events (only API key):
+#### Browser Events (only API key):
 If your API key is `abc123`, then Base64 encode "abc123:", no password after the colon, and the final result will be "YWJjMTIzOg==".
 
 Your authorization header should look like `Authorization: Basic YWJjMTIzOg==`.
 
-### Backend End points (API Key and API Secret):
+#### Backend End points (API Key and API Secret):
 If your API key is `abc123`, and API secret is `secret123` then Base64 encode "abc123:secret123". The final result will be "Basic YWJjMTIzOnNlY3JldDEyMw==".
 
 Your authorization header should look like `Authorization: Basic YWJjMTIzOnNlY3JldDEyMw==`.
 
 
-## Content-Type
+### Content-Type
 
 You must set a content-type header to "application/json".
 `Content-Type: application/json`
@@ -137,7 +137,7 @@ Refer to the example json on the right to view the format.
 ```json
   "context": {
     "ip": "12.34.56.78",
-    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
+    "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
   }
 ```
 
@@ -516,7 +516,7 @@ fetch(url, fetchData)
 > The above command returns a 204 response code
 
 
-## Shopping Cart (View Cart, Add/Remove Item)
+## Shopping Cart Updated / Viewed
 
 Record activity on a users shopping cart, typically when the cart is viewed, or an item is added or removed.
 
@@ -610,7 +610,7 @@ fetch(url, fetchData)
 }
 ```
 
-## Search Page View
+## Search
 
 Record when a user performs a search on your website
 
@@ -866,7 +866,7 @@ fetch(url, fetchData)
 
 > The above command returns a 204 response code
 
-## Check Out (Start Order)
+## Start Order (Check Out Started)
 
 Record the moment the user initiates the check out process, typically from their shopping cart.
 
