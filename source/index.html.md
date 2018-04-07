@@ -16,7 +16,7 @@ search: true
 
 Welcome to the DataCue API. This API documentation is to help you setup your e-commerce store to apply real time personalization to your website.
 
-We have language bindings in Javascript, PHP, and Python. You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+We have language bindings in Javascript, PHP, and Python. You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right. On a mobile device, switch the language using the hamburger menu on the rop left.
 
 # API URL
 The API is located at `https://api.datacue.co`
@@ -85,7 +85,7 @@ You must set a content-type header to "application/json".
 
 # Browser Events
 
-URL: `POST` `/v1/events`
+URL: `POST` `https://api.datacue.co/v1/events`
 
 ## Authorization
 
@@ -1120,7 +1120,7 @@ fetch(url, fetchData)
 
 ## Create Product
 
-URL: `POST` `/v1/products`
+URL: `POST` `https://api.datacue.co/v1/products`
 
 Whenever a new product is created, send this request from your backend.
 
@@ -1276,7 +1276,7 @@ fetch(url, fetchData)
 
 ## Update Product
 
-URL: `PUT` `/v1/products/<product_id>/<variant_id>`
+URL: `PUT` `https://api.datacue.co/v1/products/<product_id>/<variant_id>`
 
 Whenever an existing product is updated such as image, name, price or new discounts, send this request from your backend.
 
@@ -1359,10 +1359,12 @@ fetch(url, fetchData)
 ## Delete Product
 
 Delete a variant
-URL: `DELETE` `/v1/products/<product_id>/<variant_id>`
+
+URL: `DELETE` `https://api.datacue.co/v1/products/<product_id>/<variant_id>`
 
 Delete a product and all associated variants
-URL: `DELETE` `/v1/products/<product_id>`
+
+URL: `DELETE` `https://api.datacue.co/v1/products/<product_id>`
 
 Delete a product on your system.
 
@@ -1426,7 +1428,7 @@ We recommend that you use your DataCue dashboard to upload and manage your banne
 
 ## Create Banner
 
-URL: `POST` `/v1/banners`
+URL: `POST` `https://api.datacue.co/v1/banners`
 
 When you create a new banner on your system.
 
@@ -1545,7 +1547,7 @@ fetch(url, fetchData)
 
 ## Update Banner
 
-URL: `PUT` `/v1/banners/<banner_id>`
+URL: `PUT` `https://api.datacue.co/v1/banners/<banner_id>`
 
 When you update your banner in any way like changing the banner image, link or assigned categories on your system. Does not apply if you're using DataCue to manage your banners.
 
@@ -1618,7 +1620,7 @@ fetch(url, fetchData)
 
 ## Delete Banner
 
-URL: `DELETE` `/v1/banners/<banner_id>`
+URL: `DELETE` `https://api.datacue.co/v1/banners/<banner_id>`
 
 When you delete a banner on your system. Does not apply if you're using DataCue to manage your banners.
 
@@ -1680,7 +1682,7 @@ fetch(url, fetchData)
 
 ## Create User
 
-URL: `POST` `/v1/users`
+URL: `POST` `https://api.datacue.co/v1/users`
 
 When a new user has successfully signed up / registered on your system.
 
@@ -1826,7 +1828,7 @@ fetch(url, fetchData)
 
 ## Update User
 
-URL: `PUT` `/v1/users/<user_id>`
+URL: `PUT` `https://api.datacue.co/v1/users/<user_id>`
 
 When the user makes changes to their profile or when they configure any relevant preferences. For instance if they indicate their gender, this is very helpful for recommendations.
 
@@ -1903,7 +1905,7 @@ fetch(url, fetchData)
 
 ## Delete User
 
-URL: `DELETE` `/v1/users/<user_id>`
+URL: `DELETE` `https://api.datacue.co/v1/users/<user_id>`
 
 When a user account is deleted from your system.
 
@@ -1964,7 +1966,7 @@ fetch(url, fetchData)
 
 ## Batch Create Banners / Orders / Products / Users
 
-URL: `POST` `/v1/batch`
+URL: `POST` `https://api.datacue.co/v1/batch`
 
 Use the batch endpoint if you want to do a bulk import, typically when you first start using DataCue and you want to add your historical orders, products or users.
 
@@ -2133,7 +2135,7 @@ We will send you a status for each item you sent, so you can handle and resend o
 
 ## Batch Update Banners / Products / Users
 
-URL: `PUT` `/v1/batch`
+URL: `PUT` `https://api.datacue.co/v1/batch`
 
 Update multiple banners, products or users. Note that orders cannot be updated only created or cancelled.
 
@@ -2256,7 +2258,7 @@ We will send you a status for each item you sent, so you can handle and resend o
 
 ## Batch Delete Banners/ Products / Users or Cancel Orders
 
-URL: `DELETE` `/v1/batch`
+URL: `DELETE` `https://api.datacue.co/v1/batch`
 
 Delete/cancel multiple items within one request. Products, banners and users will be deleted. Orders are an exception, 'DELETING' an order marks it as cancelled. Batch DELETE requests only require an id field as follows:
 
