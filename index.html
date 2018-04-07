@@ -205,7 +205,7 @@
       <script src="javascripts/all.js"></script>
   </head>
 
-  <body class="index" data-languages="[&quot;php&quot;,&quot;python&quot;,&quot;javascript&quot;]">
+  <body class="index" data-languages="[&quot;javascript--browser&quot;,&quot;php&quot;,&quot;python&quot;,&quot;javascript--node&quot;]">
     <a href="#" id="nav-button">
       <span>
         <img src="images/navbar.png" alt="Navbar" />
@@ -214,9 +214,10 @@
     <div class="toc-wrapper">
       <img src="images/logo.png" class="logo" alt="Logo" />
         <div class="lang-selector">
+              <a href="#" data-language-name="javascript--browser">javascript</a>
               <a href="#" data-language-name="php">php</a>
               <a href="#" data-language-name="python">python</a>
-              <a href="#" data-language-name="javascript">javascript</a>
+              <a href="#" data-language-name="javascript--node">node</a>
         </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
@@ -241,7 +242,7 @@
               </ul>
           </li>
           <li>
-            <a href="#events" class="toc-h1 toc-link" data-title="events">Events</a>
+            <a href="#browser-events" class="toc-h1 toc-link" data-title="browser-events">Browser Events</a>
               <ul class="toc-list-h2">
                   <li>
                     <a href="#authorization" class="toc-h2 toc-link" data-title="authorization">Authorization</a>
@@ -303,6 +304,31 @@
           </li>
           <li>
             <a href="#banner-management" class="toc-h1 toc-link" data-title="banner-management">Banner Management</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#create-banner" class="toc-h2 toc-link" data-title="create-banner">Create Banner</a>
+                  </li>
+                  <li>
+                    <a href="#update-banner" class="toc-h2 toc-link" data-title="update-banner">Update Banner</a>
+                  </li>
+                  <li>
+                    <a href="#delete-banner" class="toc-h2 toc-link" data-title="delete-banner">Delete Banner</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#user-management" class="toc-h1 toc-link" data-title="user-management">User Management</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#create-user" class="toc-h2 toc-link" data-title="create-user">Create User</a>
+                  </li>
+                  <li>
+                    <a href="#update-user" class="toc-h2 toc-link" data-title="update-user">Update User</a>
+                  </li>
+                  <li>
+                    <a href="#delete-user" class="toc-h2 toc-link" data-title="delete-user">Delete User</a>
+                  </li>
+              </ul>
           </li>
           <li>
             <a href="#batch" class="toc-h1 toc-link" data-title="batch">Batch</a>
@@ -338,46 +364,43 @@ If you have a staging / test version of your website, you can test your implemen
 <p>To authorize, use this code:</p>
 </blockquote>
 <pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
-<span class="nv">$encode</span> <span class="o">=</span> <span class="nb">base64_encode</span><span class="p">(</span><span class="s2">"API-key:"</span><span class="p">);</span> <span class="c1"># only API key for events endpoint
-</span>
-<span class="nv">$encode</span> <span class="o">=</span> <span class="nb">base64_encode</span><span class="p">(</span><span class="s2">"API-key:API-secret"</span><span class="p">);</span> <span class="c1"># apikey:apisecret for all other endpoints
-</span>
+
+<span class="nv">$encode</span> <span class="o">=</span> <span class="nb">base64_encode</span><span class="p">(</span><span class="s2">"API-key:API-secret"</span><span class="p">);</span>
+
 <span class="nv">$auth</span> <span class="o">=</span> <span class="s2">"Basic </span><span class="nv">$encode</span><span class="s2">"</span><span class="p">;</span>
 <span class="cp">?&gt;</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">base64</span>
-<span class="c"># for events endpoint, use apikey:</span>
-<span class="n">auth</span> <span class="o">=</span> <span class="s">"Basic {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">b</span><span class="s">"API-key:"</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">"ascii"</span><span class="p">))</span>
 
-<span class="c"># for other endpoints, use apikey:apisecret</span>
 <span class="n">auth</span> <span class="o">=</span> <span class="s">"Basic {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">b</span><span class="s">"API-key:API-secret"</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">"ascii"</span><span class="p">))</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="err">#</span> <span class="k">for</span> <span class="nx">events</span> <span class="nx">endpoint</span><span class="p">,</span> <span class="nx">use</span> <span class="nx">apikey</span><span class="p">:</span>
-<span class="kd">let</span> <span class="nx">auth</span> <span class="o">=</span> <span class="s2">`Basic </span><span class="p">${</span><span class="nx">btoa</span><span class="p">(</span><span class="s2">"API-key:"</span><span class="p">)}</span><span class="s2">`</span><span class="p">;</span>
-
-<span class="err">#</span> <span class="k">for</span> <span class="nx">other</span> <span class="nx">endpoints</span><span class="p">,</span> <span class="nx">use</span> <span class="nx">apikey</span><span class="p">:</span><span class="nx">apisecret</span>
-<span class="kd">let</span> <span class="nx">auth</span> <span class="o">=</span> <span class="s2">`Basic </span><span class="p">${</span><span class="nx">btoa</span><span class="p">(</span><span class="s2">"API-key:APi-secret"</span><span class="p">)}</span><span class="s2">`</span><span class="p">;</span>
+</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="kr">const</span> <span class="nx">auth</span> <span class="o">=</span> <span class="s2">`Basic </span><span class="p">${</span><span class="nx">btoa</span><span class="p">(</span><span class="s2">"API-key:API-secret"</span><span class="p">)}</span><span class="s2">`</span><span class="p">;</span>
+</code></pre><pre class="highlight javascript tab-javascript--browser"><code><span class="err">#</span> <span class="k">for</span> <span class="nx">events</span> <span class="nx">endpoint</span><span class="p">,</span> <span class="nx">use</span> <span class="nx">apikey</span><span class="p">:</span>
+<span class="kr">const</span> <span class="nx">auth</span> <span class="o">=</span> <span class="s2">`Basic </span><span class="p">${</span><span class="nx">btoa</span><span class="p">(</span><span class="s2">"API-key:"</span><span class="p">)}</span><span class="s2">`</span><span class="p">;</span>
 </code></pre>
 <blockquote>
-<p>Make sure to replace <code>API-key</code> with your API key.</p>
+<p>Make sure to replace <code>API-key</code> with your API key and <code>API-secret</code> with your API secret.</p>
 
 <p>Sample Headers</p>
 </blockquote>
 <pre class="highlight plaintext"><code>  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
   "Content-Type": "application/json"
 </code></pre>
-<p>You will receive a API key and an API secret. Public end-points like event tracking only needs an API key. Private end-points that define product, orders etc require both your API key and secret to authenticate.
+<p>You can find your API key and API secret in your <a href="https://app.datacue.co" title="Dashboard">DataCue Dashboard</a>. </p>
+
+<p>The <code>events</code> endpoint only require an API key to be run from a browser.
+All other end-points require both an API key and API secret and should only be run from your backend to keep your API secret... a secret.
 We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecret</code> into a token that is base64 encoded and prepended with the string &quot;Basic &quot;.</p>
-<h3 id='end-points-requring-api-key'>End points requring API Key:</h3>
+<h3 id='browser-events-only-api-key'>Browser Events (only API key):</h3>
 <p>If your API key is <code>abc123</code>, then Base64 encode &quot;abc123:&quot;, no password after the colon, and the final result will be &quot;YWJjMTIzOg==&quot;.</p>
 
 <p>Your authorization header should look like <code>Authorization: Basic YWJjMTIzOg==</code>.</p>
-<h3 id='end-points-requring-api-key-and-api-secret'>End points requring API Key and API Secret:</h3>
+<h3 id='backend-end-points-api-key-and-api-secret'>Backend End points (API Key and API Secret):</h3>
 <p>If your API key is <code>abc123</code>, and API secret is <code>secret123</code> then Base64 encode &quot;abc123:secret123&quot;. The final result will be &quot;Basic YWJjMTIzOnNlY3JldDEyMw==&quot;.</p>
 
 <p>Your authorization header should look like <code>Authorization: Basic YWJjMTIzOnNlY3JldDEyMw==</code>.</p>
 <h2 id='content-type'>Content-Type</h2>
 <p>You must set a content-type header to &quot;application/json&quot;.
 <code>Content-Type: application/json</code></p>
-<h1 id='events'>Events</h1><h2 id='authorization'>Authorization</h2>
+<h1 id='browser-events'>Browser Events</h1><h2 id='authorization'>Authorization</h2>
 <p>All events endpoints are meant to be sent from your user&#39;s browsers using our embedded script. This endpoint only requires your API Key.</p>
 <h2 id='format'>Format</h2>
 <p>All events are registered in a similar format. There are 4 main objects in each request.</p>
@@ -555,65 +578,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <td style="text-align: center">Yes</td>
 </tr>
 </tbody></table>
-<pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
-<span class="nv">$url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
-<span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
-  <span class="s2">"user"</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-    <span class="s2">"user_id"</span> <span class="o">=&gt;</span>  <span class="s2">"019mr8mf4r"</span><span class="p">,</span>
-    <span class="s2">"anonymous_id"</span> <span class="o">=&gt;</span> <span class="s2">"07d35b1a-5776-4ddf-8f1c-dd0d2db9c502"</span><span class="p">,</span>
-    <span class="s2">"profile"</span> <span class="o">=&gt;</span>  <span class="k">array</span><span class="p">(</span>
-      <span class="s2">"sex"</span> <span class="o">=&gt;</span> <span class="s2">"female"</span><span class="p">,</span>
-      <span class="s2">"location"</span> <span class="o">=&gt;</span> <span class="s2">"santiago"</span><span class="p">,</span>
-      <span class="s2">"segment"</span> <span class="o">=&gt;</span> <span class="s2">"platinum"</span>
-    <span class="p">)</span>
-  <span class="p">),</span>
-  <span class="s2">"event"</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-    <span class="s2">"type"</span> <span class="o">=&gt;</span> <span class="s2">"pageview"</span><span class="p">,</span>
-    <span class="s2">"subtype"</span> <span class="o">=&gt;</span> <span class="s2">"home"</span>
-  <span class="p">)</span>
-<span class="p">);</span>
-
-<span class="nv">$content</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
-
-<span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HEADER</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HTTPHEADER</span><span class="p">,</span>
-        <span class="k">array</span><span class="p">(</span>
-          <span class="s2">"Content-type: application/json"</span><span class="p">,</span>
-          <span class="s2">"Authorization"</span><span class="o">:</span> <span class="s2">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
-        <span class="p">));</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POST</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$content</span><span class="p">);</span>
-
-<span class="nv">$json_response</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
-<span class="cp">?&gt;</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
-
-<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.datacue.co/v1/events"</span>
-<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">"Content-type"</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">,</span>
-  <span class="s">"Authorization"</span><span class="p">:</span> <span class="s">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
-<span class="p">}</span>
-<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">"user"</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s">"user_id"</span><span class="p">:</span> <span class="s">"019mr8mf4r"</span><span class="p">,</span>
-    <span class="s">"anonymous_id"</span><span class="p">:</span> <span class="s">"07d35b1a-5776-4ddf-8f1c-dd0d2db9c502"</span><span class="p">,</span>
-    <span class="s">"profile"</span><span class="p">:</span> <span class="p">{</span>
-      <span class="s">"sex"</span><span class="p">:</span> <span class="s">"female"</span><span class="p">,</span>
-      <span class="s">"location"</span><span class="p">:</span> <span class="s">"santiago"</span><span class="p">,</span>
-      <span class="s">"segment"</span><span class="p">:</span> <span class="s">"platinum"</span>
-    <span class="p">}</span>
-  <span class="p">},</span>
-  <span class="s">"event"</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s">"type"</span><span class="p">:</span> <span class="s">"pageview"</span><span class="p">,</span>
-    <span class="s">"subtype"</span><span class="p">:</span> <span class="s">"home"</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
+<pre class="highlight javascript tab-javascript--browser"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
 <span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s2">"user"</span><span class="p">:</span> <span class="p">{</span>
     <span class="s2">"user_id"</span><span class="p">:</span> <span class="s2">"019mr8mf4r"</span><span class="p">,</span>
@@ -642,6 +607,11 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
 <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">))</span>
 <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">))</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
+<span class="c1">//browser only event (refer to the javascript tab)
+</span><span class="cp">?&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="c">#browser only event (refer to the javascript tab)</span>
+</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="c1">//browser only event (refer to the javascript tab)</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
@@ -797,69 +767,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <td style="text-align: center">Yes</td>
 </tr>
 </tbody></table>
-<pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
-<span class="nv">$url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
-<span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
-  <span class="s2">"user"</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-    <span class="s2">"user_id"</span> <span class="o">=&gt;</span>  <span class="s2">"019mr8mf4r"</span><span class="p">,</span>
-    <span class="s2">"anonymous_id"</span> <span class="o">=&gt;</span> <span class="s2">"07d35b1a-5776-4ddf-8f1c-dd0d2db9c502"</span><span class="p">,</span>
-    <span class="s2">"profile"</span> <span class="o">=&gt;</span>  <span class="k">array</span><span class="p">(</span>
-      <span class="s2">"sex"</span> <span class="o">=&gt;</span> <span class="s2">"female"</span><span class="p">,</span>
-      <span class="s2">"location"</span> <span class="o">=&gt;</span> <span class="s2">"santiago"</span><span class="p">,</span>
-      <span class="s2">"segment"</span> <span class="o">=&gt;</span> <span class="s2">"platinum"</span>
-    <span class="p">)</span>
-  <span class="p">),</span>
-  <span class="s2">"event"</span> <span class="o">=&gt;</span>  <span class="k">array</span><span class="p">(</span>
-    <span class="s2">"type"</span> <span class="o">=&gt;</span>  <span class="s2">"pageview"</span><span class="p">,</span>
-    <span class="s2">"subtype"</span> <span class="o">=&gt;</span>  <span class="s2">"product"</span><span class="p">,</span>
-    <span class="s2">"product_id"</span> <span class="o">=&gt;</span> <span class="s2">"p1"</span><span class="p">,</span>
-    <span class="s2">"variant_id"</span> <span class="o">=&gt;</span> <span class="s2">"v1"</span>
-  <span class="p">)</span>
-<span class="p">);</span>
-
-<span class="nv">$content</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
-
-<span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HEADER</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HTTPHEADER</span><span class="p">,</span>
-        <span class="k">array</span><span class="p">(</span>
-          <span class="s2">"Content-type: application/json"</span><span class="p">,</span>
-          <span class="s2">"Authorization"</span><span class="o">:</span> <span class="s2">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
-        <span class="p">));</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POST</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$content</span><span class="p">);</span>
-
-<span class="nv">$json_response</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
-<span class="cp">?&gt;</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
-
-<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.datacue.co/v1/events"</span>
-<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">"Content-type"</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">,</span>
-  <span class="s">"Authorization"</span><span class="p">:</span> <span class="s">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
-<span class="p">}</span>
-<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">"user"</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s">"user_id"</span><span class="p">:</span> <span class="s">"019mr8mf4r"</span><span class="p">,</span>
-    <span class="s">"anonymous_id"</span><span class="p">:</span> <span class="s">"07d35b1a-5776-4ddf-8f1c-dd0d2db9c502"</span><span class="p">,</span>
-    <span class="s">"profile"</span><span class="p">:</span> <span class="p">{</span>
-      <span class="s">"sex"</span><span class="p">:</span> <span class="s">"female"</span><span class="p">,</span>
-      <span class="s">"location"</span><span class="p">:</span> <span class="s">"santiago"</span><span class="p">,</span>
-      <span class="s">"segment"</span><span class="p">:</span> <span class="s">"platinum"</span>
-    <span class="p">}</span>
-  <span class="p">},</span>
-  <span class="s">"event"</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s">"type"</span><span class="p">:</span> <span class="s">"pageview"</span><span class="p">,</span>
-    <span class="s">"subtype"</span><span class="p">:</span> <span class="s">"product"</span><span class="p">,</span>
-    <span class="s">"product_id"</span><span class="p">:</span> <span class="s">"p1"</span><span class="p">,</span>
-    <span class="s">"variant_id"</span><span class="p">:</span> <span class="s">"v1"</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
+<pre class="highlight javascript tab-javascript--browser"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
 <span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s2">"user"</span><span class="p">:</span> <span class="p">{</span>
     <span class="s2">"user_id"</span><span class="p">:</span> <span class="s2">"019mr8mf4r"</span><span class="p">,</span>
@@ -890,6 +798,11 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
 <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">))</span>
 <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">))</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
+<span class="c1">//browser only event (refer to the javascript tab)
+</span><span class="cp">?&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="c">#browser only event (refer to the javascript tab)</span>
+</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="c1">//browser only event (refer to the javascript tab)</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
@@ -1013,67 +926,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <td style="text-align: center">Yes</td>
 </tr>
 </tbody></table>
-<pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
-<span class="nv">$url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
-<span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
-  <span class="s2">"user"</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-    <span class="s2">"user_id"</span> <span class="o">=&gt;</span>  <span class="s2">"019mr8mf4r"</span><span class="p">,</span>
-    <span class="s2">"anonymous_id"</span> <span class="o">=&gt;</span> <span class="s2">"07d35b1a-5776-4ddf-8f1c-dd0d2db9c502"</span><span class="p">,</span>
-    <span class="s2">"profile"</span> <span class="o">=&gt;</span>  <span class="k">array</span><span class="p">(</span>
-      <span class="s2">"sex"</span> <span class="o">=&gt;</span> <span class="s2">"female"</span><span class="p">,</span>
-      <span class="s2">"location"</span> <span class="o">=&gt;</span> <span class="s2">"santiago"</span><span class="p">,</span>
-      <span class="s2">"segment"</span> <span class="o">=&gt;</span> <span class="s2">"platinum"</span>
-    <span class="p">)</span>
-  <span class="p">),</span>
-  <span class="s2">"event"</span> <span class="o">=&gt;</span>  <span class="k">array</span><span class="p">(</span>
-    <span class="s2">"type"</span> <span class="o">=&gt;</span>  <span class="s2">"pageview"</span><span class="p">,</span>
-    <span class="s2">"subtype"</span> <span class="o">=&gt;</span>  <span class="s2">"category"</span><span class="p">,</span>
-    <span class="s2">"category_name"</span> <span class="o">=&gt;</span> <span class="s2">"living-room"</span>
-  <span class="p">)</span>
-<span class="p">);</span>
-
-<span class="nv">$content</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
-
-<span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HEADER</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HTTPHEADER</span><span class="p">,</span>
-        <span class="k">array</span><span class="p">(</span>
-          <span class="s2">"Content-type: application/json"</span><span class="p">,</span>
-          <span class="s2">"Authorization"</span><span class="o">:</span> <span class="s2">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
-        <span class="p">));</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POST</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$content</span><span class="p">);</span>
-
-<span class="nv">$json_response</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
-<span class="cp">?&gt;</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
-
-<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.datacue.co/v1/events"</span>
-<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">"Content-type"</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">,</span>
-  <span class="s">"Authorization"</span><span class="p">:</span> <span class="s">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
-<span class="p">}</span>
-<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">"user"</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s">"user_id"</span><span class="p">:</span> <span class="s">"019mr8mf4r"</span><span class="p">,</span>
-    <span class="s">"anonymous_id"</span><span class="p">:</span> <span class="s">"07d35b1a-5776-4ddf-8f1c-dd0d2db9c502"</span><span class="p">,</span>
-    <span class="s">"profile"</span><span class="p">:</span> <span class="p">{</span>
-      <span class="s">"sex"</span><span class="p">:</span> <span class="s">"female"</span><span class="p">,</span>
-      <span class="s">"location"</span><span class="p">:</span> <span class="s">"santiago"</span><span class="p">,</span>
-      <span class="s">"segment"</span><span class="p">:</span> <span class="s">"platinum"</span>
-    <span class="p">}</span>
-  <span class="p">},</span>
-  <span class="s">"event"</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s">"type"</span><span class="p">:</span> <span class="s">"pageview"</span><span class="p">,</span>
-    <span class="s">"subtype"</span><span class="p">:</span> <span class="s">"category"</span><span class="p">,</span>
-    <span class="s">"category_name"</span><span class="p">:</span> <span class="s">"living-room"</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
+<pre class="highlight javascript tab-javascript--browser"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
 <span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s2">"user"</span><span class="p">:</span> <span class="p">{</span>
     <span class="s2">"user_id"</span><span class="p">:</span> <span class="s2">"019mr8mf4r"</span><span class="p">,</span>
@@ -1103,6 +956,11 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
 <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">))</span>
 <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">))</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
+<span class="c1">//browser only event (refer to the javascript tab)
+</span><span class="cp">?&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="c">#browser only event (refer to the javascript tab)</span>
+</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="c1">//browser only event (refer to the javascript tab)</span>
 </code></pre>
 <blockquote>
 <p>The above command returns a 204 response code</p>
@@ -1131,74 +989,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <td style="text-align: center">Yes</td>
 </tr>
 </tbody></table>
-<pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
-<span class="nv">$url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
-<span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
-  <span class="s2">"user"</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-    <span class="s2">"user_id"</span> <span class="o">=&gt;</span>  <span class="s2">"019mr8mf4r"</span><span class="p">,</span>
-    <span class="s2">"anonymous_id"</span> <span class="o">=&gt;</span> <span class="s2">"07d35b1a-5776-4ddf-8f1c-dd0d2db9c502"</span><span class="p">,</span>
-    <span class="s2">"profile"</span> <span class="o">=&gt;</span>  <span class="k">array</span><span class="p">(</span>
-      <span class="s2">"sex"</span> <span class="o">=&gt;</span> <span class="s2">"female"</span>
-    <span class="p">)</span>
-  <span class="p">),</span>
-  <span class="s2">"event"</span> <span class="o">=&gt;</span>  <span class="k">array</span><span class="p">(</span>
-    <span class="s2">"type"</span> <span class="o">=&gt;</span> <span class="s2">"viewcart"</span><span class="p">,</span>
-      <span class="s2">"cart"</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-      <span class="k">array</span><span class="p">(</span><span class="s2">"product_id"</span> <span class="o">=&gt;</span> <span class="s2">"p1"</span><span class="p">,</span><span class="s2">"variant_id"</span> <span class="o">=&gt;</span> <span class="s2">"v1"</span><span class="p">),</span>
-      <span class="k">array</span><span class="p">(</span><span class="s2">"product_id"</span> <span class="o">=&gt;</span> <span class="s2">"p2"</span><span class="p">,</span><span class="s2">"variant_id"</span> <span class="o">=&gt;</span> <span class="s2">"v1"</span><span class="p">),</span>
-      <span class="k">array</span><span class="p">(</span><span class="s2">"product_id"</span> <span class="o">=&gt;</span> <span class="s2">"p3"</span><span class="p">,</span><span class="s2">"variant_id"</span> <span class="o">=&gt;</span> <span class="s2">"v1"</span><span class="p">)</span>
-  <span class="p">)</span>
-<span class="p">);</span>
-
-<span class="nv">$content</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
-
-<span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HEADER</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HTTPHEADER</span><span class="p">,</span>
-        <span class="k">array</span><span class="p">(</span>
-          <span class="s2">"Content-type: application/json"</span><span class="p">,</span>
-          <span class="s2">"Authorization"</span><span class="o">:</span> <span class="s2">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
-      <span class="p">));</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POST</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$content</span><span class="p">);</span>
-
-<span class="nv">$json_response</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
-<span class="cp">?&gt;</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
-
-<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.datacue.co/v1/events"</span>
-<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">"Content-type"</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">,</span>
-  <span class="s">"Authorization"</span><span class="p">:</span> <span class="s">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
-<span class="p">}</span>
-<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">"user"</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s">"user_id"</span><span class="p">:</span> <span class="s">"019mr8mf4r"</span><span class="p">,</span>
-    <span class="s">"anonymous_id"</span><span class="p">:</span> <span class="s">"07d35b1a-5776-4ddf-8f1c-dd0d2db9c502"</span><span class="p">,</span>
-    <span class="s">"profile"</span><span class="p">:</span> <span class="p">{</span>
-      <span class="s">"sex"</span><span class="p">:</span> <span class="s">"female"</span>
-    <span class="p">}</span>
-  <span class="p">},</span>
-  <span class="s">"event"</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s">"type"</span><span class="p">:</span> <span class="s">"viewcart"</span><span class="p">,</span>
-    <span class="s">"cart"</span><span class="p">:</span> <span class="p">[{</span>
-                <span class="s">"product_id"</span><span class="p">:</span><span class="s">"p1"</span><span class="p">,</span>
-                <span class="s">"variant_id"</span><span class="p">:</span><span class="s">"v1"</span>
-              <span class="p">},{</span>
-                <span class="s">"product_id"</span><span class="p">:</span><span class="s">"p2"</span><span class="p">,</span>
-                <span class="s">"variant_id"</span><span class="p">:</span><span class="s">"v1"</span>
-              <span class="p">},{</span>
-                <span class="s">"product_id"</span><span class="p">:</span><span class="s">"p3"</span><span class="p">,</span>
-                <span class="s">"variant_id"</span><span class="p">:</span><span class="s">"v1"</span>
-              <span class="p">}</span>
-          <span class="p">]</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
+<pre class="highlight javascript tab-javascript--browser"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
 <span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s2">"user"</span><span class="p">:</span> <span class="p">{</span>
     <span class="s2">"user_id"</span><span class="p">:</span> <span class="s2">"019mr8mf4r"</span><span class="p">,</span>
@@ -1235,6 +1026,11 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
 <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">))</span>
 <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">))</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
+<span class="c1">//browser only event (refer to the javascript tab)
+</span><span class="cp">?&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="c">#browser only event (refer to the javascript tab)</span>
+</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="c1">//browser only event (refer to the javascript tab)</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
@@ -1288,61 +1084,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <td style="text-align: center">Yes</td>
 </tr>
 </tbody></table>
-<pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
-<span class="nv">$url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
-<span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
-  <span class="s2">"user"</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-    <span class="s2">"user_id"</span> <span class="o">=&gt;</span>  <span class="s2">"019mr8mf4r"</span><span class="p">,</span>
-    <span class="s2">"anonymous_id"</span> <span class="o">=&gt;</span> <span class="s2">"07d35b1a-5776-4ddf-8f1c-dd0d2db9c502"</span><span class="p">,</span>
-    <span class="s2">"profile"</span> <span class="o">=&gt;</span>  <span class="k">array</span><span class="p">(</span>
-      <span class="s2">"sex"</span> <span class="o">=&gt;</span> <span class="s2">"female"</span>
-    <span class="p">)</span>
-  <span class="p">),</span>
-  <span class="s2">"event"</span> <span class="o">=&gt;</span>  <span class="k">array</span><span class="p">(</span>
-    <span class="s2">"type"</span> <span class="o">=&gt;</span> <span class="s2">"search"</span><span class="p">,</span>
-    <span class="s2">"term"</span> <span class="o">=&gt;</span> <span class="s2">"tables"</span>
-  <span class="p">)</span>
-<span class="p">);</span>
-
-<span class="nv">$content</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
-
-<span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HEADER</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HTTPHEADER</span><span class="p">,</span>
-        <span class="k">array</span><span class="p">(</span>
-          <span class="s2">"Content-type: application/json"</span><span class="p">,</span>
-          <span class="s2">"Authorization"</span><span class="o">:</span> <span class="s2">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
-        <span class="p">));</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POST</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$content</span><span class="p">);</span>
-
-<span class="nv">$json_response</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
-<span class="cp">?&gt;</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
-
-<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.datacue.co/v1/events"</span>
-<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">"Content-type"</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">,</span>
-  <span class="s">"Authorization"</span><span class="p">:</span> <span class="s">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
-<span class="p">}</span>
-<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">"user"</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s">"user_id"</span><span class="p">:</span> <span class="s">"019mr8mf4r"</span><span class="p">,</span>
-    <span class="s">"anonymous_id"</span><span class="p">:</span> <span class="s">"07d35b1a-5776-4ddf-8f1c-dd0d2db9c502"</span><span class="p">,</span>
-    <span class="s">"profile"</span><span class="p">:</span> <span class="p">{</span>
-      <span class="s">"sex"</span><span class="p">:</span> <span class="s">"female"</span>
-    <span class="p">}</span>
-  <span class="p">},</span>
-  <span class="s">"event"</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s">"type"</span><span class="p">:</span> <span class="s">"search"</span><span class="p">,</span>
-    <span class="s">"term"</span><span class="p">:</span> <span class="s">"tables"</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
+<pre class="highlight javascript tab-javascript--browser"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
 <span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s2">"user"</span><span class="p">:</span> <span class="p">{</span>
     <span class="s2">"user_id"</span><span class="p">:</span> <span class="s2">"019mr8mf4r"</span><span class="p">,</span>
@@ -1369,6 +1111,11 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
 <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">))</span>
 <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">))</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
+<span class="c1">//browser only event (refer to the javascript tab)
+</span><span class="cp">?&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="c">#browser only event (refer to the javascript tab)</span>
+</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="c1">//browser only event (refer to the javascript tab)</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
@@ -1414,79 +1161,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <td style="text-align: center">Yes</td>
 </tr>
 </tbody></table>
-<pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
-<span class="nv">$url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
-<span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
-  <span class="s2">"user"</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-    <span class="s2">"user_id"</span> <span class="o">=&gt;</span>  <span class="s2">"019mr8mf4r"</span><span class="p">,</span>
-    <span class="s2">"anonymous_id"</span> <span class="o">=&gt;</span> <span class="s2">"07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1"</span><span class="p">,</span>
-    <span class="s2">"profile"</span> <span class="o">=&gt;</span>  <span class="k">array</span><span class="p">(</span>
-      <span class="s2">"sex"</span> <span class="o">=&gt;</span> <span class="s2">"female"</span>
-    <span class="p">)</span>
-  <span class="p">),</span>
-  <span class="s2">"event"</span> <span class="o">=&gt;</span>  <span class="k">array</span><span class="p">(</span>
-    <span class="s2">"type"</span> <span class="o">=&gt;</span> <span class="s2">"wishlist"</span><span class="p">,</span>
-    <span class="s2">"wishlist"</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-      <span class="k">array</span><span class="p">(</span>
-        <span class="s2">"product_id"</span> <span class="o">=&gt;</span> <span class="s2">"p1"</span><span class="p">,</span>
-        <span class="s2">"variant_id"</span> <span class="o">=&gt;</span> <span class="s2">"v1"</span>
-      <span class="p">),</span>
-      <span class="k">array</span><span class="p">(</span>
-        <span class="s2">"product_id"</span> <span class="o">=&gt;</span> <span class="s2">"p2"</span><span class="p">,</span>
-        <span class="s2">"variant_id"</span> <span class="o">=&gt;</span> <span class="s2">"v2"</span>
-      <span class="p">)</span>
-    <span class="p">)</span>
-  <span class="p">)</span>
-<span class="p">);</span>
-
-<span class="nv">$content</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
-
-<span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HEADER</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HTTPHEADER</span><span class="p">,</span>
-        <span class="k">array</span><span class="p">(</span>
-          <span class="s2">"Content-type: application/json"</span><span class="p">,</span>
-          <span class="s2">"Authorization"</span><span class="o">:</span> <span class="s2">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
-        <span class="p">));</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_CUSTOMREQUEST</span><span class="p">,</span> <span class="s2">"PUT"</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$content</span><span class="p">);</span>
-
-<span class="nv">$json_response</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
-<span class="cp">?&gt;</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
-
-<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.datacue.co/v1/events"</span>
-<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">"Content-type"</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">,</span>
-  <span class="s">"Authorization"</span><span class="p">:</span> <span class="s">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
-<span class="p">}</span>
-<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">"user"</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s">"user_id"</span><span class="p">:</span> <span class="s">"019mr8mf4r"</span><span class="p">,</span>
-    <span class="s">"anonymous_id"</span><span class="p">:</span> <span class="s">"07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1"</span><span class="p">,</span>
-    <span class="s">"profile"</span><span class="p">:</span> <span class="p">{</span>
-      <span class="s">"sex"</span><span class="p">:</span> <span class="s">"female"</span>
-    <span class="p">}</span>
-  <span class="p">},</span>
-  <span class="s">"event"</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s">"type"</span><span class="p">:</span> <span class="s">"wishlist"</span><span class="p">,</span>
-    <span class="s">"wishlist"</span><span class="p">:</span> <span class="p">[</span>
-      <span class="p">{</span>
-        <span class="s">"product_id"</span><span class="p">:</span> <span class="s">"p1"</span><span class="p">,</span>
-        <span class="s">"variant_id"</span><span class="p">:</span> <span class="s">"v1"</span>
-      <span class="p">},</span>
-      <span class="p">{</span>
-        <span class="s">"product_id"</span><span class="p">:</span> <span class="s">"p2"</span><span class="p">,</span>
-        <span class="s">"variant_id"</span><span class="p">:</span> <span class="s">"v2"</span>
-      <span class="p">}</span>
-    <span class="p">]</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
+<pre class="highlight javascript tab-javascript--browser"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
 <span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s2">"user"</span><span class="p">:</span> <span class="p">{</span>
     <span class="s2">"user_id"</span><span class="p">:</span> <span class="s2">"019mr8mf4r"</span><span class="p">,</span>
@@ -1522,6 +1197,11 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
 <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">))</span>
 <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">))</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
+<span class="c1">//browser only event (refer to the javascript tab)
+</span><span class="cp">?&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="c">#browser only event (refer to the javascript tab)</span>
+</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="c1">//browser only event (refer to the javascript tab)</span>
 </code></pre>
 <blockquote>
 <p>The above command returns a 204 response code</p>
@@ -1556,63 +1236,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <td style="text-align: center">Yes</td>
 </tr>
 </tbody></table>
-<pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
-<span class="nv">$url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
-<span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
-  <span class="s2">"user"</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-    <span class="s2">"user_id"</span> <span class="o">=&gt;</span>  <span class="s2">"019mr8mf4r"</span><span class="p">,</span>
-    <span class="s2">"anonymous_id"</span> <span class="o">=&gt;</span> <span class="s2">"07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1"</span><span class="p">,</span>
-    <span class="s2">"profile"</span> <span class="o">=&gt;</span>  <span class="k">array</span><span class="p">(</span>
-      <span class="s2">"sex"</span> <span class="o">=&gt;</span> <span class="s2">"female"</span>
-    <span class="p">)</span>
-  <span class="p">),</span>
-  <span class="s2">"event"</span> <span class="o">=&gt;</span>  <span class="k">array</span><span class="p">(</span>
-    <span class="s2">"type"</span> <span class="o">=&gt;</span> <span class="s2">"click"</span><span class="p">,</span>
-    <span class="s2">"subtype"</span> <span class="o">=&gt;</span> <span class="s2">"banner"</span><span class="p">,</span>
-    <span class="s2">"banner_id"</span> <span class="o">=&gt;</span> <span class="s2">"b1"</span>
-  <span class="p">)</span>
-<span class="p">);</span>
-
-<span class="nv">$content</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
-
-<span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HEADER</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HTTPHEADER</span><span class="p">,</span>
-        <span class="k">array</span><span class="p">(</span>
-          <span class="s2">"Content-type: application/json"</span><span class="p">,</span>
-          <span class="s2">"Authorization"</span><span class="o">:</span> <span class="s2">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
-        <span class="p">));</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POST</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$content</span><span class="p">);</span>
-
-<span class="nv">$json_response</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
-<span class="cp">?&gt;</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
-
-<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.datacue.co/v1/events"</span>
-<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">"Content-type"</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">,</span>
-  <span class="s">"Authorization"</span><span class="p">:</span> <span class="s">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
-<span class="p">}</span>
-<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">"user"</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s">"user_id"</span><span class="p">:</span> <span class="s">"019mr8mf4r"</span><span class="p">,</span>
-    <span class="s">"anonymous_id"</span><span class="p">:</span> <span class="s">"07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1"</span><span class="p">,</span>
-    <span class="s">"profile"</span><span class="p">:</span> <span class="p">{</span>
-      <span class="s">"sex"</span><span class="p">:</span> <span class="s">"female"</span>
-    <span class="p">}</span>
-  <span class="p">},</span>
-  <span class="s">"event"</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s">"type"</span><span class="p">:</span> <span class="s">"click"</span><span class="p">,</span>
-    <span class="s">"subtype"</span><span class="p">:</span> <span class="s">"banner"</span><span class="p">,</span>
-    <span class="s">"banner_id"</span><span class="p">:</span> <span class="s">"b1"</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
+<pre class="highlight javascript tab-javascript--browser"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
 <span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s2">"user"</span><span class="p">:</span> <span class="p">{</span>
     <span class="s2">"user_id"</span><span class="p">:</span> <span class="s2">"019mr8mf4r"</span><span class="p">,</span>
@@ -1640,6 +1264,11 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
 <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">))</span>
 <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">))</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
+<span class="c1">//browser only event (refer to the javascript tab)
+</span><span class="cp">?&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="c">#browser only event (refer to the javascript tab)</span>
+</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="c1">//browser only event (refer to the javascript tab)</span>
 </code></pre>
 <blockquote>
 <p>The above command returns a 204 response code</p>
@@ -1674,63 +1303,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <td style="text-align: center">Yes</td>
 </tr>
 </tbody></table>
-<pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
-<span class="nv">$url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
-<span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
-  <span class="s2">"user"</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-    <span class="s2">"user_id"</span> <span class="o">=&gt;</span>  <span class="s2">"019mr8mf4r"</span><span class="p">,</span>
-    <span class="s2">"anonymous_id"</span> <span class="o">=&gt;</span> <span class="s2">"07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1"</span><span class="p">,</span>
-    <span class="s2">"profile"</span> <span class="o">=&gt;</span>  <span class="k">array</span><span class="p">(</span>
-      <span class="s2">"sex"</span> <span class="o">=&gt;</span> <span class="s2">"female"</span>
-    <span class="p">)</span>
-  <span class="p">),</span>
-  <span class="s2">"event"</span> <span class="o">=&gt;</span>  <span class="k">array</span><span class="p">(</span>
-    <span class="s2">"type"</span> <span class="o">=&gt;</span> <span class="s2">"click"</span><span class="p">,</span>
-    <span class="s2">"subtype"</span> <span class="o">=&gt;</span> <span class="s2">"product"</span><span class="p">,</span>
-    <span class="s2">"product_id"</span> <span class="o">=&gt;</span> <span class="s2">"p2"</span>
-  <span class="p">)</span>
-<span class="p">);</span>
-
-<span class="nv">$content</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
-
-<span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HEADER</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HTTPHEADER</span><span class="p">,</span>
-        <span class="k">array</span><span class="p">(</span>
-          <span class="s2">"Content-type: application/json"</span><span class="p">,</span>
-          <span class="s2">"Authorization"</span><span class="o">:</span> <span class="s2">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
-        <span class="p">));</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POST</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$content</span><span class="p">);</span>
-
-<span class="nv">$json_response</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
-<span class="cp">?&gt;</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
-
-<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.datacue.co/v1/events"</span>
-<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">"Content-type"</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">,</span>
-  <span class="s">"Authorization"</span><span class="p">:</span> <span class="s">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
-<span class="p">}</span>
-<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">"user"</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s">"user_id"</span><span class="p">:</span> <span class="s">"019mr8mf4r"</span><span class="p">,</span>
-    <span class="s">"anonymous_id"</span><span class="p">:</span> <span class="s">"07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1"</span><span class="p">,</span>
-    <span class="s">"profile"</span><span class="p">:</span> <span class="p">{</span>
-      <span class="s">"sex"</span><span class="p">:</span> <span class="s">"female"</span>
-    <span class="p">}</span>
-  <span class="p">},</span>
-  <span class="s">"event"</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s">"type"</span><span class="p">:</span> <span class="s">"click"</span><span class="p">,</span>
-    <span class="s">"subtype"</span><span class="p">:</span> <span class="s">"product"</span><span class="p">,</span>
-    <span class="s">"product_id"</span><span class="p">:</span> <span class="s">"p2"</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
+<pre class="highlight javascript tab-javascript--browser"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
 <span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s2">"user"</span><span class="p">:</span> <span class="p">{</span>
     <span class="s2">"user_id"</span><span class="p">:</span> <span class="s2">"019mr8mf4r"</span><span class="p">,</span>
@@ -1758,6 +1331,11 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
 <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">))</span>
 <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">))</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
+<span class="c1">//browser only event (refer to the javascript tab)
+</span><span class="cp">?&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="c">#browser only event (refer to the javascript tab)</span>
+</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="c1">//browser only event (refer to the javascript tab)</span>
 </code></pre>
 <blockquote>
 <p>The above command returns a 204 response code</p>
@@ -1798,81 +1376,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <td style="text-align: center">Yes</td>
 </tr>
 </tbody></table>
-<pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
-<span class="nv">$url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
-<span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
-  <span class="s2">"user"</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-    <span class="s2">"user_id"</span> <span class="o">=&gt;</span>  <span class="s2">"019mr8mf4r"</span><span class="p">,</span>
-    <span class="s2">"anonymous_id"</span> <span class="o">=&gt;</span> <span class="s2">"07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1a1"</span><span class="p">,</span>
-    <span class="s2">"profile"</span> <span class="o">=&gt;</span>  <span class="k">array</span><span class="p">(</span>
-      <span class="s2">"sex"</span> <span class="o">=&gt;</span> <span class="s2">"female"</span>
-    <span class="p">)</span>
-  <span class="p">),</span>
-  <span class="s2">"event"</span> <span class="o">=&gt;</span>  <span class="k">array</span><span class="p">(</span>
-    <span class="s2">"type"</span> <span class="o">=&gt;</span> <span class="s2">"order"</span><span class="p">,</span>
-    <span class="s2">"subtype"</span> <span class="o">=&gt;</span> <span class="s2">"started"</span><span class="p">,</span>
-    <span class="s2">"order_id"</span> <span class="o">=&gt;</span> <span class="s2">"o1"</span><span class="p">,</span>
-    <span class="s2">"cart"</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-      <span class="k">array</span><span class="p">(</span>
-        <span class="s2">"product_id"</span> <span class="o">=&gt;</span> <span class="s2">"p1"</span><span class="p">,</span>
-        <span class="s2">"variant"</span> <span class="o">=&gt;</span> <span class="s2">"v1"</span><span class="p">,</span>
-        <span class="s2">"quantity"</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="s2">"price"</span> <span class="o">=&gt;</span> <span class="mi">24</span><span class="p">,</span>
-        <span class="s2">"currency"</span> <span class="o">=&gt;</span> <span class="s2">"USD"</span>
-      <span class="p">)</span>
-    <span class="p">)</span>
-  <span class="p">)</span>
-<span class="p">);</span>
-
-<span class="nv">$content</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
-
-<span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HEADER</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HTTPHEADER</span><span class="p">,</span>
-        <span class="k">array</span><span class="p">(</span>
-          <span class="s2">"Content-type: application/json"</span><span class="p">,</span>
-          <span class="s2">"Authorization"</span><span class="o">:</span> <span class="s2">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
-        <span class="p">));</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POST</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$content</span><span class="p">);</span>
-
-<span class="nv">$json_response</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
-<span class="cp">?&gt;</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
-
-<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.datacue.co/v1/events"</span>
-<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">"Content-type"</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">,</span>
-  <span class="s">"Authorization"</span><span class="p">:</span> <span class="s">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
-<span class="p">}</span>
-<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">"user"</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s">"user_id"</span><span class="p">:</span> <span class="s">"019mr8mf4r"</span><span class="p">,</span>
-    <span class="s">"anonymous_id"</span><span class="p">:</span> <span class="s">"07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1"</span><span class="p">,</span>
-    <span class="s">"profile"</span><span class="p">:</span> <span class="p">{</span>
-      <span class="s">"sex"</span><span class="p">:</span> <span class="s">"female"</span>
-    <span class="p">}</span>
-  <span class="p">},</span>
-  <span class="s">"event"</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s">"type"</span><span class="p">:</span> <span class="s">"order"</span><span class="p">,</span>
-    <span class="s">"subtype"</span><span class="p">:</span> <span class="s">"started"</span><span class="p">,</span>
-    <span class="s">"order_id"</span><span class="p">:</span> <span class="s">"o1"</span><span class="p">,</span>
-    <span class="s">"cart"</span><span class="p">:</span> <span class="p">[</span>
-      <span class="p">{</span>
-        <span class="s">"product_id"</span><span class="p">:</span> <span class="s">"p1"</span><span class="p">,</span>
-        <span class="s">"variant"</span><span class="p">:</span> <span class="s">"v1"</span><span class="p">,</span>
-        <span class="s">"quantity"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="s">"price"</span><span class="p">:</span> <span class="mi">24</span><span class="p">,</span>
-        <span class="s">"currency"</span><span class="p">:</span> <span class="s">"USD"</span>
-      <span class="p">}</span>
-    <span class="p">]</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
+<pre class="highlight javascript tab-javascript--browser"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
 <span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s2">"user"</span><span class="p">:</span> <span class="p">{</span>
     <span class="s2">"user_id"</span><span class="p">:</span> <span class="s2">"019mr8mf4r"</span><span class="p">,</span>
@@ -1909,6 +1413,11 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
 <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">))</span>
 <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">))</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
+<span class="c1">//browser only event (refer to the javascript tab)
+</span><span class="cp">?&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="c">#browser only event (refer to the javascript tab)</span>
+</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="c1">//browser only event (refer to the javascript tab)</span>
 </code></pre>
 <blockquote>
 <p>The above command returns a 204 response code</p>
@@ -1955,83 +1464,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <td style="text-align: center">No</td>
 </tr>
 </tbody></table>
-<pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
-<span class="nv">$url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
-<span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
-  <span class="s2">"user"</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-    <span class="s2">"user_id"</span> <span class="o">=&gt;</span>  <span class="s2">"019mr8mf4r"</span><span class="p">,</span>
-    <span class="s2">"anonymous_id"</span> <span class="o">=&gt;</span> <span class="s2">"07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1"</span><span class="p">,</span>
-    <span class="s2">"profile"</span> <span class="o">=&gt;</span>  <span class="k">array</span><span class="p">(</span>
-      <span class="s2">"sex"</span> <span class="o">=&gt;</span> <span class="s2">"female"</span>
-    <span class="p">)</span>
-  <span class="p">),</span>
-  <span class="s2">"event"</span> <span class="o">=&gt;</span>  <span class="k">array</span><span class="p">(</span>
-    <span class="s2">"type"</span> <span class="o">=&gt;</span> <span class="s2">"order"</span><span class="p">,</span>
-    <span class="s2">"subtype"</span> <span class="o">=&gt;</span> <span class="s2">"completed"</span><span class="p">,</span>
-    <span class="s2">"order_id"</span> <span class="o">=&gt;</span> <span class="s2">"o1"</span><span class="p">,</span>
-    <span class="s2">"payment_method"</span> <span class="o">=&gt;</span> <span class="s2">"credit card"</span><span class="p">,</span>
-    <span class="s2">"cart"</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-      <span class="k">array</span><span class="p">(</span>
-        <span class="s2">"product_id"</span> <span class="o">=&gt;</span> <span class="s2">"p1"</span><span class="p">,</span>
-        <span class="s2">"variant_id"</span> <span class="o">=&gt;</span> <span class="s2">"v1"</span><span class="p">,</span>
-        <span class="s2">"quantity"</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="s2">"unit_price"</span> <span class="o">=&gt;</span> <span class="mi">24000</span><span class="p">,</span>
-        <span class="s2">"currency"</span> <span class="o">=&gt;</span> <span class="s2">"USD"</span>
-      <span class="p">)</span>
-    <span class="p">)</span>
-  <span class="p">)</span>
-<span class="p">);</span>
-
-<span class="nv">$content</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
-
-<span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HEADER</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HTTPHEADER</span><span class="p">,</span>
-        <span class="k">array</span><span class="p">(</span>
-          <span class="s2">"Content-type: application/json"</span><span class="p">,</span>
-          <span class="s2">"Authorization"</span><span class="o">:</span> <span class="s2">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
-        <span class="p">));</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POST</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$content</span><span class="p">);</span>
-
-<span class="nv">$json_response</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
-<span class="cp">?&gt;</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
-
-<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.datacue.co/v1/events"</span>
-<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">"Content-type"</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">,</span>
-  <span class="s">"Authorization"</span><span class="p">:</span> <span class="s">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
-<span class="p">}</span>
-<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">"user"</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s">"user_id"</span><span class="p">:</span> <span class="s">"019mr8mf4r"</span><span class="p">,</span>
-    <span class="s">"anonymous_id"</span><span class="p">:</span> <span class="s">"07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1"</span><span class="p">,</span>
-    <span class="s">"profile"</span><span class="p">:</span> <span class="p">{</span>
-      <span class="s">"sex"</span><span class="p">:</span> <span class="s">"female"</span>
-    <span class="p">}</span>
-  <span class="p">},</span>
-  <span class="s">"event"</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s">"type"</span><span class="p">:</span> <span class="s">"order"</span><span class="p">,</span>
-    <span class="s">"subtype"</span><span class="p">:</span> <span class="s">"completed"</span><span class="p">,</span>
-    <span class="s">"order_id"</span><span class="p">:</span> <span class="s">"o1"</span><span class="p">,</span>
-    <span class="s">"payment_method"</span><span class="p">:</span> <span class="s">"credit card"</span><span class="p">,</span>
-    <span class="s">"cart"</span><span class="p">:</span> <span class="p">[</span>
-      <span class="p">{</span>
-        <span class="s">"product_id"</span><span class="p">:</span> <span class="s">"p1"</span><span class="p">,</span>
-        <span class="s">"variant_id"</span><span class="p">:</span> <span class="s">"v1"</span><span class="p">,</span>
-        <span class="s">"quantity"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="s">"unit_price"</span><span class="p">:</span> <span class="mi">24000</span><span class="p">,</span>
-        <span class="s">"currency"</span><span class="p">:</span> <span class="s">"USD"</span>
-      <span class="p">}</span>
-    <span class="p">]</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
+<pre class="highlight javascript tab-javascript--browser"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
 <span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s2">"user"</span><span class="p">:</span> <span class="p">{</span>
     <span class="s2">"user_id"</span><span class="p">:</span> <span class="s2">"019mr8mf4r"</span><span class="p">,</span>
@@ -2070,6 +1503,11 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
 <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">))</span>
 <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">))</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
+<span class="c1">//browser only event (refer to the javascript tab)
+</span><span class="cp">?&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="c">#browser only event (refer to the javascript tab)</span>
+</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="c1">//browser only event (refer to the javascript tab)</span>
 </code></pre>
 <blockquote>
 <p>The above command returns a 204 response code</p>
@@ -2104,63 +1542,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <td style="text-align: center">Yes</td>
 </tr>
 </tbody></table>
-<pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
-<span class="nv">$url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
-<span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
-  <span class="s2">"user"</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-    <span class="s2">"user_id"</span> <span class="o">=&gt;</span>  <span class="s2">"019mr8mf4r"</span><span class="p">,</span>
-    <span class="s2">"anonymous_id"</span> <span class="o">=&gt;</span> <span class="s2">"07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1"</span><span class="p">,</span>
-    <span class="s2">"profile"</span> <span class="o">=&gt;</span>  <span class="k">array</span><span class="p">(</span>
-      <span class="s2">"sex"</span> <span class="o">=&gt;</span> <span class="s2">"female"</span>
-    <span class="p">)</span>
-  <span class="p">),</span>
-  <span class="s2">"event"</span> <span class="o">=&gt;</span>  <span class="k">array</span><span class="p">(</span>
-    <span class="s2">"type"</span> <span class="o">=&gt;</span> <span class="s2">"order"</span><span class="p">,</span>
-    <span class="s2">"subtype"</span> <span class="o">=&gt;</span> <span class="s2">"cancelled"</span><span class="p">,</span>
-    <span class="s2">"order_id"</span> <span class="o">=&gt;</span> <span class="s2">"o1"</span>
-  <span class="p">)</span>
-<span class="p">);</span>
-
-<span class="nv">$content</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
-
-<span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HEADER</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HTTPHEADER</span><span class="p">,</span>
-        <span class="k">array</span><span class="p">(</span>
-          <span class="s2">"Content-type: application/json"</span><span class="p">,</span>
-          <span class="s2">"Authorization"</span><span class="o">:</span> <span class="s2">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
-        <span class="p">));</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POST</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$content</span><span class="p">);</span>
-
-<span class="nv">$json_response</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
-<span class="cp">?&gt;</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
-
-<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.datacue.co/v1/events"</span>
-<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">"Content-type"</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">,</span>
-  <span class="s">"Authorization"</span><span class="p">:</span> <span class="s">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
-<span class="p">}</span>
-<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">"user"</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s">"user_id"</span><span class="p">:</span> <span class="s">"019mr8mf4r"</span><span class="p">,</span>
-    <span class="s">"anonymous_id"</span><span class="p">:</span> <span class="s">"07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1"</span><span class="p">,</span>
-    <span class="s">"profile"</span><span class="p">:</span> <span class="p">{</span>
-      <span class="s">"sex"</span><span class="p">:</span> <span class="s">"female"</span>
-    <span class="p">}</span>
-  <span class="p">},</span>
-  <span class="s">"event"</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s">"type"</span><span class="p">:</span> <span class="s">"order"</span><span class="p">,</span>
-    <span class="s">"subtype"</span><span class="p">:</span> <span class="s">"cancelled"</span><span class="p">,</span>
-    <span class="s">"order_id"</span><span class="p">:</span> <span class="s">"o1"</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
+<pre class="highlight javascript tab-javascript--browser"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
 <span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s2">"user"</span><span class="p">:</span> <span class="p">{</span>
     <span class="s2">"user_id"</span><span class="p">:</span> <span class="s2">"019mr8mf4r"</span><span class="p">,</span>
@@ -2188,6 +1570,11 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
 <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">))</span>
 <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">))</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
+<span class="c1">//browser only event (refer to the javascript tab)
+</span><span class="cp">?&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="c">#browser only event (refer to the javascript tab)</span>
+</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="c1">//browser only event (refer to the javascript tab)</span>
 </code></pre>
 <blockquote>
 <p>The above command returns a 204 response code</p>
@@ -2210,59 +1597,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <td style="text-align: center">Yes</td>
 </tr>
 </tbody></table>
-<pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
-<span class="nv">$url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
-<span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
-  <span class="s2">"user"</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-    <span class="s2">"user_id"</span> <span class="o">=&gt;</span>  <span class="s2">"019mr8mf4r"</span><span class="p">,</span>
-    <span class="s2">"anonymous_id"</span> <span class="o">=&gt;</span> <span class="s2">"07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1"</span><span class="p">,</span>
-    <span class="s2">"profile"</span> <span class="o">=&gt;</span>  <span class="k">array</span><span class="p">(</span>
-      <span class="s2">"sex"</span> <span class="o">=&gt;</span> <span class="s2">"female"</span>
-    <span class="p">)</span>
-  <span class="p">),</span>
-  <span class="s2">"event"</span> <span class="o">=&gt;</span>  <span class="k">array</span><span class="p">(</span>
-    <span class="s2">"type"</span> <span class="o">=&gt;</span> <span class="s2">"login"</span>
-  <span class="p">)</span>
-<span class="p">);</span>
-
-<span class="nv">$content</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
-
-<span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HEADER</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HTTPHEADER</span><span class="p">,</span>
-        <span class="k">array</span><span class="p">(</span>
-          <span class="s2">"Content-type: application/json"</span><span class="p">,</span>
-          <span class="s2">"Authorization"</span><span class="o">:</span> <span class="s2">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
-        <span class="p">));</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POST</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$content</span><span class="p">);</span>
-
-<span class="nv">$json_response</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
-<span class="cp">?&gt;</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
-
-<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.datacue.co/v1/events"</span>
-<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">"Content-type"</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">,</span>
-  <span class="s">"Authorization"</span><span class="p">:</span> <span class="s">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
-<span class="p">}</span>
-<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">"user"</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s">"user_id"</span><span class="p">:</span> <span class="s">"019mr8mf4r"</span><span class="p">,</span>
-    <span class="s">"anonymous_id"</span><span class="p">:</span> <span class="s">"07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1"</span><span class="p">,</span>
-    <span class="s">"profile"</span><span class="p">:</span> <span class="p">{</span>
-      <span class="s">"sex"</span><span class="p">:</span> <span class="s">"female"</span>
-    <span class="p">}</span>
-  <span class="p">},</span>
-  <span class="s">"event"</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s">"type"</span><span class="p">:</span> <span class="s">"login"</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
+<pre class="highlight javascript tab-javascript--browser"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
 <span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s2">"user"</span><span class="p">:</span> <span class="p">{</span>
     <span class="s2">"user_id"</span><span class="p">:</span> <span class="s2">"019mr8mf4r"</span><span class="p">,</span>
@@ -2288,6 +1623,11 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
 <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">))</span>
 <span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">))</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
+<span class="c1">//browser only event (refer to the javascript tab)
+</span><span class="cp">?&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="c">#browser only event (refer to the javascript tab)</span>
+</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="c1">//browser only event (refer to the javascript tab)</span>
 </code></pre>
 <blockquote>
 <p>The above command returns a 204 response code</p>
@@ -2412,7 +1752,8 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <td style="text-align: center">No</td>
 </tr>
 </tbody></table>
-<pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
+<pre class="highlight javascript tab-javascript--browser"><code><span class="c1">//backend only event (refer to the python, php or node tab)</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
 <span class="nv">$url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/products"</span><span class="p">;</span>
 <span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
   <span class="s2">"product_id"</span> <span class="o">=&gt;</span> <span class="s2">"p1"</span><span class="p">,</span>
@@ -2487,7 +1828,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
  <span class="p">}</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/products"</span><span class="p">;</span>
+</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/products"</span><span class="p">;</span>
 <span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
    <span class="s2">"product_id"</span><span class="p">:</span> <span class="s2">"p1"</span><span class="p">,</span>
    <span class="s2">"variant_id"</span><span class="p">:</span> <span class="s2">"v1"</span><span class="p">,</span>
@@ -2533,7 +1874,8 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <p>Whenever an existing product is updated such as image, name, price or new discounts, send this request from your backend.</p>
 
 <p>Remember that when an order is completed this is also a product update as the stock level of the product will change. Sending us a product update after an order will ensure that if a product is out of stock, it is no longer recommended to other users.</p>
-<pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
+<pre class="highlight javascript tab-javascript--browser"><code><span class="c1">//backend only event (refer to the python, php or node tab)</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
 <span class="nv">$url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/products/:product_id/:variant_id"</span><span class="p">;</span>
 <span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
   <span class="s2">"category_1"</span> <span class="o">=&gt;</span> <span class="s2">"men"</span><span class="p">,</span>
@@ -2572,7 +1914,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
  <span class="p">}</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/products/:product_id/:variant_id"</span><span class="p">;</span>
+</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/products/:product_id/:variant_id"</span><span class="p">;</span>
 <span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
    <span class="s2">"category_1"</span><span class="p">:</span> <span class="s2">"men"</span><span class="p">,</span>
    <span class="s2">"category_2"</span><span class="p">:</span> <span class="s2">"jeans"</span><span class="p">,</span>
@@ -2598,7 +1940,8 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 </blockquote>
 <h2 id='delete-product'>Delete Product</h2>
 <p>When you delete a banner on your system. Does not apply if you&#39;re using DataCue to manage your banners.</p>
-<pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
+<pre class="highlight javascript tab-javascript--browser"><code><span class="c1">//backend only event (refer to the python, php or node tab)</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
 <span class="nv">$url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/products/:product_id/:variant_id"</span><span class="p">;</span>
 
 <span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
@@ -2622,7 +1965,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <span class="p">}</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/products/:product_id/:variant_id"</span><span class="p">;</span>
+</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/products/:product_id/:variant_id"</span><span class="p">;</span>
 
 <span class="c1">// The parameters we are going to pass to the fetch function</span>
 <span class="kd">let</span> <span class="nx">fetchData</span> <span class="o">=</span> <span class="p">{</span>
@@ -2641,13 +1984,584 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <p>The above command returns a 204 response code</p>
 </blockquote>
 <h1 id='banner-management'>Banner Management</h1>
-<p>We recommend that you use your DataCue dashboard to upload and manage your banners. However, If you want DataCue to use your existing banner management solution, you can use these endpoints to do so.</p>
+<p>We recommend that you use your DataCue dashboard to upload and manage your banners. However, if you want DataCue to use your existing banner management solution, you can use these endpoints to do so.</p>
+<h2 id='create-banner'>Create Banner</h2>
+<p>When you create a new banner on your system.</p>
+
+<table><thead>
+<tr>
+<th style="text-align: center"><strong>Field</strong></th>
+<th style="text-align: center"><strong>Data Type</strong></th>
+<th style="text-align: center"><strong>Description</strong></th>
+<th style="text-align: center"><strong>Mandatory</strong></th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: center">banner_id</td>
+<td style="text-align: center">String</td>
+<td style="text-align: center">The product id or SKU number</td>
+<td style="text-align: center">Yes</td>
+</tr>
+<tr>
+<td style="text-align: center">type</td>
+<td style="text-align: center">String</td>
+<td style="text-align: center">The type of banner. Set to &#39;main&#39; for main banner or &#39;sub&#39; for sub banner</td>
+<td style="text-align: center">Yes</td>
+</tr>
+<tr>
+<td style="text-align: center">name</td>
+<td style="text-align: center">String</td>
+<td style="text-align: center">Friendly name for the banner</td>
+<td style="text-align: center">No</td>
+</tr>
+<tr>
+<td style="text-align: center">category_1</td>
+<td style="text-align: center">String</td>
+<td style="text-align: center">The top category level this product belongs to. In a fashion store, this could be &#39;Men&#39; , &#39;Women&#39; or &#39;Children&#39;&#39;.</td>
+<td style="text-align: center">Yes</td>
+</tr>
+<tr>
+<td style="text-align: center">category_2</td>
+<td style="text-align: center">String</td>
+<td style="text-align: center">The second category level this product belongs to. In a fashion store, this could be &#39;Shoes or &#39;Dresses&#39;</td>
+<td style="text-align: center">No</td>
+</tr>
+<tr>
+<td style="text-align: center">category_3</td>
+<td style="text-align: center">String</td>
+<td style="text-align: center">The third category level this product belongs to. In a fashion store, this could be &#39;Sports&#39; or &#39;Sandals&#39;</td>
+<td style="text-align: center">No</td>
+</tr>
+<tr>
+<td style="text-align: center">category_4</td>
+<td style="text-align: center">String</td>
+<td style="text-align: center">The fourth category level this product belongs to. In a fashion store, this could be &#39;Running shoes&#39;</td>
+<td style="text-align: center">No</td>
+</tr>
+<tr>
+<td style="text-align: center">photo_url</td>
+<td style="text-align: center">String</td>
+<td style="text-align: center">URL of the banner image, you can use relative URLs as this is purely for your front-end to request the image</td>
+<td style="text-align: center">Yes</td>
+</tr>
+<tr>
+<td style="text-align: center">link</td>
+<td style="text-align: center">String</td>
+<td style="text-align: center">Which page to take the user to when they click on the banner on your website. Typically a collection or catalog page for the banner&#39;s associated category.</td>
+<td style="text-align: center">Yes</td>
+</tr>
+<tr>
+<td style="text-align: center">extra</td>
+<td style="text-align: center">JSON Object</td>
+<td style="text-align: center">Any other information you would like to use about your banners. For instance, you can store URLs of a mobile optimized version of your banner here.</td>
+<td style="text-align: center">No</td>
+</tr>
+</tbody></table>
+<pre class="highlight javascript tab-javascript--browser"><code><span class="c1">//backend only event (refer to the python, php or node tab)</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
+<span class="nv">$url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/banners"</span><span class="p">;</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+  <span class="s2">"banner_id"</span> <span class="o">=&gt;</span> <span class="s2">"b1"</span><span class="p">,</span>
+  <span class="s2">"type"</span> <span class="o">=&gt;</span> <span class="s2">"sub"</span><span class="p">,</span>
+  <span class="s2">"title"</span> <span class="o">=&gt;</span> <span class="s2">"friendly name for b1"</span><span class="p">,</span>
+  <span class="s2">"category_1"</span> <span class="o">=&gt;</span> <span class="s2">"women"</span><span class="p">,</span>
+  <span class="s2">"category_2"</span> <span class="o">=&gt;</span> <span class="s2">"summer"</span><span class="p">,</span>
+  <span class="s2">"category_3"</span> <span class="o">=&gt;</span> <span class="s2">"dresses"</span><span class="p">,</span>
+  <span class="s2">"category_4"</span> <span class="o">=&gt;</span> <span class="s2">"casual"</span><span class="p">,</span>
+  <span class="s2">"photos"</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s2">"mobile"</span> <span class="o">=&gt;</span> <span class="s2">"http://s3.amazon.com/photoMobile.png"</span><span class="p">,</span>
+    <span class="s2">"desktop"</span> <span class="o">=&gt;</span> <span class="s2">"http://s3.amazon.com/photoDesktop.png"</span>
+  <span class="p">),</span>
+  <span class="s2">"link"</span> <span class="o">=&gt;</span> <span class="s2">"path/to/anything"</span>
+<span class="p">);</span>
+
+<span class="nv">$content</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+
+<span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HEADER</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HTTPHEADER</span><span class="p">,</span>
+        <span class="k">array</span><span class="p">(</span>
+          <span class="s2">"Content-type: application/json"</span><span class="p">,</span>
+          <span class="s2">"Authorization"</span><span class="o">:</span> <span class="s2">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
+        <span class="p">));</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POST</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$content</span><span class="p">);</span>
+
+<span class="nv">$json_response</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.datacue.co/v1/banners"</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s">"Content-type"</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">,</span>
+  <span class="s">"Authorization"</span><span class="p">:</span> <span class="s">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
+<span class="p">}</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+   <span class="s">"banner_id"</span><span class="p">:</span> <span class="s">"b1"</span><span class="p">,</span>
+   <span class="s">"type"</span><span class="p">:</span> <span class="s">"sub"</span><span class="p">,</span>
+   <span class="s">"title"</span><span class="p">:</span> <span class="s">"friendly name for b1"</span><span class="p">,</span>
+   <span class="s">"category_1"</span><span class="p">:</span> <span class="s">"women"</span><span class="p">,</span>
+   <span class="s">"category_2"</span><span class="p">:</span> <span class="s">"summer"</span><span class="p">,</span>
+   <span class="s">"category_3"</span><span class="p">:</span> <span class="s">"dresses"</span><span class="p">,</span>
+   <span class="s">"category_4"</span><span class="p">:</span> <span class="s">"casual"</span><span class="p">,</span>
+   <span class="s">"photos"</span><span class="p">:</span> <span class="p">{</span>
+     <span class="s">"mobile"</span><span class="p">:</span> <span class="s">"http://s3.amazon.com/photoMobile.png"</span><span class="p">,</span>
+     <span class="s">"desktop"</span><span class="p">:</span> <span class="s">"http://s3.amazon.com/photoDesktop.png"</span><span class="p">,</span>
+   <span class="p">},</span>
+   <span class="s">"link"</span><span class="p">:</span> <span class="s">"path/to/anything"</span>
+ <span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/banners"</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+   <span class="s2">"banner_id"</span><span class="p">:</span> <span class="s2">"b1"</span><span class="p">,</span>
+   <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"sub"</span><span class="p">,</span>
+   <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"friendly name for b1"</span><span class="p">,</span>
+   <span class="s2">"category_1"</span><span class="p">:</span> <span class="s2">"women"</span><span class="p">,</span>
+   <span class="s2">"category_2"</span><span class="p">:</span> <span class="s2">"summer"</span><span class="p">,</span>
+   <span class="s2">"category_3"</span><span class="p">:</span> <span class="s2">"dresses"</span><span class="p">,</span>
+   <span class="s2">"category_4"</span><span class="p">:</span> <span class="s2">"casual"</span><span class="p">,</span>
+   <span class="s2">"photos"</span><span class="p">:</span> <span class="p">{</span>
+     <span class="s2">"mobile"</span><span class="p">:</span> <span class="s2">"http://s3.amazon.com/photoMobile.png"</span><span class="p">,</span>
+     <span class="s2">"desktop"</span><span class="p">:</span> <span class="s2">"http://s3.amazon.com/photoDesktop.png"</span><span class="p">,</span>
+   <span class="p">},</span>
+   <span class="s2">"link"</span><span class="p">:</span> <span class="s2">"path/to/anything"</span>
+ <span class="p">}</span>
+
+<span class="c1">// The parameters we are going to pass to the fetch function</span>
+<span class="kd">let</span> <span class="nx">fetchData</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">method</span><span class="p">:</span> <span class="s2">"POST"</span><span class="p">,</span>
+    <span class="na">body</span><span class="p">:</span> <span class="nx">data</span><span class="p">,</span>
+    <span class="na">headers</span><span class="p">:</span> <span class="k">new</span> <span class="nx">Headers</span><span class="p">(</span>
+      <span class="s2">"Content-Type"</span><span class="p">,</span> <span class="s2">"application/json"</span><span class="p">,</span>
+      <span class="s2">"Authorization"</span><span class="p">:</span> <span class="s2">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
+      <span class="p">)</span>
+<span class="p">}</span>
+<span class="nx">fetch</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">fetchData</span><span class="p">)</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">))</span>
+<span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">))</span>
+</code></pre>
+<blockquote>
+<p>The above command returns a 201 response code</p>
+</blockquote>
+<h2 id='update-banner'>Update Banner</h2>
+<p>When you update your banner in any way like changing the banner image, link or assigned categories on your system. Does not apply if you&#39;re using DataCue to manage your banners.</p>
+
+<p>Only send fields to be updated</p>
+<pre class="highlight javascript tab-javascript--browser"><code><span class="c1">//backend only event (refer to the python, php or node tab)</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
+<span class="nv">$url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/banners/:banner_id"</span><span class="p">;</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+  <span class="s2">"link"</span> <span class="o">=&gt;</span> <span class="s2">"/new-link"</span>
+<span class="p">);</span>
+
+<span class="nv">$content</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+
+<span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HEADER</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HTTPHEADER</span><span class="p">,</span>
+        <span class="k">array</span><span class="p">(</span>
+          <span class="s2">"Content-type: application/json"</span><span class="p">,</span>
+          <span class="s2">"Authorization"</span><span class="o">:</span> <span class="s2">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
+        <span class="p">));</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_CUSTOMREQUEST</span><span class="p">,</span> <span class="s2">"PUT"</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$content</span><span class="p">);</span>
+
+<span class="nv">$json_response</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.datacue.co/v1/banners/:banner_id"</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s">"Content-type"</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">,</span>
+  <span class="s">"Authorization"</span><span class="p">:</span> <span class="s">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
+<span class="p">}</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+   <span class="s">"link"</span><span class="p">:</span> <span class="s">"/new-link"</span>
+ <span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/banners/:banner_id"</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+   <span class="s2">"link"</span><span class="p">:</span> <span class="s2">"/new-link"</span>
+ <span class="p">}</span>
+<span class="c1">// The parameters we are going to pass to the fetch function</span>
+<span class="kd">let</span> <span class="nx">fetchData</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">method</span><span class="p">:</span> <span class="s2">"PUT"</span><span class="p">,</span>
+    <span class="na">body</span><span class="p">:</span> <span class="nx">data</span><span class="p">,</span>
+    <span class="na">headers</span><span class="p">:</span> <span class="k">new</span> <span class="nx">Headers</span><span class="p">(</span>
+      <span class="s2">"Content-Type"</span><span class="p">,</span> <span class="s2">"application/json"</span><span class="p">,</span>
+      <span class="s2">"Authorization"</span><span class="p">:</span> <span class="s2">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
+      <span class="p">)</span>
+<span class="p">}</span>
+<span class="nx">fetch</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">fetchData</span><span class="p">)</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">))</span>
+<span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">))</span>
+</code></pre>
+<blockquote>
+<p>The above command returns a 204 response code</p>
+</blockquote>
+<h2 id='delete-banner'>Delete Banner</h2>
+<p>When you delete a banner on your system. Does not apply if you&#39;re using DataCue to manage your banners.</p>
+<pre class="highlight javascript tab-javascript--browser"><code><span class="c1">//backend only event (refer to the python, php or node tab)</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
+<span class="nv">$url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/banners/:banner_id"</span><span class="p">;</span>
+
+<span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HEADER</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HTTPHEADER</span><span class="p">,</span>
+        <span class="k">array</span><span class="p">(</span>
+          <span class="s2">"Content-type: application/json"</span><span class="p">,</span>
+          <span class="s2">"Authorization"</span><span class="o">:</span> <span class="s2">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
+        <span class="p">));</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_CUSTOMREQUEST</span><span class="p">,</span> <span class="s2">"DELETE"</span><span class="p">);</span>
+
+<span class="nv">$json_response</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.datacue.co/v1/banners/:banner_id"</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s">"Content-type"</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">,</span>
+  <span class="s">"Authorization"</span><span class="p">:</span> <span class="s">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/banners/:banner_id"</span><span class="p">;</span>
+
+<span class="c1">// The parameters we are going to pass to the fetch function</span>
+<span class="kd">let</span> <span class="nx">fetchData</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s2">"DELETE"</span><span class="p">,</span>
+  <span class="na">headers</span><span class="p">:</span> <span class="k">new</span> <span class="nx">Headers</span><span class="p">(</span>
+    <span class="s2">"Content-Type"</span><span class="p">,</span> <span class="s2">"application/json"</span><span class="p">,</span>
+    <span class="s2">"Authorization"</span><span class="p">:</span> <span class="s2">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
+  <span class="p">)</span>
+<span class="p">}</span>
+<span class="nx">fetch</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">fetchData</span><span class="p">)</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">))</span>
+<span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">))</span>
+</code></pre>
+<blockquote>
+<p>The above command returns a 204 response code</p>
+</blockquote>
+<h1 id='user-management'>User Management</h1><h2 id='create-user'>Create User</h2>
+<p>When a new user has successfully signed up / registered on your system.</p>
+
+<table><thead>
+<tr>
+<th style="text-align: center"><strong>Field</strong></th>
+<th style="text-align: center"><strong>Data Type</strong></th>
+<th style="text-align: center"><strong>Description</strong></th>
+<th style="text-align: center"><strong>Mandatory</strong></th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: center">user_id</td>
+<td style="text-align: center">String</td>
+<td style="text-align: center">The unique user id assigned</td>
+<td style="text-align: center">Yes</td>
+</tr>
+<tr>
+<td style="text-align: center">anonymous_id</td>
+<td style="text-align: center">String</td>
+<td style="text-align: center">Anonymous ID that was previously associated with this user prior to user sign up</td>
+<td style="text-align: center">No</td>
+</tr>
+<tr>
+<td style="text-align: center">email</td>
+<td style="text-align: center">String</td>
+<td style="text-align: center">User&#39;s email address</td>
+<td style="text-align: center">Yes, if using email marketing</td>
+</tr>
+<tr>
+<td style="text-align: center">title</td>
+<td style="text-align: center">String</td>
+<td style="text-align: center">Salutation e.g. Mr. , Ms., Dr.</td>
+<td style="text-align: center">No</td>
+</tr>
+<tr>
+<td style="text-align: center">first_name</td>
+<td style="text-align: center">String</td>
+<td style="text-align: center">User&#39;s first name, if you store all the names in one field assign the name to this field</td>
+<td style="text-align: center">Yes</td>
+</tr>
+<tr>
+<td style="text-align: center">last_name</td>
+<td style="text-align: center">String</td>
+<td style="text-align: center">User&#39;s last name</td>
+<td style="text-align: center">No</td>
+</tr>
+<tr>
+<td style="text-align: center">profile</td>
+<td style="text-align: center">JSON object</td>
+<td style="text-align: center">User&#39;s profile. See table below for field description</td>
+<td style="text-align: center">No</td>
+</tr>
+<tr>
+<td style="text-align: center">cart</td>
+<td style="text-align: center">Array</td>
+<td style="text-align: center">An array of product ids and variant ids representing the current products in the users shopping cart.</td>
+<td style="text-align: center">No</td>
+</tr>
+</tbody></table>
+<h3 id='profile-2'>Profile</h3>
+<table><thead>
+<tr>
+<th style="text-align: center"><strong>Field</strong></th>
+<th style="text-align: center"><strong>Data Type</strong></th>
+<th style="text-align: center"><strong>Description</strong></th>
+<th style="text-align: center"><strong>Mandatory</strong></th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: center">sex</td>
+<td style="text-align: center">String</td>
+<td style="text-align: center">Sex of the user</td>
+<td style="text-align: center">No</td>
+</tr>
+<tr>
+<td style="text-align: center">location</td>
+<td style="text-align: center">String</td>
+<td style="text-align: center">Aggregate location like commune, city or country of the user</td>
+<td style="text-align: center">No</td>
+</tr>
+<tr>
+<td style="text-align: center">segment</td>
+<td style="text-align: center">String</td>
+<td style="text-align: center">Custom segment name that you store e.g. Gold class / Member</td>
+<td style="text-align: center">No</td>
+</tr>
+</tbody></table>
+<pre class="highlight javascript tab-javascript--browser"><code><span class="c1">//backend only event (refer to the python, php or node tab)</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
+<span class="nv">$url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/users"</span><span class="p">;</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+  <span class="s2">"user_id"</span> <span class="o">=&gt;</span> <span class="s2">"u1"</span><span class="p">,</span>
+  <span class="s2">"anonymous_ids"</span> <span class="o">=&gt;</span> <span class="s2">"v1"</span>
+  <span class="s2">"email"</span> <span class="o">=&gt;</span> <span class="s2">"xyz@abc.com"</span><span class="p">,</span>
+  <span class="s2">"title"</span> <span class="o">=&gt;</span> <span class="s2">"Mr"</span><span class="p">,</span>
+  <span class="s2">"first_name"</span> <span class="o">=&gt;</span> <span class="s2">"John"</span><span class="p">,</span>
+  <span class="s2">"last_name"</span> <span class="o">=&gt;</span> <span class="s2">"Smith"</span><span class="p">,</span>
+  <span class="s2">"profile"</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s2">"location"</span> <span class="o">=&gt;</span> <span class="s2">"santiago"</span><span class="p">,</span>
+    <span class="s2">"sex"</span> <span class="o">=&gt;</span> <span class="s2">"male"</span><span class="p">,</span>
+    <span class="s2">"segment"</span> <span class="o">=&gt;</span> <span class="s2">"platinum"</span>
+  <span class="p">),</span>
+  <span class="s2">"cart"</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+    <span class="k">array</span><span class="p">(</span><span class="s2">"product_id"</span> <span class="o">=&gt;</span> <span class="s2">"p1"</span><span class="p">,</span><span class="s2">"variant_id"</span> <span class="o">=&gt;</span> <span class="s2">"v1"</span><span class="p">),</span>
+    <span class="k">array</span><span class="p">(</span><span class="s2">"product_id"</span> <span class="o">=&gt;</span> <span class="s2">"p2"</span><span class="p">,</span><span class="s2">"variant_id"</span> <span class="o">=&gt;</span> <span class="s2">"v1"</span><span class="p">)</span>
+  <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="nv">$content</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+
+<span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HEADER</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HTTPHEADER</span><span class="p">,</span>
+        <span class="k">array</span><span class="p">(</span>
+          <span class="s2">"Content-type: application/json"</span><span class="p">,</span>
+          <span class="s2">"Authorization"</span><span class="o">:</span> <span class="s2">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
+        <span class="p">));</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POST</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$content</span><span class="p">);</span>
+
+<span class="nv">$json_response</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.datacue.co/v1/users"</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s">"Content-type"</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">,</span>
+  <span class="s">"Authorization"</span><span class="p">:</span> <span class="s">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
+<span class="p">}</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+   <span class="s">"user_id"</span><span class="p">:</span> <span class="s">"u1"</span><span class="p">,</span>
+   <span class="s">"anonymous_ids"</span><span class="p">:</span> <span class="s">"v1"</span>
+   <span class="s">"email"</span><span class="p">:</span> <span class="s">"xyz@abc.com"</span><span class="p">,</span>
+   <span class="s">"title"</span><span class="p">:</span> <span class="s">"Mr"</span><span class="p">,</span>
+   <span class="s">"first_name"</span><span class="p">:</span> <span class="s">"John"</span><span class="p">,</span>
+   <span class="s">"last_name"</span><span class="p">:</span> <span class="s">"Smith"</span><span class="p">,</span>
+   <span class="s">"profile"</span><span class="p">:</span> <span class="p">{</span>
+       <span class="s">"location"</span><span class="p">:</span> <span class="s">"santiago"</span><span class="p">,</span>
+       <span class="s">"sex"</span><span class="p">:</span> <span class="s">"male"</span><span class="p">,</span>
+       <span class="s">"segment"</span><span class="p">:</span> <span class="s">"platinum"</span>
+   <span class="p">},</span>
+   <span class="s">"cart"</span><span class="p">:</span> <span class="p">[</span>
+     <span class="p">{</span>
+       <span class="s">"product_id"</span><span class="p">:</span><span class="s">"p1"</span>
+       <span class="s">"variant_id"</span><span class="p">:</span><span class="s">"v1"</span>
+     <span class="p">},</span>
+     <span class="p">{</span>
+       <span class="s">"product_id"</span><span class="p">:</span><span class="s">"p2"</span>
+       <span class="s">"variant_id"</span><span class="p">:</span><span class="s">"v1"</span>
+     <span class="p">},</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/users"</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+   <span class="s2">"user_id"</span><span class="p">:</span> <span class="s2">"u1"</span><span class="p">,</span>
+   <span class="s2">"anonymous_ids"</span><span class="p">:</span> <span class="s2">"v1"</span>
+   <span class="s2">"email"</span><span class="p">:</span> <span class="s2">"xyz@abc.com"</span><span class="p">,</span>
+   <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Mr"</span><span class="p">,</span>
+   <span class="s2">"first_name"</span><span class="p">:</span> <span class="s2">"Noob"</span><span class="p">,</span>
+   <span class="s2">"last_name"</span><span class="p">:</span> <span class="s2">"Saibot"</span><span class="p">,</span>
+   <span class="s2">"profile"</span><span class="p">:</span> <span class="p">{</span>
+       <span class="s2">"location"</span><span class="p">:</span> <span class="s2">"santiago"</span><span class="p">,</span>
+       <span class="s2">"sex"</span><span class="p">:</span> <span class="s2">"male"</span><span class="p">,</span>
+       <span class="s2">"segment"</span><span class="p">:</span> <span class="s2">"platinum"</span>
+   <span class="p">},</span>
+    <span class="s2">"cart"</span><span class="p">:</span> <span class="p">[</span>
+     <span class="p">{</span>
+       <span class="s2">"product_id"</span><span class="p">:</span><span class="s2">"p1"</span>
+       <span class="s2">"variant_id"</span><span class="p">:</span><span class="s2">"v1"</span>
+     <span class="p">},</span>
+     <span class="p">{</span>
+       <span class="s2">"product_id"</span><span class="p">:</span><span class="s2">"p2"</span>
+       <span class="s2">"variant_id"</span><span class="p">:</span><span class="s2">"v1"</span>
+     <span class="p">},</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+
+<span class="c1">// The parameters we are going to pass to the fetch function</span>
+<span class="kd">let</span> <span class="nx">fetchData</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">method</span><span class="p">:</span> <span class="s2">"POST"</span><span class="p">,</span>
+    <span class="na">body</span><span class="p">:</span> <span class="nx">data</span><span class="p">,</span>
+    <span class="na">headers</span><span class="p">:</span> <span class="k">new</span> <span class="nx">Headers</span><span class="p">(</span>
+      <span class="s2">"Content-Type"</span><span class="p">,</span> <span class="s2">"application/json"</span><span class="p">,</span>
+      <span class="s2">"Authorization"</span><span class="p">:</span> <span class="s2">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
+      <span class="p">)</span>
+<span class="p">}</span>
+<span class="nx">fetch</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">fetchData</span><span class="p">)</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">))</span>
+<span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">))</span>
+</code></pre>
+<blockquote>
+<p>The above command returns a 201 response code</p>
+</blockquote>
+<h2 id='update-user'>Update User</h2>
+<p>When the user makes changes to their profile or when they configure any relevant preferences. For instance if they indicate their gender, this is very helpful for recommendations.</p>
+<pre class="highlight javascript tab-javascript--browser"><code><span class="c1">//backend only event (refer to the python, php or node tab)</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
+<span class="nv">$url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/users/:user_id"</span><span class="p">;</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+  <span class="s2">"profile"</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s2">"location"</span> <span class="o">=&gt;</span> <span class="s2">"singapore"</span>
+  <span class="p">)</span>
+<span class="p">);</span>
+
+<span class="nv">$content</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+
+<span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HEADER</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HTTPHEADER</span><span class="p">,</span>
+        <span class="k">array</span><span class="p">(</span>
+          <span class="s2">"Content-type: application/json"</span><span class="p">,</span>
+          <span class="s2">"Authorization"</span><span class="o">:</span> <span class="s2">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
+        <span class="p">));</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_CUSTOMREQUEST</span><span class="p">,</span> <span class="s2">"PUT"</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$content</span><span class="p">);</span>
+
+<span class="nv">$json_response</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.datacue.co/v1/users/:user_id"</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s">"Content-type"</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">,</span>
+  <span class="s">"Authorization"</span><span class="p">:</span> <span class="s">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
+<span class="p">}</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+   <span class="s">"profile"</span><span class="p">:</span> <span class="p">{</span>
+     <span class="s">"location"</span><span class="p">:</span> <span class="s">"singapore"</span>
+   <span class="p">}</span>
+ <span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/users/:user_id"</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+   <span class="s2">"profile"</span><span class="p">:</span> <span class="p">{</span>
+     <span class="s2">"location"</span> <span class="p">:</span> <span class="s2">"singapore"</span>
+   <span class="p">}</span>
+ <span class="p">}</span>
+<span class="c1">// The parameters we are going to pass to the fetch function</span>
+<span class="kd">let</span> <span class="nx">fetchData</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">method</span><span class="p">:</span> <span class="s2">"PUT"</span><span class="p">,</span>
+    <span class="na">body</span><span class="p">:</span> <span class="nx">data</span><span class="p">,</span>
+    <span class="na">headers</span><span class="p">:</span> <span class="k">new</span> <span class="nx">Headers</span><span class="p">(</span>
+      <span class="s2">"Content-Type"</span><span class="p">,</span> <span class="s2">"application/json"</span><span class="p">,</span>
+      <span class="s2">"Authorization"</span><span class="p">:</span> <span class="s2">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
+      <span class="p">)</span>
+<span class="p">}</span>
+<span class="nx">fetch</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">fetchData</span><span class="p">)</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">))</span>
+<span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">))</span>
+</code></pre>
+<blockquote>
+<p>The above command returns a 204 response code</p>
+</blockquote>
+<h2 id='delete-user'>Delete User</h2>
+<p>When a user account is deleted from your system.</p>
+<pre class="highlight javascript tab-javascript--browser"><code><span class="c1">//backend only event (refer to the python, php or node tab)</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
+<span class="nv">$url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/users/:user_id"</span><span class="p">;</span>
+
+<span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HEADER</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HTTPHEADER</span><span class="p">,</span>
+        <span class="k">array</span><span class="p">(</span>
+          <span class="s2">"Content-type: application/json"</span><span class="p">,</span>
+          <span class="s2">"Authorization"</span><span class="o">:</span> <span class="s2">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
+        <span class="p">));</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_CUSTOMREQUEST</span><span class="p">,</span> <span class="s2">"DELETE"</span><span class="p">);</span>
+
+<span class="nv">$json_response</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.datacue.co/v1/users/:user_id"</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s">"Content-type"</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">,</span>
+  <span class="s">"Authorization"</span><span class="p">:</span> <span class="s">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/users/:user_id"</span><span class="p">;</span>
+
+<span class="c1">// The parameters we are going to pass to the fetch function</span>
+<span class="kd">let</span> <span class="nx">fetchData</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s2">"DELETE"</span><span class="p">,</span>
+  <span class="na">headers</span><span class="p">:</span> <span class="k">new</span> <span class="nx">Headers</span><span class="p">(</span>
+    <span class="s2">"Content-Type"</span><span class="p">,</span> <span class="s2">"application/json"</span><span class="p">,</span>
+    <span class="s2">"Authorization"</span><span class="p">:</span> <span class="s2">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
+  <span class="p">)</span>
+<span class="p">}</span>
+<span class="nx">fetch</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">fetchData</span><span class="p">)</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">))</span>
+<span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">))</span>
+</code></pre>
+<blockquote>
+<p>The above command returns a 204 response code</p>
+</blockquote>
 <h1 id='batch'>Batch</h1><h2 id='batch-create-banners-orders-products-users'>Batch Create Banners / Orders / Products / Users</h2>
 <p>Use the batch endpoint if you want to do a bulk import, typically when you first start using DataCue and you want to add your historical orders, products or users.</p>
 
 <p>Tell us what you&#39;re sending via the &#39;type&#39; and insert an array of your requests in the batch field.</p>
 
-<p>Best explained with an example, you want to create 500 products in one go. As seen in the previous section, a product create payload looks like this:
+<p>Best explained with an example: lets say you want to create 500 products in one go. As seen in the previous section, a product create payload looks like this:
 <code>json
 {
   &quot;product_id&quot;:&quot;P1&quot;,
@@ -2700,7 +2614,9 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <td style="text-align: center">Yes</td>
 </tr>
 </tbody></table>
-<pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
+<pre class="highlight javascript tab-javascript--browser"><code><span class="c1">//backend only event (refer to the python, php or node tab)</span>
+</code></pre><pre class="highlight javascript tab-javascript--browser"><code><span class="c1">//backend only event (refer to the python, php or node tab)</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
 <span class="nv">$url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/batch"</span><span class="p">;</span>
 <span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
   <span class="s2">"type"</span> <span class="o">=&gt;</span> <span class="s2">"users"</span><span class="p">,</span>
@@ -2752,7 +2668,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <span class="p">}</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/batch"</span><span class="p">;</span>
+</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/batch"</span><span class="p">;</span>
 <span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
    <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"users"</span><span class="p">,</span>
    <span class="s2">"batch"</span><span class="p">:</span> <span class="p">[</span>
@@ -2805,7 +2721,8 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 </span><span class="p">}</span><span class="w">
 </span></code></pre><h2 id='batch-update-banners-orders-products-users'>Batch Update Banners / Orders / Products / Users</h2>
 <p>To make a batch update, make a <code>PUT</code> request to the batch endpoint in a similar format as above.</p>
-<pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
+<pre class="highlight javascript tab-javascript--browser"><code><span class="c1">//backend only event (refer to the python, php or node tab)</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
 <span class="nv">$url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/batch"</span><span class="p">;</span>
 <span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
   <span class="s2">"type"</span> <span class="o">=&gt;</span> <span class="s2">"users"</span><span class="p">,</span>
@@ -2857,7 +2774,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <span class="p">}</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/batch"</span><span class="p">;</span>
+</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/batch"</span><span class="p">;</span>
 <span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
    <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"users"</span><span class="p">,</span>
    <span class="s2">"batch"</span><span class="p">:</span> <span class="p">[</span>
@@ -2933,7 +2850,8 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <td style="text-align: center">user_id</td>
 </tr>
 </tbody></table>
-<pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
+<pre class="highlight javascript tab-javascript--browser"><code><span class="c1">//backend only event (refer to the python, php or node tab)</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
 <span class="nv">$url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/batch"</span><span class="p">;</span>
 <span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
   <span class="s2">"type"</span> <span class="o">=&gt;</span> <span class="s2">"users"</span><span class="p">,</span>
@@ -2983,7 +2901,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 </span><span class="s">}</span><span class="err">
 
 </span><span class="s">response = requests.delete(url, data=data, headers=headers)</span><span class="err">
-</span></code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/batch"</span><span class="p">;</span>
+</span></code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/batch"</span><span class="p">;</span>
 <span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
    <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"users"</span><span class="p">,</span>
    <span class="s2">"batch"</span><span class="p">:</span> <span class="p">[</span>
@@ -3056,9 +2974,10 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
       </div>
       <div class="dark-box">
           <div class="lang-selector">
+                <a href="#" data-language-name="javascript--browser">javascript</a>
                 <a href="#" data-language-name="php">php</a>
                 <a href="#" data-language-name="python">python</a>
-                <a href="#" data-language-name="javascript">javascript</a>
+                <a href="#" data-language-name="javascript--node">node</a>
           </div>
       </div>
     </div>
