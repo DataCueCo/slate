@@ -14,9 +14,13 @@ search: true
 
 # Introduction
 
-Welcome to the DataCue API. This API documentation is to help get your e-commerce store setup to apply real time personalization to your website.
+Welcome to the DataCue API. This API documentation is to help you setup your e-commerce store to apply real time personalization to your website.
 
-We have language bindings in Javascript, PHP, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+We have language bindings in Javascript, PHP, and Python. You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+
+# API URL
+The API is located at `https://api.datacue.co`
+If you have a staging / test version of your website, you can test your implementation with our staging API at `https://staging-api.datacue.co`.
 
 # Headers
 
@@ -57,18 +61,22 @@ let auth = `Basic ${btoa("API-key:APi-secret")}`;
 
 ```
   "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+  "Content-Type": "application/json"
 ```
 
-You will receive a API key and an API secret. Each end-point requires either just an API key or both key and secret to authenticate.
-We use HTTP Basic Authentication, which is in the format `apikey:apisecret` that is base64 encoded and prepended with the string "Basic ".
+You will receive a API key and an API secret. Public end-points like event tracking only needs an API key. Private end-points that define product, orders etc require both your API key and secret to authenticate.
+We use HTTP Basic Authentication, which encodes the string `apikey:apisecret` into a token that is base64 encoded and prepended with the string "Basic ".
 
-For example if the end requires only an API Key:
-Leave the api secret field empty.
-Base64 encode "abc123:", no password after the colon, and the final result will be "YWJjMTIzOg==".
+### End points requring API Key:
+If your API key is `abc123`, then Base64 encode "abc123:", no password after the colon, and the final result will be "YWJjMTIzOg==".
 
-This is passed in the authorization header like so `Authorization: Basic YWJjMTIzOg==`.
+Your authorization header should look like `Authorization: Basic YWJjMTIzOg==`.
 
-For API endpoints requiring API key and secret, do the same as above, except in step 1 the api secret must be filled.
+### End points requring API Key and API Secret:
+If your API key is `abc123`, and API secret is `secret123` then Base64 encode "abc123:secret123". The final result will be "Basic YWJjMTIzOnNlY3JldDEyMw==".
+
+Your authorization header should look like `Authorization: Basic YWJjMTIzOnNlY3JldDEyMw==`.
+
 
 ## Content-Type
 
@@ -77,6 +85,11 @@ You must set a content-type header to "application/json".
 
 # Events
 
+## Authorization
+
+All events endpoints are meant to be sent from your user's browsers using our embedded script. This endpoint only requires your API Key.
+
+## Format
 All events are registered in a similar format. There are 4 main objects in each request.
 
 | Parameter | Required | Description                                                               |
@@ -90,37 +103,70 @@ All events are registered in a similar format. There are 4 main objects in each 
   Parameter breakdown
 </aside>
 
-#### User
+### User
 
-User Identification (one of the two is mandatory, we will take `user_id` if you send both)
+**Field**|**Data Type**|**Description**|**Mandatory**
+:-----:|:-----:|:-----:|:-----:
+user\_id|String|The unique user id if the user has logged in|Yes (if logged in)
+anonymous\_id|String|An automatically generated visitor id if the user has not logged in. |Yes (if not logged in)
+ | |If you send us both a user\_id and anonymous\_id we will record the user\_id| 
+profile|JSON Object|Any user segmentation data you know about the user, see the table below for details.|No
 
--   `user_id` : the user_id of the user if he/she has logged in
+### Profile
 
--   `anonymous_id`: an automatically generated visitor id if the user has not logged in.
+**Field**|**Data Type**|**Description**|**Mandatory**
+:-----:|:-----:|:-----:|:-----:
+sex|String|Sex of the user|No
+segment|String|Custom segment name that you store e.g. Gold class / Member |No
+location|String|Location of the user as a commune, city, region or country|No
 
--   `profile`: any information you’ve collected about the user. For instance, if you run a fashion store and ask the user whether they want to see a men/women version of the store. Please add this information under the profile.
+The above are the most common types of profile segments, since it's a JSON object you can specify any other fields you wish to use for personalization.
 
-#### Event
+### Event
 
--   `type`: a mandatory field: it can be "pageview", "viewcart", "search", "wishlist", "click", "order" or "login"
+Field descriptions differ per event type. Please refer to the event descriptions below to know what fields are required.
 
--   `subtype`: required depending on the event type. For instance, pageview, wishlist and click require a subtype.
+### Context
 
-#### Context
+OPTIONAL. We use incoming HTTP headers to fill in this object, therefore this object is optional. You can specify context if you are sending historical data, or have any other special requirements that require overriding the default headers.
 
--   `ip`: the users IP. If you don’t specify one, we will store the IP sent from the request header.
+Refer to the example json on the right to view the format.
 
--   `user_agent`: If you don’t specify one, we will store the user_agent from the request header.
-    NOTE: This only applies if you are registering events from client side or frontend code running on a browser, typically in a single page application. If your store is rendered on the server for instance with PHP, you must specify these fields as the request IP and user_agent we receive will be from your server.
+```json
+  "context": {
+    "ip": "12.34.56.78",
+    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
+  }
+```
 
-#### Timestamp
+**Field**|**Data Type**|**Description**|**Mandatory**
+:-----:|:-----:|:-----:|:-----:
+ip|text|IP address|No
+user\_agent|String|User agent string of the browser|No
 
--   `timestamp`: An ISO-8601 date string in UTC time for when the event happened (OPTIONAL)
-    If you don’t specify this, we will log the event at current UTC time. It is recommended to only specify this field if you are sending us any historical data.
+### Timestamp
+
+OPTIONAL. Only required if you're sending us historical events, if not, we log the event at the time we received it.
+
+Refer to the example json on the right to view the format.
+
+```json
+  "timestamp": "2018-01-23T00:30:08.276Z"
+```
+
+**Field**|**Data Type**|**Description**|**Mandatory**
+:-----:|:-----:|:-----:|:-----:
+timestamp|ISO 8601 date|The current time in UTC for when the event happened. E.g. "2017-11-01T00:29:03.123Z"|No
+
 
 ## Home Page View
 
 Request banner and product recommendations when a user visits your home page
+
+**Field**|**Data Type**|**Description**|**Mandatory**
+:-----:|:-----:|:-----:|:-----:
+type|String|Set to 'pageview'|Yes
+subtype|String|Set to 'home'|Yes
 
 ```php
 <?
@@ -128,25 +174,17 @@ $url = "https://api.datacue.co/v1/events";
 $data = array(
   "user" => array(
     "user_id" =>  "019mr8mf4r",
-    "anonymous_id" => "a1",
+    "anonymous_id" => "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502",
     "profile" =>  array(
   	  "sex" => "female",
-  	  "location" => "Santiago",
-      "dob" => "1980-01-23",
-      "income" => "high",
-      "occupation" => "engineer",
-      "marital_status" => "married"
+  	  "location" => "santiago",
+      "segment" => "platinum"
     )
   ),
   "event" => array(
   	"type" => "pageview",
     "subtype" => "home"
-  ),
-  "context" =>  array(
-    "ip" => "24.5.68.47",
-    "user-agent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
-  ),
-  "timestamp" => "2012-12-02T00 => 30 => 08.276Z"
+  )
 );
 
 $content = json_encode($data);
@@ -177,25 +215,17 @@ headers = {
 data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "a1",
+    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502",
     "profile": {
   	  "sex": "female",
-  	  "location": "Santiago",
-      "dob": "1980-01-23",
-      "income": "high",
-      "occupation": "engineer",
-      "marital_status": "married"
+  	  "location": "santiago",
+      "segment": "platinum"
     }
   },
   "event": {
   	"type": "pageview",
     "subtype": "home"
-  },
-  "context": {
-    "ip": "24.5.68.47",
-    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
-  },
-  "timestamp": "2012-12-02T00:30:08.276Z"
+  }
 }
 
 
@@ -207,27 +237,19 @@ const url = "https://api.datacue.co/v1/events";
 let data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "a1",
+    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502",
     "profile": {
   	  "sex": "female",
   	  "location": "Santiago",
-      "dob": "1980-01-23",
-      "income": "high",
-      "occupation": "engineer",
-      "marital_status": "married"
+      "segment": "platinum"
     }
   },
   "event": {
   	"type": "pageview",
     "subtype": "home"
-  },
-  "context": {
-    "ip": "24.5.68.47",
-    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
-  },
-  "timestamp": "2012-12-02T00:30:08.276Z"
+  }
 }
-// The parameters we are gonna pass to the fetch function
+// The parameters we are going to pass to the fetch function
 let fetchData = {
     method: "POST",
     body: data,
@@ -248,40 +270,113 @@ fetch(url, fetchData)
 {
   "main_banners": [
     {
-      "banner_id": "B4",
-      "photo_url": "/banners/living-room/livingroom-min.jpeg",
-      "title": "Living Room",
-      "link": "/category/living-room"
-    },
+      "link": "/category/bathroom",
+      "name": "",
+      "banner_id": "B1",
+      "photo_url": "/banners/bathroom/bathroom-min.jpeg"
+    }
   ],
   "sub_banners": [
     {
-      "banner_id": "B16",
-      "photo_url": "/banners/living-room/subbanner_lamps.jpeg",
-      "title": "Lamps",
-      "link": "/category/living-room/lamps"
+      "link": "/category/bathroom/organizer",
+      "name": "",
+      "banner_id": "B6",
+      "photo_url": "/banners/bathroom/subbanner_organizer.jpeg"
     },
-  ],
-  "related_product_skus": [       
     {
-      "product_id": "48",
-      "variant_id": "1"
-      "category_1": "kitchen",
-      "category_2": "dining-table",
-      "category_3": "scandinavian",
-      "category_4": "modern",
-      "name": "Modern Table",
-      "link": "/table-1",
-      "price": "219",
-      "photo_url": "/products/48.jpg"
+      "link": "/category/bathroom/racks",
+      "name": "",
+      "banner_id": "B7",
+      "photo_url": "/banners/bathroom/subbanner_racks.jpeg"
+    },
+    {
+      "link": "/category/bathroom/towels",
+      "name": "",
+      "banner_id": "B8",
+      "photo_url": "/banners/bathroom/subbanner_towels.jpeg"
     }
-  ]
+  ],
+  "related_product_skus": [
+    {
+      "link": "/product/double-bed-2",
+      "name": "Luxury Double Bed",
+      "price": 1299,
+      "photo_url": "/products/18.jpg",
+      "category_1": "bedroom",
+      "product_id": "18"
+    },
+    {
+      "link": "/product/sofa-4",
+      "name": "Contemporary Sofa",
+      "price": 329,
+      "photo_url": "/products/59.jpg",
+      "category_1": "living-room",
+      "product_id": "59"
+    },
+    {
+      "link": "/product/cutleries-2",
+      "name": "Decorative Flatware",
+      "price": 79,
+      "photo_url": "/products/41.jpg",
+      "category_1": "kitchen",
+      "product_id": "41"
+    },
+    {
+      "link": "/product/table-1",
+      "name": "Modern Table",
+      "price": 219,
+      "photo_url": "/products/48.jpg",
+      "category_1": "kitchen",
+      "product_id": "48"
+    },
+    {
+      "link": "/product/rack-4",
+      "name": "Sturdy Rack",
+      "price": 49,
+      "photo_url": "/products/8.jpg",
+      "category_1": "bathroom",
+      "product_id": "8"
+    },
+    {
+      "link": "/product/organizer-4",
+      "name": "Scandinavian Organizer",
+      "price": 69,
+      "photo_url": "/products/12.jpg",
+      "category_1": "bathroom",
+      "product_id": "12"
+    }
+  ],
+  "recent_product_skus": [
+    {
+      "product_id": "18",
+      "variant_id": "a",
+      "name": "Luxury Double Bed",
+      "price": "1299.00",
+      "photo_url": "/products/18.jpg",
+      "link": "/product/double-bed-2",
+      "extra": {
+        "discount":"20%"
+      }
+    }
 }
 ```
+
+**Field**|**Data Type**|**Description**
+:-----:|:-----:|:-----:|:-----:
+main_banners|Array|An array of banner objects recommended for the current user
+sub_banners|Array|An array of sub banner objects recommended for the current user
+related_product_skus|Array|An array of product objects recommended for the current user
+recent_product_skus|Array|A live list of the last products the current user has viewed
 
 ## Product Page View
 
 Request product recommendations when a user visits a product page
+
+**Response Field**|**Data Type**|**Description**|**Mandatory**
+:-----:|:-----:|:-----:|:-----:
+type|String|Set to 'pageview'|Yes
+subtype|String|Set to 'product'|Yes
+product_id|String|Set to product id being viewed|Yes
 
 ```php
 <?
@@ -289,14 +384,11 @@ $url = "https://api.datacue.co/v1/events";
 $data = array(
   "user" => array(
     "user_id" =>  "019mr8mf4r",
-    "anonymous_id" => "a1",
+    "anonymous_id" => "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502",
     "profile" =>  array(
   	  "sex" => "female",
-  	  "location" => "Santiago",
-      "dob" => "1980-01-23",
-      "income" => "high",
-      "occupation" => "engineer",
-      "marital_status" => "married"
+  	  "location" => "santiago",
+      "segment" => "platinum"
     )
   ),
   "event" =>  array(
@@ -304,12 +396,7 @@ $data = array(
     "subtype" =>  "product",
     "product_id" => "p1",
     "variant_id" => "v1"
-  ),
-  "context" =>  array(
-    "ip" =>  "24.5.68.47",
-    "user-agent" =>  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
-  ),
-  "timestamp" =>  "2012-12-02T00 => 30 => 08.276Z"
+  )
 );
 
 $content = json_encode($data);
@@ -340,14 +427,11 @@ headers = {
 data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "a1",
+    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502",
     "profile": {
   	  "sex": "female",
-  	  "location": "Santiago",
-      "dob": "1980-01-23",
-      "income": "high",
-      "occupation": "engineer",
-      "marital_status": "married"
+  	  "location": "santiago",
+      "segment": "platinum"
     }
   },
   "event": {
@@ -355,12 +439,7 @@ data = {
     "subtype": "product",
     "product_id": "p1",
     "variant_id": "v1"
-  },
-  "context": {
-    "ip": "24.5.68.47",
-    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
-  },
-  "timestamp": "2012-12-02T00:30:08.276Z"
+  }
 }
 
 
@@ -372,14 +451,11 @@ const url = "https://api.datacue.co/v1/events";
 let data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "a1",
+    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502",
     "profile": {
   	  "sex": "female",
-  	  "location": "Santiago",
-      "dob": "1980-01-23",
-      "income": "high",
-      "occupation": "engineer",
-      "marital_status": "married"
+  	  "location": "santiago",
+      "segment": "platinum"
     }
   },
   "event": {
@@ -387,14 +463,9 @@ let data = {
     "subtype": "product",
     "product_id": "p1",
     "variant_id": "v1"
-  },
-  "context": {
-    "ip": "24.5.68.47",
-    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
-  },
-  "timestamp": "2012-12-02T00:30:08.276Z"
+  }
 }
-// The parameters we are gonna pass to the fetch function
+// The parameters we are going to pass to the fetch function
 let fetchData = {
     method: "POST",
     body: data,
@@ -413,42 +484,89 @@ fetch(url, fetchData)
 
 ```json
 {
-  "related_product_skus": [       
-    {
-      "product_id": "48",
-      "variant_id":"1",
-      "category_1": "kitchen",
-      "category_2": "dining-table",
-      "category_3": "scandinavian",
-      "category_4": "modern",
-      "name": "Modern Table",
-      "link": "/table-1",
-      "price": "219",
-      "photo_url": "/products/48.jpg",
-       "extras": {"discount":"10%"}
-    }
-  ],
   "similar_product_skus": [
     {
-      "product_id": "37",
-      "variant_id":"1",
-      "category_1": "outdoors",
-      "category_2": "sofa",
-      "category_3": "scandinavian",
-      "category_4": "modern",
-      "name": "Outdoor Armchair",
-      "link": "/outdoor-sofa-2",
-      "price": "199",
-      "photo_url": "/products/37.jpg",
-      "extras": {"promotion":true}
+      "link": "/product/sofa-1",
+      "name": "Soft Sofa",
+      "price": 299,
+      "photo_url": "/products/56.jpg",
+      "category_1": "living-room",
+      "product_id": "56"
     },
+    {
+      "link": "/product/outdoor-sofa-3",
+      "name": "Wicker Sofa",
+      "price": 299,
+      "photo_url": "/products/38.jpg",
+      "category_1": "outdoors",
+      "product_id": "38"
+    },
+    {
+      "link": "/product/towel-2",
+      "name": "Soft Towel",
+      "price": 39,
+      "photo_url": "/products/2.jpg",
+      "category_1": "bathroom",
+      "product_id": "2"
+    },
+    {
+      "link": "/product/single-bed-1",
+      "name": "Basic Bed",
+      "price": 299,
+      "photo_url": "/products/16.jpg",
+      "category_1": "bedroom",
+      "product_id": "16"
+    },
+    {
+      "link": "/product/sofa-3",
+      "name": "Modern Sofa",
+      "price": 259,
+      "photo_url": "/products/58.jpg",
+      "category_1": "living-room",
+      "product_id": "58"
+    },
+    {
+      "link": "/product/rack-2",
+      "name": "Handicraft Rack",
+      "price": 49,
+      "photo_url": "/products/6.jpg",
+      "category_1": "bathroom",
+      "product_id": "6"
+    }
+  ],
+  "related_product_skus": null,
+  "recent_product_skus": [
+    {
+      "product_id": "18",
+      "variant_id": "a",
+      "name": "Luxury Double Bed",
+      "price": "1299.00",
+      "photo_url": "/products/18.jpg",
+      "link": "/product/double-bed-2",
+      "extra": {
+      }
+    }
   ]
 }
 ```
 
-## Shopping Cart (View Cart, Add/Remove Item)
+**Response Field**|**Data Type**|**Description**
+:-----:|:-----:|:-----:|:-----:
+similar_product_skus|Array|An array of product objects with similar characteristics to the current product
+related_product_skus|Array|An array of product objects that are frequently bought with the current product
+recent_product_skus|Array|A live list of the last products the current user has viewed
 
-Record activity on a users shopping cart, typically when the cart is viewed, or an item is added or removed.
+
+## Category Page View
+
+Pages showing multiple products on a page, these are commonly called category, collection or catalog pages.
+
+**Field**|**Data Type**|**Description**|**Mandatory**
+:-----:|:-----:|:-----:|:-----:
+type|String|Set to 'pageview'|Yes
+subtype|String|Set to 'category'|Yes
+category_name|String|Set to the name of the category being viewed|Yes
+
 
 ```php
 <?
@@ -456,20 +574,129 @@ $url = "https://api.datacue.co/v1/events";
 $data = array(
   "user" => array(
     "user_id" =>  "019mr8mf4r",
-    "anonymous_id" => "a1",
+    "anonymous_id" => "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502",
+    "profile" =>  array(
+  	  "sex" => "female",
+  	  "location" => "santiago",
+      "segment" => "platinum"
+    )
+  ),
+  "event" =>  array(
+    "type" =>  "pageview",
+    "subtype" =>  "category",
+    "category_name" => "living-room"
+  )
+);
+
+$content = json_encode($data);
+
+$curl = curl_init($url);
+curl_setopt($curl, CURLOPT_HEADER, false);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER,
+        array(
+          "Content-type: application/json",
+          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+        ));
+curl_setopt($curl, CURLOPT_POST, true);
+curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+
+$json_response = curl_exec($curl);
+?>
+```
+
+```python
+import requests
+
+url = "https://api.datacue.co/v1/events"
+headers = {
+  "Content-type": "application/json",
+  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+}
+data = {
+  "user": {
+    "user_id": "019mr8mf4r",
+    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502",
+    "profile": {
+  	  "sex": "female",
+  	  "location": "santiago",
+      "segment": "platinum"
+    }
+  },
+  "event": {
+    "type": "pageview",
+    "subtype": "category",
+    "category_name": "living-room"
+  }
+}
+
+
+response = requests.post(url, data=data, headers=headers)
+```
+
+```javascript
+const url = "https://api.datacue.co/v1/events";
+let data = {
+  "user": {
+    "user_id": "019mr8mf4r",
+    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502",
+    "profile": {
+  	  "sex": "female",
+  	  "location": "santiago",
+      "segment": "platinum"
+    }
+  },
+  "event": {
+  	"type": "pageview",
+    "subtype": "category",
+    "category_name": "living-room"
+  }
+}
+// The parameters we are going to pass to the fetch function
+let fetchData = {
+    method: "POST",
+    body: data,
+    headers: new Headers(
+      "Content-Type", "application/json",
+      "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+      )
+}
+fetch(url, fetchData)
+.then((res) => res.json())
+.then((data) =>  console.log(data))
+.catch((err) => console.log(err))
+```
+
+> The above command returns a 204 response code
+
+
+## Shopping Cart (View Cart, Add/Remove Item)
+
+Record activity on a users shopping cart, typically when the cart is viewed, or an item is added or removed.
+
+**Field**|**Data Type**|**Description**|**Mandatory**
+:-----:|:-----:|:-----:|:-----:
+type|String|Set to 'viewcart'|Yes
+cart|Array|Specify an array of product_ids and optionally variant_ids|Yes
+
+```php
+<?
+$url = "https://api.datacue.co/v1/events";
+$data = array(
+  "user" => array(
+    "user_id" =>  "019mr8mf4r",
+    "anonymous_id" => "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502",
     "profile" =>  array(
   	  "sex" => "female"
     )
   ),
   "event" =>  array(
     "type" => "viewcart",
-	  "cart" => array("p1","p2","p3")
-  ),
-  "context" =>  array(
-    "ip" =>  "24.5.68.47",
-    "user-agent" =>  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
-  ),
-  "timestamp" =>  "2012-12-02T00 => 30 => 08.276Z"
+	  "cart" => array(
+      array("product_id" => "p1","variant_id" => "v1"),
+      array("product_id" => "p2","variant_id" => "v1"),
+      array("product_id" => "p3","variant_id" => "v1")
+  )
 );
 
 $content = json_encode($data);
@@ -500,20 +727,25 @@ headers = {
 data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "a1",
+    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502",
     "profile": {
   	  "sex": "female"
     }
   },
   "event": {
     "type": "viewcart",
-    "cart": ["p1","p2","p3"]
-  },
-  "context": {
-    "ip": "24.5.68.47",
-    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
-  },
-  "timestamp": "2012-12-02T00:30:08.276Z"
+    "cart": [{
+                "product_id":"p1",
+                "variant_id":"v1"
+              },{
+                "product_id":"p2",
+                "variant_id":"v1"
+              },{
+                "product_id":"p3",
+                "variant_id":"v1"
+              }
+          ]
+  }
 }
 
 
@@ -525,22 +757,27 @@ const url = "https://api.datacue.co/v1/events";
 let data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "a1",
+    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502",
     "profile": {
   	  "sex": "female"
     }
   },
   "event": {
     "type": "viewcart",
-    "cart": ["p1","p2","p3"]
-  },
-  "context": {
-    "ip": "24.5.68.47",
-    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
-  },
-  "timestamp": "2012-12-02T00:30:08.276Z"
+    "cart": [{
+                "product_id":"p1",
+                "variant_id":"v1"
+              },{
+                "product_id":"p2",
+                "variant_id":"v1"
+              },{
+                "product_id":"p3",
+                "variant_id":"v1"
+              }
+          ]
+  }
 }
-// The parameters we are gonna pass to the fetch function
+// The parameters we are going to pass to the fetch function
 let fetchData = {
     method: "POST",
     body: data,
@@ -565,13 +802,21 @@ fetch(url, fetchData)
       "variant_id": "v1",
       "category_1": "outdoors",
       "category_2": "sofa",
-      "category_3": "scandinavian",
-      "category_4": "modern",
       "name": "Outdoor Armchair",
       "link": "/outdoor-sofa-2",
       "price": "199",
       "photo_url": "/products/37.jpg",
       "extras": {"discount":"10%"}
+    }, {
+      "product_id": "45",
+      "variant_id": "v1",
+      "category_1": "living-room",
+      "category_2": "lamp",
+      "name": "Beautiful lamp",
+      "link": "/living-room/45",
+      "price": "49",
+      "photo_url": "/products/45.jpg",
+      "extras": {}
     },
   ]
 }
@@ -579,7 +824,12 @@ fetch(url, fetchData)
 
 ## Search Page View
 
-Record when performs a search on your website
+Record when a user performs a search on your website
+
+**Field**|**Data Type**|**Description**|**Mandatory**
+:-----:|:-----:|:-----:|:-----:
+type|String|Set to 'search'|Yes
+term|String|Set to the user's search term|Yes
 
 ```php
 <?
@@ -587,7 +837,7 @@ $url = "https://api.datacue.co/v1/events";
 $data = array(
   "user" => array(
     "user_id" =>  "019mr8mf4r",
-    "anonymous_id" => "a1",
+    "anonymous_id" => "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502",
     "profile" =>  array(
   	  "sex" => "female"
     )
@@ -595,12 +845,7 @@ $data = array(
   "event" =>  array(
     "type" => "search",
     "term" => "tables"
-  ),
-  "context" =>  array(
-    "ip" =>  "24.5.68.47",
-    "user-agent" =>  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
-  ),
-  "timestamp" =>  "2012-12-02T00 => 30 => 08.276Z"
+  )
 );
 
 $content = json_encode($data);
@@ -631,7 +876,7 @@ headers = {
 data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "a1",
+    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502",
     "profile": {
   	  "sex": "female"
     }
@@ -639,12 +884,7 @@ data = {
   "event": {
     "type": "search",
     "term": "tables"
-  },
-  "context": {
-    "ip": "24.5.68.47",
-    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
-  },
-  "timestamp": "2012-12-02T00:30:08.276Z"
+  }
 }
 
 
@@ -656,7 +896,7 @@ const url = "https://api.datacue.co/v1/events";
 let data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "a1",
+    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502",
     "profile": {
   	  "sex": "female"
     }
@@ -664,14 +904,9 @@ let data = {
   "event": {
     "type": "search",
     "term": "tables"
-  },
-  "context": {
-    "ip": "24.5.68.47",
-    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
-  },
-  "timestamp": "2012-12-02T00:30:08.276Z"
+  }
 }
-// The parameters we are gonna pass to the fetch function
+// The parameters we are going to pass to the fetch function
 let fetchData = {
     method: "POST",
     body: data,
@@ -711,13 +946,18 @@ fetch(url, fetchData)
 
 Record changes to users wishlist, typically when the wishlist is viewed, or a product is added or removed from the wishlist.
 
+**Field**|**Data Type**|**Description**|**Mandatory**
+:-----:|:-----:|:-----:|:-----:
+type|String|Set to 'wishlist'|Yes
+wishlist|Array|Provide an array of product_ids and optionally variant_ids|Yes
+
 ```php
 <?
 $url = "https://api.datacue.co/v1/events";
 $data = array(
   "user" => array(
     "user_id" =>  "019mr8mf4r",
-    "anonymous_id" => "a1",
+    "anonymous_id" => "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1",
     "profile" =>  array(
   	  "sex" => "female"
     )
@@ -734,12 +974,7 @@ $data = array(
         "variant_id" => "v2"
       )
     )
-  ),
-  "context" =>  array(
-    "ip" =>  "24.5.68.47",
-    "user-agent" =>  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
-  ),
-  "timestamp" =>  "2012-12-02T00 => 30 => 08.276Z"
+  )
 );
 
 $content = json_encode($data);
@@ -770,7 +1005,7 @@ headers = {
 data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "a1",
+    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1",
     "profile": {
   	  "sex": "female"
     }
@@ -787,12 +1022,7 @@ data = {
         "variant_id": "v2"
       }
     ]
-  },
-  "context": {
-    "ip": "24.5.68.47",
-    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
-  },
-  "timestamp": "2012-12-02T00:30:08.276Z"
+  }
 }
 
 
@@ -804,7 +1034,7 @@ const url = "https://api.datacue.co/v1/events";
 let data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "a1",
+    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1",
     "profile": {
   	  "sex": "female"
     }
@@ -821,14 +1051,9 @@ let data = {
         "variant_id": "v2"
       }
     ]
-  },
-  "context": {
-    "ip": "24.5.68.47",
-    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
-  },
-  "timestamp": "2012-12-02T00:30:08.276Z"
+  }
 }
-// The parameters we are gonna pass to the fetch function
+// The parameters we are going to pass to the fetch function
 let fetchData = {
     method: "PUT",
     body: data,
@@ -849,27 +1074,28 @@ fetch(url, fetchData)
 
 Record clicks to a banner or a sub banner, typically on your home page
 
+**Field**|**Data Type**|**Description**|**Mandatory**
+:-----:|:-----:|:-----:|:-----:
+type|String|Set to 'click'|Yes
+subtype|String|Set to 'banner'|Yes
+banner_id|String|Set to the id of the clicked banner|Yes
+
 ```php
 <?
 $url = "https://api.datacue.co/v1/events";
 $data = array(
   "user" => array(
     "user_id" =>  "019mr8mf4r",
-    "anonymous_id" => "a1",
+    "anonymous_id" => "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1",
     "profile" =>  array(
-  	  "sex" => "mujer"
+  	  "sex" => "female"
     )
   ),
   "event" =>  array(
     "type" => "click",
     "subtype" => "banner",
     "banner_id" => "b1"
-  ),
-  "context" =>  array(
-    "ip" =>  "24.5.68.47",
-    "user-agent" =>  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
-  ),
-  "timestamp" =>  "2012-12-02T00 => 30 => 08.276Z"
+  )
 );
 
 $content = json_encode($data);
@@ -900,21 +1126,16 @@ headers = {
 data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "a1",
+    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1",
     "profile": {
-  	  "sex": "mujer"
+  	  "sex": "female"
     }
   },
   "event": {
     "type": "click",
     "subtype": "banner",
     "banner_id": "b1"
-  },
-  "context": {
-    "ip": "24.5.68.47",
-    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
-  },
-  "timestamp": "2012-12-02T00:30:08.276Z"
+  }
 }
 
 
@@ -926,7 +1147,7 @@ const url = "https://api.datacue.co/v1/events";
 let data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "a1",
+    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1",
     "profile": {
   	  "sex": "mujer"
     }
@@ -935,14 +1156,9 @@ let data = {
     "type": "click",
     "subtype": "banner",
     "banner_id": "b1"
-  },
-  "context": {
-    "ip": "24.5.68.47",
-    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
-  },
-  "timestamp": "2012-12-02T00:30:08.276Z"
+  }
 }
-// The parameters we are gonna pass to the fetch function
+// The parameters we are going to pass to the fetch function
 let fetchData = {
     method: "POST",
     body: data,
@@ -963,27 +1179,28 @@ fetch(url, fetchData)
 
 Record clicks on a product anywhere on your website.
 
+**Field**|**Data Type**|**Description**|**Mandatory**
+:-----:|:-----:|:-----:|:-----:
+type|String|Set to 'click'|Yes
+subtype|String|Set to 'product'|Yes
+banner_id|String|Set to the id of the clicked product|Yes
+
 ```php
 <?
 $url = "https://api.datacue.co/v1/events";
 $data = array(
   "user" => array(
     "user_id" =>  "019mr8mf4r",
-    "anonymous_id" => "a1",
+    "anonymous_id" => "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1",
     "profile" =>  array(
-  	  "sex" => "mujer"
+  	  "sex" => "female"
     )
   ),
   "event" =>  array(
     "type" => "click",
     "subtype" => "product",
     "product_id" => "p2"
-  ),
-  "context" =>  array(
-    "ip" =>  "24.5.68.47",
-    "user-agent" =>  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
-  ),
-  "timestamp" =>  "2012-12-02T00 => 30 => 08.276Z"
+  )
 );
 
 $content = json_encode($data);
@@ -1014,21 +1231,16 @@ headers = {
 data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "a1",
+    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1",
     "profile": {
-  	  "sex": "mujer"
+  	  "sex": "female"
     }
   },
   "event": {
     "type": "click",
     "subtype": "product",
     "product_id": "p2"
-  },
-  "context": {
-    "ip": "24.5.68.47",
-    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
-  },
-  "timestamp": "2012-12-02T00:30:08.276Z"
+  }
 }
 
 
@@ -1040,23 +1252,18 @@ const url = "https://api.datacue.co/v1/events";
 let data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "a1",
+    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1",
     "profile": {
-  	  "sex": "mujer"
+  	  "sex": "female"
     }
   },
   "event": {
     "type": "click",
     "subtype": "product",
     "product_id": "p2"
-  },
-  "context": {
-    "ip": "24.5.68.47",
-    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
-  },
-  "timestamp": "2012-12-02T00:30:08.276Z"
+  }
 }
-// The parameters we are gonna pass to the fetch function
+// The parameters we are going to pass to the fetch function
 let fetchData = {
     method: "POST",
     body: data,
@@ -1077,13 +1284,20 @@ fetch(url, fetchData)
 
 Record the moment the user initiates the check out process, typically from their shopping cart.
 
+**Field**|**Data Type**|**Description**|**Mandatory**
+:-----:|:-----:|:-----:|:-----:
+type|String|Set to 'order'|Yes
+subtype|String|Set to 'started'|Yes
+order_id|String|Set to the id of the order (if available)|No
+cart|Array|Cart contents as an array of product, variant, unit price, quantity and currency|Yes
+
 ```php
 <?
 $url = "https://api.datacue.co/v1/events";
 $data = array(
   "user" => array(
     "user_id" =>  "019mr8mf4r",
-    "anonymous_id" => "a1",
+    "anonymous_id" => "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1a1",
     "profile" =>  array(
   	  "sex" => "female"
     )
@@ -1101,12 +1315,7 @@ $data = array(
         "currency" => "USD"
       )
     )
-  ),
-  "context" =>  array(
-    "ip" =>  "24.5.68.47",
-    "user-agent" =>  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
-  ),
-  "timestamp" =>  "2012-12-02T00 => 30 => 08.276Z"
+  )
 );
 
 $content = json_encode($data);
@@ -1137,7 +1346,7 @@ headers = {
 data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "a1",
+    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1",
     "profile": {
   	  "sex": "female"
     }
@@ -1155,12 +1364,7 @@ data = {
         "currency": "USD"
       }
     ]
-  },
-  "context": {
-    "ip": "24.5.68.47",
-    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
-  },
-  "timestamp": "2012-12-02T00:30:08.276Z"
+  }
 }
 
 
@@ -1172,7 +1376,7 @@ const url = "https://api.datacue.co/v1/events";
 let data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "a1",
+    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1",
     "profile": {
   	  "sex": "female"
     }
@@ -1190,14 +1394,9 @@ let data = {
         "currency": "USD"
       }
     ]
-  },
-  "context": {
-    "ip": "24.5.68.47",
-    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
-  },
-  "timestamp": "2012-12-02T00:30:08.276Z"
+  }
 }
-// The parameters we are gonna pass to the fetch function
+// The parameters we are going to pass to the fetch function
 let fetchData = {
     method: "POST",
     body: data,
@@ -1218,13 +1417,21 @@ fetch(url, fetchData)
 
 Record the moment the order (or checkout) is completed.
 
+**Field**|**Data Type**|**Description**|**Mandatory**
+:-----:|:-----:|:-----:|:-----:
+type|String|Set to 'order'|Yes
+subtype|String|Set to 'completed'|Yes
+order_id|String|Set to the id of the order|Yes
+cart|Array|Cart contents as an array of product, variant, unit price, quantity and currency|Yes
+payment_method|String|Specify the payment method used (for analytics)|No
+
 ```php
 <?
 $url = "https://api.datacue.co/v1/events";
 $data = array(
   "user" => array(
     "user_id" =>  "019mr8mf4r",
-    "anonymous_id" => "a1",
+    "anonymous_id" => "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1",
     "profile" =>  array(
   	  "sex" => "female"
     )
@@ -1233,8 +1440,7 @@ $data = array(
     "type" => "order",
     "subtype" => "completed",
     "order_id" => "o1",
-    "buyer_id" => "",
-    "payment_method" => "",
+    "payment_method" => "credit card",
     "cart" => array(
       array(
         "product_id" => "p1",
@@ -1244,12 +1450,7 @@ $data = array(
         "currency" => "USD"
       )
     )
-  ),
-  "context" =>  array(
-    "ip" =>  "24.5.68.47",
-    "user-agent" =>  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
-  ),
-  "timestamp" =>  "2012-12-02T00 => 30 => 08.276Z"
+  )
 );
 
 $content = json_encode($data);
@@ -1280,7 +1481,7 @@ headers = {
 data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "a1",
+    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1",
     "profile": {
   	  "sex": "female"
     }
@@ -1289,8 +1490,7 @@ data = {
     "type": "order",
     "subtype": "completed",
     "order_id": "o1",
-    "buyer_id": "",
-    "payment_method": "",
+    "payment_method": "credit card",
     "cart": [
       {
         "product_id": "p1",
@@ -1300,12 +1500,7 @@ data = {
         "currency": "USD"
       }
     ]
-  },
-  "context": {
-    "ip": "24.5.68.47",
-    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
-  },
-  "timestamp": "2012-12-02T00:30:08.276Z"
+  }
 }
 
 
@@ -1317,7 +1512,7 @@ const url = "https://api.datacue.co/v1/events";
 let data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "a1",
+    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1",
     "profile": {
   	  "sex": "female"
     }
@@ -1337,14 +1532,115 @@ let data = {
         "currency": "USD"
       }
     ]
-  },
-  "context": {
-    "ip": "24.5.68.47",
-    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
-  },
-  "timestamp": "2012-12-02T00:30:08.276Z"
+  }
 }
-// The parameters we are gonna pass to the fetch function
+// The parameters we are going to pass to the fetch function
+let fetchData = {
+    method: "POST",
+    body: data,
+    headers: new Headers(
+      "Content-Type", "application/json",
+      "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+      )
+}
+fetch(url, fetchData)
+.then((res) => res.json())
+.then((data) =>  console.log(data))
+.catch((err) => console.log(err))
+```
+
+> The above command returns a 204 response code
+
+## Cancel Order
+
+Record the moment the order (or checkout) is cancelled.
+
+**Field**|**Data Type**|**Description**|**Mandatory**
+:-----:|:-----:|:-----:|:-----:
+type|String|Set to 'order'|Yes
+subtype|String|Set to 'cancelled'|Yes
+order_id|String|Set to the id of the order|Yes
+
+
+```php
+<?
+$url = "https://api.datacue.co/v1/events";
+$data = array(
+  "user" => array(
+    "user_id" =>  "019mr8mf4r",
+    "anonymous_id" => "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1",
+    "profile" =>  array(
+  	  "sex" => "female"
+    )
+  ),
+  "event" =>  array(
+    "type" => "order",
+    "subtype" => "cancelled",
+    "order_id" => "o1"
+  )
+);
+
+$content = json_encode($data);
+
+$curl = curl_init($url);
+curl_setopt($curl, CURLOPT_HEADER, false);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER,
+        array(
+          "Content-type: application/json",
+          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+        ));
+curl_setopt($curl, CURLOPT_POST, true);
+curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+
+$json_response = curl_exec($curl);
+?>
+```
+
+```python
+import requests
+
+url = "https://api.datacue.co/v1/events"
+headers = {
+  "Content-type": "application/json",
+  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+}
+data = {
+  "user": {
+    "user_id": "019mr8mf4r",
+    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1",
+    "profile": {
+  	  "sex": "female"
+    }
+  },
+  "event": {
+    "type": "order",
+    "subtype": "cancelled",
+    "order_id": "o1"
+  }
+}
+
+
+response = requests.post(url, data=data, headers=headers)
+```
+
+```javascript
+const url = "https://api.datacue.co/v1/events";
+let data = {
+  "user": {
+    "user_id": "019mr8mf4r",
+    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1",
+    "profile": {
+  	  "sex": "female"
+    }
+  },
+  "event": {
+    "type": "order",
+    "subtype": "cancelled",
+    "order_id": "o1"
+  }
+}
+// The parameters we are going to pass to the fetch function
 let fetchData = {
     method: "POST",
     body: data,
@@ -1365,25 +1661,24 @@ fetch(url, fetchData)
 
 Record logins by a user on your website, if the user login is cached, you do not need to fire this event when the user returns.
 
+**Field**|**Data Type**|**Description**|**Mandatory**
+:-----:|:-----:|:-----:|:-----:
+type|String|Set to 'login'|Yes
+
 ```php
 <?
 $url = "https://api.datacue.co/v1/events";
 $data = array(
   "user" => array(
     "user_id" =>  "019mr8mf4r",
-    "anonymous_id" => "a1",
+    "anonymous_id" => "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1",
     "profile" =>  array(
   	  "sex" => "female"
     )
   ),
   "event" =>  array(
     "type" => "login"
-  ),
-  "context" =>  array(
-    "ip" =>  "24.5.68.47",
-    "user-agent" =>  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
-  ),
-  "timestamp" =>  "2012-12-02T00 => 30 => 08.276Z"
+  )
 );
 
 $content = json_encode($data);
@@ -1414,19 +1709,14 @@ headers = {
 data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "a1",
+    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1",
     "profile": {
   	  "sex": "female"
     }
   },
   "event": {
     "type": "login"
-  },
-  "context": {
-    "ip": "24.5.68.47",
-    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
-  },
-  "timestamp": "2012-12-02T00:30:08.276Z"
+  }
 }
 
 
@@ -1438,21 +1728,16 @@ const url = "https://api.datacue.co/v1/events";
 let data = {
   "user": {
     "user_id": "019mr8mf4r",
-    "anonymous_id": "a1",
+    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1",
     "profile": {
   	  "sex": "female"
     }
   },
   "event": {
     "type": "login"
-  },
-  "context": {
-    "ip": "24.5.68.47",
-    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"
-  },
-  "timestamp": "2012-12-02T00:30:08.276Z"
+  }
 }
-// The parameters we are gonna pass to the fetch function
+// The parameters we are going to pass to the fetch function
 let fetchData = {
     method: "POST",
     body: data,
@@ -1474,6 +1759,27 @@ fetch(url, fetchData)
 ## Create Product
 
 Whenever a new product is created, send this request from your backend.
+
+**Field**|**Data Type**|**Description**|**Mandatory**
+:-----:|:-----:|:-----:|:-----:
+product_id|String|The product id or SKU number|Yes
+variant_id|String|A unique variant id within the product id, if you only use product SKUs set this to a constant such as 'no-variants'|Yes
+category_1|String|Top category level of product e.g. 'Men' , 'Women' or 'Children''.|Yes
+category_2|String|Second category level of product e.g. 'Shoes' or 'Dresses'|No
+category_3|String|Third category level of product e.g. 'Sports' or 'Sandals'|No
+category_4|String|Fourth category level of product e.g. 'Running shoes'|No
+category_extra|JSON Object|Any other categories can be stored here as an object, e.g. "category_extra" : { "category_5": "value" } and so on.|No
+name|String|Name or Title of the product|Yes
+brand|String|Brand name of the product|No
+description|String|Long text description of the product|No
+color|String|Color of the product|No
+size|String|Size of the product|No
+price|Decimal|Price of the product up to two decimal places|Yes
+stock|Integer|Number of product in stock|Yes
+extra|JSON Object|Any other fields you want to store about the product that you want to display on site e.g. discounts or promotions. |No
+photo_url|String|URL of the photo, you can use relative URLs as this is purely for your front-end to request the image|Yes
+link|String|URL of product page for this product e.g. https://mysite.com/products/p1|Yes
+owner_id|String|If you're running a marketplace, store the product's owner or seller's user ID here.|No
 
 ```php
 <?
@@ -1582,7 +1888,7 @@ let data = {
    "link": "/product/p1",
    "owner_id": "user_id_3"
  }
-// The parameters we are gonna pass to the fetch function
+// The parameters we are going to pass to the fetch function
 let fetchData = {
     method: "POST",
     body: data,
@@ -1659,7 +1965,7 @@ let data = {
    "category_3": "skinny"
    "stock": 6
  }
-// The parameters we are gonna pass to the fetch function
+// The parameters we are going to pass to the fetch function
 let fetchData = {
     method: "PUT",
     body: data,
@@ -1713,7 +2019,7 @@ response = requests.delete(url, headers=headers)
 ```javascript
 const url = "https://api.datacue.co/v1/products/:product_id/:variant_id";
 
-// The parameters we are gonna pass to the fetch function
+// The parameters we are going to pass to the fetch function
 let fetchData = {
   method: "DELETE",
   headers: new Headers(
@@ -1732,9 +2038,25 @@ fetch(url, fetchData)
 
 # Banner Management
 
+We recommend that you use your DataCue dashboard to upload and manage your banners. If you want DataCue to use your existing banner management solution, you can use these endpoints to do so.
+
 ## Create Banner
 
-When you create a new banner on your system. Does not apply if you're using DataCue to manage your banners.
+When you create a new banner on your system.
+
+**Field**|**Data Type**|**Description**|**Mandatory**
+:-----:|:-----:|:-----:|:-----:
+banner_id|String|The product id or SKU number|Yes
+type|String|The type of banner. Set to 'main' for main banner or 'sub' for sub banner|Yes
+name|String|Friendly name for the banner|No
+category_1|String|The top category level this product belongs to. In a fashion store, this could be 'Men' , 'Women' or 'Children''.|Yes
+category_2|String|The second category level this product belongs to. In a fashion store, this could be 'Shoes or 'Dresses'|No
+category_3|String|The third category level this product belongs to. In a fashion store, this could be 'Sports' or 'Sandals'|No
+category_4|String|The fourth category level this product belongs to. In a fashion store, this could be 'Running shoes'|No
+photo_url|String|URL of the banner image, you can use relative URLs as this is purely for your front-end to request the image|Yes
+link|String|Which page to take the user to when they click on the banner on your website. Typically a collection or catalog page for the banner's associated category.|Yes
+extra|JSON Object|Any other information you would like to use about your banners. For instance, you can store URLs of a mobile optimized version of your banner here.|No
+
 
 ```php
 <?
@@ -1814,7 +2136,7 @@ let data = {
    "link": "path/to/anything"
  }
 
-// The parameters we are gonna pass to the fetch function
+// The parameters we are going to pass to the fetch function
 let fetchData = {
     method: "POST",
     body: data,
@@ -1882,7 +2204,7 @@ const url = "https://api.datacue.co/v1/banners/:banner_id";
 let data = {
    "link": "/new-link"
  }
-// The parameters we are gonna pass to the fetch function
+// The parameters we are going to pass to the fetch function
 let fetchData = {
     method: "PUT",
     body: data,
@@ -1936,7 +2258,7 @@ response = requests.delete(url, headers=headers)
 ```javascript
 const url = "https://api.datacue.co/v1/banners/:banner_id";
 
-// The parameters we are gonna pass to the fetch function
+// The parameters we are going to pass to the fetch function
 let fetchData = {
   method: "DELETE",
   headers: new Headers(
@@ -1959,6 +2281,25 @@ fetch(url, fetchData)
 
 When a new user has successfully signed up / registered on your system.
 
+**Field**|**Data Type**|**Description**|**Mandatory**
+:-----:|:-----:|:-----:|:-----:
+user\_id|String|The unique user id assigned|Yes
+anonymous\_id|String|Anonymous ID that was previously associated with this user prior to user sign up|No
+email|String|User's email address|Yes, if using email marketing
+title|String|Salutation e.g. Mr. , Ms., Dr.|No
+first\_name|String|User's first name, if you store all the names in one field assign the name to this field|Yes
+last\_name|String|User's last name|No
+profile|JSON object|User's profile. See table below for field description|No
+cart|Array|An array of product ids and variant ids representing the current products in the users shopping cart.|No
+
+### Profile
+
+**Field**|**Data Type**|**Description**|**Mandatory**
+:-----:|:-----:|:-----:|:-----:
+sex|String|Sex of the user|No
+location|String|Aggregate location like commune, city or country of the user|No
+segment|String|Custom segment name that you store e.g. Gold class / Member|No
+
 ```php
 <?
 $url = "https://api.datacue.co/v1/users";
@@ -1970,14 +2311,14 @@ $data = array(
   "first_name" => "John",
   "last_name" => "Smith",
   "profile" => array(
-    "dob" => "25/01/1980",
     "location" => "santiago",
     "sex" => "male",
-    "income" => "S1",
-    "occupation" => "Engineer",
-    "marital_status" => "married"
+    "segment" => "platinum"
   ),
-  "cart" => array("product_id1","product_id2")
+  "cart" => array(
+    array("product_id" => "p1","variant_id" => "v1"),
+    array("product_id" => "p2","variant_id" => "v1")
+  )
 )
 
 $content = json_encode($data);
@@ -2013,14 +2354,20 @@ data = {
    "first_name": "John",
    "last_name": "Smith",
    "profile": {
-       "dob": "25/01/1980",
        "location": "santiago",
        "sex": "male",
-       "income": "S1",
-       "occupation": "Engineer",
-       "marital_status": "married"
+       "segment": "platinum"
    },
-   "cart": ["product_id1","product_id2"]
+   "cart": [
+     {
+       "product_id":"p1"
+       "variant_id":"v1"
+     },
+     {
+       "product_id":"p2"
+       "variant_id":"v1"
+     },
+  ]
 }
 
 response = requests.post(url, data=data, headers=headers)
@@ -2033,20 +2380,26 @@ let data = {
    "anonymous_ids": "v1"
    "email": "xyz@abc.com",
    "title": "Mr",
-   "first_name": "John",
-   "last_name": "Smith",
+   "first_name": "Noob",
+   "last_name": "Saibot",
    "profile": {
-       "dob": "25/01/1980",
        "location": "santiago",
        "sex": "male",
-       "income": "S1",
-       "occupation": "Engineer",
-       "marital_status": "married"
+       "segment": "platinum"
    },
-   "cart": ["product_id1","product_id2"]
+    "cart": [
+     {
+       "product_id":"p1"
+       "variant_id":"v1"
+     },
+     {
+       "product_id":"p2"
+       "variant_id":"v1"
+     },
+  ]
 }
 
-// The parameters we are gonna pass to the fetch function
+// The parameters we are going to pass to the fetch function
 let fetchData = {
     method: "POST",
     body: data,
@@ -2073,7 +2426,7 @@ When the user makes changes to their profile or when they configure any relevant
 $url = "https://api.datacue.co/v1/users/:user_id";
 $data = array(
   "profile" => array(
-    "dob" => "29/01/1980"
+    "location" => "singapore"
   )
 );
 
@@ -2104,7 +2457,7 @@ headers = {
 }
 data = {
    "profile": {
-     "dob": "29/01/1980"
+     "location": "singapore"
    }
  }
 
@@ -2115,10 +2468,10 @@ response = requests.put(url, data=data, headers=headers)
 const url = "https://api.datacue.co/v1/users/:user_id";
 let data = {
    "profile": {
-     "dob" => "29/01/1980"
+     "location" : "singapore"
    }
  }
-// The parameters we are gonna pass to the fetch function
+// The parameters we are going to pass to the fetch function
 let fetchData = {
     method: "PUT",
     body: data,
@@ -2135,9 +2488,9 @@ fetch(url, fetchData)
 
 > The above command returns a 204 response code
 
-## Delete Banner
+## Delete User
 
-When you delete a banner on your system. Does not apply if you're using DataCue to manage your banners.
+When a user account is deleted from your system.
 
 ```php
 <?
@@ -2172,7 +2525,7 @@ response = requests.delete(url, headers=headers)
 ```javascript
 const url = "https://api.datacue.co/v1/users/:user_id";
 
-// The parameters we are gonna pass to the fetch function
+// The parameters we are going to pass to the fetch function
 let fetchData = {
   method: "DELETE",
   headers: new Headers(
@@ -2187,3 +2540,639 @@ fetch(url, fetchData)
 ```
 
 > The above command returns a 204 response code
+
+# Banner Management
+
+We recommend that you use your DataCue dashboard to upload and manage your banners. If you want DataCue to use your existing banner management solution, you can use these endpoints to do so.
+
+## Create Banner
+
+When you create a new banner on your system.
+
+**Field**|**Data Type**|**Description**|**Mandatory**
+:-----:|:-----:|:-----:|:-----:
+banner_id|String|The product id or SKU number|Yes
+type|String|The type of banner. Set to 'main' for main banner or 'sub' for sub banner|Yes
+name|String|Friendly name for the banner|No
+category_1|String|Top category level of product e.g. 'Men' , 'Women' or 'Children''.|Yes
+category_2|String|Second category level of product e.g. 'Shoes' or 'Dresses'|No
+category_3|String|Third category level of product e.g. 'Sports' or 'Sandals'|No
+category_4|String|Fourth category level of product e.g. 'Running shoes'|No
+photo_url|String|URL of the banner image, you can use relative URLs as this is purely for your front-end to request the image|Yes
+link|String|Which page to take the user to when they click on the banner on your website. Typically a collection or catalog page for the banner's associated category.|Yes
+extra|JSON Object|Any other information you would like to use about your banners. For instance, you can store URLs of a mobile optimized version of your banner here.|No
+
+
+```php
+<?
+$url = "https://api.datacue.co/v1/banners";
+$data = array(
+  "banner_id" => "b1",
+  "type" => "sub",
+  "title" => "friendly name for b1",
+  "category_1" => "women",
+  "category_2" => "summer",
+  "category_3" => "dresses",
+  "category_4" => "casual",
+  "photos" => array(
+    "mobile" => "http://s3.amazon.com/photoMobile.png",
+    "desktop" => "http://s3.amazon.com/photoDesktop.png"
+  ),
+  "link" => "path/to/anything"
+);
+
+$content = json_encode($data);
+
+$curl = curl_init($url);
+curl_setopt($curl, CURLOPT_HEADER, false);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER,
+        array(
+          "Content-type: application/json",
+          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+        ));
+curl_setopt($curl, CURLOPT_POST, true);
+curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+
+$json_response = curl_exec($curl);
+?>
+```
+
+```python
+import requests
+
+url = "https://api.datacue.co/v1/banners"
+headers = {
+  "Content-type": "application/json",
+  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+}
+data = {
+   "banner_id": "b1",
+   "type": "sub",
+   "title": "friendly name for b1",
+   "category_1": "women",
+   "category_2": "summer",
+   "category_3": "dresses",
+   "category_4": "casual",
+   "photos": {
+     "mobile": "http://s3.amazon.com/photoMobile.png",
+     "desktop": "http://s3.amazon.com/photoDesktop.png",
+   },
+   "link": "path/to/anything"
+ }
+
+response = requests.post(url, data=data, headers=headers)
+```
+
+```javascript
+const url = "https://api.datacue.co/v1/banners";
+let data = {
+   "banner_id": "b1",
+   "type": "sub",
+   "title": "friendly name for b1",
+   "category_1": "women",
+   "category_2": "summer",
+   "category_3": "dresses",
+   "category_4": "casual",
+   "photos": {
+     "mobile": "http://s3.amazon.com/photoMobile.png",
+     "desktop": "http://s3.amazon.com/photoDesktop.png",
+   },
+   "link": "path/to/anything"
+ }
+
+// The parameters we are going to pass to the fetch function
+let fetchData = {
+    method: "POST",
+    body: data,
+    headers: new Headers(
+      "Content-Type", "application/json",
+      "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+      )
+}
+fetch(url, fetchData)
+.then((res) => res.json())
+.then((data) =>  console.log(data))
+.catch((err) => console.log(err))
+```
+
+> The above command returns a 201 response code
+
+
+## Update Banner
+
+When you update your banner in any way like changing the banner image, link or assigned categories on your system. Does not apply if you're using DataCue to manage your banners.
+
+Only send fields to be updated
+
+```php
+<?
+$url = "https://api.datacue.co/v1/banners/:banner_id";
+$data = array(
+  "link" => "/new-link"
+);
+
+$content = json_encode($data);
+
+$curl = curl_init($url);
+curl_setopt($curl, CURLOPT_HEADER, false);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER,
+        array(
+          "Content-type: application/json",
+          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+        ));
+curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
+curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+
+$json_response = curl_exec($curl);
+?>
+```
+
+```python
+import requests
+
+url = "https://api.datacue.co/v1/banners/:banner_id"
+headers = {
+  "Content-type": "application/json",
+  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+}
+data = {
+   "link": "/new-link"
+ }
+
+response = requests.put(url, data=data, headers=headers)
+```
+
+```javascript
+const url = "https://api.datacue.co/v1/banners/:banner_id";
+let data = {
+   "link": "/new-link"
+ }
+// The parameters we are going to pass to the fetch function
+let fetchData = {
+    method: "PUT",
+    body: data,
+    headers: new Headers(
+      "Content-Type", "application/json",
+      "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+      )
+}
+fetch(url, fetchData)
+.then((res) => res.json())
+.then((data) =>  console.log(data))
+.catch((err) => console.log(err))
+```
+
+> The above command returns a 204 response code
+
+## Delete Banner
+
+When you delete a banner on your system. Does not apply if you're using DataCue to manage your banners.
+
+```php
+<?
+$url = "https://api.datacue.co/v1/banners/:banner_id";
+
+$curl = curl_init($url);
+curl_setopt($curl, CURLOPT_HEADER, false);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER,
+        array(
+          "Content-type: application/json",
+          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+        ));
+curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+
+$json_response = curl_exec($curl);
+?>
+```
+
+```python
+import requests
+
+url = "https://api.datacue.co/v1/banners/:banner_id"
+headers = {
+  "Content-type": "application/json",
+  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+}
+
+response = requests.delete(url, headers=headers)
+```
+
+```javascript
+const url = "https://api.datacue.co/v1/banners/:banner_id";
+
+// The parameters we are going to pass to the fetch function
+let fetchData = {
+  method: "DELETE",
+  headers: new Headers(
+    "Content-Type", "application/json",
+    "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+  )
+}
+fetch(url, fetchData)
+.then((res) => res.json())
+.then((data) =>  console.log(data))
+.catch((err) => console.log(err))
+```
+
+> The above command returns a 204 response code
+
+
+# Batch
+
+## Batch Create Banners / Orders / Products / Users
+
+Use the batch endpoint if you want to do a bulk import, typically when you first start using DataCue and you want to add your historical orders, products or users.
+
+Tell us what you're sending via the 'type' and insert an array of your requests in the batch field.
+
+Best explained with an example, you want to create 500 products in one go. As seen in the previous section, a product create payload looks like this:
+```json
+{
+  "product_id":"P1",
+  "variant_id":"V2",
+  "category_1":"jeans",
+  "price":50,
+  "photo_url":"/products/p1.jpg",
+  "link":"/products/p1"
+}
+```
+
+to submit multiple, just set type to "products" and insert an array of product requests in the batch field like so:
+
+```json
+{
+  "type":"products",
+  "batch": [{
+    "product_id":"P1",
+    "variant_id":"V2",
+    "category_1":"jeans",
+    "price":50,
+    "photo_url":"/products/p1.jpg",
+    "link":"/products/p1"
+  },{
+    "product_id":"P2",
+    "variant_id":"V1",
+    "category_1":"shirts",
+    "price":30,
+    "photo_url":"/products/p2.jpg",
+    "link":"/products/p2"
+  }]
+}
+```
+
+**Field**|**Data Type**|**Description**|**Mandatory**
+:-----:|:-----:|:-----:|:-----:
+type|String|Set to products, orders or users|Yes
+batch|Array|Array of objects you are sending|Yes
+
+```php
+<?
+$url = "https://api.datacue.co/v1/batch";
+$data = array(
+  "type" => "users",
+  "batch" => array(
+    array("user_id" => "u1","email" => "u1@abc.com"),
+    array("user_id" => "u2","email" => "u2@abc.com"),
+    array("user_id" => "u3","email" => "u3@abc.com"),
+  )
+)
+
+$content = json_encode($data);
+
+$curl = curl_init($url);
+curl_setopt($curl, CURLOPT_HEADER, false);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER,
+        array(
+          "Content-type: application/json",
+          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+        ));
+curl_setopt($curl, CURLOPT_POST, true);
+curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+
+$json_response = curl_exec($curl);
+?>
+```
+
+```python
+import requests
+
+url = "https://api.datacue.co/v1/batch"
+headers = {
+  "Content-type": "application/json",
+  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+}
+data = {
+   "type": "users",
+   "batch": [
+     {
+       "user_id":"u1"
+       "email":"u1@abc.com"
+     },
+     {
+       "user_id":"u2"
+       "email":"u2@abc.com"
+     },
+     {
+       "user_id":"u3"
+       "email":"u3@abc.com"
+     }
+  ]
+}
+
+response = requests.post(url, data=data, headers=headers)
+```
+
+```javascript
+const url = "https://api.datacue.co/v1/batch";
+let data = {
+   "type": "users",
+   "batch": [
+     {
+       "user_id":"u1"
+       "email":"u1@abc.com"
+     },
+     {
+       "user_id":"u2"
+       "email":"u2@abc.com"
+     },
+     {
+       "user_id":"u3"
+       "email":"u3@abc.com"
+     }
+  ]
+}
+
+// The parameters we are going to pass to the fetch function
+let fetchData = {
+    method: "POST",
+    body: data,
+    headers: new Headers(
+      "Content-Type", "application/json",
+      "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+      )
+}
+fetch(url, fetchData)
+.then((res) => res.json())
+.then((data) =>  console.log(data))
+.catch((err) => console.log(err))
+```
+
+> The above command returns a 207 multi status response code
+
+We will send you a status for each item you sent, so you can handle and resend only items that had an error.
+
+```json
+{
+    "status": [
+        {
+            "product_id": "p1",
+            "status": "error",
+            "error": "Please specify category_1"
+        },
+        {
+            "product_id": "p2",
+            "status": "OK"
+        }
+    ]
+}
+```
+
+## Batch Update Banners / Orders / Products / Users
+
+To make a batch update, make a `PUT` request to the batch endpoint in a similar format as above.
+
+
+```php
+<?
+$url = "https://api.datacue.co/v1/batch";
+$data = array(
+  "type" => "users",
+  "batch" => array(
+    array("first_name" => "Paulo","email" => "u1@abc.com"),
+    array("last_name" => "Rabani","email" => "u2@abc.com"),
+    array("first_name" => "Hisham","email" => "u3@abc.com"),
+  )
+)
+
+$content = json_encode($data);
+
+$curl = curl_init($url);
+curl_setopt($curl, CURLOPT_HEADER, false);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER,
+        array(
+          "Content-type: application/json",
+          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+        ));
+curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
+curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+
+$json_response = curl_exec($curl);
+?>
+```
+
+```python
+import requests
+
+url = "https://api.datacue.co/v1/batch"
+headers = {
+  "Content-type": "application/json",
+  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+}
+data = {
+   "type": "users",
+   "batch": [
+     {
+       "first_name":"Paulo"
+       "email":"u1@abc.com"
+     },
+     {
+       "last_name":"Rabani"
+       "email":"u2@abc.com"
+     },
+     {
+       "first_name":"Hisham"
+       "email":"u3@abc.com"
+     }
+  ]
+}
+
+response = requests.put(url, data=data, headers=headers)
+```
+
+```javascript
+const url = "https://api.datacue.co/v1/batch";
+let data = {
+   "type": "users",
+   "batch": [
+     {
+       "first_name":"Paulo"
+       "email":"u1@abc.com"
+     },
+     {
+       "last_name":"Rabani"
+       "email":"u2@abc.com"
+     },
+     {
+       "first_name":"Hisham"
+       "email":"u3@abc.com"
+     }
+  ]
+}
+// The parameters we are going to pass to the fetch function
+let fetchData = {
+    method: "PUT",
+    body: data,
+    headers: new Headers(
+      "Content-Type", "application/json",
+      "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+      )
+}
+fetch(url, fetchData)
+.then((res) => res.json())
+.then((data) =>  console.log(data))
+.catch((err) => console.log(err))
+```
+
+> The above command returns a 207 multi status response code
+
+We will send you a status for each item you sent, so you can handle and resend only items that had an error.
+
+```json
+{
+    "status": [
+        {
+            "banner_id": "b1",
+            "status": "error",
+            "error": "Please specify a photo_url"
+        },
+        {
+            "banner_id": "b2",
+            "status": "OK"
+        }
+    ]
+}
+```
+
+## Batch Delete Banners/ Orders / Products / Users
+
+Send a batch delete to delete multiple items within one request. Delete requests only require an id field as follows:
+
+**Type**|**ID Field(s)**
+:-----:|:-----:
+banners|banner_id
+orders|order_id
+products|product_id and variant_id
+users|user_id
+
+
+```php
+<?
+$url = "https://api.datacue.co/v1/batch";
+$data = array(
+  "type" => "users",
+  "batch" => array(
+    array("user_id" => "u1"),
+    array("user_id" => "u2"),
+    array("user_id" => "u3"),
+  )
+)
+
+$content = json_encode($data);
+
+$curl = curl_init($url);
+curl_setopt($curl, CURLOPT_HEADER, false);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER,
+        array(
+          "Content-type: application/json",
+          "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+        ));
+curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+
+$json_response = curl_exec($curl);
+
+?>
+```
+
+```python
+import requests
+
+url = "https://api.datacue.co/v1/batch
+headers = {
+  "Content-type": "application/json",
+  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+}
+data = {
+   "type": "users",
+   "batch": [
+     {
+       "user_id":"u1"
+     },
+     {
+       "user_id":"u2"
+     },
+     {
+       "user_id":"u3"
+     }
+  ]
+}
+
+response = requests.delete(url, data=data, headers=headers)
+```
+
+```javascript
+const url = "https://api.datacue.co/v1/batch";
+let data = {
+   "type": "users",
+   "batch": [
+     {
+       "user_id":"u1"
+     },
+     {
+       "user_id":"u2"
+     },
+     {
+       "user_id":"u3"
+     }
+  ]
+}
+// The parameters we are going to pass to the fetch function
+let fetchData = {
+    method: "DELETE",
+    body: data,
+    headers: new Headers(
+      "Content-Type", "application/json",
+      "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+      )
+}
+fetch(url, fetchData)
+.then((res) => res.json())
+.then((data) =>  console.log(data))
+.catch((err) => console.log(err))
+```
+
+> The above command returns a 207 multi status response code
+
+We will send you a status for each item you sent, so you can handle and resend only items that had an error.
+
+```json
+{
+    "status": [
+        {
+            "product_id": "p1",
+            "status": "error",
+            "error": "Product not found"
+        },
+        {
+            "product_id": "p2",
+            "status": "OK"
+        }
+    ]
+}
+```
