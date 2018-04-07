@@ -85,6 +85,8 @@ You must set a content-type header to "application/json".
 
 # Browser Events
 
+URL: `POST` `/v1/events`
+
 ## Authorization
 
 All events endpoints are meant to be sent from your user's browsers using our embedded script. This endpoint only requires your API Key.
@@ -1118,6 +1120,8 @@ fetch(url, fetchData)
 
 ## Create Product
 
+URL: `POST` `/v1/products`
+
 Whenever a new product is created, send this request from your backend.
 
 **Field**|**Data Type**|**Description**|**Mandatory**
@@ -1272,6 +1276,8 @@ fetch(url, fetchData)
 
 ## Update Product
 
+URL: `PUT` `/v1/products/<product_id>/<variant_id>`
+
 Whenever an existing product is updated such as image, name, price or new discounts, send this request from your backend.
 
 Remember that when an order is completed this is also a product update as the stock level of the product will change. Sending us a product update after an order will ensure that if a product is out of stock, it is no longer recommended to other users.
@@ -1352,7 +1358,13 @@ fetch(url, fetchData)
 
 ## Delete Product
 
-When you delete a banner on your system. Does not apply if you're using DataCue to manage your banners.
+Delete a variant
+URL: `DELETE` `/v1/products/<product_id>/<variant_id>`
+
+Delete a product and all associated variants
+URL: `DELETE` `/v1/products/<product_id>`
+
+Delete a product on your system.
 
 ```javascript--browser
 //backend only event (refer to the python, php or node tab)
@@ -1413,6 +1425,8 @@ fetch(url, fetchData)
 We recommend that you use your DataCue dashboard to upload and manage your banners. However, if you want DataCue to use your existing banner management solution, you can use these endpoints to do so.
 
 ## Create Banner
+
+URL: `POST` `/v1/banners`
 
 When you create a new banner on your system.
 
@@ -1531,6 +1545,8 @@ fetch(url, fetchData)
 
 ## Update Banner
 
+URL: `PUT` `/v1/banners/<banner_id>`
+
 When you update your banner in any way like changing the banner image, link or assigned categories on your system. Does not apply if you're using DataCue to manage your banners.
 
 Only send fields to be updated
@@ -1602,6 +1618,8 @@ fetch(url, fetchData)
 
 ## Delete Banner
 
+URL: `DELETE` `/v1/banners/<banner_id>`
+
 When you delete a banner on your system. Does not apply if you're using DataCue to manage your banners.
 
 ```javascript--browser
@@ -1661,6 +1679,8 @@ fetch(url, fetchData)
 # User Management
 
 ## Create User
+
+URL: `POST` `/v1/users`
 
 When a new user has successfully signed up / registered on your system.
 
@@ -1806,6 +1826,8 @@ fetch(url, fetchData)
 
 ## Update User
 
+URL: `PUT` `/v1/users/<user_id>`
+
 When the user makes changes to their profile or when they configure any relevant preferences. For instance if they indicate their gender, this is very helpful for recommendations.
 
 ```javascript--browser
@@ -1881,6 +1903,8 @@ fetch(url, fetchData)
 
 ## Delete User
 
+URL: `DELETE` `/v1/users/<user_id>`
+
 When a user account is deleted from your system.
 
 ```javascript--browser
@@ -1939,6 +1963,8 @@ fetch(url, fetchData)
 # Batch
 
 ## Batch Create Banners / Orders / Products / Users
+
+URL: `POST` `/v1/batch`
 
 Use the batch endpoint if you want to do a bulk import, typically when you first start using DataCue and you want to add your historical orders, products or users.
 
@@ -2105,9 +2131,11 @@ We will send you a status for each item you sent, so you can handle and resend o
 }
 ```
 
-## Batch Update Banners / Orders / Products / Users
+## Batch Update Banners / Products / Users
 
-To make a batch update, make a `PUT` request to the batch endpoint in a similar format as above.
+URL: `PUT` `/v1/batch`
+
+Update multiple banners, products or users. Note that orders cannot be updated only created or cancelled.
 
 
 ```javascript--browser
@@ -2226,9 +2254,11 @@ We will send you a status for each item you sent, so you can handle and resend o
 }
 ```
 
-## Batch Delete Banners/ Orders / Products / Users
+## Batch Delete Banners/ Products / Users or Cancel Orders
 
-Send a batch delete to delete multiple items within one request. Delete requests only require an id field as follows:
+URL: `DELETE` `/v1/batch`
+
+Delete/cancel multiple items within one request. Products, banners and users will be deleted. Orders are an exception, 'DELETING' an order marks it as cancelled. Batch DELETE requests only require an id field as follows:
 
 **Type**|**ID Field(s)**
 :-----:|:-----:
