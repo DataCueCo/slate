@@ -226,18 +226,12 @@
       <div id="toc" class="toc-list-h1">
           <li>
             <a href="#introduction" class="toc-h1 toc-link" data-title="introduction">Introduction</a>
-          </li>
-          <li>
-            <a href="#api-url" class="toc-h1 toc-link" data-title="api-url">API URL</a>
-          </li>
-          <li>
-            <a href="#headers" class="toc-h1 toc-link" data-title="headers">Headers</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#authentication" class="toc-h2 toc-link" data-title="authentication">Authentication</a>
+                    <a href="#api-url" class="toc-h2 toc-link" data-title="api-url">API URL</a>
                   </li>
                   <li>
-                    <a href="#content-type" class="toc-h2 toc-link" data-title="content-type">Content-Type</a>
+                    <a href="#headers" class="toc-h2 toc-link" data-title="headers">Headers</a>
                   </li>
               </ul>
           </li>
@@ -260,10 +254,10 @@
                     <a href="#category-page-view" class="toc-h2 toc-link" data-title="category-page-view">Category Page View</a>
                   </li>
                   <li>
-                    <a href="#shopping-cart-view-cart-add-remove-item" class="toc-h2 toc-link" data-title="shopping-cart-view-cart-add-remove-item">Shopping Cart (View Cart, Add/Remove Item)</a>
+                    <a href="#shopping-cart-updated-viewed" class="toc-h2 toc-link" data-title="shopping-cart-updated-viewed">Shopping Cart Updated / Viewed</a>
                   </li>
                   <li>
-                    <a href="#search-page-view" class="toc-h2 toc-link" data-title="search-page-view">Search Page View</a>
+                    <a href="#search" class="toc-h2 toc-link" data-title="search">Search</a>
                   </li>
                   <li>
                     <a href="#update-wishlist" class="toc-h2 toc-link" data-title="update-wishlist">Update Wishlist</a>
@@ -275,7 +269,7 @@
                     <a href="#product-click" class="toc-h2 toc-link" data-title="product-click">Product Click</a>
                   </li>
                   <li>
-                    <a href="#check-out-start-order" class="toc-h2 toc-link" data-title="check-out-start-order">Check Out (Start Order)</a>
+                    <a href="#start-order-check-out-started" class="toc-h2 toc-link" data-title="start-order-check-out-started">Start Order (Check Out Started)</a>
                   </li>
                   <li>
                     <a href="#complete-order" class="toc-h2 toc-link" data-title="complete-order">Complete Order</a>
@@ -356,10 +350,10 @@
 <p>Welcome to the DataCue API. This API documentation is to help you setup your e-commerce store to apply real time personalization to your website.</p>
 
 <p>We have language bindings in Javascript, PHP, and Python. You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right. On a mobile device, switch the language using the hamburger menu on the rop left.</p>
-<h1 id='api-url'>API URL</h1>
+<h2 id='api-url'>API URL</h2>
 <p>The API is located at <code>https://api.datacue.co</code>
 If you have a staging / test version of your website, you can test your implementation with our staging API at <code>https://staging-api.datacue.co</code>.</p>
-<h1 id='headers'>Headers</h1><h2 id='authentication'>Authentication</h2>
+<h2 id='headers'>Headers</h2><h3 id='authentication'>Authentication</h3>
 <blockquote>
 <p>To authorize, use this code:</p>
 </blockquote>
@@ -389,15 +383,15 @@ If you have a staging / test version of your website, you can test your implemen
 <p>The <code>events</code> endpoint only require an API key to be run from a browser.
 All other end-points require both an API key and API secret and should only be run from your backend to keep your API secret... a secret.
 We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecret</code> into a token that is base64 encoded and prepended with the string &quot;Basic &quot;.</p>
-<h3 id='browser-events-only-api-key'>Browser Events (only API key):</h3>
+<h4 id='browser-events-only-api-key'>Browser Events (only API key):</h4>
 <p>If your API key is <code>abc123</code>, then Base64 encode &quot;abc123:&quot;, no password after the colon, and the final result will be &quot;YWJjMTIzOg==&quot;.</p>
 
 <p>Your authorization header should look like <code>Authorization: Basic YWJjMTIzOg==</code>.</p>
-<h3 id='backend-end-points-api-key-and-api-secret'>Backend End points (API Key and API Secret):</h3>
+<h4 id='backend-end-points-api-key-and-api-secret'>Backend End points (API Key and API Secret):</h4>
 <p>If your API key is <code>abc123</code>, and API secret is <code>secret123</code> then Base64 encode &quot;abc123:secret123&quot;. The final result will be &quot;Basic YWJjMTIzOnNlY3JldDEyMw==&quot;.</p>
 
 <p>Your authorization header should look like <code>Authorization: Basic YWJjMTIzOnNlY3JldDEyMw==</code>.</p>
-<h2 id='content-type'>Content-Type</h2>
+<h3 id='content-type'>Content-Type</h3>
 <p>You must set a content-type header to &quot;application/json&quot;.
 <code>Content-Type: application/json</code></p>
 <h1 id='browser-events'>Browser Events</h1>
@@ -511,7 +505,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <p>Refer to the example json on the right to view the format.</p>
 <pre class="highlight json tab-json"><code><span class="w">  </span><span class="s2">"context"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="s2">"ip"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12.34.56.78"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"user-agent"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"</span><span class="w">
+    </span><span class="s2">"user_agent"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/604.5.6 (KHTML, like Gecko) Version/11.0.3 Safari/604.5.6"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <table><thead>
@@ -967,7 +961,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <blockquote>
 <p>The above command returns a 204 response code</p>
 </blockquote>
-<h2 id='shopping-cart-view-cart-add-remove-item'>Shopping Cart (View Cart, Add/Remove Item)</h2>
+<h2 id='shopping-cart-updated-viewed'>Shopping Cart Updated / Viewed</h2>
 <p>Record activity on a users shopping cart, typically when the cart is viewed, or an item is added or removed.</p>
 
 <table><thead>
@@ -1062,7 +1056,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
     </span><span class="p">},</span><span class="w">
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><h2 id='search-page-view'>Search Page View</h2>
+</span></code></pre><h2 id='search'>Search</h2>
 <p>Record when a user performs a search on your website</p>
 
 <table><thead>
@@ -1342,7 +1336,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <blockquote>
 <p>The above command returns a 204 response code</p>
 </blockquote>
-<h2 id='check-out-start-order'>Check Out (Start Order)</h2>
+<h2 id='start-order-check-out-started'>Start Order (Check Out Started)</h2>
 <p>Record the moment the user initiates the check out process, typically from their shopping cart.</p>
 
 <table><thead>
