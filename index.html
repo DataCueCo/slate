@@ -355,7 +355,7 @@
         <h1 id='introduction'>Introduction</h1>
 <p>Welcome to the DataCue API. This API documentation is to help you setup your e-commerce store to apply real time personalization to your website.</p>
 
-<p>We have language bindings in Javascript, PHP, and Python. You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
+<p>We have language bindings in Javascript, PHP, and Python. You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right. On a mobile device, switch the language using the hamburger menu on the rop left.</p>
 <h1 id='api-url'>API URL</h1>
 <p>The API is located at <code>https://api.datacue.co</code>
 If you have a staging / test version of your website, you can test your implementation with our staging API at <code>https://staging-api.datacue.co</code>.</p>
@@ -401,7 +401,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <p>You must set a content-type header to &quot;application/json&quot;.
 <code>Content-Type: application/json</code></p>
 <h1 id='browser-events'>Browser Events</h1>
-<p>URL: <code>POST</code> <code>/v1/events</code></p>
+<p>URL: <code>POST</code> <code>https://api.datacue.co/v1/events</code></p>
 <h2 id='authorization'>Authorization</h2>
 <p>All events endpoints are meant to be sent from your user&#39;s browsers using our embedded script. This endpoint only requires your API Key.</p>
 <h2 id='format'>Format</h2>
@@ -1635,7 +1635,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <p>The above command returns a 204 response code</p>
 </blockquote>
 <h1 id='product-management'>Product Management</h1><h2 id='create-product'>Create Product</h2>
-<p>URL: <code>POST</code> <code>/v1/products</code></p>
+<p>URL: <code>POST</code> <code>https://api.datacue.co/v1/products</code></p>
 
 <p>Whenever a new product is created, send this request from your backend.</p>
 
@@ -1875,7 +1875,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <p>The above command returns a 201 response code</p>
 </blockquote>
 <h2 id='update-product'>Update Product</h2>
-<p>URL: <code>PUT</code> <code>/v1/products/&lt;product_id&gt;/&lt;variant_id&gt;</code></p>
+<p>URL: <code>PUT</code> <code>https://api.datacue.co/v1/products/&lt;product_id&gt;/&lt;variant_id&gt;</code></p>
 
 <p>Whenever an existing product is updated such as image, name, price or new discounts, send this request from your backend.</p>
 
@@ -1945,11 +1945,13 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <p>The above command returns a 204 response code</p>
 </blockquote>
 <h2 id='delete-product'>Delete Product</h2>
-<p>Delete a variant
-URL: <code>DELETE</code> <code>/v1/products/&lt;product_id&gt;/&lt;variant_id&gt;</code></p>
+<p>Delete a variant</p>
 
-<p>Delete a product and all associated variants
-URL: <code>DELETE</code> <code>/v1/products/&lt;product_id&gt;</code></p>
+<p>URL: <code>DELETE</code> <code>https://api.datacue.co/v1/products/&lt;product_id&gt;/&lt;variant_id&gt;</code></p>
+
+<p>Delete a product and all associated variants</p>
+
+<p>URL: <code>DELETE</code> <code>https://api.datacue.co/v1/products/&lt;product_id&gt;</code></p>
 
 <p>Delete a product on your system.</p>
 <pre class="highlight javascript tab-javascript--browser"><code><span class="c1">//backend only event (refer to the python, php or node tab)</span>
@@ -1998,7 +2000,7 @@ URL: <code>DELETE</code> <code>/v1/products/&lt;product_id&gt;</code></p>
 <h1 id='banner-management'>Banner Management</h1>
 <p>We recommend that you use your DataCue dashboard to upload and manage your banners. However, if you want DataCue to use your existing banner management solution, you can use these endpoints to do so.</p>
 <h2 id='create-banner'>Create Banner</h2>
-<p>URL: <code>POST</code> <code>/v1/banners</code></p>
+<p>URL: <code>POST</code> <code>https://api.datacue.co/v1/banners</code></p>
 
 <p>When you create a new banner on your system.</p>
 
@@ -2161,7 +2163,7 @@ URL: <code>DELETE</code> <code>/v1/products/&lt;product_id&gt;</code></p>
 <p>The above command returns a 201 response code</p>
 </blockquote>
 <h2 id='update-banner'>Update Banner</h2>
-<p>URL: <code>PUT</code> <code>/v1/banners/&lt;banner_id&gt;</code></p>
+<p>URL: <code>PUT</code> <code>https://api.datacue.co/v1/banners/&lt;banner_id&gt;</code></p>
 
 <p>When you update your banner in any way like changing the banner image, link or assigned categories on your system. Does not apply if you&#39;re using DataCue to manage your banners.</p>
 
@@ -2222,7 +2224,7 @@ URL: <code>DELETE</code> <code>/v1/products/&lt;product_id&gt;</code></p>
 <p>The above command returns a 204 response code</p>
 </blockquote>
 <h2 id='delete-banner'>Delete Banner</h2>
-<p>URL: <code>DELETE</code> <code>/v1/banners/&lt;banner_id&gt;</code></p>
+<p>URL: <code>DELETE</code> <code>https://api.datacue.co/v1/banners/&lt;banner_id&gt;</code></p>
 
 <p>When you delete a banner on your system. Does not apply if you&#39;re using DataCue to manage your banners.</p>
 <pre class="highlight javascript tab-javascript--browser"><code><span class="c1">//backend only event (refer to the python, php or node tab)</span>
@@ -2269,7 +2271,7 @@ URL: <code>DELETE</code> <code>/v1/products/&lt;product_id&gt;</code></p>
 <p>The above command returns a 204 response code</p>
 </blockquote>
 <h1 id='user-management'>User Management</h1><h2 id='create-user'>Create User</h2>
-<p>URL: <code>POST</code> <code>/v1/users</code></p>
+<p>URL: <code>POST</code> <code>https://api.datacue.co/v1/users</code></p>
 
 <p>When a new user has successfully signed up / registered on your system.</p>
 
@@ -2469,7 +2471,7 @@ URL: <code>DELETE</code> <code>/v1/products/&lt;product_id&gt;</code></p>
 <p>The above command returns a 201 response code</p>
 </blockquote>
 <h2 id='update-user'>Update User</h2>
-<p>URL: <code>PUT</code> <code>/v1/users/&lt;user_id&gt;</code></p>
+<p>URL: <code>PUT</code> <code>https://api.datacue.co/v1/users/&lt;user_id&gt;</code></p>
 
 <p>When the user makes changes to their profile or when they configure any relevant preferences. For instance if they indicate their gender, this is very helpful for recommendations.</p>
 <pre class="highlight javascript tab-javascript--browser"><code><span class="c1">//backend only event (refer to the python, php or node tab)</span>
@@ -2534,7 +2536,7 @@ URL: <code>DELETE</code> <code>/v1/products/&lt;product_id&gt;</code></p>
 <p>The above command returns a 204 response code</p>
 </blockquote>
 <h2 id='delete-user'>Delete User</h2>
-<p>URL: <code>DELETE</code> <code>/v1/users/&lt;user_id&gt;</code></p>
+<p>URL: <code>DELETE</code> <code>https://api.datacue.co/v1/users/&lt;user_id&gt;</code></p>
 
 <p>When a user account is deleted from your system.</p>
 <pre class="highlight javascript tab-javascript--browser"><code><span class="c1">//backend only event (refer to the python, php or node tab)</span>
@@ -2581,7 +2583,7 @@ URL: <code>DELETE</code> <code>/v1/products/&lt;product_id&gt;</code></p>
 <p>The above command returns a 204 response code</p>
 </blockquote>
 <h1 id='batch'>Batch</h1><h2 id='batch-create-banners-orders-products-users'>Batch Create Banners / Orders / Products / Users</h2>
-<p>URL: <code>POST</code> <code>/v1/batch</code></p>
+<p>URL: <code>POST</code> <code>https://api.datacue.co/v1/batch</code></p>
 
 <p>Use the batch endpoint if you want to do a bulk import, typically when you first start using DataCue and you want to add your historical orders, products or users.</p>
 
@@ -2746,7 +2748,7 @@ URL: <code>DELETE</code> <code>/v1/products/&lt;product_id&gt;</code></p>
     </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><h2 id='batch-update-banners-products-users'>Batch Update Banners / Products / Users</h2>
-<p>URL: <code>PUT</code> <code>/v1/batch</code></p>
+<p>URL: <code>PUT</code> <code>https://api.datacue.co/v1/batch</code></p>
 
 <p>Update multiple banners, products or users. Note that orders cannot be updated only created or cancelled.</p>
 <pre class="highlight javascript tab-javascript--browser"><code><span class="c1">//backend only event (refer to the python, php or node tab)</span>
@@ -2853,7 +2855,7 @@ URL: <code>DELETE</code> <code>/v1/products/&lt;product_id&gt;</code></p>
     </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre><h2 id='batch-delete-banners-products-users-or-cancel-orders'>Batch Delete Banners/ Products / Users or Cancel Orders</h2>
-<p>URL: <code>DELETE</code> <code>/v1/batch</code></p>
+<p>URL: <code>DELETE</code> <code>https://api.datacue.co/v1/batch</code></p>
 
 <p>Delete/cancel multiple items within one request. Products, banners and users will be deleted. Orders are an exception, &#39;DELETING&#39; an order marks it as cancelled. Batch DELETE requests only require an id field as follows:</p>
 
