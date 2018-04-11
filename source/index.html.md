@@ -684,14 +684,16 @@ fetch(url, fetchData)
   ]
 }
 ```
-## Update Wishlist
+## Add Product to Wishlist
 
 Record changes to users wishlist, typically when the wishlist is viewed, or a product is added or removed from the wishlist.
 
 **Field**|**Data Type**|**Description**|**Mandatory**
 :-----:|:-----:|:-----:|:-----:
 type|String|Set to 'wishlist'|Yes
-wishlist|Array|Provide an array of product_ids and optionally variant_ids|Yes
+subtype|String|Set to 'add'|Yes
+product_id|String|id of added product|Yes
+variant_id|String|id of product variant|No
 
 
 ```javascript--browser
@@ -706,16 +708,69 @@ let data = {
   },
   "event": {
     "type": "wishlist",
-    "wishlist": [
-      {
-        "product_id": "p1",
-        "variant_id": "v1"
-      },
-      {
-        "product_id": "p2",
-        "variant_id": "v2"
-      }
-    ]
+    "subtype":"add",
+    "product_id": "p1",
+    "variant_id": "v2"
+  }
+}
+// The parameters we are going to pass to the fetch function
+let fetchData = {
+    method: "PUT",
+    body: data,
+    headers: new Headers(
+      "Content-Type", "application/json",
+      "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+      )
+}
+fetch(url, fetchData)
+.then((res) => res.json())
+.then((data) =>  console.log(data))
+.catch((err) => console.log(err))
+```
+
+```php
+<?
+//browser only event (refer to the javascript tab)
+?>
+```
+
+```python
+#browser only event (refer to the javascript tab)
+```
+
+```javascript--node
+//browser only event (refer to the javascript tab)
+```
+
+> The above command returns a 204 response code
+
+## Remove Product from Wishlist
+
+Record changes to users wishlist, typically when the wishlist is viewed, or a product is added or removed from the wishlist.
+
+**Field**|**Data Type**|**Description**|**Mandatory**
+:-----:|:-----:|:-----:|:-----:
+type|String|Set to 'wishlist'|Yes
+subtype|String|Set to 'remove'|Yes
+product_id|String|id of added product|Yes
+variant_id|String|id of product variant|No
+
+
+```javascript--browser
+const url = "https://api.datacue.co/v1/events";
+let data = {
+  "user": {
+    "user_id": "019mr8mf4r",
+    "anonymous_id": "07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1",
+    "profile": {
+      "sex": "female"
+    }
+  },
+  "event": {
+    "type": "wishlist",
+    "subtype":"remove",
+    "product_id": "p1",
+    "variant_id": "v2"
   }
 }
 // The parameters we are going to pass to the fetch function
@@ -1696,6 +1751,7 @@ first\_name|String|User's first name, if you store all the names in one field as
 last\_name|String|User's last name|No
 profile|JSON object|User's profile. See table below for field description|No
 cart|Array|An array of product ids and variant ids representing the current products in the users shopping cart.|No
+timestamp|ISO 8601 Date| User creation date/time in UTC timezone|No
 
 ### Profile
 
@@ -1727,7 +1783,8 @@ $data = array(
   "cart" => array(
     array("product_id" => "p1","variant_id" => "v1"),
     array("product_id" => "p2","variant_id" => "v1")
-  )
+  ),
+  "timestamp" => "2018-04-04T23:29:04-03:00"
 )
 
 $content = json_encode($data);
@@ -1776,7 +1833,8 @@ data = {
        "product_id":"p2"
        "variant_id":"v1"
      },
-  ]
+  ],
+  "timestamp":"2018-04-04T23:29:04-03:00"
 }
 
 response = requests.post(url, data=data, headers=headers)
@@ -1805,7 +1863,8 @@ let data = {
        "product_id":"p2"
        "variant_id":"v1"
      },
-  ]
+  ],
+  "timestamp":"2018-04-04T23:29:04-03:00"
 }
 
 // The parameters we are going to pass to the fetch function
