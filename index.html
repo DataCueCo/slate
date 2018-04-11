@@ -2407,6 +2407,12 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <td style="text-align: center">An array of product ids and variant ids representing the current products in the users shopping cart.</td>
 <td style="text-align: center">No</td>
 </tr>
+<tr>
+<td style="text-align: center">timestamp</td>
+<td style="text-align: center">ISO 8601 Date</td>
+<td style="text-align: center">User creation date/time in UTC timezone</td>
+<td style="text-align: center">No</td>
+</tr>
 </tbody></table>
 <h3 id='profile-2'>Profile</h3>
 <table><thead>
@@ -2454,7 +2460,8 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
   <span class="s2">"cart"</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
     <span class="k">array</span><span class="p">(</span><span class="s2">"product_id"</span> <span class="o">=&gt;</span> <span class="s2">"p1"</span><span class="p">,</span><span class="s2">"variant_id"</span> <span class="o">=&gt;</span> <span class="s2">"v1"</span><span class="p">),</span>
     <span class="k">array</span><span class="p">(</span><span class="s2">"product_id"</span> <span class="o">=&gt;</span> <span class="s2">"p2"</span><span class="p">,</span><span class="s2">"variant_id"</span> <span class="o">=&gt;</span> <span class="s2">"v1"</span><span class="p">)</span>
-  <span class="p">)</span>
+  <span class="p">),</span>
+  <span class="s2">"timestamp"</span> <span class="o">=&gt;</span> <span class="s2">"2018-04-04T23:29:04-03:00"</span>
 <span class="p">)</span>
 
 <span class="nv">$content</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
@@ -2500,7 +2507,8 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
        <span class="s">"product_id"</span><span class="p">:</span><span class="s">"p2"</span>
        <span class="s">"variant_id"</span><span class="p">:</span><span class="s">"v1"</span>
      <span class="p">},</span>
-  <span class="p">]</span>
+  <span class="p">],</span>
+  <span class="s">"timestamp"</span><span class="p">:</span><span class="s">"2018-04-04T23:29:04-03:00"</span>
 <span class="p">}</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
@@ -2526,7 +2534,8 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
        <span class="s2">"product_id"</span><span class="p">:</span><span class="s2">"p2"</span>
        <span class="s2">"variant_id"</span><span class="p">:</span><span class="s2">"v1"</span>
      <span class="p">},</span>
-  <span class="p">]</span>
+  <span class="p">],</span>
+  <span class="s2">"timestamp"</span><span class="p">:</span><span class="s2">"2018-04-04T23:29:04-03:00"</span>
 <span class="p">}</span>
 
 <span class="c1">// The parameters we are going to pass to the fetch function</span>
