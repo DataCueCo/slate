@@ -260,7 +260,10 @@
                     <a href="#search" class="toc-h2 toc-link" data-title="search">Search</a>
                   </li>
                   <li>
-                    <a href="#update-wishlist" class="toc-h2 toc-link" data-title="update-wishlist">Update Wishlist</a>
+                    <a href="#add-product-to-wishlist" class="toc-h2 toc-link" data-title="add-product-to-wishlist">Add Product to Wishlist</a>
+                  </li>
+                  <li>
+                    <a href="#remove-product-from-wishlist" class="toc-h2 toc-link" data-title="remove-product-from-wishlist">Remove Product from Wishlist</a>
                   </li>
                   <li>
                     <a href="#banner-click" class="toc-h2 toc-link" data-title="banner-click">Banner Click</a>
@@ -1133,7 +1136,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
     </span><span class="p">},</span><span class="w">
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre><h2 id='update-wishlist'>Update Wishlist</h2>
+</span></code></pre><h2 id='add-product-to-wishlist'>Add Product to Wishlist</h2>
 <p>Record changes to users wishlist, typically when the wishlist is viewed, or a product is added or removed from the wishlist.</p>
 
 <table><thead>
@@ -1151,10 +1154,22 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <td style="text-align: center">Yes</td>
 </tr>
 <tr>
-<td style="text-align: center">wishlist</td>
-<td style="text-align: center">Array</td>
-<td style="text-align: center">Provide an array of product_ids and optionally variant_ids</td>
+<td style="text-align: center">subtype</td>
+<td style="text-align: center">String</td>
+<td style="text-align: center">Set to &#39;add&#39;</td>
 <td style="text-align: center">Yes</td>
+</tr>
+<tr>
+<td style="text-align: center">product_id</td>
+<td style="text-align: center">String</td>
+<td style="text-align: center">id of added product</td>
+<td style="text-align: center">Yes</td>
+</tr>
+<tr>
+<td style="text-align: center">variant_id</td>
+<td style="text-align: center">String</td>
+<td style="text-align: center">id of product variant</td>
+<td style="text-align: center">No</td>
 </tr>
 </tbody></table>
 <pre class="highlight javascript tab-javascript--browser"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
@@ -1168,16 +1183,83 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
   <span class="p">},</span>
   <span class="s2">"event"</span><span class="p">:</span> <span class="p">{</span>
     <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"wishlist"</span><span class="p">,</span>
-    <span class="s2">"wishlist"</span><span class="p">:</span> <span class="p">[</span>
-      <span class="p">{</span>
-        <span class="s2">"product_id"</span><span class="p">:</span> <span class="s2">"p1"</span><span class="p">,</span>
-        <span class="s2">"variant_id"</span><span class="p">:</span> <span class="s2">"v1"</span>
-      <span class="p">},</span>
-      <span class="p">{</span>
-        <span class="s2">"product_id"</span><span class="p">:</span> <span class="s2">"p2"</span><span class="p">,</span>
-        <span class="s2">"variant_id"</span><span class="p">:</span> <span class="s2">"v2"</span>
-      <span class="p">}</span>
-    <span class="p">]</span>
+    <span class="s2">"subtype"</span><span class="p">:</span><span class="s2">"add"</span><span class="p">,</span>
+    <span class="s2">"product_id"</span><span class="p">:</span> <span class="s2">"p1"</span><span class="p">,</span>
+    <span class="s2">"variant_id"</span><span class="p">:</span> <span class="s2">"v2"</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="c1">// The parameters we are going to pass to the fetch function</span>
+<span class="kd">let</span> <span class="nx">fetchData</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">method</span><span class="p">:</span> <span class="s2">"PUT"</span><span class="p">,</span>
+    <span class="na">body</span><span class="p">:</span> <span class="nx">data</span><span class="p">,</span>
+    <span class="na">headers</span><span class="p">:</span> <span class="k">new</span> <span class="nx">Headers</span><span class="p">(</span>
+      <span class="s2">"Content-Type"</span><span class="p">,</span> <span class="s2">"application/json"</span><span class="p">,</span>
+      <span class="s2">"Authorization"</span><span class="p">:</span> <span class="s2">"Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="</span>
+      <span class="p">)</span>
+<span class="p">}</span>
+<span class="nx">fetch</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">fetchData</span><span class="p">)</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">))</span>
+<span class="p">.</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">))</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?</span>
+<span class="c1">//browser only event (refer to the javascript tab)
+</span><span class="cp">?&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="c">#browser only event (refer to the javascript tab)</span>
+</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="c1">//browser only event (refer to the javascript tab)</span>
+</code></pre>
+<blockquote>
+<p>The above command returns a 204 response code</p>
+</blockquote>
+<h2 id='remove-product-from-wishlist'>Remove Product from Wishlist</h2>
+<p>Record changes to users wishlist, typically when the wishlist is viewed, or a product is added or removed from the wishlist.</p>
+
+<table><thead>
+<tr>
+<th style="text-align: center"><strong>Field</strong></th>
+<th style="text-align: center"><strong>Data Type</strong></th>
+<th style="text-align: center"><strong>Description</strong></th>
+<th style="text-align: center"><strong>Mandatory</strong></th>
+</tr>
+</thead><tbody>
+<tr>
+<td style="text-align: center">type</td>
+<td style="text-align: center">String</td>
+<td style="text-align: center">Set to &#39;wishlist&#39;</td>
+<td style="text-align: center">Yes</td>
+</tr>
+<tr>
+<td style="text-align: center">subtype</td>
+<td style="text-align: center">String</td>
+<td style="text-align: center">Set to &#39;remove&#39;</td>
+<td style="text-align: center">Yes</td>
+</tr>
+<tr>
+<td style="text-align: center">product_id</td>
+<td style="text-align: center">String</td>
+<td style="text-align: center">id of added product</td>
+<td style="text-align: center">Yes</td>
+</tr>
+<tr>
+<td style="text-align: center">variant_id</td>
+<td style="text-align: center">String</td>
+<td style="text-align: center">id of product variant</td>
+<td style="text-align: center">No</td>
+</tr>
+</tbody></table>
+<pre class="highlight javascript tab-javascript--browser"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/events"</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">"user"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"user_id"</span><span class="p">:</span> <span class="s2">"019mr8mf4r"</span><span class="p">,</span>
+    <span class="s2">"anonymous_id"</span><span class="p">:</span> <span class="s2">"07d35b1a-5776-4ddf-8f1c-dd0d2db9c502a1"</span><span class="p">,</span>
+    <span class="s2">"profile"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">"sex"</span><span class="p">:</span> <span class="s2">"female"</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="s2">"event"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"wishlist"</span><span class="p">,</span>
+    <span class="s2">"subtype"</span><span class="p">:</span><span class="s2">"remove"</span><span class="p">,</span>
+    <span class="s2">"product_id"</span><span class="p">:</span> <span class="s2">"p1"</span><span class="p">,</span>
+    <span class="s2">"variant_id"</span><span class="p">:</span> <span class="s2">"v2"</span>
   <span class="p">}</span>
 <span class="p">}</span>
 <span class="c1">// The parameters we are going to pass to the fetch function</span>
