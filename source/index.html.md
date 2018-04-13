@@ -871,7 +871,7 @@ Record clicks on a product anywhere on your website.
 :-----:|:-----:|:-----:|:-----:
 type|String|Set to 'click'|Yes
 subtype|String|Set to 'product'|Yes
-banner_id|String|Set to the id of the clicked product|Yes
+product_id|String|Set to the id of the clicked product|Yes
 
 
 ```javascript--browser
