@@ -1171,7 +1171,7 @@ fetch(url, fetchData)
 
 > The above command returns a 204 response code
 
-# Product Management
+# Products
 
 ## Create Product
 
@@ -1270,7 +1270,7 @@ data = {
    "name": "cool jeans",
    "brand": "zara",
    "description": "very fashionable jeans",
-   "color": "blue"
+   "color": "blue",
    "size": "M",
    "price": 25000,
    "stock": 5,
@@ -1300,7 +1300,7 @@ let data = {
    "name": "cool jeans",
    "brand": "zara",
    "description": "very fashionable jeans",
-   "color": "blue"
+   "color": "blue",
    "size": "M",
    "price": 25000,
    "stock": 5,
@@ -1477,7 +1477,7 @@ fetch(url, fetchData)
 > The above command returns a 204 response code
 
 
-# Banner Management
+# Banners
 
 We recommend that you use your DataCue dashboard to upload and manage your banners. However, if you want DataCue to use your existing banner management solution, you can use these endpoints to do so.
 
@@ -1498,7 +1498,7 @@ category_3|String|The third category level this product belongs to. In a fashion
 category_4|String|The fourth category level this product belongs to. In a fashion store, this could be 'Running shoes'|No
 photo_url|String|URL of the banner image, you can use relative URLs as this is purely for your front-end to request the image|Yes
 link|String|Which page to take the user to when they click on the banner on your website. Typically a collection or catalog page for the banner's associated category.|Yes
-extra|JSON Object|Any other information you would like to use about your banners. For instance, you can store URLs of a mobile optimized version of your banner here.|No
+extra|JSON Object|Any other information you would like to use for special processing in the browser.|No
 
 ```javascript--browser
 //backend only event (refer to the python, php or node tab)
@@ -1510,16 +1510,20 @@ $url = "https://api.datacue.co/v1/banners";
 $data = array(
   "banner_id" => "b1",
   "type" => "sub",
-  "title" => "friendly name for b1",
+  "name" => "friendly name for b1",
   "category_1" => "women",
   "category_2" => "summer",
   "category_3" => "dresses",
   "category_4" => "casual",
+  "photo_url" => "/photos/b1.jpg",
   "photos" => array(
     "mobile" => "http://s3.amazon.com/photoMobile.png",
     "desktop" => "http://s3.amazon.com/photoDesktop.png"
   ),
-  "link" => "path/to/anything"
+  "link" => "path/to/anything",
+  "photos" => array(
+      "meta" => "any field you want to store"
+  )
 );
 
 $content = json_encode($data);
@@ -1550,16 +1554,20 @@ headers = {
 data = {
    "banner_id": "b1",
    "type": "sub",
-   "title": "friendly name for b1",
+   "name": "friendly name for b1",
    "category_1": "women",
    "category_2": "summer",
    "category_3": "dresses",
    "category_4": "casual",
-   "photos": {
+   "photo_url": "/photos/b1.jpg",
+   "other_photos": {
      "mobile": "http://s3.amazon.com/photoMobile.png",
-     "desktop": "http://s3.amazon.com/photoDesktop.png",
+     "desktop": "http://s3.amazon.com/photoDesktop.png"
    },
-   "link": "path/to/anything"
+   "link": "path/to/anything",
+  "extra": {
+     "meta": "any field you want to store"
+   }
  }
 
 response = requests.post(url, data=data, headers=headers)
@@ -1570,16 +1578,20 @@ const url = "https://api.datacue.co/v1/banners";
 let data = {
    "banner_id": "b1",
    "type": "sub",
-   "title": "friendly name for b1",
+   "name": "friendly name for b1",
    "category_1": "women",
    "category_2": "summer",
    "category_3": "dresses",
    "category_4": "casual",
-   "photos": {
+   "photo_url": "/photos/b1.jpg",
+   "other_photos": {
      "mobile": "http://s3.amazon.com/photoMobile.png",
-     "desktop": "http://s3.amazon.com/photoDesktop.png",
+     "desktop": "http://s3.amazon.com/photoDesktop.png"
    },
-   "link": "path/to/anything"
+   "link": "path/to/anything",
+  "extra": {
+     "meta": "any field you want to store"
+   }
  }
 
 // The parameters we are going to pass to the fetch function
@@ -1733,7 +1745,7 @@ fetch(url, fetchData)
 > The above command returns a 204 response code
 
 
-# User Management
+# Users
 
 ## Create User
 
@@ -1750,6 +1762,7 @@ title|String|Salutation e.g. Mr. , Ms., Dr.|No
 first\_name|String|User's first name, if you store all the names in one field assign the name to this field|Yes
 last\_name|String|User's last name|No
 profile|JSON object|User's profile. See table below for field description|No
+email_subscriber|Boolean|Has this user consented to receive marketing email?|No
 cart|Array|An array of product ids and variant ids representing the current products in the users shopping cart.|No
 timestamp|ISO 8601 Date| User creation date/time in UTC timezone|No
 
@@ -1770,7 +1783,7 @@ segment|String|Custom segment name that you store e.g. Gold class / Member|No
 $url = "https://api.datacue.co/v1/users";
 $data = array(
   "user_id" => "u1",
-  "anonymous_ids" => "v1"
+  "anonymous_ids" => "v1",
   "email" => "xyz@abc.com",
   "title" => "Mr",
   "first_name" => "John",
@@ -1780,6 +1793,7 @@ $data = array(
     "sex" => "male",
     "segment" => "platinum"
   ),
+  "email_subscriber" => True,
   "cart" => array(
     array("product_id" => "p1","variant_id" => "v1"),
     array("product_id" => "p2","variant_id" => "v1")
@@ -1814,7 +1828,7 @@ headers = {
 }
 data = {
    "user_id": "u1",
-   "anonymous_ids": "v1"
+   "anonymous_ids": "v1",
    "email": "xyz@abc.com",
    "title": "Mr",
    "first_name": "John",
@@ -1824,15 +1838,16 @@ data = {
        "sex": "male",
        "segment": "platinum"
    },
+   "email_subscriber": True,
    "cart": [
      {
-       "product_id":"p1"
+       "product_id":"p1",
        "variant_id":"v1"
      },
      {
-       "product_id":"p2"
+       "product_id":"p2",
        "variant_id":"v1"
-     },
+     }
   ],
   "timestamp":"2018-04-04T23:29:04-03:00"
 }
@@ -1844,7 +1859,7 @@ response = requests.post(url, data=data, headers=headers)
 const url = "https://api.datacue.co/v1/users";
 let data = {
    "user_id": "u1",
-   "anonymous_ids": "v1"
+   "anonymous_ids": "v1",
    "email": "xyz@abc.com",
    "title": "Mr",
    "first_name": "Noob",
@@ -1854,15 +1869,16 @@ let data = {
        "sex": "male",
        "segment": "platinum"
    },
-    "cart": [
+   "email_subscriber": true,
+   "cart": [
      {
-       "product_id":"p1"
+       "product_id":"p1",
        "variant_id":"v1"
      },
      {
-       "product_id":"p2"
+       "product_id":"p2",
        "variant_id":"v1"
-     },
+     }
   ],
   "timestamp":"2018-04-04T23:29:04-03:00"
 }
