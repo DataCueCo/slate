@@ -286,7 +286,7 @@
               </ul>
           </li>
           <li>
-            <a href="#product-management" class="toc-h1 toc-link" data-title="product-management">Product Management</a>
+            <a href="#products" class="toc-h1 toc-link" data-title="products">Products</a>
               <ul class="toc-list-h2">
                   <li>
                     <a href="#create-product" class="toc-h2 toc-link" data-title="create-product">Create Product</a>
@@ -300,7 +300,7 @@
               </ul>
           </li>
           <li>
-            <a href="#banner-management" class="toc-h1 toc-link" data-title="banner-management">Banner Management</a>
+            <a href="#banners" class="toc-h1 toc-link" data-title="banners">Banners</a>
               <ul class="toc-list-h2">
                   <li>
                     <a href="#create-banner" class="toc-h2 toc-link" data-title="create-banner">Create Banner</a>
@@ -314,7 +314,7 @@
               </ul>
           </li>
           <li>
-            <a href="#user-management" class="toc-h1 toc-link" data-title="user-management">User Management</a>
+            <a href="#users" class="toc-h1 toc-link" data-title="users">Users</a>
               <ul class="toc-list-h2">
                   <li>
                     <a href="#create-user" class="toc-h2 toc-link" data-title="create-user">Create User</a>
@@ -1710,7 +1710,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <blockquote>
 <p>The above command returns a 204 response code</p>
 </blockquote>
-<h1 id='product-management'>Product Management</h1><h2 id='create-product'>Create Product</h2>
+<h1 id='products'>Products</h1><h2 id='create-product'>Create Product</h2>
 <p>URL: <code>POST</code> <code>https://api.datacue.co/v1/products</code></p>
 
 <p>Whenever a new product is created, send this request from your backend.</p>
@@ -1895,7 +1895,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
    <span class="s">"name"</span><span class="p">:</span> <span class="s">"cool jeans"</span><span class="p">,</span>
    <span class="s">"brand"</span><span class="p">:</span> <span class="s">"zara"</span><span class="p">,</span>
    <span class="s">"description"</span><span class="p">:</span> <span class="s">"very fashionable jeans"</span><span class="p">,</span>
-   <span class="s">"color"</span><span class="p">:</span> <span class="s">"blue"</span>
+   <span class="s">"color"</span><span class="p">:</span> <span class="s">"blue"</span><span class="p">,</span>
    <span class="s">"size"</span><span class="p">:</span> <span class="s">"M"</span><span class="p">,</span>
    <span class="s">"price"</span><span class="p">:</span> <span class="mi">25000</span><span class="p">,</span>
    <span class="s">"stock"</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
@@ -1922,7 +1922,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
    <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"cool jeans"</span><span class="p">,</span>
    <span class="s2">"brand"</span><span class="p">:</span> <span class="s2">"zara"</span><span class="p">,</span>
    <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"very fashionable jeans"</span><span class="p">,</span>
-   <span class="s2">"color"</span><span class="p">:</span> <span class="s2">"blue"</span>
+   <span class="s2">"color"</span><span class="p">:</span> <span class="s2">"blue"</span><span class="p">,</span>
    <span class="s2">"size"</span><span class="p">:</span> <span class="s2">"M"</span><span class="p">,</span>
    <span class="s2">"price"</span><span class="p">:</span> <span class="mi">25000</span><span class="p">,</span>
    <span class="s2">"stock"</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
@@ -2073,7 +2073,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <blockquote>
 <p>The above command returns a 204 response code</p>
 </blockquote>
-<h1 id='banner-management'>Banner Management</h1>
+<h1 id='banners'>Banners</h1>
 <p>We recommend that you use your DataCue dashboard to upload and manage your banners. However, if you want DataCue to use your existing banner management solution, you can use these endpoints to do so.</p>
 <h2 id='create-banner'>Create Banner</h2>
 <p>URL: <code>POST</code> <code>https://api.datacue.co/v1/banners</code></p>
@@ -2145,7 +2145,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <tr>
 <td style="text-align: center">extra</td>
 <td style="text-align: center">JSON Object</td>
-<td style="text-align: center">Any other information you would like to use about your banners. For instance, you can store URLs of a mobile optimized version of your banner here.</td>
+<td style="text-align: center">Any other information you would like to use for special processing in the browser.</td>
 <td style="text-align: center">No</td>
 </tr>
 </tbody></table>
@@ -2155,16 +2155,20 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
   <span class="s2">"banner_id"</span> <span class="o">=&gt;</span> <span class="s2">"b1"</span><span class="p">,</span>
   <span class="s2">"type"</span> <span class="o">=&gt;</span> <span class="s2">"sub"</span><span class="p">,</span>
-  <span class="s2">"title"</span> <span class="o">=&gt;</span> <span class="s2">"friendly name for b1"</span><span class="p">,</span>
+  <span class="s2">"name"</span> <span class="o">=&gt;</span> <span class="s2">"friendly name for b1"</span><span class="p">,</span>
   <span class="s2">"category_1"</span> <span class="o">=&gt;</span> <span class="s2">"women"</span><span class="p">,</span>
   <span class="s2">"category_2"</span> <span class="o">=&gt;</span> <span class="s2">"summer"</span><span class="p">,</span>
   <span class="s2">"category_3"</span> <span class="o">=&gt;</span> <span class="s2">"dresses"</span><span class="p">,</span>
   <span class="s2">"category_4"</span> <span class="o">=&gt;</span> <span class="s2">"casual"</span><span class="p">,</span>
+  <span class="s2">"photo_url"</span> <span class="o">=&gt;</span> <span class="s2">"/photos/b1.jpg"</span><span class="p">,</span>
   <span class="s2">"photos"</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
     <span class="s2">"mobile"</span> <span class="o">=&gt;</span> <span class="s2">"http://s3.amazon.com/photoMobile.png"</span><span class="p">,</span>
     <span class="s2">"desktop"</span> <span class="o">=&gt;</span> <span class="s2">"http://s3.amazon.com/photoDesktop.png"</span>
   <span class="p">),</span>
-  <span class="s2">"link"</span> <span class="o">=&gt;</span> <span class="s2">"path/to/anything"</span>
+  <span class="s2">"link"</span> <span class="o">=&gt;</span> <span class="s2">"path/to/anything"</span><span class="p">,</span>
+  <span class="s2">"photos"</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+      <span class="s2">"meta"</span> <span class="o">=&gt;</span> <span class="s2">"any field you want to store"</span>
+  <span class="p">)</span>
 <span class="p">);</span>
 
 <span class="nv">$content</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
@@ -2192,16 +2196,20 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
    <span class="s">"banner_id"</span><span class="p">:</span> <span class="s">"b1"</span><span class="p">,</span>
    <span class="s">"type"</span><span class="p">:</span> <span class="s">"sub"</span><span class="p">,</span>
-   <span class="s">"title"</span><span class="p">:</span> <span class="s">"friendly name for b1"</span><span class="p">,</span>
+   <span class="s">"name"</span><span class="p">:</span> <span class="s">"friendly name for b1"</span><span class="p">,</span>
    <span class="s">"category_1"</span><span class="p">:</span> <span class="s">"women"</span><span class="p">,</span>
    <span class="s">"category_2"</span><span class="p">:</span> <span class="s">"summer"</span><span class="p">,</span>
    <span class="s">"category_3"</span><span class="p">:</span> <span class="s">"dresses"</span><span class="p">,</span>
    <span class="s">"category_4"</span><span class="p">:</span> <span class="s">"casual"</span><span class="p">,</span>
-   <span class="s">"photos"</span><span class="p">:</span> <span class="p">{</span>
+   <span class="s">"photo_url"</span><span class="p">:</span> <span class="s">"/photos/b1.jpg"</span><span class="p">,</span>
+   <span class="s">"other_photos"</span><span class="p">:</span> <span class="p">{</span>
      <span class="s">"mobile"</span><span class="p">:</span> <span class="s">"http://s3.amazon.com/photoMobile.png"</span><span class="p">,</span>
-     <span class="s">"desktop"</span><span class="p">:</span> <span class="s">"http://s3.amazon.com/photoDesktop.png"</span><span class="p">,</span>
+     <span class="s">"desktop"</span><span class="p">:</span> <span class="s">"http://s3.amazon.com/photoDesktop.png"</span>
    <span class="p">},</span>
-   <span class="s">"link"</span><span class="p">:</span> <span class="s">"path/to/anything"</span>
+   <span class="s">"link"</span><span class="p">:</span> <span class="s">"path/to/anything"</span><span class="p">,</span>
+  <span class="s">"extra"</span><span class="p">:</span> <span class="p">{</span>
+     <span class="s">"meta"</span><span class="p">:</span> <span class="s">"any field you want to store"</span>
+   <span class="p">}</span>
  <span class="p">}</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
@@ -2209,16 +2217,20 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
    <span class="s2">"banner_id"</span><span class="p">:</span> <span class="s2">"b1"</span><span class="p">,</span>
    <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"sub"</span><span class="p">,</span>
-   <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"friendly name for b1"</span><span class="p">,</span>
+   <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"friendly name for b1"</span><span class="p">,</span>
    <span class="s2">"category_1"</span><span class="p">:</span> <span class="s2">"women"</span><span class="p">,</span>
    <span class="s2">"category_2"</span><span class="p">:</span> <span class="s2">"summer"</span><span class="p">,</span>
    <span class="s2">"category_3"</span><span class="p">:</span> <span class="s2">"dresses"</span><span class="p">,</span>
    <span class="s2">"category_4"</span><span class="p">:</span> <span class="s2">"casual"</span><span class="p">,</span>
-   <span class="s2">"photos"</span><span class="p">:</span> <span class="p">{</span>
+   <span class="s2">"photo_url"</span><span class="p">:</span> <span class="s2">"/photos/b1.jpg"</span><span class="p">,</span>
+   <span class="s2">"other_photos"</span><span class="p">:</span> <span class="p">{</span>
      <span class="s2">"mobile"</span><span class="p">:</span> <span class="s2">"http://s3.amazon.com/photoMobile.png"</span><span class="p">,</span>
-     <span class="s2">"desktop"</span><span class="p">:</span> <span class="s2">"http://s3.amazon.com/photoDesktop.png"</span><span class="p">,</span>
+     <span class="s2">"desktop"</span><span class="p">:</span> <span class="s2">"http://s3.amazon.com/photoDesktop.png"</span>
    <span class="p">},</span>
-   <span class="s2">"link"</span><span class="p">:</span> <span class="s2">"path/to/anything"</span>
+   <span class="s2">"link"</span><span class="p">:</span> <span class="s2">"path/to/anything"</span><span class="p">,</span>
+  <span class="s2">"extra"</span><span class="p">:</span> <span class="p">{</span>
+     <span class="s2">"meta"</span><span class="p">:</span> <span class="s2">"any field you want to store"</span>
+   <span class="p">}</span>
  <span class="p">}</span>
 
 <span class="c1">// The parameters we are going to pass to the fetch function</span>
@@ -2346,7 +2358,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <blockquote>
 <p>The above command returns a 204 response code</p>
 </blockquote>
-<h1 id='user-management'>User Management</h1><h2 id='create-user'>Create User</h2>
+<h1 id='users'>Users</h1><h2 id='create-user'>Create User</h2>
 <p>URL: <code>POST</code> <code>https://api.datacue.co/v1/users</code></p>
 
 <p>When a new user has successfully signed up / registered on your system.</p>
@@ -2402,6 +2414,12 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <td style="text-align: center">No</td>
 </tr>
 <tr>
+<td style="text-align: center">email_subscriber</td>
+<td style="text-align: center">Boolean</td>
+<td style="text-align: center">Has this user consented to receive marketing email?</td>
+<td style="text-align: center">No</td>
+</tr>
+<tr>
 <td style="text-align: center">cart</td>
 <td style="text-align: center">Array</td>
 <td style="text-align: center">An array of product ids and variant ids representing the current products in the users shopping cart.</td>
@@ -2447,7 +2465,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <span class="nv">$url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/users"</span><span class="p">;</span>
 <span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
   <span class="s2">"user_id"</span> <span class="o">=&gt;</span> <span class="s2">"u1"</span><span class="p">,</span>
-  <span class="s2">"anonymous_ids"</span> <span class="o">=&gt;</span> <span class="s2">"v1"</span>
+  <span class="s2">"anonymous_ids"</span> <span class="o">=&gt;</span> <span class="s2">"v1"</span><span class="p">,</span>
   <span class="s2">"email"</span> <span class="o">=&gt;</span> <span class="s2">"xyz@abc.com"</span><span class="p">,</span>
   <span class="s2">"title"</span> <span class="o">=&gt;</span> <span class="s2">"Mr"</span><span class="p">,</span>
   <span class="s2">"first_name"</span> <span class="o">=&gt;</span> <span class="s2">"John"</span><span class="p">,</span>
@@ -2457,6 +2475,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
     <span class="s2">"sex"</span> <span class="o">=&gt;</span> <span class="s2">"male"</span><span class="p">,</span>
     <span class="s2">"segment"</span> <span class="o">=&gt;</span> <span class="s2">"platinum"</span>
   <span class="p">),</span>
+  <span class="s2">"email_subscriber"</span> <span class="o">=&gt;</span> <span class="nx">True</span><span class="p">,</span>
   <span class="s2">"cart"</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
     <span class="k">array</span><span class="p">(</span><span class="s2">"product_id"</span> <span class="o">=&gt;</span> <span class="s2">"p1"</span><span class="p">,</span><span class="s2">"variant_id"</span> <span class="o">=&gt;</span> <span class="s2">"v1"</span><span class="p">),</span>
     <span class="k">array</span><span class="p">(</span><span class="s2">"product_id"</span> <span class="o">=&gt;</span> <span class="s2">"p2"</span><span class="p">,</span><span class="s2">"variant_id"</span> <span class="o">=&gt;</span> <span class="s2">"v1"</span><span class="p">)</span>
@@ -2488,7 +2507,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <span class="p">}</span>
 <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
    <span class="s">"user_id"</span><span class="p">:</span> <span class="s">"u1"</span><span class="p">,</span>
-   <span class="s">"anonymous_ids"</span><span class="p">:</span> <span class="s">"v1"</span>
+   <span class="s">"anonymous_ids"</span><span class="p">:</span> <span class="s">"v1"</span><span class="p">,</span>
    <span class="s">"email"</span><span class="p">:</span> <span class="s">"xyz@abc.com"</span><span class="p">,</span>
    <span class="s">"title"</span><span class="p">:</span> <span class="s">"Mr"</span><span class="p">,</span>
    <span class="s">"first_name"</span><span class="p">:</span> <span class="s">"John"</span><span class="p">,</span>
@@ -2498,15 +2517,16 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
        <span class="s">"sex"</span><span class="p">:</span> <span class="s">"male"</span><span class="p">,</span>
        <span class="s">"segment"</span><span class="p">:</span> <span class="s">"platinum"</span>
    <span class="p">},</span>
+   <span class="s">"email_subscriber"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
    <span class="s">"cart"</span><span class="p">:</span> <span class="p">[</span>
      <span class="p">{</span>
-       <span class="s">"product_id"</span><span class="p">:</span><span class="s">"p1"</span>
+       <span class="s">"product_id"</span><span class="p">:</span><span class="s">"p1"</span><span class="p">,</span>
        <span class="s">"variant_id"</span><span class="p">:</span><span class="s">"v1"</span>
      <span class="p">},</span>
      <span class="p">{</span>
-       <span class="s">"product_id"</span><span class="p">:</span><span class="s">"p2"</span>
+       <span class="s">"product_id"</span><span class="p">:</span><span class="s">"p2"</span><span class="p">,</span>
        <span class="s">"variant_id"</span><span class="p">:</span><span class="s">"v1"</span>
-     <span class="p">},</span>
+     <span class="p">}</span>
   <span class="p">],</span>
   <span class="s">"timestamp"</span><span class="p">:</span><span class="s">"2018-04-04T23:29:04-03:00"</span>
 <span class="p">}</span>
@@ -2515,7 +2535,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 </code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/users"</span><span class="p">;</span>
 <span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
    <span class="s2">"user_id"</span><span class="p">:</span> <span class="s2">"u1"</span><span class="p">,</span>
-   <span class="s2">"anonymous_ids"</span><span class="p">:</span> <span class="s2">"v1"</span>
+   <span class="s2">"anonymous_ids"</span><span class="p">:</span> <span class="s2">"v1"</span><span class="p">,</span>
    <span class="s2">"email"</span><span class="p">:</span> <span class="s2">"xyz@abc.com"</span><span class="p">,</span>
    <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Mr"</span><span class="p">,</span>
    <span class="s2">"first_name"</span><span class="p">:</span> <span class="s2">"Noob"</span><span class="p">,</span>
@@ -2525,15 +2545,16 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
        <span class="s2">"sex"</span><span class="p">:</span> <span class="s2">"male"</span><span class="p">,</span>
        <span class="s2">"segment"</span><span class="p">:</span> <span class="s2">"platinum"</span>
    <span class="p">},</span>
-    <span class="s2">"cart"</span><span class="p">:</span> <span class="p">[</span>
+   <span class="s2">"email_subscriber"</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+   <span class="s2">"cart"</span><span class="p">:</span> <span class="p">[</span>
      <span class="p">{</span>
-       <span class="s2">"product_id"</span><span class="p">:</span><span class="s2">"p1"</span>
+       <span class="s2">"product_id"</span><span class="p">:</span><span class="s2">"p1"</span><span class="p">,</span>
        <span class="s2">"variant_id"</span><span class="p">:</span><span class="s2">"v1"</span>
      <span class="p">},</span>
      <span class="p">{</span>
-       <span class="s2">"product_id"</span><span class="p">:</span><span class="s2">"p2"</span>
+       <span class="s2">"product_id"</span><span class="p">:</span><span class="s2">"p2"</span><span class="p">,</span>
        <span class="s2">"variant_id"</span><span class="p">:</span><span class="s2">"v1"</span>
-     <span class="p">},</span>
+     <span class="p">}</span>
   <span class="p">],</span>
   <span class="s2">"timestamp"</span><span class="p">:</span><span class="s2">"2018-04-04T23:29:04-03:00"</span>
 <span class="p">}</span>
