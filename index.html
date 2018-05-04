@@ -1802,6 +1802,12 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <td style="text-align: center">Yes</td>
 </tr>
 <tr>
+<td style="text-align: center">available</td>
+<td style="text-align: center">Boolean</td>
+<td style="text-align: center">Is the product available for Sale (Default true)</td>
+<td style="text-align: center">No</td>
+</tr>
+<tr>
 <td style="text-align: center">stock</td>
 <td style="text-align: center">Integer</td>
 <td style="text-align: center">Number of product in stock</td>
@@ -1822,7 +1828,7 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
 <tr>
 <td style="text-align: center">link</td>
 <td style="text-align: center">String</td>
-<td style="text-align: center">URL of product page for this product e.g. https://mysite.com/products/p1</td>
+<td style="text-align: center">URL of product page for this product e.g. /products/p1</td>
 <td style="text-align: center">Yes</td>
 </tr>
 <tr>
@@ -1963,7 +1969,8 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
   <span class="s2">"category_1"</span> <span class="o">=&gt;</span> <span class="s2">"men"</span><span class="p">,</span>
   <span class="s2">"category_2"</span> <span class="o">=&gt;</span> <span class="s2">"jeans"</span><span class="p">,</span>
   <span class="s2">"category_3"</span> <span class="o">=&gt;</span> <span class="s2">"skinny"</span><span class="p">,</span>
-  <span class="s2">"stock"</span> <span class="o">=&gt;</span> <span class="mi">6</span>
+  <span class="s2">"stock"</span> <span class="o">=&gt;</span> <span class="mi">6</span><span class="p">,</span>
+  <span class="s2">"available"</span> <span class="o">=&gt;</span> <span class="nx">False</span>
 <span class="p">);</span>
 
 <span class="nv">$content</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
@@ -1992,7 +1999,8 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
    <span class="s">"category_1"</span><span class="p">:</span> <span class="s">"men"</span><span class="p">,</span>
    <span class="s">"category_2"</span><span class="p">:</span> <span class="s">"jeans"</span><span class="p">,</span>
    <span class="s">"category_3"</span><span class="p">:</span> <span class="s">"skinny"</span><span class="p">,</span>
-   <span class="s">"stock"</span><span class="p">:</span> <span class="mi">6</span>
+   <span class="s">"stock"</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+   <span class="s">"available"</span><span class="p">:</span> <span class="bp">False</span>
  <span class="p">}</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
@@ -2001,7 +2009,8 @@ We use HTTP Basic Authentication, which encodes the string <code>apikey:apisecre
    <span class="s2">"category_1"</span><span class="p">:</span> <span class="s2">"men"</span><span class="p">,</span>
    <span class="s2">"category_2"</span><span class="p">:</span> <span class="s2">"jeans"</span><span class="p">,</span>
    <span class="s2">"category_3"</span><span class="p">:</span> <span class="s2">"skinny"</span>
-   <span class="s2">"stock"</span><span class="p">:</span> <span class="mi">6</span>
+   <span class="s2">"stock"</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+   <span class="s2">"available"</span><span class="p">:</span> <span class="kc">false</span>
  <span class="p">}</span>
 <span class="c1">// The parameters we are going to pass to the fetch function</span>
 <span class="kd">let</span> <span class="nx">fetchData</span> <span class="o">=</span> <span class="p">{</span>
