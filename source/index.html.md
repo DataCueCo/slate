@@ -1194,10 +1194,11 @@ description|String|Long text description of the product|No
 color|String|Color of the product|No
 size|String|Size of the product|No
 price|Decimal|Price of the product up to two decimal places|Yes
+available|Boolean|Is the product available for Sale (Default true)|No
 stock|Integer|Number of product in stock|Yes
 extra|JSON Object|Any other fields you want to store about the product that you want to display on site e.g. discounts or promotions. |No
 photo_url|String|URL of the photo, you can use relative URLs as this is purely for your front-end to request the image|Yes
-link|String|URL of product page for this product e.g. https://mysite.com/products/p1|Yes
+link|String|URL of product page for this product e.g. /products/p1|Yes
 owner_id|String|If you're running a marketplace, store the product's owner or seller's user ID here.|No
 
 ```javascript--browser
@@ -1348,7 +1349,8 @@ $data = array(
   "category_1" => "men",
   "category_2" => "jeans",
   "category_3" => "skinny",
-  "stock" => 6
+  "stock" => 6,
+  "available" => False
 );
 
 $content = json_encode($data);
@@ -1380,7 +1382,8 @@ data = {
    "category_1": "men",
    "category_2": "jeans",
    "category_3": "skinny",
-   "stock": 6
+   "stock": 6,
+   "available": False
  }
 
 response = requests.put(url, data=data, headers=headers)
@@ -1392,7 +1395,8 @@ let data = {
    "category_1": "men",
    "category_2": "jeans",
    "category_3": "skinny"
-   "stock": 6
+   "stock": 6,
+   "available": false
  }
 // The parameters we are going to pass to the fetch function
 let fetchData = {
