@@ -1358,13 +1358,13 @@ When you create a new banner on your system.
 
 | Field        | Data Type   | Required | Description |
 | ------------ | ----------- | -------- | ----------- |
-| `banner_id`  | String      | Yes      | The product id or SKU number
+| `banner_id`  | String      | Yes      | A unique id for your banner
 | `type`       | String      | Yes      | The type of banner. Set to `'main'` for main banner or `'sub'` for sub banner
 | `name`       | String      | No       | Friendly name for the banner
-| `category_1` | String      | Yes      | The top category level this product belongs to. In a fashion store, this could be 'Men' , 'Women' or 'Children''.
-| `category_2` | String      | No       | The second category level this product belongs to. In a fashion store, this could be 'Shoes or 'Dresses'
-| `category_3` | String      | No       | The third category level this product belongs to. In a fashion store, this could be 'Sports' or 'Sandals'
-| `category_4` | String      | No       | The fourth category level this product belongs to. In a fashion store, this could be 'Running shoes'
+| `category_1` | String      | Yes      | The top category level this banner belongs to. In a fashion store, this could be 'Men' , 'Women' or 'Children''.
+| `category_2` | String      | No       | The second category level this banner belongs to. In a fashion store, this could be 'Shoes or 'Dresses'
+| `category_3` | String      | No       | The third category level this banner belongs to. In a fashion store, this could be 'Sports' or 'Sandals'
+| `category_4` | String      | No       | The fourth category level this banner belongs to. In a fashion store, this could be 'Running shoes'
 | `photo_url`  | String      | Yes      | URL of the banner image, you can use relative URLs as this is purely for your front-end to request the image
 | `link`       | String      | Yes      | Which page to take the user to when they click on the banner on your website. Typically a collection or catalog page for the banner's associated category.
 | `extra`      | JSON Object | No       | Any other information you would like to use for special processing in the browser.
