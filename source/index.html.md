@@ -30,22 +30,82 @@ The API is located at `https://api.datacue.co`.
 
 ```php
 <?php
+$updatedProduct->name = "Blue Jeans";
+$updatedProduct->price = 30;
 
-$encode = base64_encode("API-key:API-secret");
+$apikey = "Your-API-Key-goes-here";
+$apisecret = "Your-API-secret-goes-here";
+$payload = json_encode($updatedProduct);
+$url = "https://api.datacue.co/v1/products/:product_id/:variant_id";
+
+// now encode it to base64
+$checksum = hash_hmac('sha256', $payload, $apisecret, true);
+
+$encode = base64_encode("$apikey:$checksum");
 $auth = "Basic $encode";
+
+$curl = curl_init($url);
+curl_setopt($curl, CURLOPT_HEADER, false);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+  "Content-type" => "application/json",
+  "Authorization" => $auth
+));
+curl_setopt($curl, CURLOPT_POST, true);
+curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
+
+$json_response = curl_exec($curl);
+
+?>
+
 ```
 
 ```python
+import hashlib
+import hmac
 import base64
+import json
+import requests
 
-auth = "Basic {}".format(base64.b64encode(b"API-key:API-secret").decode("ascii"))
+apiurl = "https://api.datacue.co"
+apikey = "your-api-key-goes-here"
+apisecret = "your-api-secret-goes-here"
+
+updatedProduct = {
+  "name" : "Blue Jeans",
+  "price" : 30
+}
+
+payload = json.dumps(updatedProduct)
+
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(payload), 'utf-8'), hashlib.sha256)
+authToken = bytes(apikey + ":" + checksum.hexdigest(),'utf-8')
+auth = "Basic {}".format(base64.b64encode(auth).decode('ascii'))
+
+# Add auth to your auth header
+headers = {
+"Content-type": "application/json",
+"Authorization": auth
+}
+response = requests.post(apiurl + "/v1/products/:product_id/:variant_id", data=payload, headers=headers)
 ```
 
 ```javascript--node
 const axios = require('axios');
+const cryto = require('crypto');
 
-axios.defaults.auth = { username: 'API-key', password: 'API-secret' };
-```
+const apikey = "your-api-key-goes-here"
+const apisecret = "your-api-secret-goes-here"
+
+const updatedProduct = {
+  "name" : "Blue Jeans",
+  "price" : 30
+}
+
+var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(updatedProduct));
+
+//add to default authentication header
+axios.defaults.auth = { username: 'API-key', password: hash.digest('hex') };```
 
 ```javascript--browser
 window.datacue.init('API-key');
@@ -60,9 +120,8 @@ window.datacue.init('API-key');
 
 You can find your API key and API secret in your [DataCue Dashboard](https://app.datacue.co "Dashboard").
 
-The `events` endpoint only require an API key to be run from a browser.
-All other endpoints require both an API key and API secret and should only be run from your backend to keep your API secret... a secret.
-We use HTTP Basic Authentication, which encodes the string `apikey:apisecret` into a token that is base64 encoded and prepended with the string "Basic ".
+The browser events endpoint only require an API key as it called from the browser. All other endpoints require both the API key and the payload to be signed with your API secret. NEVER send your api secret with the message. 
+We use HTTP Basic Authentication, where the username is your apikey and the password is the hmac sha256 checksum of your payload. Refer to the code samples to see how to do this in your language of choice.
 
 #### Browser Events (only API key):
 
@@ -72,10 +131,12 @@ If your API key is `abc123`, then Base64 encode "abc123:", no password after the
 Your authorization header should look like `Authorization: Basic YWJjMTIzOg==`.
 
 #### Backend End points (API Key and API Secret):
-If your API key is `abc123`, and API secret is `secret123` then Base64 encode "abc123:secret123". The final result will be "Basic YWJjMTIzOnNlY3JldDEyMw==".
+Let's say your API key is `abc123` and your API secret is `secret123`.
 
-Your authorization header should look like `Authorization: Basic YWJjMTIzOnNlY3JldDEyMw==`.
+- Use an HMAC library for your language of choice to hash your JSON payload using your API secret as the key. You should see an output like: `4643978965ffcec6e6d73b36a39ae43ceb15f7ef8131b8307862ebc560e7f988`
+- Set your HTTP library to use Basic Authentication, specify your API key `abc123` as the username and the result of the above hash operation as your password. The hash above is just an example and will not work.
 
+Refer to the code samples above which shows you how to implement this in multiple popular languages.
 
 ### Content-Type
 
@@ -203,15 +264,15 @@ window.datacue.track({
 
 ```php
 <?php
-// browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 ```python
-# browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 ```javascript--node
-// browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 > The above command returns JSON structured like this:
@@ -337,15 +398,15 @@ window.datacue.track({
 
 ```php
 <?php
-// browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 ```python
-# browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 ```javascript--node
-// browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 > The above command returns JSON structured like this:
@@ -409,7 +470,7 @@ Request product recommendations when a user visits a product page
 | Field        | Data Type | Required | Description |
 | ------------ | --------- | -------- | ----------- |
 | `type`       | String    | Yes      | Set to `'pageview'`
-| `subtype`    | String    | Yes      | Set to `'product'`
+| `subtype`    | String    | Yes      | Set to `'related'`
 | `product_id` | String    | Yes      | Set to product id being viewed
 | `variant_id` | String    | No       | Set to product's variant id (if applicable)
 
@@ -441,15 +502,15 @@ window.datacue.track({
 
 ```php
 <?php
-// browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 ```python
-# browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 ```javascript--node
-// browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 > The above command returns a 204 response code
@@ -492,15 +553,15 @@ window.datacue.track({
 
 ```php
 <?php
-// browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 ```python
-# browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 ```javascript--node
-// browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 > The above command returns a 204 response code
@@ -535,15 +596,15 @@ window.datacue.track({
 
 ```php
 <?php
-// browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 ```python
-# browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 ```javascript--node
-// browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 > The above command returns JSON structured like this:
@@ -602,15 +663,15 @@ window.datacue.track({
 
 ```php
 <?php
-// browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 ```python
-# browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 ```javascript--node
-// browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 > The above command returns a 204 response code
@@ -647,15 +708,15 @@ window.datacue.track({
 
 ```php
 <?php
-// browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 ```python
-# browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 ```javascript--node
-// browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 > The above command returns a 204 response code
@@ -694,15 +755,15 @@ window.datacue.track({
 
 ```php
 <?php
-// browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 ```python
-# browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 ```javascript--node
-// browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 > The above command returns a 204 response code
@@ -734,21 +795,21 @@ window.datacue.identify('019mr8mf4r', {
 window.datacue.track({
   type: 'click',
   subtype: 'product',
-  banner_id: 'p2'
+  product_id: 'p2'
 }, true);
 ```
 
 ```php
 <?php
-// browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 ```python
-# browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 ```javascript--node
-// browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 > The above command returns a 204 response code
@@ -760,7 +821,7 @@ Record clicks on a product anywhere on your website.
 | Field        | Data Type | Required | Description |
 | ------------ | --------- | -------- | ----------- |
 | `type`       | String    | Yes      | Set to `'click'`
-| `subtype`    | String    | Yes      | Set to `'product'`
+| `subtype`    | String    | Yes      | Set to `'related'`, `'similar'` or `'recent'`
 | `product_id` | String    | Yes      | Set to the id of the clicked product
 
 ## Start Order (Check Out Started)
@@ -790,15 +851,15 @@ window.datacue.track({
 
 ```php
 <?php
-// browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 ```python
-# browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 ```javascript--node
-// browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 > The above command returns a 204 response code
@@ -842,15 +903,15 @@ window.datacue.track({
 
 ```php
 <?php
-// browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 ```python
-# browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 ```javascript--node
-// browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 > The above command returns a 204 response code
@@ -887,15 +948,15 @@ window.datacue.track({
 
 ```php
 <?php
-// browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 ```python
-# browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 ```javascript--node
-// browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 > The above command returns a 204 response code
@@ -928,15 +989,15 @@ window.datacue.track({
 
 ```php
 <?php
-// browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 ```python
-# browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 ```javascript--node
-// browser only event (refer to the Browser tab)
+"browser only event (refer to the Browser tab)"
 ```
 
 > The above command returns a 204 response code
@@ -954,7 +1015,7 @@ Record logins by a user on your website, if the user login is cached, you do not
 ## Create Product
 
 ```javascript--browser
-// backend only event (refer to the Python, PHP or Node tab)
+"backend only event (refer to the Python, PHP or Node tab)"
 ```
 
 ```php
@@ -1104,7 +1165,7 @@ Whenever a new product is created, send this request from your backend.
 ## Update Product
 
 ```javascript--browser
-// backend only event (refer to the Python, PHP or Node tab)
+"backend only event (refer to the Python, PHP or Node tab)"
 ```
 
 ```php
@@ -1187,7 +1248,7 @@ Same as for [Create Product](#create-product), except `product_id` and `variant_
 ## Delete Product
 
 ```javascript--browser
-// backend only event (refer to the Python, PHP or Node tab)
+"backend only event (refer to the Python, PHP or Node tab)"
 ```
 
 ```php
@@ -1249,7 +1310,7 @@ Endpoint: `DELETE` `https://api.datacue.co/v1/products/<product_id>`
 ## Create Banner
 
 ```javascript--browser
-// backend only event (refer to the Python, PHP or Node tab)
+"backend only event (refer to the Python, PHP or Node tab)"
 ```
 
 ```php
@@ -1361,7 +1422,7 @@ When you create a new banner on your system.
 | `banner_id`  | String      | Yes      | A unique id for your banner
 | `type`       | String      | Yes      | The type of banner. Set to `'main'` for main banner or `'sub'` for sub banner
 | `name`       | String      | No       | Friendly name for the banner
-| `category_1` | String      | Yes      | The top category level this banner belongs to. In a fashion store, this could be 'Men' , 'Women' or 'Children''.
+| `category_1` | String      | Yes      | The top category level this banner belongs to. In a fashion store, this could be 'Men' , 'Women' or 'Children''
 | `category_2` | String      | No       | The second category level this banner belongs to. In a fashion store, this could be 'Shoes or 'Dresses'
 | `category_3` | String      | No       | The third category level this banner belongs to. In a fashion store, this could be 'Sports' or 'Sandals'
 | `category_4` | String      | No       | The fourth category level this banner belongs to. In a fashion store, this could be 'Running shoes'
@@ -1372,7 +1433,7 @@ When you create a new banner on your system.
 ## Update Banner
 
 ```javascript--browser
-// backend only event (refer to the Python, PHP or Node tab)
+"backend only event (refer to the Python, PHP or Node tab)"
 ```
 
 ```php
@@ -1441,7 +1502,7 @@ Same as for [Create Banner](#create-banner), except `banner_id`.
 ## Delete Banner
 
 ```javascript--browser
-// backend only event (refer to the Python, PHP or Node tab)
+"backend only event (refer to the Python, PHP or Node tab)"
 ```
 
 ```php
@@ -1493,7 +1554,7 @@ When you delete a banner on your system. Does not apply if you're using DataCue 
 ## Create User
 
 ```javascript--browser
-// backend only event (refer to the Python, PHP or Node tab)
+"backend only event (refer to the Python, PHP or Node tab)"
 ```
 
 ```php
@@ -1636,7 +1697,7 @@ When a new user has successfully signed up / registered on your system.
 ## Update User
 
 ```javascript--browser
-// backend only event (refer to the Python, PHP or Node tab)
+"backend only event (refer to the Python, PHP or Node tab)"
 ```
 
 ```php
@@ -1709,7 +1770,7 @@ Same as for [Create User](#create-user), except `user_id`.
 ## Delete User
 
 ```javascript--browser
-// backend only event (refer to the Python, PHP or Node tab)
+"backend only event (refer to the Python, PHP or Node tab)"
 ```
 
 ```php
@@ -1801,7 +1862,7 @@ Tell us what you're sending via the `type` and insert an array of your requests 
 ## Batch Create Banners / Orders / Products / Users
 
 ```javascript--browser
-// backend only event (refer to the Python, PHP or Node tab)
+"backend only event (refer to the Python, PHP or Node tab)"
 ```
 
 ```php
@@ -1918,7 +1979,7 @@ We will send you a status for each item you sent, so you can handle and resend o
 ## Batch Update Banners / Products / Users
 
 ```javascript--browser
-// backend only event (refer to the Python, PHP or Node tab)
+"backend only event (refer to the Python, PHP or Node tab)"
 ```
 
 ```php
@@ -2034,7 +2095,7 @@ We will send you a status for each item you sent, so you can handle and resend o
 ## Batch Delete Banners / Products / Users or Cancel Orders
 
 ```javascript--browser
-// backend only event (refer to the Python, PHP or Node tab)
+"backend only event (refer to the Python, PHP or Node tab)"
 ```
 
 ```php
