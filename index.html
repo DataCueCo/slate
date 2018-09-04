@@ -334,13 +334,13 @@
             <a href="#batch" class="toc-h1 toc-link" data-title="batch">Batch</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#batch-create-orders-products-users" class="toc-h2 toc-link" data-title="batch-create-orders-products-users">Batch Create Orders / Products / Users</a>
+                    <a href="#batch-create-banners-orders-products-users" class="toc-h2 toc-link" data-title="batch-create-banners-orders-products-users">Batch Create Banners / Orders / Products / Users</a>
                   </li>
                   <li>
-                    <a href="#batch-update-products-users" class="toc-h2 toc-link" data-title="batch-update-products-users">Batch Update Products / Users</a>
+                    <a href="#batch-update-banners-products-users" class="toc-h2 toc-link" data-title="batch-update-banners-products-users">Batch Update Banners / Products / Users</a>
                   </li>
                   <li>
-                    <a href="#batch-delete-products-users-or-cancel-orders" class="toc-h2 toc-link" data-title="batch-delete-products-users-or-cancel-orders">Batch Delete Products / Users or Cancel Orders</a>
+                    <a href="#batch-delete-banners-products-users-or-cancel-orders" class="toc-h2 toc-link" data-title="batch-delete-banners-products-users-or-cancel-orders">Batch Delete Banners / Products / Users or Cancel Orders</a>
                   </li>
               </ul>
           </li>
@@ -355,12 +355,12 @@
         <h1 id='introduction'>Introduction</h1>
 <p>Welcome to the DataCue API. This API documentation is to help you setup your e-commerce store to apply real time personalization to your website.</p>
 
-<p>We have language bindings in Javascript, PHP, and Python. You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right. On a mobile device, switch the language using the hamburger menu on the top left.</p>
+<p>We have language bindings in Javascript, PHP, and Python. You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right. On a mobile device, switch the language using the hamburger menu on the rop left.</p>
 <h2 id='api-url'>API URL</h2>
 <p>The API is located at <code>https://api.datacue.co</code>.</p>
 <h2 id='headers'>Headers</h2><h3 id='authentication'>Authentication</h3>
 <blockquote>
-<p>We use SHA256 HMAC based authentication. Replace <code>API-key</code> with your API key, your <code>API-secret</code> is the secret key to sign your payload. NEVER send the <code>API-secret</code> in the message. All browser events only require your <code>API-key</code>.</p>
+<p>Make sure to replace <code>API-key</code> with your API key and <code>API-secret</code> with your API secret, and only use the secret with non-event endpoints.</p>
 </blockquote>
 <pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 <span class="nv">$updatedProduct</span><span class="o">-&gt;</span><span class="na">name</span> <span class="o">=</span> <span class="s2">"Blue Jeans"</span><span class="p">;</span>
@@ -369,12 +369,28 @@
 <span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
 <span class="nv">$apisecret</span> <span class="o">=</span> <span class="s2">"Your-API-secret-goes-here"</span><span class="p">;</span>
 <span class="nv">$payload</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$updatedProduct</span><span class="p">);</span>
+<span class="nv">$url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/products/:product_id/:variant_id"</span><span class="p">;</span>
 
 <span class="c1">// now encode it to base64
-</span><span class="nv">$checksum</span> <span class="o">=</span> <span class="nb">base64_encode</span><span class="p">(</span><span class="nb">hash_hmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="nv">$payload</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">,</span> <span class="kc">true</span><span class="p">));</span>
+</span><span class="nv">$checksum</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="nv">$payload</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
 
 <span class="nv">$encode</span> <span class="o">=</span> <span class="nb">base64_encode</span><span class="p">(</span><span class="s2">"</span><span class="nv">$apikey</span><span class="s2">:</span><span class="nv">$checksum</span><span class="s2">"</span><span class="p">);</span>
 <span class="nv">$auth</span> <span class="o">=</span> <span class="s2">"Basic </span><span class="nv">$encode</span><span class="s2">"</span><span class="p">;</span>
+
+<span class="nv">$curl</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HEADER</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_HTTPHEADER</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+  <span class="s2">"Content-type"</span> <span class="o">=&gt;</span> <span class="s2">"application/json"</span><span class="p">,</span>
+  <span class="s2">"Authorization"</span> <span class="o">=&gt;</span> <span class="nv">$auth</span>
+<span class="p">));</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POST</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$curl</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$payload</span><span class="p">);</span>
+
+<span class="nv">$json_response</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$curl</span><span class="p">);</span>
+
+<span class="cp">?&gt;</span>
+
 </code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">hashlib</span>
 <span class="kn">import</span> <span class="nn">hmac</span>
 <span class="kn">import</span> <span class="nn">base64</span>
@@ -392,8 +408,8 @@
 
 <span class="n">payload</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">updatedProduct</span><span class="p">)</span>
 
-<span class="n">checkSum</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">apisecret</span><span class="p">,</span><span class="s">'utf-8'</span><span class="p">),</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">payload</span><span class="p">),</span> <span class="s">'utf-8'</span><span class="p">),</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span>
-<span class="n">authToken</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">apikey</span> <span class="o">+</span> <span class="s">":"</span> <span class="o">+</span> <span class="n">checkSum</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">(),</span><span class="s">'utf-8'</span><span class="p">)</span>
+<span class="n">checksum</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">apisecret</span><span class="p">,</span><span class="s">'utf-8'</span><span class="p">),</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">payload</span><span class="p">),</span> <span class="s">'utf-8'</span><span class="p">),</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span>
+<span class="n">authToken</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">apikey</span> <span class="o">+</span> <span class="s">":"</span> <span class="o">+</span> <span class="n">checksum</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">(),</span><span class="s">'utf-8'</span><span class="p">)</span>
 <span class="n">auth</span> <span class="o">=</span> <span class="s">"Basic {}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">auth</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">'ascii'</span><span class="p">))</span>
 
 <span class="c"># Add auth to your auth header</span>
@@ -401,8 +417,7 @@
 <span class="s">"Content-type"</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">,</span>
 <span class="s">"Authorization"</span><span class="p">:</span> <span class="n">auth</span>
 <span class="p">}</span>
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">apiurl</span> <span class="o">+</span> <span class="s">"/v1/products/1/a"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
-
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">apiurl</span> <span class="o">+</span> <span class="s">"/v1/products/:product_id/:variant_id"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
 </code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
 <span class="kr">const</span> <span class="nx">cryto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'crypto'</span><span class="p">);</span>
 
@@ -417,8 +432,10 @@
 <span class="kd">var</span> <span class="nx">hash</span> <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">createHmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="nx">apisecret</span><span class="p">).</span><span class="nx">update</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">Stringify</span><span class="p">(</span><span class="nx">updatedProduct</span><span class="p">));</span>
 
 <span class="c1">//add to default authentication header</span>
-<span class="nx">axios</span><span class="p">.</span><span class="nx">defaults</span><span class="p">.</span><span class="nx">auth</span> <span class="o">=</span> <span class="p">{</span> <span class="na">username</span><span class="p">:</span> <span class="s1">'API-key'</span><span class="p">,</span> <span class="na">password</span><span class="p">:</span> <span class="nx">hash</span><span class="p">.</span><span class="nx">digest</span><span class="p">(</span><span class="s1">'hex'</span><span class="p">)</span> <span class="p">};</span>
-</code></pre><pre class="highlight javascript tab-javascript--browser"><code><span class="nb">window</span><span class="p">.</span><span class="nx">datacue</span><span class="p">.</span><span class="nx">init</span><span class="p">(</span><span class="s1">'API-key'</span><span class="p">);</span>
+<span class="nx">axios</span><span class="p">.</span><span class="nx">defaults</span><span class="p">.</span><span class="nx">auth</span> <span class="o">=</span> <span class="p">{</span> <span class="na">username</span><span class="p">:</span> <span class="s1">'API-key'</span><span class="p">,</span> <span class="na">password</span><span class="p">:</span> <span class="nx">hash</span><span class="p">.</span><span class="nx">digest</span><span class="p">(</span><span class="s1">'hex'</span><span class="p">)</span> <span class="p">};</span><span class="s2">```
+
+```</span><span class="nx">javascript</span><span class="o">--</span><span class="nx">browser</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">datacue</span><span class="p">.</span><span class="nx">init</span><span class="p">(</span><span class="s1">'API-key'</span><span class="p">);</span>
 </code></pre>
 <blockquote>
 <p>Sample Headers</p>
@@ -428,22 +445,22 @@
 </code></pre>
 <p>You can find your API key and API secret in your <a href="https://app.datacue.co" title="Dashboard">DataCue Dashboard</a>.</p>
 
-<p>The <code>events</code> endpoint only require an API key to be run from a browser.
-All other endpoints require both the API key and the payload to be signed with your API secret (see above). NEVER send your api secret with the message.
-We use HTTP Basic Authentication, which encodes the string <code>apikey:checksum</code> into a token that is base64 encoded and prepended with the string &quot;Basic &quot;. The checksum is the result of signing your message payload (see code samples above).</p>
+<p>The browser events endpoint only require an API key as it called from the browser. All other endpoints require both the API key and the payload to be signed with your API secret. NEVER send your api secret with the message. 
+We use HTTP Basic Authentication, where the username is your apikey and the password is the hmac sha256 checksum of your payload. Refer to the code samples to see how to do this in your language of choice.</p>
 <h4 id='browser-events-only-api-key'>Browser Events (only API key):</h4>
 <p>The client library manages the headers for you, using the API key you pass to the <code>init()</code> method.
 If your API key is <code>abc123</code>, then Base64 encode &quot;abc123:&quot;, no password after the colon, and the final result will be &quot;YWJjMTIzOg==&quot;.</p>
 
 <p>Your authorization header should look like <code>Authorization: Basic YWJjMTIzOg==</code>.</p>
-<h4 id='backend-endpoints-api-key-and-api-secret'>Backend endpoints (API Key and API Secret):</h4>
-<p>If your API key is <code>abc123</code>, and API secret is <code>secret123</code>:
-1. Convert your message payload into a JSON string.
-2. Use an appropriate HMAC library for your language of choice to hash the JSON payload using your api secret. e.g. &quot;4643978965ffcec6e6d73b36a39ae43ceb15f7ef8131b8307862ebc560e7f988&quot;
-3. Base 64 encode the combination of api key and hash like so: <code>abc123:4643978965ffcec6e6d73b36a39ae43ceb15f7ef8131b8307862ebc560e7f988</code>. 4. Append it to the string <code>Basic</code>: The final result will be &quot;Basic YWJjMTIzOnNlY3JldDEyMw==&quot;.</p>
+<h4 id='backend-end-points-api-key-and-api-secret'>Backend End points (API Key and API Secret):</h4>
+<p>Let&#39;s say your API key is <code>abc123</code> and your API secret is <code>secret123</code>.</p>
 
-<p>Refer to the code samples above which shows you how to implement this in multiple popular languages.
-Your authorization header should look like <code>Authorization: Basic YWJjMTIzOnNlY3JldDEyMw==</code>.</p>
+<ul>
+<li>Use an HMAC library for your language of choice to hash your JSON payload using your API secret as the key. You should see an output like: <code>4643978965ffcec6e6d73b36a39ae43ceb15f7ef8131b8307862ebc560e7f988</code></li>
+<li>Set your HTTP library to use Basic Authentication, specify your API key <code>abc123</code> as the username and the result of the above hash operation as your password. The hash above is just an example and will not work.</li>
+</ul>
+
+<p>Refer to the code samples above which shows you how to implement this in multiple popular languages.</p>
 <h3 id='content-type'>Content-Type</h3>
 <p>You must set a content-type header to &quot;application/json&quot;.
 <code>Content-Type: application/json</code></p>
@@ -862,7 +879,7 @@ Your authorization header should look like <code>Authorization: Basic YWJjMTIzOn
 <td><code>subtype</code></td>
 <td>String</td>
 <td>Yes</td>
-<td>Set to <code>&#39;product&#39;</code></td>
+<td>Set to <code>&#39;related&#39;</code></td>
 </tr>
 <tr>
 <td><code>product_id</code></td>
@@ -1263,7 +1280,7 @@ Your authorization header should look like <code>Authorization: Basic YWJjMTIzOn
 <span class="c1">// shop is not a single page app)</span>
 <span class="nb">window</span><span class="p">.</span><span class="nx">datacue</span><span class="p">.</span><span class="nx">track</span><span class="p">({</span>
   <span class="na">type</span><span class="p">:</span> <span class="s1">'click'</span><span class="p">,</span>
-  <span class="na">subtype</span><span class="p">:</span> <span class="s1">'related'</span><span class="p">,</span>
+  <span class="na">subtype</span><span class="p">:</span> <span class="s1">'product'</span><span class="p">,</span>
   <span class="na">product_id</span><span class="p">:</span> <span class="s1">'p2'</span>
 <span class="p">},</span> <span class="kc">true</span><span class="p">);</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
@@ -1304,10 +1321,6 @@ Your authorization header should look like <code>Authorization: Basic YWJjMTIzOn
 <td>Set to the id of the clicked product</td>
 </tr>
 </tbody></table>
-
-<aside class="success">
-  Use the subtype field to specify the type of product recommendation that generated the click. This will help us understand what product recommendations are doing best for your store.
-</aside>
 <h2 id='start-order-check-out-started'>Start Order (Check Out Started)</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="c1">// assign user_id and user.profile if you haven't yet</span>
 <span class="nb">window</span><span class="p">.</span><span class="nx">datacue</span><span class="p">.</span><span class="nx">identify</span><span class="p">(</span><span class="s1">'019mr8mf4r'</span><span class="p">,</span> <span class="p">{</span>
   <span class="na">sex</span><span class="p">:</span> <span class="s1">'female'</span><span class="p">,</span>
@@ -1880,7 +1893,7 @@ Your authorization header should look like <code>Authorization: Basic YWJjMTIzOn
 <p>Endpoint: <code>DELETE</code> <code>https://api.datacue.co/v1/products/&lt;product_id&gt;</code></p>
 <h1 id='banners'>Banners</h1>
 <aside class="notice">
-  We strongly recommend that you use your DataCue dashboard to upload and manage your banners. However, if you want DataCue to use your existing banner management solution, you can use these endpoints to do so.
+  We recommend that you use your DataCue dashboard to upload and manage your banners. However, if you want DataCue to use your existing banner management solution, you can use these endpoints to do so.
 </aside>
 <h2 id='create-banner'>Create Banner</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="s2">"backend only event (refer to the Python, PHP or Node tab)"</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
@@ -2482,7 +2495,7 @@ Your authorization header should look like <code>Authorization: Basic YWJjMTIzOn
 <p>Use the batch endpoint if you want to do a bulk import, typically when you first start using DataCue and you want to add your historical orders, products or users.</p>
 
 <p>Tell us what you&#39;re sending via the <code>type</code> and insert an array of your requests in the <code>batch</code> field.</p>
-<h2 id='batch-create-orders-products-users'>Batch Create Orders / Products / Users</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="s2">"backend only event (refer to the Python, PHP or Node tab)"</span>
+<h2 id='batch-create-banners-orders-products-users'>Batch Create Banners / Orders / Products / Users</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="s2">"backend only event (refer to the Python, PHP or Node tab)"</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/batch"</span><span class="p">;</span>
@@ -2597,7 +2610,7 @@ Your authorization header should look like <code>Authorization: Basic YWJjMTIzOn
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>We will send you a status for each item you sent, so you can handle and resend only items that had an error.</p>
-<h2 id='batch-update-products-users'>Batch Update Products / Users</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="s2">"backend only event (refer to the Python, PHP or Node tab)"</span>
+<h2 id='batch-update-banners-products-users'>Batch Update Banners / Products / Users</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="s2">"backend only event (refer to the Python, PHP or Node tab)"</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/batch"</span><span class="p">;</span>
@@ -2694,7 +2707,7 @@ Your authorization header should look like <code>Authorization: Basic YWJjMTIzOn
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>We will send you a status for each item you sent, so you can handle and resend only items that had an error.</p>
-<h2 id='batch-delete-products-users-or-cancel-orders'>Batch Delete Products / Users or Cancel Orders</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="s2">"backend only event (refer to the Python, PHP or Node tab)"</span>
+<h2 id='batch-delete-banners-products-users-or-cancel-orders'>Batch Delete Banners / Products / Users or Cancel Orders</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="s2">"backend only event (refer to the Python, PHP or Node tab)"</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$url</span> <span class="o">=</span> <span class="s2">"https://api.datacue.co/v1/batch"</span><span class="p">;</span>
