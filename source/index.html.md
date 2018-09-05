@@ -105,7 +105,8 @@ const updatedProduct = {
 var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(updatedProduct));
 
 //add to default authentication header
-axios.defaults.auth = { username: 'API-key', password: hash.digest('hex') };```
+axios.defaults.auth = { username: 'API-key', password: hash.digest('hex') };
+```
 
 ```javascript--browser
 window.datacue.init('API-key');
