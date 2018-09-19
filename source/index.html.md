@@ -16,7 +16,11 @@ search: true
 
 Welcome to the DataCue API. This API documentation is to help get your e-commerce store setup to apply real time personalization to your website.
 
+<<<<<<< HEAD
 We have language bindings in Javascript, PHP, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+=======
+We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+>>>>>>> upstream/master
 
 # Headers
 
