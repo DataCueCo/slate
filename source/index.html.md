@@ -1,5 +1,5 @@
 ---
-title: API Reference
+title: DataCue API
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - javascript--browser: Browser
@@ -14,29 +14,54 @@ search: true
 
 # Introduction
 
-Welcome to the DataCue API. This API documentation is to help you setup your e-commerce store to apply real time personalization to your website.
+Welcome to the DataCue API guide! This API documentation is to help you setup your e-commerce store to apply real time personalization to your website.
 
-We have language bindings in Javascript, PHP, and Python. You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right. On a mobile device, switch the language using the hamburger menu on the rop left.
+## Sample code
 
-## API URL
+We have code for your browser, Node, PHP and Python. You can view them in the dark area to the right. Click on the yellow tabs to switch the programming language. On a mobile device, switch the language using the hamburger menu on the top left.
+
+## Getting started
+
+There are three major steps to complete the integration.
+
+### 1. Import your historical data
+This is a one-time run. Refer to the [batch](#batch) endpoints to send us all your existing orders, products and users (sometimes called customers).
+
+### 2. Integrate future store data changes
+Use the appropriate endpoints to ensure all updates to your store data are synchronized with DataCue.
+
+This includes:
+
+- [Orders](#orders)
+- [Products](#products)
+- [Users](#users)
+
+### 3. Integrate recommendations to your site with our Javascript library
+Refer to the [browser events](#browser-events) section to understand all the events that you can send us via our Javascript library. All events have sample code attached, just copy/paste them and change the values as appropriate.
+
+## Quick facts
+
+### API URL
 
 The API is located at `https://api.datacue.co`.
 
-## Headers
-
 ### Authentication
 
-> Make sure to replace `API-key` with your API key and `API-secret` with your API secret, and only use the secret with non-event endpoints.
+> Replace `API-key` with your API key and `API-secret` with your API secret. Browser events only need your api key, while the other endpoints require both.
 
 ```php
 <?php
-$updatedProduct->name = "Blue Jeans";
-$updatedProduct->price = 30;
 
+$url = "https://api.datacue.co/v1/users";
 $apikey = "Your-API-Key-goes-here";
 $apisecret = "Your-API-secret-goes-here";
-$payload = json_encode($updatedProduct);
-$url = "https://api.datacue.co/v1/products/:product_id/:variant_id";
+
+$data = array(
+  "name"  => "Spongebob",
+  "email" => "pineapple@underthe.sea"
+);
+
+$payload = json_encode($data);
 
 // now encode it to base64
 $checksum = hash_hmac('sha256', $payload, $apisecret, true);
@@ -63,49 +88,50 @@ $json_response = curl_exec($curl);
 ```python
 import hashlib
 import hmac
-import base64
 import json
 import requests
 
-apiurl = "https://api.datacue.co"
+url = "https://api.datacue.co/v1/users"
 apikey = "your-api-key-goes-here"
 apisecret = "your-api-secret-goes-here"
 
-updatedProduct = {
-  "name" : "Blue Jeans",
-  "price" : 30
+data = {
+  "name" : 'Spongebob',
+  "email" : 'pineapple@underthe.sea'
 }
 
-payload = json.dumps(updatedProduct)
+payload = json.dumps(data)
 
 checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(payload), 'utf-8'), hashlib.sha256)
-authToken = bytes(apikey + ":" + checksum.hexdigest(),'utf-8')
-auth = "Basic {}".format(base64.b64encode(auth).decode('ascii'))
 
-# Add auth to your auth header
+# Set content-type header
 headers = {
 "Content-type": "application/json",
-"Authorization": auth
 }
-response = requests.post(apiurl + "/v1/products/:product_id/:variant_id", data=payload, headers=headers)
+
+response = requests.post(url, data=payload, headers=headers, auth=(apikey, checksum.hexdigest())
+
 ```
 
 ```javascript--node
 const axios = require('axios');
 const cryto = require('crypto');
 
-const apikey = "your-api-key-goes-here"
-const apisecret = "your-api-secret-goes-here"
+const url = `https://api.datacue.co/v1/users'
+const apikey = 'your-api-key-goes-here';
+const apisecret = 'your-api-secret-goes-here';
 
-const updatedProduct = {
-  "name" : "Blue Jeans",
-  "price" : 30
+const newUser = {
+  name : 'Spongebob',
+  email : 'pineapple@underthe.sea'
 }
 
-var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(updatedProduct));
+var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(newUser));
 
 //add to default authentication header
 axios.defaults.auth = { username: 'API-key', password: hash.digest('hex') };
+
+axios.post(url, data);
 ```
 
 ```javascript--browser
@@ -121,32 +147,20 @@ window.datacue.init('API-key');
 
 You can find your API key and API secret in your [DataCue Dashboard](https://app.datacue.co "Dashboard").
 
-The browser events endpoint only require an API key as it called from the browser. All other endpoints require both the API key and the payload to be signed with your API secret. NEVER send your api secret with the message. 
-We use HTTP Basic Authentication, where the username is your apikey and the password is the hmac sha256 checksum of your payload. Refer to the code samples to see how to do this in your language of choice.
+We use HTTP Basic Authentication, the username is your `apikey` and the password is a signed hash of the JSON payload you are sending. This way you don't need to send your actual api secret with the message. You get to keep it... a secret (sorry!).
 
-#### Browser Events (only API key):
+The browser events are public so you only fill in the username field with your api key and leave the password blank. Our Javascript library manages authentication for you. Just pass the `apikey` to the `init()` method and you're done. See code sample on the right.
 
-The client library manages the headers for you, using the API key you pass to the `init()` method.
-If your API key is `abc123`, then Base64 encode "abc123:", no password after the colon, and the final result will be "YWJjMTIzOg==".
-
-Your authorization header should look like `Authorization: Basic YWJjMTIzOg==`.
-
-#### Backend End points (API Key and API Secret):
-Let's say your API key is `abc123` and your API secret is `secret123`.
-
-- Use an HMAC library for your language of choice to hash your JSON payload using your API secret as the key. You should see an output like: `4643978965ffcec6e6d73b36a39ae43ceb15f7ef8131b8307862ebc560e7f988`
-- Set your HTTP library to use Basic Authentication, specify your API key `abc123` as the username and the result of the above hash operation as your password. The hash above is just an example and will not work.
-
-Refer to the code samples above which shows you how to implement this in multiple popular languages.
+For all other endpoints, we have reference implementations on how to sign your message with your `apisecret` in Node, PHP and Python.
 
 ### Content-Type
 
-You must set a content-type header to "application/json".
+Whenever you are sending us JSON (all endpoints except `DELETE`). Remember to set a content-type header to "application/json", some http libraries will do this for you automatically.
 `Content-Type: application/json`
 
 # Browser Events
 
-Endpoint: `POST` `https://api.datacue.co/v1/events`
+Endpoint: `POST` `https://events.datacue.co/`
 
 ## Authorization
 
@@ -185,7 +199,7 @@ All events are registered in a similar format. There are 4 main objects in each 
 
 ## Parameter breakdown
 
-### user
+### User
 
 | Field          | Data Type   | Required               | Description |
 | -------------- | ----------- | ---------------------- | ----------- |
@@ -197,7 +211,7 @@ All events are registered in a similar format. There are 4 main objects in each 
   If you send us both a <code>user_id</code> and <code>anonymous_id</code> we will record the <code>user_id</code>.
 </aside>
 
-### user.profile
+#### User Profile (user.profile)
 
 | Field      | Data Type | Required | Description |
 | ---------- | --------- | -------- | ----------- |
@@ -207,11 +221,11 @@ All events are registered in a similar format. There are 4 main objects in each 
 
 The above are the most common types of profile segments, since it's a JSON object you can specify any other fields you wish to use for personalization.
 
-### event
+### Event
 
 Field descriptions differ per event type. Please refer to the event descriptions below to know what fields are required.
 
-### context (optional)
+### Context (optional)
 
 We use incoming HTTP headers to fill in this object, therefore this object is optional. You can specify context if you are sending historical data, or have any other special requirements that require overriding the default headers.
 
@@ -229,7 +243,7 @@ Refer to the example json on the right to view the format.
 | `ip`         | String    | No       | IP address
 | `user_agent` | String    | No       | User agent string of the browser
 
-### timestamp (optional)
+### Timestamp (optional)
 
 Only required if you're sending us historical events, if not, we log the event at the time we received it.
 
@@ -244,7 +258,7 @@ Refer to the example json on the right to view the format.
 | `timestamp` | ISO-8601 Date | No       | The current time in UTC for when the event happened. E.g. `"2017-11-01T00:29:03.123Z"`
 
 
-## Home Page View
+## Home pageview
 
 ```javascript--browser
 // assign user_id and user.profile if you haven't yet
@@ -376,7 +390,7 @@ Request banner and product recommendations when a user visits your home page
 | `related_product_skus` | Array     | An array of product objects recommended for the current user
 | `recent_product_skus`  | Array     | A live list of the last products the current user has viewed
 
-## Product Page View
+## Product pageview
 
 ```javascript--browser
 // assign user_id and user.profile if you haven't yet
@@ -483,7 +497,7 @@ Request product recommendations when a user visits a product page
 | `related_product_skus` | Array     | An array of product objects that are frequently bought with the current product
 | `recent_product_skus`  | Array     | A live list of the last products the current user has viewed
 
-## Category Page View
+## Category pageview
 
 ```javascript--browser
 // assign user_id and user.profile if you haven't yet
@@ -526,7 +540,7 @@ Pages showing multiple products on a page, these are commonly called category, c
 | `subtype`       | String    | Yes      | Set to `'category'`
 | `category_name` | String    | Yes      | Set to the name of the category being viewed
 
-## Shopping Cart Updated / Viewed
+## Cart update
 
 ```javascript--browser
 // assign user_id and user.profile if you haven't yet
@@ -538,7 +552,8 @@ window.datacue.identify('019mr8mf4r', {
 
 // track the event
 window.datacue.track({
-  type: 'viewcart',
+  type: 'cart',
+  subtype: 'update',
   cart: [{
     product_id: 'p1',
     variant_id: 'v1'
@@ -567,7 +582,12 @@ window.datacue.track({
 
 > The above command returns a 204 response code
 
-Record activity on a users shopping cart, typically when the cart is viewed, or an item is added or removed.
+Record whenever the users shopping cart changes. Whenever the user:
+
+- Adds a product to the cart
+- Removes a product from the cart
+- Updates a product in the cart (e.g. changes quantity)
+- Clears the cart
 
 ### Request parameters
 
@@ -643,7 +663,7 @@ Record when a user performs a search on your website
 | --------------------- | --------- | ----------- |
 | `recent_product_skus` | Array     | A live list of the last products the current user has viewed
 
-## Add Product to Wishlist
+## Add product to wishlist
 
 ```javascript--browser
 // assign user_id and user.profile if you haven't yet
@@ -688,7 +708,7 @@ Record changes to user's wishlist when a new product is added to it.
 | `product_id` | String    | Yes      | Set to product id being added
 | `variant_id` | String    | No       | Set to product's variant id (if applicable)
 
-## Remove Product from Wishlist
+## Remove product from wishlist
 
 ```javascript--browser
 // assign user_id and user.profile if you haven't yet
@@ -733,7 +753,7 @@ Record changes to user's wishlist when a product is removed from it.
 | `product_id` | String    | Yes      | Set to product id being removed
 | `variant_id` | String    | No       | Set to product's variant id (if applicable)
 
-## Banner Click
+## Banner click
 
 ```javascript--browser
 // assign user_id and user.profile if you haven't yet
@@ -779,7 +799,7 @@ Record clicks to a banner or a sub banner, typically on your home page
 | `subtype`   | String    | Yes      | Set to `'banner'`
 | `banner_id` | String    | Yes      | Set to the id of the clicked banner
 
-## Product Click
+## Product click
 
 ```javascript--browser
 // assign user_id and user.profile if you haven't yet
@@ -825,7 +845,7 @@ Record clicks on a product anywhere on your website.
 | `subtype`    | String    | Yes      | Set to `'related'`, `'similar'` or `'recent'`
 | `product_id` | String    | Yes      | Set to the id of the clicked product
 
-## Start Order (Check Out Started)
+## Checkout started
 
 ```javascript--browser
 // assign user_id and user.profile if you haven't yet
@@ -837,9 +857,8 @@ window.datacue.identify('019mr8mf4r', {
 
 // track the event
 window.datacue.track({
-  type: 'order',
+  type: 'checkout',
   subtype: 'started',
-  order_id: 'o1',
   cart: [{
     product_id: 'p1',
     variant: 'v1',
@@ -871,106 +890,9 @@ Record the moment the user initiates the check out process, typically from their
 
 | Field      | Data Type | Required | Description |
 | ---------- | --------- | -------- | ----------- |
-| `type`     | String    | Yes      | Set to `'order'`
+| `type`     | String    | Yes      | Set to `'checkout'`
 | `subtype`  | String    | Yes      | Set to `'started'`
-| `order_id` | String    | No       | Set to the id of the order (if available)
 | `cart`     | Array     | Yes      | Cart contents as an array of product, variant, unit price, quantity and currency
-
-## Complete Order
-
-```javascript--browser
-// assign user_id and user.profile if you haven't yet
-window.datacue.identify('019mr8mf4r', {
-  sex: 'female',
-  location: 'Santiago',
-  segment: 'platinum'
-});
-
-// track the event
-window.datacue.track({
-  type: 'order',
-  subtype: 'completed',
-  order_id: 'o1',
-  payment_method: '',
-  cart: [{
-    product_id: 'p1',
-    variant_id: 'v1',
-    quantity: 1,
-    unit_price: 24,
-    currency: 'USD'
-  }]
-});
-```
-
-```php
-<?php
-"browser only event (refer to the Browser tab)"
-```
-
-```python
-"browser only event (refer to the Browser tab)"
-```
-
-```javascript--node
-"browser only event (refer to the Browser tab)"
-```
-
-> The above command returns a 204 response code
-
-Record the moment the order (or checkout) is completed.
-
-### Request parameters
-
-| Field            | Data Type | Required | Description |
-| ---------------- | --------- | -------- | ----------- |
-| `type`           | String    | Yes      | Set to `'order'`
-| `subtype`        | String    | Yes      | Set to `'completed'`
-| `order_id`       | String    | Yes      | Set to the id of the order
-| `cart`           | Array     | Yes      | Cart contents as an array of product, variant, unit price, quantity and currency
-| `payment_method` | String    | No       | Specify the payment method used (for analytics)
-
-## Cancel Order
-
-```javascript--browser
-// assign user_id and user.profile if you haven't yet
-window.datacue.identify('019mr8mf4r', {
-  sex: 'female',
-  location: 'Santiago',
-  segment: 'platinum'
-});
-
-// track the event
-window.datacue.track({
-  type: 'order',
-  subtype: 'cancelled',
-  order_id: 'o1'
-});
-```
-
-```php
-<?php
-"browser only event (refer to the Browser tab)"
-```
-
-```python
-"browser only event (refer to the Browser tab)"
-```
-
-```javascript--node
-"browser only event (refer to the Browser tab)"
-```
-
-> The above command returns a 204 response code
-
-Record the moment the order (or checkout) is cancelled.
-
-### Request parameters
-
-| Field      | Data Type | Required | Description |
-| ---------- | --------- | -------- | ----------- |
-| `type`     | String    | Yes      | Set to `'order'`
-| `subtype`  | String    | Yes      | Set to `'cancelled'`
-| `order_id` | String    | Yes      | Set to the id of the order
 
 ## User Login
 
@@ -1003,7 +925,7 @@ window.datacue.track({
 
 > The above command returns a 204 response code
 
-Record logins by a user on your website, if the user login is cached, you do not need to fire this event when the user returns.
+Record a login event by a user on your website, if the user login is cached, you do not need to fire this event when the user returns.
 
 ### Request parameters
 
@@ -1023,6 +945,9 @@ Record logins by a user on your website, if the user login is cached, you do not
 <?php
 
 $url = "https://api.datacue.co/v1/products";
+$apikey = "Your-API-Key-goes-here";
+$apisecret = "Your-API-secret-goes-here";
+
 $data = array(
   "product_id" => "p1",
   "variant_id" => "v1",
@@ -1048,29 +973,40 @@ $data = array(
   "owner_id" => "user_id_3"
 );
 
-$content = json_encode($data);
+$payload = json_encode($data);
+
+// now encode it to base64
+$checksum = hash_hmac('sha256', $payload, $apisecret, true);
+
+$encode = base64_encode("$apikey:$checksum");
+$auth = "Basic $encode";
 
 $curl = curl_init($url);
 curl_setopt($curl, CURLOPT_HEADER, false);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($curl, CURLOPT_HTTPHEADER, array(
   "Content-type" => "application/json",
-  "Authorization" => "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+  "Authorization" => $auth
 ));
 curl_setopt($curl, CURLOPT_POST, true);
-curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
 
 $json_response = curl_exec($curl);
+
+?>
 ```
 
 ```python
+
+import hashlib
+import hmac
+import json
 import requests
 
 url = "https://api.datacue.co/v1/products"
-headers = {
-  "Content-type": "application/json",
-  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-}
+apikey = "your-api-key-goes-here"
+apisecret = "your-api-secret-goes-here"
+
 data = {
   "product_id": "p1",
   "variant_id": "v1",
@@ -1096,14 +1032,26 @@ data = {
   "owner_id": "user_id_3"
 }
 
-response = requests.post(url, data=data, headers=headers)
+payload = json.dumps(data)
+
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(payload), 'utf-8'), hashlib.sha256)
+
+# Set content-type header
+headers = {
+"Content-type": "application/json",
+}
+
+response = requests.post(url, data=payload, headers=headers, auth=(apikey, checksum.hexdigest())
+
 ```
 
 ```javascript--node
 const axios = require('axios');
+const cryto = require('crypto');
 
-axios.defaults.baseURL = 'https://api.datacue.co/v1';
-axios.defaults.auth = { username: 'API-key', password: 'API-secret' };
+const url = `https://api.datacue.co/v1/products'
+const apikey = 'your-api-key-goes-here';
+const apisecret = 'your-api-secret-goes-here';
 
 const data = {
   product_id: 'p1',
@@ -1130,7 +1078,12 @@ const data = {
   owner_id: 'user_id_3'
 };
 
-axios.post('/products', data);
+var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
+
+//add to default authentication header
+axios.defaults.auth = { username: 'API-key', password: hash.digest('hex') };
+
+axios.post(url, data);
 ```
 
 > The above command returns a 201 response code
@@ -1171,8 +1124,12 @@ Whenever a new product is created, send this request from your backend.
 
 ```php
 <?php
+// replace :product_id and :variant_id in the url with the actual values you want to update
 
 $url = "https://api.datacue.co/v1/products/:product_id/:variant_id";
+$apikey = "Your-API-Key-goes-here";
+$apisecret = "Your-API-secret-goes-here";
+
 $data = array(
   "category_1" => "men",
   "category_2" => "jeans",
@@ -1181,29 +1138,38 @@ $data = array(
   "available" => false
 );
 
-$content = json_encode($data);
+$payload = json_encode($data);
+
+// now encode it to base64
+$checksum = hash_hmac('sha256', $payload, $apisecret, true);
+
+$encode = base64_encode("$apikey:$checksum");
+$auth = "Basic $encode";
 
 $curl = curl_init($url);
 curl_setopt($curl, CURLOPT_HEADER, false);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($curl, CURLOPT_HTTPHEADER, array(
   "Content-type" => "application/json",
-  "Authorization" => "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+  "Authorization" => $auth
 ));
 curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
-curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
 
 $json_response = curl_exec($curl);
 ```
 
 ```python
+
+import hashlib
+import hmac
+import json
 import requests
 
 url = "https://api.datacue.co/v1/products/:product_id/:variant_id"
-headers = {
-  "Content-type": "application/json",
-  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-}
+apikey = "your-api-key-goes-here"
+apisecret = "your-api-secret-goes-here"
+
 data = {
   "category_1": "men",
   "category_2": "jeans",
@@ -1212,14 +1178,26 @@ data = {
   "available": False
 }
 
-response = requests.put(url, data=data, headers=headers)
+payload = json.dumps(data)
+
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(payload), 'utf-8'), hashlib.sha256)
+
+# Set content-type header
+headers = {
+"Content-type": "application/json"
+}
+
+response = requests.put(url, data=data, headers=headers, auth=(apikey, checksum.hexdigest())
+
 ```
 
 ```javascript--node
 const axios = require('axios');
+const cryto = require('crypto');
 
-axios.defaults.baseURL = 'https://api.datacue.co/v1';
-axios.defaults.auth = { username: 'API-key', password: 'API-secret' };
+const url = `https://api.datacue.co/v1/products/${productId}/${variantId}`
+const apikey = 'your-api-key-goes-here';
+const apisecret = 'your-api-secret-goes-here';
 
 const data = {
   category_1: 'men',
@@ -1229,7 +1207,12 @@ const data = {
   available: false
 };
 
-axios.put(`/products/${productId}/${variantId}`, data);
+var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
+
+//add to default authentication header
+axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
+
+axios.put(url, data);
 ```
 
 > The above command returns a 204 response code
@@ -1254,15 +1237,24 @@ Same as for [Create Product](#create-product), except `product_id` and `variant_
 
 ```php
 <?php
-
+//replace :product_id and :variant_id with the product and variant id you wish to delete
 $url = "https://api.datacue.co/v1/products/:product_id/:variant_id";
+
+$apikey = "Your-API-Key-goes-here";
+$apisecret = "Your-API-secret-goes-here";
+
+// now encode it to base64
+$checksum = hash_hmac("sha256", "", $apisecret, true);
+
+$encode = base64_encode("$apikey:$checksum");
+$auth = "Basic $encode";
 
 $curl = curl_init($url);
 curl_setopt($curl, CURLOPT_HEADER, false);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($curl, CURLOPT_HTTPHEADER, array(
   "Content-type" => "application/json",
-  "Authorization" => "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+  "Authorization" => $auth
 ));
 curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
 
@@ -1270,24 +1262,36 @@ $json_response = curl_exec($curl);
 ```
 
 ```python
+
+import hashlib
+import hmac
+import json
 import requests
 
 url = "https://api.datacue.co/v1/products/:product_id/:variant_id"
-headers = {
-  "Content-type": "application/json",
-  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-}
 
-response = requests.delete(url, headers=headers)
+apikey = "your-api-key-goes-here"
+apisecret = "your-api-secret-goes-here"
+
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(""), 'utf-8'), hashlib.sha256)
+
+response = requests.delete(url, auth=(apikey, checksum.hexdigest()))
 ```
 
 ```javascript--node
 const axios = require('axios');
+const cryto = require('crypto');
 
-axios.defaults.baseURL = 'https://api.datacue.co/v1';
-axios.defaults.auth = { username: 'API-key', password: 'API-secret' };
+const url = `https://api.datacue.co/v1/products/${productId}/${variantId}`
+const apikey = 'your-api-key-goes-here';
+const apisecret = 'your-api-secret-goes-here';
 
-axios.delete(`/products/${productId}/${variantId}`);
+var hash = crypto.createHmac('sha256', apisecret).update('');
+
+//add to default authentication header
+axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
+
+axios.delete(url);
 ```
 
 > The above command returns a 204 response code
@@ -1305,7 +1309,7 @@ Endpoint: `DELETE` `https://api.datacue.co/v1/products/<product_id>`
 # Banners
 
 <aside class="notice">
-  We recommend that you use your DataCue dashboard to upload and manage your banners. However, if you want DataCue to use your existing banner management solution, you can use these endpoints to do so.
+  All banners are managed via your DataCue dashboard. These endpoints can be used to import your existing banners programmatically if they are too many to import via the dashboard.
 </aside>
 
 ## Create Banner
@@ -1318,6 +1322,9 @@ Endpoint: `DELETE` `https://api.datacue.co/v1/products/<product_id>`
 <?php
 
 $url = "https://api.datacue.co/v1/banners";
+$apikey = "Your-API-Key-goes-here";
+$apisecret = "Your-API-secret-goes-here";
+
 $data = array(
   "banner_id" => "b1",
   "type" => "sub",
@@ -1337,29 +1344,37 @@ $data = array(
   )
 );
 
-$content = json_encode($data);
+$payload = json_encode($data);
+
+// now encode it to base64
+$checksum = hash_hmac("sha256", $payload, $apisecret, true);
+
+$encode = base64_encode("$apikey:$checksum");
+$auth = "Basic $encode";
 
 $curl = curl_init($url);
 curl_setopt($curl, CURLOPT_HEADER, false);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($curl, CURLOPT_HTTPHEADER, array(
   "Content-type" => "application/json",
-  "Authorization" => "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+  "Authorization" => $auth
 ));
 curl_setopt($curl, CURLOPT_POST, true);
-curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
 
 $json_response = curl_exec($curl);
 ```
 
 ```python
+import hashlib
+import hmac
+import json
 import requests
 
 url = "https://api.datacue.co/v1/banners"
-headers = {
-  "Content-type": "application/json",
-  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-}
+apikey = "your-api-key-goes-here"
+apisecret = "your-api-secret-goes-here"
+
 data = {
   "banner_id": "b1",
   "type": "sub",
@@ -1378,15 +1393,26 @@ data = {
     "meta": "any field you want to store"
   }
 }
+payload = json.dumps(data)
 
-response = requests.post(url, data=data, headers=headers)
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(payload), 'utf-8'), hashlib.sha256)
+
+# Set content-type header
+headers = {
+"Content-type": "application/json",
+}
+
+response = requests.post(url, data=payload, headers=headers, auth=(apikey, checksum.hexdigest())
+
 ```
 
 ```javascript--node
 const axios = require('axios');
+const cryto = require('crypto');
 
-axios.defaults.baseURL = 'https://api.datacue.co/v1';
-axios.defaults.auth = { username: 'API-key', password: 'API-secret' };
+const url = `https://api.datacue.co/v1/banners'
+const apikey = 'your-api-key-goes-here';
+const apisecret = 'your-api-secret-goes-here';
 
 const data = {
   banner_id: 'b1',
@@ -1407,7 +1433,12 @@ const data = {
   }
 };
 
-axios.post('/banners', data);
+var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
+
+//add to default authentication header
+axios.defaults.auth = { username: 'API-key', password: hash.digest('hex') };
+
+axios.post(url, data);
 ```
 
 > The above command returns a 201 response code
@@ -1439,53 +1470,81 @@ When you create a new banner on your system.
 
 ```php
 <?php
+// replace :banner_id in the url with the actual values you want to update
 
 $url = "https://api.datacue.co/v1/banners/:banner_id";
+$apikey = "Your-API-Key-goes-here";
+$apisecret = "Your-API-secret-goes-here";
+
 $data = array(
   "link" => "/new-link"
 );
 
-$content = json_encode($data);
+$payload = json_encode($data);
+
+// now encode it to base64
+$checksum = hash_hmac('sha256', $payload, $apisecret, true);
+
+$encode = base64_encode("$apikey:$checksum");
+$auth = "Basic $encode";
 
 $curl = curl_init($url);
 curl_setopt($curl, CURLOPT_HEADER, false);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($curl, CURLOPT_HTTPHEADER, array(
   "Content-type" => "application/json",
-  "Authorization" => "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+  "Authorization" => $auth
 ));
 curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
-curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
 
 $json_response = curl_exec($curl);
 ```
 
 ```python
+import hashlib
+import hmac
+import json
 import requests
 
 url = "https://api.datacue.co/v1/banners/:banner_id"
-headers = {
-  "Content-type": "application/json",
-  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-}
+apikey = "your-api-key-goes-here"
+apisecret = "your-api-secret-goes-here"
+
 data = {
   "link": "/new-link"
 }
 
-response = requests.put(url, data=data, headers=headers)
+payload = json.dumps(data)
+
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(payload), 'utf-8'), hashlib.sha256)
+
+# Set content-type header
+headers = {
+"Content-type": "application/json"
+}
+
+response = requests.put(url, data=data, headers=headers, auth=(apikey, checksum.hexdigest())
 ```
 
 ```javascript--node
 const axios = require('axios');
+const cryto = require('crypto');
 
-axios.defaults.baseURL = 'https://api.datacue.co/v1';
-axios.defaults.auth = { username: 'API-key', password: 'API-secret' };
+const url = `https://api.datacue.co/v1/banners/${bannerId}`
+const apikey = 'your-api-key-goes-here';
+const apisecret = 'your-api-secret-goes-here';
 
-const data = {
-  "link": "/new-link"
-};
+data = {
+  link: '/new-link'
+}
 
-axios.put(`/banners/${bannerId}`, data);
+var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
+
+//add to default authentication header
+axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
+
+axios.put(url, data);
 ```
 
 > The above command returns a 204 response code
@@ -1508,15 +1567,24 @@ Same as for [Create Banner](#create-banner), except `banner_id`.
 
 ```php
 <?php
-
+//replace :banner_id with the banner id you wish to delete
 $url = "https://api.datacue.co/v1/banners/:banner_id";
+
+$apikey = "Your-API-Key-goes-here";
+$apisecret = "Your-API-secret-goes-here";
+
+// now encode it to base64
+$checksum = hash_hmac("sha256", "", $apisecret, true);
+
+$encode = base64_encode("$apikey:$checksum");
+$auth = "Basic $encode";
 
 $curl = curl_init($url);
 curl_setopt($curl, CURLOPT_HEADER, false);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($curl, CURLOPT_HTTPHEADER, array(
   "Content-type" => "application/json",
-  "Authorization" => "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+  "Authorization" => $auth;
 ));
 curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
 
@@ -1524,24 +1592,36 @@ $json_response = curl_exec($curl);
 ```
 
 ```python
+import hashlib
+import hmac
+import json
 import requests
 
 url = "https://api.datacue.co/v1/banners/:banner_id"
-headers = {
-  "Content-type": "application/json",
-  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-}
+apikey = "your-api-key-goes-here"
+apisecret = "your-api-secret-goes-here"
 
-response = requests.delete(url, headers=headers)
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(""), 'utf-8'), hashlib.sha256)
+
+response = requests.delete(url, auth=(apikey, checksum.hexdigest()))
+
 ```
 
 ```javascript--node
 const axios = require('axios');
+const cryto = require('crypto');
 
-axios.defaults.baseURL = 'https://api.datacue.co/v1';
-axios.defaults.auth = { username: 'API-key', password: 'API-secret' };
+const url = `https://api.datacue.co/v1/banners/${bannerId}`
+const apikey = 'your-api-key-goes-here';
+const apisecret = 'your-api-secret-goes-here';
 
-axios.delete(`/banners/${bannerId}`);
+var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
+
+//add to default authentication header
+axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
+
+axios.delete(url);
+
 ```
 
 > The above command returns a 204 response code
@@ -1562,6 +1642,9 @@ When you delete a banner on your system. Does not apply if you're using DataCue 
 <?php
 
 $url = "https://api.datacue.co/v1/users";
+$apikey = "Your-API-Key-goes-here";
+$apisecret = "Your-API-secret-goes-here";
+
 $data = array(
   "user_id" => "u1",
   "anonymous_ids" => "v1",
@@ -1582,29 +1665,37 @@ $data = array(
   "timestamp" => "2018-04-04T23:29:04-03:00"
 );
 
-$content = json_encode($data);
+$payload = json_encode($data);
+
+// now encode it to base64
+$checksum = hash_hmac('sha256', $payload, $apisecret, true);
+
+$encode = base64_encode("$apikey:$checksum");
+$auth = "Basic $encode";
 
 $curl = curl_init($url);
 curl_setopt($curl, CURLOPT_HEADER, false);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($curl, CURLOPT_HTTPHEADER, array(
   "Content-type" => "application/json",
-  "Authorization" => "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+  "Authorization" => $auth
 ));
 curl_setopt($curl, CURLOPT_POST, true);
-curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
 
 $json_response = curl_exec($curl);
 ```
 
 ```python
+import hashlib
+import hmac
+import json
 import requests
 
 url = "https://api.datacue.co/v1/users"
-headers = {
-  "Content-type": "application/json",
-  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-}
+apikey = "your-api-key-goes-here"
+apisecret = "your-api-secret-goes-here"
+
 data = {
   "user_id": "u1",
   "anonymous_ids": "v1",
@@ -1631,14 +1722,26 @@ data = {
   "timestamp": "2018-04-04T23:29:04-03:00"
 }
 
-response = requests.post(url, data=data, headers=headers)
+payload = json.dumps(data)
+
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(payload), 'utf-8'), hashlib.sha256)
+
+# Set content-type header
+headers = {
+"Content-type": "application/json",
+}
+
+response = requests.post(url, data=payload, headers=headers, auth=(apikey, checksum.hexdigest())
+
 ```
 
 ```javascript--node
 const axios = require('axios');
+const cryto = require('crypto');
 
-axios.defaults.baseURL = 'https://api.datacue.co/v1';
-axios.defaults.auth = { username: 'API-key', password: 'API-secret' };
+const url = `https://api.datacue.co/v1/banners'
+const apikey = 'your-api-key-goes-here';
+const apisecret = 'your-api-secret-goes-here';
 
 const data = {
   user_id: 'u1',
@@ -1663,7 +1766,12 @@ const data = {
   timestamp: '2018-04-04T23:29:04-03:00'
 };
 
-axios.post('/users', data);
+var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
+
+//add to default authentication header
+axios.defaults.auth = { username: 'API-key', password: hash.digest('hex') };
+
+axios.post(url, data);
 ```
 
 > The above command returns a 201 response code
@@ -1703,15 +1811,19 @@ When a new user has successfully signed up / registered on your system.
 
 ```php
 <?php
+// replace :user_id in the url with the actual values you want to update
 
 $url = "https://api.datacue.co/v1/users/:user_id";
+$apikey = "Your-API-Key-goes-here";
+$apisecret = "Your-API-secret-goes-here";
+
 $data = array(
   "profile" => array(
     "location" => "singapore"
   )
 );
 
-$content = json_encode($data);
+$payload = json_encode($data);
 
 $curl = curl_init($url);
 curl_setopt($curl, CURLOPT_HEADER, false);
@@ -1721,33 +1833,46 @@ curl_setopt($curl, CURLOPT_HTTPHEADER, array(
   "Authorization" => "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
 ));
 curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
-curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
 
 $json_response = curl_exec($curl);
 ```
 
 ```python
+import hashlib
+import hmac
+import json
 import requests
 
 url = "https://api.datacue.co/v1/users/:user_id"
-headers = {
-  "Content-type": "application/json",
-  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-}
+apikey = "your-api-key-goes-here"
+apisecret = "your-api-secret-goes-here"
+
 data = {
   "profile": {
     "location": "singapore"
   }
 }
 
-response = requests.put(url, data=data, headers=headers)
+payload = json.dumps(data)
+
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(payload), 'utf-8'), hashlib.sha256)
+
+# Set content-type header
+headers = {
+"Content-type": "application/json"
+}
+
+response = requests.put(url, data=data, headers=headers, auth=(apikey, checksum.hexdigest())
 ```
 
 ```javascript--node
 const axios = require('axios');
+const cryto = require('crypto');
 
-axios.defaults.baseURL = 'https://api.datacue.co/v1';
-axios.defaults.auth = { username: 'API-key', password: 'API-secret' };
+const url = `https://api.datacue.co/v1/users/${userId}`
+const apikey = 'your-api-key-goes-here';
+const apisecret = 'your-api-secret-goes-here';
 
 const data = {
   profile: {
@@ -1755,7 +1880,12 @@ const data = {
   }
 };
 
-axios.put(`/users/${userId}`, data);
+var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
+
+//add to default authentication header
+axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
+
+axios.put(url, data);
 ```
 
 > The above command returns a 204 response code
@@ -1776,15 +1906,24 @@ Same as for [Create User](#create-user), except `user_id`.
 
 ```php
 <?php
-
+//replace :user_id with the user id you wish to delete
 $url = "https://api.datacue.co/v1/users/:user_id";
+
+$apikey = "Your-API-Key-goes-here";
+$apisecret = "Your-API-secret-goes-here";
+
+// now encode it to base64
+$checksum = hash_hmac('sha256', "", $apisecret, true);
+
+$encode = base64_encode("$apikey:$checksum");
+$auth = "Basic $encode";
 
 $curl = curl_init($url);
 curl_setopt($curl, CURLOPT_HEADER, false);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($curl, CURLOPT_HTTPHEADER, array(
   "Content-type" => "application/json",
-  "Authorization" => "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+  "Authorization" => $auth;
 ));
 curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
 
@@ -1792,24 +1931,36 @@ $json_response = curl_exec($curl);
 ```
 
 ```python
+import hashlib
+import hmac
+import json
 import requests
 
 url = "https://api.datacue.co/v1/users/:user_id"
-headers = {
-  "Content-type": "application/json",
-  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-}
+apikey = "your-api-key-goes-here"
+apisecret = "your-api-secret-goes-here"
 
-response = requests.delete(url, headers=headers)
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(""), 'utf-8'), hashlib.sha256)
+
+response = requests.delete(url, auth=(apikey, checksum.hexdigest()))
+
 ```
 
 ```javascript--node
 const axios = require('axios');
+const cryto = require('crypto');
 
-axios.defaults.baseURL = 'https://api.datacue.co/v1';
-axios.defaults.auth = { username: 'API-key', password: 'API-secret' };
+const url = `https://api.datacue.co/v1/users/${userId}`
+const apikey = 'your-api-key-goes-here';
+const apisecret = 'your-api-secret-goes-here';
 
-axios.delete(`/users/${userId}`);
+var hash = crypto.createHmac('sha256', apisecret).update('');
+
+//add to default authentication header
+axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
+
+axios.delete(url);
+
 ```
 
 > The above command returns a 204 response code
@@ -1817,6 +1968,326 @@ axios.delete(`/users/${userId}`);
 Endpoint: `DELETE` `https://api.datacue.co/v1/users/<user_id>`
 
 When a user account is deleted from your system.
+
+# Orders
+
+## Create Order
+
+```javascript--browser
+"backend only event (refer to the Python, PHP or Node tab)"
+```
+
+```php
+<?php
+
+$url = "https://api.datacue.co/v1/orders";
+$apikey = "Your-API-Key-goes-here";
+$apisecret = "Your-API-secret-goes-here";
+
+$data = array(
+  "order_id" => "O123",
+  "user_id" => "U456",
+  "cart" => array(
+    array("product_id" => "p1", "variant_id" => "v1", "quantity" => 1, "unit_price" => 24, "currency" => "USD"),
+    array("product_id" => "p3", "variant_id" => "v2", "quantity" => 9, "unit_price" => 42, "currency" => "USD")
+  ),
+  "timestamp" => "2018-04-04 23:29:04Z"
+);
+
+$payload = json_encode($data);
+
+// now encode it to base64
+$checksum = hash_hmac("sha256", $payload, $apisecret, true);
+
+$encode = base64_encode("$apikey:$checksum");
+$auth = "Basic $encode";
+
+$curl = curl_init($url);
+curl_setopt($curl, CURLOPT_HEADER, false);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+  "Content-type" => "application/json",
+  "Authorization" => $auth
+));
+curl_setopt($curl, CURLOPT_POST, true);
+curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
+
+$json_response = curl_exec($curl);
+```
+
+```python
+import hashlib
+import hmac
+import json
+import requests
+
+url = "https://api.datacue.co/v1/orders"
+apikey = "your-api-key-goes-here"
+apisecret = "your-api-secret-goes-here"
+
+data = {
+  "order_id": "o123",
+  "user_id": "u456",
+  "cart": [
+    {
+      "product_id": "p1",
+      "variant_id": "v1",
+      "quantity": 1,
+      "unit_price": 24,
+      "currency": "USD"
+    },
+    {
+      "product_id": "p3",
+      "variant_id": "v2",
+      "quantity": 9,
+      "unit_price": 42,
+      "currency": "USD"
+    }
+  ],
+  "timestamp": "2018-04-04 23:29:04Z"
+}
+
+payload = json.dumps(data)
+
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(payload), 'utf-8'), hashlib.sha256)
+
+# Set content-type header
+headers = {
+"Content-type": "application/json",
+}
+response = requests.post(url, data=payload, headers=headers, auth=(apikey, checksum.hexdigest())
+```
+
+```javascript--node
+const axios = require('axios');
+const cryto = require('crypto');
+
+const url = `https://api.datacue.co/v1/orders'
+const apikey = 'your-api-key-goes-here';
+const apisecret = 'your-api-secret-goes-here';
+
+const data = {
+  order_id : 'O123',
+  user_id : 'U456',
+  order_status : 'completed',
+  cart: [
+    {
+      product_id : 'p1',
+      variant_id : 'v1',
+      quantity : 1,
+      unit_price : 24,
+      currency : 'USD'
+    },
+    {
+      product_id : 'p3',
+      variant_id : 'v2',
+      quantity : 9,
+      unit_price : 42,
+      currency : 'USD'
+    }
+  ],
+  timestamp: '2018-04-04 23:29:04Z'
+}
+
+var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
+
+//add to default authentication header
+axios.defaults.auth = { username: 'API-key', password: hash.digest('hex') };
+
+axios.post(url, data);
+```
+
+> The above command returns a 201 response code
+
+Endpoint: `POST` `https://api.datacue.co/v1/orders`
+
+When a user has successfully completed an order on your store. An Order is considered 'completed' as soon as the checkout process is completed on your website. It does not matter if the order has further steps such as waiting for payment, or order fulfilment.
+
+### Request parameters
+
+| Field              | Data Type     | Required                      | Description |
+| ------------------ | ------------- | ----------------------------- | ----------- |
+| `order_id`         | String        | Yes                           | The unique order id assigned
+| `user_id`          | String        | Yes                           | User ID that made the order
+| `order_status`          | String        | No                           | Can be `completed` (default) or `cancelled`
+| `cart`             | Array         | No                            | An array of line items in the order shopping cart
+| `timestamp`        | ISO-8601 Date | No                            | Order creation date/time in UTC timezone
+
+### cart items
+
+| Field      | Data Type | Required | Description |
+| ---------- | --------- | -------- | ----------- |
+| `product_id`      | String    | Yes       | Product ID code
+| `variant_id`  | String    | Yes       | Variant ID of the product
+| `unit_price` | Decimal    | Yes       | The unit price of the product (including any discounts)
+| `quantity` | Integer    | Yes       | Number of products purchased
+
+
+## Cancel Order
+
+```javascript--browser
+"backend only event (refer to the Python, PHP or Node tab)"
+```
+
+```php
+<?php
+// replace :order_id with the actual order_id to cancel
+$url = "https://api.datacue.co/v1/orders/:order_id";
+$apikey = "Your-API-Key-goes-here";
+$apisecret = "Your-API-secret-goes-here";
+
+$data = array(
+    "order_status" => "cancelled"
+);
+
+$payload = json_encode($data);
+
+// now encode it to base64
+$checksum = hash_hmac('sha256', $payload, $apisecret, true);
+
+$encode = base64_encode("$apikey:$checksum");
+$auth = "Basic $encode";
+
+$curl = curl_init($url);
+curl_setopt($curl, CURLOPT_HEADER, false);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+  "Content-type" => "application/json",
+  "Authorization" => $auth
+));
+curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
+curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
+
+$json_response = curl_exec($curl);
+```
+
+```python
+import hashlib
+import hmac
+import json
+import requests
+
+url = "https://api.datacue.co/v1/orders/:order_id"
+apikey = "your-api-key-goes-here"
+apisecret = "your-api-secret-goes-here"
+
+data = {
+  "order_status": "cancelled"
+}
+
+payload = json.dumps(data)
+
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(payload), 'utf-8'), hashlib.sha256)
+
+# Set content-type header
+headers = {
+"Content-type": "application/json"
+}
+
+response = requests.put(url, data=data, headers=headers, auth=(apikey, checksum.hexdigest())
+```
+
+```javascript--node
+const axios = require('axios');
+const cryto = require('crypto');
+
+const url = `https://api.datacue.co/v1/orders/${orderId}`
+const apikey = 'your-api-key-goes-here';
+const apisecret = 'your-api-secret-goes-here';
+
+const data = {
+  'order_status': 'cancelled'
+}
+
+var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
+
+//add to default authentication header
+axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
+
+axios.put(url, data);
+```
+
+> The above command returns a 204 response code
+
+Endpoint: `PUT` `https://api.datacue.co/v1/orders/<order_id>`
+
+When the order makes changes to their profile or when they configure any relevant preferences. For instance if they indicate their gender, this is very helpful for recommendations.
+
+### Request parameters
+
+| Field              | Data Type     | Required                      | Description |
+| ------------------ | ------------- | ----------------------------- | ----------- |
+| `order_status`          | String        | Yes                           | Can be `completed` or `cancelled`
+
+## Delete Order
+
+```javascript--browser
+"backend only event (refer to the Python, PHP or Node tab)"
+```
+
+```php
+<?php
+//replace :order_id with the order id you wish to delete
+$url = "https://api.datacue.co/v1/orders/:order_id";
+
+$apikey = "Your-API-Key-goes-here";
+$apisecret = "Your-API-secret-goes-here";
+
+// now encode it to base64
+$checksum = hash_hmac("sha256", "", $apisecret, true);
+
+$encode = base64_encode("$apikey:$checksum");
+$auth = "Basic $encode";
+
+$curl = curl_init($url);
+curl_setopt($curl, CURLOPT_HEADER, false);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+  "Content-type" => "application/json",
+  "Authorization" => $auth
+));
+curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+
+$json_response = curl_exec($curl);
+```
+
+```python
+import hashlib
+import hmac
+import json
+import requests
+
+url = "https://api.datacue.co/v1/orders/:order_id"
+apikey = "your-api-key-goes-here"
+apisecret = "your-api-secret-goes-here"
+
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(""), 'utf-8'), hashlib.sha256)
+
+response = requests.delete(url, auth=(apikey, checksum.hexdigest()))
+```
+
+```javascript--node
+const axios = require('axios');
+const cryto = require('crypto');
+
+const url = `https://api.datacue.co/v1/orders/${orderId}`
+const apikey = 'your-api-key-goes-here';
+const apisecret = 'your-api-secret-goes-here';
+
+var hash = crypto.createHmac('sha256', apisecret).update('');
+
+//add to default authentication header
+axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
+
+axios.delete(url);
+
+```
+
+> The above command returns a 204 response code
+
+Endpoint: `DELETE` `https://api.datacue.co/v1/orders/<order_id>`
+
+When an order is deleted from your system.
 
 # Batch
 
@@ -1833,11 +2304,10 @@ When a user account is deleted from your system.
 }
 ```
 
-> To submit multiple, just set type to "products" and insert an array of product requests in the batch field like so:
+> To submit multiple, just send an array of product create requests in the batch field like so:
 
 ```json
 {
-  "type": "products",
   "batch": [{
     "product_id": "P1",
     "variant_id": "V2",
@@ -1858,7 +2328,220 @@ When a user account is deleted from your system.
 
 Use the batch endpoint if you want to do a bulk import, typically when you first start using DataCue and you want to add your historical orders, products or users.
 
-Tell us what you're sending via the `type` and insert an array of your requests in the `batch` field.
+Build an array of your requests in the `batch` field, we accept a maximum of 500 items per request.
+
+## Orders
+
+### Create Orders
+
+```javascript--browser
+"backend only event (refer to the Python, PHP or Node tab)"
+```
+
+```php
+<?php
+
+$url = "https://api.datacue.co/v1/batch/orders";
+$apikey = "Your-API-Key-goes-here";
+$apisecret = "Your-API-secret-goes-here";
+
+$data = array(
+  "batch" => array(
+    array(
+      "order_id" => "O123","user_id" => "U1",
+      "cart" => array(
+        array("product_id" => "P1", "variant_id" => "V1","quantity" => 1, "unit_price" => 24, "currency" => "USD"),
+        array("product_id" => "P3", "variant_id" => "V2", "quantity" => 9, "unit_price" => 42, "currency" => "USD")
+      ),
+      "timestamp" => "2018-04-04 23:29:04Z"
+    ),
+    array(
+      "order_id" => "O124","user_id" => "U2",
+      "cart" => array(
+        array("product_id" => "P4", "variant_id" => "V1","quantity" => 1, "unit_price" => 12, "currency" => "USD")
+      ),
+      "timestamp" => "2018-04-05 23:31:04Z"
+    ),
+    array(
+      "order_id" => "O125","user_id" => "U3",
+      "cart" => array(
+        array("product_id" => "P9", "variant_id" => "V1","quantity" => 1, "unit_price" => 24, "currency" => "USD"),
+        array("product_id" => "P12", "variant_id" => "V3", "quantity" => 3, "unit_price" => 10, "currency" => "USD")
+      ),
+      "timestamp" => "2018-05-09 23:29:04Z"
+    ),
+  )
+);
+
+$payload = json_encode($data);
+
+// now encode it to base64
+$checksum = hash_hmac("sha256", $payload, $apisecret, true);
+
+$encode = base64_encode("$apikey:$checksum");
+$auth = "Basic $encode";
+
+$curl = curl_init($url);
+curl_setopt($curl, CURLOPT_HEADER, false);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+  "Content-type" => "application/json",
+  "Authorization" => $auth
+));
+curl_setopt($curl, CURLOPT_POST, true);
+curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
+
+$json_response = curl_exec($curl);
+```
+
+```python
+import hashlib
+import hmac
+import json
+import requests
+
+url = "https://api.datacue.co/v1/batch/orders"
+apikey = "your-api-key-goes-here"
+apisecret = "your-api-secret-goes-here"
+
+data = {
+  "batch": [
+  {
+  "order_id": "O123",
+  "user_id": "U1",
+  "cart": [
+    {
+      "product_id": "P1",
+      "variant_id": "V1"
+      "quantity": 1,
+      "unit_price": 24,
+      "currency": "USD"
+    },
+    {
+      "product_id": "P3",
+      "variant_id": "V2"
+      "quantity": 9,
+      "unit_price": 42,
+      "currency": "USD"
+    }
+  ],
+  "timestamp": "2018-04-04 23:29:04Z"
+  }
+  },
+  {
+  "order_id": "O124",
+  "user_id": "U2",
+  "cart": [
+    {
+      "product_id": "P4",
+      "variant_id": "V1"
+      "quantity": 1,
+      "unit_price": 12,
+      "currency": "USD"
+    }
+  ],
+  "timestamp": "2018-04-04 23:29:04Z"
+  }
+  ]
+}
+
+payload = json.dumps(data)
+
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(payload), 'utf-8'), hashlib.sha256)
+
+# Set content-type header
+headers = {
+"Content-type": "application/json",
+}
+
+response = requests.post(url, data=payload, headers=headers, auth=(apikey, checksum.hexdigest())
+```
+
+```javascript--node
+const axios = require('axios');
+const cryto = require('crypto');
+
+const url = `https://api.datacue.co/v1/batch/orders'
+const apikey = 'your-api-key-goes-here';
+const apisecret = 'your-api-secret-goes-here';
+
+const data = {
+  batch: [
+  {
+  order_id: 'O123',
+  user_id: 'U1',
+  cart: [
+    {
+      product_id: 'P1',
+      variant_id: 'V1'
+      quantity: 1,
+      unit_price: 24,
+      currency: 'USD'
+    },
+    {
+      product_id: 'P3',
+      variant_id: 'V2'
+      quantity: 9,
+      unit_price: 42,
+      currency: 'USD'
+    }
+  ],
+  timestamp: '2018-04-04 23:29:04Z'
+  }
+  },
+  {
+  order_id: 'O124',
+  user_id: 'U2',
+  cart: [
+    {
+      product_id: 'P4',
+      variant_id: 'V1'
+      quantity: 1,
+      unit_price: 12,
+      currency: 'USD'
+    }
+  ],
+  timestamp: '2018-04-04 23:29:04Z'
+  }
+  ]
+};
+
+var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
+
+//add to default authentication header
+axios.defaults.auth = { username: 'API-key', password: hash.digest('hex') };
+
+axios.post(url, data);
+
+```
+
+Endpoint: `POST` `https://api.datacue.co/v1/batch/orders`
+
+### Request parameters
+
+| Field   | Data Type | Required | Description |
+| ------- | --------- | -------- | ----------- |
+| `batch` | Array     | Yes      | Array of orders you are sending
+
+### Response JSON
+
+> The above command returns a 207 multi status response code
+
+```json
+{
+  "status": [
+      {
+          "order_id": "O123",
+          "status": "error",
+          "error": "O123 already exists"
+      },
+      {
+          "order_id": "O124",
+          "status": "OK"
+      }
+  ]
+}
+```
 
 ## Batch Create Banners / Orders / Products / Users
 
@@ -1869,7 +2552,10 @@ Tell us what you're sending via the `type` and insert an array of your requests 
 ```php
 <?php
 
-$url = "https://api.datacue.co/v1/batch";
+$url = "https://api.datacue.co/v1/batch/users";
+$apikey = "Your-API-Key-goes-here";
+$apisecret = "Your-API-secret-goes-here";
+
 $data = array(
   "type" => "users",
   "batch" => array(
@@ -1879,29 +2565,37 @@ $data = array(
   )
 );
 
-$content = json_encode($data);
+$payload = json_encode($data);
+
+// now encode it to base64
+$checksum = hash_hmac("sha256", $payload, $apisecret, true);
+
+$encode = base64_encode("$apikey:$checksum");
+$auth = "Basic $encode";
 
 $curl = curl_init($url);
 curl_setopt($curl, CURLOPT_HEADER, false);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($curl, CURLOPT_HTTPHEADER, array(
   "Content-type" => "application/json",
-  "Authorization" => "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+  "Authorization" => $auth
 ));
 curl_setopt($curl, CURLOPT_POST, true);
-curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
 
 $json_response = curl_exec($curl);
 ```
 
 ```python
+import hashlib
+import hmac
+import json
 import requests
 
 url = "https://api.datacue.co/v1/batch"
-headers = {
-  "Content-type": "application/json",
-  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-}
+apikey = "your-api-key-goes-here"
+apisecret = "your-api-secret-goes-here"
+
 data = {
   "type": "users",
   "batch": [
@@ -1920,14 +2614,25 @@ data = {
   ]
 }
 
-response = requests.post(url, data=data, headers=headers)
+payload = json.dumps(data)
+
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(payload), 'utf-8'), hashlib.sha256)
+
+# Set content-type header
+headers = {
+"Content-type": "application/json",
+}
+
+response = requests.post(url, data=payload, headers=headers, auth=(apikey, checksum.hexdigest())
 ```
 
 ```javascript--node
 const axios = require('axios');
+const cryto = require('crypto');
 
-axios.defaults.baseURL = 'https://api.datacue.co/v1';
-axios.defaults.auth = { username: 'API-key', password: 'API-secret' };
+const url = `https://api.datacue.co/v1/batch/users'
+const apikey = 'your-api-key-goes-here';
+const apisecret = 'your-api-secret-goes-here';
 
 const data = {
   type: 'users',
@@ -1943,7 +2648,13 @@ const data = {
   }]
 };
 
-axios.post('/batch', data);
+var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
+
+//add to default authentication header
+axios.defaults.auth = { username: 'API-key', password: hash.digest('hex') };
+
+axios.post(url, data);
+
 ```
 
 Endpoint: `POST` `https://api.datacue.co/v1/batch`
@@ -1952,8 +2663,7 @@ Endpoint: `POST` `https://api.datacue.co/v1/batch`
 
 | Field   | Data Type | Required | Description |
 | ------- | --------- | -------- | ----------- |
-| `type`  | String    | Yes      | Set to `'products'`, `'orders'` or `'users'`
-| `batch` | Array     | Yes      | Array of objects you are sending
+| `batch` | Array     | Yes      | Array of users you are sending
 
 ### Response JSON
 
@@ -1963,12 +2673,161 @@ Endpoint: `POST` `https://api.datacue.co/v1/batch`
 {
     "status": [
         {
-            "product_id": "p1",
+            "user_id": "u1",
             "status": "error",
-            "error": "Please specify category_1"
+            "error": "u1 already exists"
         },
         {
-            "product_id": "p2",
+            "product_id": "u2",
+            "status": "OK"
+        },
+        {
+            "product_id": "u3",
+            "status": "OK"
+        }
+    ]
+}
+```
+## Batch Create Banners / Orders / Products / Users
+
+```javascript--browser
+"backend only event (refer to the Python, PHP or Node tab)"
+```
+
+```php
+<?php
+
+$url = "https://api.datacue.co/v1/batch/users";
+$apikey = "Your-API-Key-goes-here";
+$apisecret = "Your-API-secret-goes-here";
+
+$data = array(
+  "type" => "users",
+  "batch" => array(
+    array("user_id" => "u1","email" => "u1@abc.com"),
+    array("user_id" => "u2","email" => "u2@abc.com"),
+    array("user_id" => "u3","email" => "u3@abc.com"),
+  )
+);
+
+$payload = json_encode($data);
+
+// now encode it to base64
+$checksum = hash_hmac("sha256", $payload, $apisecret, true);
+
+$encode = base64_encode("$apikey:$checksum");
+$auth = "Basic $encode";
+
+$curl = curl_init($url);
+curl_setopt($curl, CURLOPT_HEADER, false);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+  "Content-type" => "application/json",
+  "Authorization" => $auth
+));
+curl_setopt($curl, CURLOPT_POST, true);
+curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
+
+$json_response = curl_exec($curl);
+```
+
+```python
+import hashlib
+import hmac
+import json
+import requests
+
+url = "https://api.datacue.co/v1/batch"
+apikey = "your-api-key-goes-here"
+apisecret = "your-api-secret-goes-here"
+
+data = {
+  "type": "users",
+  "batch": [
+    {
+      "user_id": "u1"
+      "email": "u1@abc.com"
+    },
+    {
+      "user_id": "u2"
+      "email": "u2@abc.com"
+    },
+    {
+      "user_id": "u3"
+      "email": "u3@abc.com"
+    }
+  ]
+}
+
+payload = json.dumps(data)
+
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(payload), 'utf-8'), hashlib.sha256)
+
+# Set content-type header
+headers = {
+"Content-type": "application/json",
+}
+
+response = requests.post(url, data=payload, headers=headers, auth=(apikey, checksum.hexdigest())
+```
+
+```javascript--node
+const axios = require('axios');
+const cryto = require('crypto');
+
+const url = `https://api.datacue.co/v1/batch/users'
+const apikey = 'your-api-key-goes-here';
+const apisecret = 'your-api-secret-goes-here';
+
+const data = {
+  type: 'users',
+  batch: [{
+    user_id: 'u1',
+    email: 'u1@abc.com'
+  }, {
+    user_id: 'u2',
+    email: 'u2@abc.com'
+  }, {
+    user_id: 'u3',
+    email: 'u3@abc.com'
+  }]
+};
+
+var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
+
+//add to default authentication header
+axios.defaults.auth = { username: 'API-key', password: hash.digest('hex') };
+
+axios.post(url, data);
+
+```
+
+Endpoint: `POST` `https://api.datacue.co/v1/batch`
+
+### Request parameters
+
+| Field   | Data Type | Required | Description |
+| ------- | --------- | -------- | ----------- |
+| `batch` | Array     | Yes      | Array of users you are sending
+
+### Response JSON
+
+> The above command returns a 207 multi status response code
+
+```json
+{
+    "status": [
+        {
+            "user_id": "u1",
+            "status": "error",
+            "error": "u1 already exists"
+        },
+        {
+            "product_id": "u2",
+            "status": "OK"
+        },
+        {
+            "product_id": "u3",
             "status": "OK"
         }
     ]
@@ -1996,7 +2855,7 @@ $data = array(
   )
 );
 
-$content = json_encode($data);
+$payload = json_encode($data);
 
 $curl = curl_init($url);
 curl_setopt($curl, CURLOPT_HEADER, false);
@@ -2006,7 +2865,7 @@ curl_setopt($curl, CURLOPT_HTTPHEADER, array(
   "Authorization" => "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
 ));
 curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
-curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
 
 $json_response = curl_exec($curl);
 ```
@@ -2112,7 +2971,7 @@ $data = array(
   )
 );
 
-$content = json_encode($data);
+$payload = json_encode($data);
 
 $curl = curl_init($url);
 curl_setopt($curl, CURLOPT_HEADER, false);
@@ -2122,7 +2981,7 @@ curl_setopt($curl, CURLOPT_HTTPHEADER, array(
   "Authorization" => "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
 ));
 curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
-curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
+curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
 
 $json_response = curl_exec($curl);
 ```
