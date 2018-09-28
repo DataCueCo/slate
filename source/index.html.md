@@ -100,17 +100,9 @@ data = {
   "email" : 'pineapple@underthe.sea'
 }
 
-payload = json.dumps(data)
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(json.dumps(data)), 'utf-8'), hashlib.sha256)
 
-checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(payload), 'utf-8'), hashlib.sha256)
-
-# Set content-type header
-headers = {
-"Content-type": "application/json",
-}
-
-response = requests.post(url, data=payload, headers=headers, auth=(apikey, checksum.hexdigest())
-
+response = requests.post(url, json=data, auth=(apikey, checksum.hexdigest())
 ```
 
 ```javascript--node
@@ -563,7 +555,8 @@ window.datacue.track({
   },{
     product_id: 'p3',
     variant_id: 'v1'
-  }]
+  }],
+  cart_link:'https://myshop.com/cart/123'
 });
 ```
 
@@ -593,8 +586,10 @@ Record whenever the users shopping cart changes. Whenever the user:
 
 | Field  | Data Type | Required | Description |
 | ------ | --------- | -------- | ----------- |
-| `type` | String    | Yes      | Set to `'viewcart'`
-| `cart` | Array     | Yes      | Specify an array of `product_id`s and optionally `variant_id`s
+| `type`     | String    | Yes      | Set to `'cart'`
+| `subtype`  | String    | Yes      | Set to `'update'`
+| `cart`     | Array     | Yes      | Cart contents as an array of product, variant, unit price, quantity and currency
+| `cart_link`  | String    | Yes      | Link to view cart and resume shopping
 
 ## Search
 
@@ -865,7 +860,8 @@ window.datacue.track({
     quantity: 1,
     price: 24,
     currency: 'USD'
-  }]
+  }],
+  cart_link:'https://myshop.com/cart/123'
 });
 ```
 
@@ -893,6 +889,7 @@ Record the moment the user initiates the check out process, typically from their
 | `type`     | String    | Yes      | Set to `'checkout'`
 | `subtype`  | String    | Yes      | Set to `'started'`
 | `cart`     | Array     | Yes      | Cart contents as an array of product, variant, unit price, quantity and currency
+| `cart_link`  | String    | Yes      | Link to view cart and resume shopping
 
 ## User Login
 
@@ -964,6 +961,7 @@ $data = array(
   "color" => "blue"
   "size" => "M",
   "price" => 25000,
+  "full_price" => 30000,
   "stock" => 5,
   "extra" => array(
     "extra_feature" => "details"
@@ -1023,6 +1021,7 @@ data = {
   "color": "blue",
   "size": "M",
   "price": 25000,
+  "full_price": 35000,
   "stock": 5,
   "extra": {
     "extra_feature": "details"
@@ -1032,16 +1031,16 @@ data = {
   "owner_id": "user_id_3"
 }
 
-payload = json.dumps(data)
 
-checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(payload), 'utf-8'), hashlib.sha256)
 
-# Set content-type header
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(json.dumps(data)), 'utf-8'), hashlib.sha256)
+
+
 headers = {
 "Content-type": "application/json",
 }
 
-response = requests.post(url, data=payload, headers=headers, auth=(apikey, checksum.hexdigest())
+response = requests.post(url, json=data, auth=(apikey, checksum.hexdigest())
 
 ```
 
@@ -1069,6 +1068,7 @@ const data = {
   color: 'blue',
   size: 'M',
   price: 25000,
+  full_price: 35000,
   stock: 5,
   extra: {
     extra_feature: 'details'
@@ -1108,13 +1108,22 @@ Whenever a new product is created, send this request from your backend.
 | `description`    | String      | No       | Long text description of the product
 | `color`          | String      | No       | Color of the product
 | `size`           | String      | No       | Size of the product
-| `price`          | Decimal     | Yes      | Price of the product up to two decimal places
+| `price`          | Decimal     | Yes      | Current price including any discounts to two decimal places e.g. 4.50
+| `full_price`          | Decimal     | Yes      | Full price without discount to two decimal places e.g. 5.30
 | `available`      | Boolean     | No       | Is the product available for Sale (Default true)
 | `stock`          | Integer     | Yes      | Number of product in stock
 | `extra`          | JSON Object | No       | Any other fields you want to store about the product that you want to display on site e.g. discounts or promotions.
 | `photo_url`      | String      | Yes      | URL of the photo, you can use relative URLs as this is purely for your front-end to request the image
 | `link`           | String      | Yes      | URL of product page for this product e.g. /products/p1
 | `owner_id`       | String      | No       | If you're running a marketplace, store the product's owner or seller's user ID here.
+
+#### Discounts
+DataCue can feature your discounted products automatically. Use the `price` and `full_price` field when you have a discount. If `full_price` is empty or less than `price`, we assume the product is not on discount.
+
+Lets say you have a product that usually costs $50. This week you have it's on discount and costs $40.
+Update the product like so:
+- `price` = 40.00
+- `full_price` = 50.00
 
 ## Update Product
 
@@ -1178,16 +1187,9 @@ data = {
   "available": False
 }
 
-payload = json.dumps(data)
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(json.dumps(data)), 'utf-8'), hashlib.sha256)
 
-checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(payload), 'utf-8'), hashlib.sha256)
-
-# Set content-type header
-headers = {
-"Content-type": "application/json"
-}
-
-response = requests.put(url, data=data, headers=headers, auth=(apikey, checksum.hexdigest())
+response = requests.put(url, data=data, auth=(apikey, checksum.hexdigest())
 
 ```
 
@@ -1338,7 +1340,7 @@ $data = array(
     "mobile" => "http://s3.amazon.com/photoMobile.png",
     "desktop" => "http://s3.amazon.com/photoDesktop.png"
   ),
-  "link" => "path/to/anything",
+  "link" => "/path/to/category/page",
   "extra" => array(
     "meta" => "any field you want to store"
   )
@@ -1388,21 +1390,15 @@ data = {
     "mobile": "http://s3.amazon.com/photoMobile.png",
     "desktop": "http://s3.amazon.com/photoDesktop.png"
   },
-  "link": "path/to/anything",
+  "link": "/path/to/category/page",
   "extra": {
     "meta": "any field you want to store"
   }
 }
-payload = json.dumps(data)
 
-checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(payload), 'utf-8'), hashlib.sha256)
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(json.dumps(data)), 'utf-8'), hashlib.sha256)
 
-# Set content-type header
-headers = {
-"Content-type": "application/json",
-}
-
-response = requests.post(url, data=payload, headers=headers, auth=(apikey, checksum.hexdigest())
+response = requests.post(url, json=data, auth=(apikey, checksum.hexdigest())
 
 ```
 
@@ -1427,7 +1423,7 @@ const data = {
     mobile: 'http://s3.amazon.com/photoMobile.png',
     desktop: 'http://s3.amazon.com/photoDesktop.png'
   },
-  link: 'path/to/anything',
+  link: '/path/to/category/page',
   extra: {
     meta: 'any field you want to store'
   }
@@ -1515,16 +1511,9 @@ data = {
   "link": "/new-link"
 }
 
-payload = json.dumps(data)
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(json.dumps(data)), 'utf-8'), hashlib.sha256)
 
-checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(payload), 'utf-8'), hashlib.sha256)
-
-# Set content-type header
-headers = {
-"Content-type": "application/json"
-}
-
-response = requests.put(url, data=data, headers=headers, auth=(apikey, checksum.hexdigest())
+response = requests.put(url, data=data, auth=(apikey, checksum.hexdigest())
 ```
 
 ```javascript--node
@@ -1722,16 +1711,10 @@ data = {
   "timestamp": "2018-04-04T23:29:04-03:00"
 }
 
-payload = json.dumps(data)
 
-checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(payload), 'utf-8'), hashlib.sha256)
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(json.dumps(data)), 'utf-8'), hashlib.sha256)
 
-# Set content-type header
-headers = {
-"Content-type": "application/json",
-}
-
-response = requests.post(url, data=payload, headers=headers, auth=(apikey, checksum.hexdigest())
+response = requests.post(url, json=data, auth=(apikey, checksum.hexdigest())
 
 ```
 
@@ -1854,16 +1837,9 @@ data = {
   }
 }
 
-payload = json.dumps(data)
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(json.dumps(data)), 'utf-8'), hashlib.sha256)
 
-checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(payload), 'utf-8'), hashlib.sha256)
-
-# Set content-type header
-headers = {
-"Content-type": "application/json"
-}
-
-response = requests.put(url, data=data, headers=headers, auth=(apikey, checksum.hexdigest())
+response = requests.put(url, data=data, auth=(apikey, checksum.hexdigest())
 ```
 
 ```javascript--node
@@ -2047,15 +2023,9 @@ data = {
   "timestamp": "2018-04-04 23:29:04Z"
 }
 
-payload = json.dumps(data)
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(json.dumps(data)), 'utf-8'), hashlib.sha256)
 
-checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(payload), 'utf-8'), hashlib.sha256)
-
-# Set content-type header
-headers = {
-"Content-type": "application/json",
-}
-response = requests.post(url, data=payload, headers=headers, auth=(apikey, checksum.hexdigest())
+response = requests.post(url, json=data, auth=(apikey, checksum.hexdigest())
 ```
 
 ```javascript--node
@@ -2174,16 +2144,9 @@ data = {
   "order_status": "cancelled"
 }
 
-payload = json.dumps(data)
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(json.dumps(data)), 'utf-8'), hashlib.sha256)
 
-checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(payload), 'utf-8'), hashlib.sha256)
-
-# Set content-type header
-headers = {
-"Content-type": "application/json"
-}
-
-response = requests.put(url, data=data, headers=headers, auth=(apikey, checksum.hexdigest())
+response = requests.put(url, data=data, auth=(apikey, checksum.hexdigest())
 ```
 
 ```javascript--node
@@ -2329,6 +2292,7 @@ Use the batch endpoint if you want to do a bulk import, typically when you first
 
 Build an array of your requests in the `batch` field, we accept a maximum of 500 items per request.
 
+
 ## Batch Create Banners / Orders / Products / Users
 
 ```javascript--browser
@@ -2400,161 +2364,11 @@ data = {
   ]
 }
 
-payload = json.dumps(data)
+checksum = hmac.new(bytes(apisecret,'utf-8'),
+  bytes(json.dumps(data)), 'utf-8'),
+  hashlib.sha256)
 
-checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(payload), 'utf-8'), hashlib.sha256)
-
-# Set content-type header
-headers = {
-"Content-type": "application/json",
-}
-
-response = requests.post(url, data=payload, headers=headers, auth=(apikey, checksum.hexdigest())
-```
-
-```javascript--node
-const axios = require('axios');
-const cryto = require('crypto');
-
-const url = `https://api.datacue.co/v1/batch/users'
-const apikey = 'your-api-key-goes-here';
-const apisecret = 'your-api-secret-goes-here';
-
-const data = {
-  type: 'users',
-  batch: [{
-    user_id: 'u1',
-    email: 'u1@abc.com'
-  }, {
-    user_id: 'u2',
-    email: 'u2@abc.com'
-  }, {
-    user_id: 'u3',
-    email: 'u3@abc.com'
-  }]
-};
-
-var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
-
-//add to default authentication header
-axios.defaults.auth = { username: 'API-key', password: hash.digest('hex') };
-
-axios.post(url, data);
-
-```
-
-Endpoint: `POST` `https://api.datacue.co/v1/batch`
-
-### Request parameters
-
-| Field   | Data Type | Required | Description |
-| ------- | --------- | -------- | ----------- |
-| `batch` | Array     | Yes      | Array of users you are sending
-
-### Response JSON
-
-> The above command returns a 207 multi status response code
-
-```json
-{
-    "status": [
-        {
-            "user_id": "u1",
-            "status": "error",
-            "error": "u1 already exists"
-        },
-        {
-            "product_id": "u2",
-            "status": "OK"
-        },
-        {
-            "product_id": "u3",
-            "status": "OK"
-        }
-    ]
-}
-```
-## Batch Create Banners / Orders / Products / Users
-
-```javascript--browser
-"backend only event (refer to the Python, PHP or Node tab)"
-```
-
-```php
-<?php
-
-$url = "https://api.datacue.co/v1/batch/users";
-$apikey = "Your-API-Key-goes-here";
-$apisecret = "Your-API-secret-goes-here";
-
-$data = array(
-  "type" => "users",
-  "batch" => array(
-    array("user_id" => "u1","email" => "u1@abc.com"),
-    array("user_id" => "u2","email" => "u2@abc.com"),
-    array("user_id" => "u3","email" => "u3@abc.com"),
-  )
-);
-
-$payload = json_encode($data);
-
-// now encode it to base64
-$checksum = hash_hmac("sha256", $payload, $apisecret, true);
-
-$encode = base64_encode("$apikey:$checksum");
-$auth = "Basic $encode";
-
-$curl = curl_init($url);
-curl_setopt($curl, CURLOPT_HEADER, false);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-  "Content-type" => "application/json",
-  "Authorization" => $auth
-));
-curl_setopt($curl, CURLOPT_POST, true);
-curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
-
-$json_response = curl_exec($curl);
-```
-
-```python
-import hashlib
-import hmac
-import json
-import requests
-
-url = "https://api.datacue.co/v1/batch"
-apikey = "your-api-key-goes-here"
-apisecret = "your-api-secret-goes-here"
-
-data = {
-  "type": "users",
-  "batch": [
-    {
-      "user_id": "u1"
-      "email": "u1@abc.com"
-    },
-    {
-      "user_id": "u2"
-      "email": "u2@abc.com"
-    },
-    {
-      "user_id": "u3"
-      "email": "u3@abc.com"
-    }
-  ]
-}
-
-payload = json.dumps(data)
-
-checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(payload), 'utf-8'), hashlib.sha256)
-
-# Set content-type header
-headers = {
-"Content-type": "application/json",
-}
-
-response = requests.post(url, data=payload, headers=headers, auth=(apikey, checksum.hexdigest())
+response = requests.post(url, json=data, auth=(apikey, checksum.hexdigest())
 ```
 
 ```javascript--node
@@ -2631,24 +2445,32 @@ We will send you a status for each item you sent, so you can handle and resend o
 ```php
 <?php
 
-$url = "https://api.datacue.co/v1/batch";
+$url = "https://api.datacue.co/v1/batch/<banners/products/orders/users>";
+$apikey = "Your-API-Key-goes-here";
+$apisecret = "Your-API-secret-goes-here";
+
 $data = array(
-  "type" => "users",
   "batch" => array(
-    array("first_name" => "Paulo","email" => "u1@abc.com"),
-    array("last_name" => "Rabani","email" => "u2@abc.com"),
-    array("first_name" => "Hisham","email" => "u3@abc.com"),
+    array("user_id" => "U1","first_name" => "Paulo","email" => "u1@abc.com"),
+    array("user_id" => "U2","last_name" => "Rabani","email" => "u2@abc.com"),
+    array("user_id" => "U3","first_name" => "Hisham","email" => "u3@abc.com"),
   )
 );
 
 $payload = json_encode($data);
+
+// now encode it to base64
+$checksum = hash_hmac('sha256', $payload, $apisecret, true);
+
+$encode = base64_encode("$apikey:$checksum");
+$auth = "Basic $encode";
 
 $curl = curl_init($url);
 curl_setopt($curl, CURLOPT_HEADER, false);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($curl, CURLOPT_HTTPHEADER, array(
   "Content-type" => "application/json",
-  "Authorization" => "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+  "Authorization" => $auth
 ));
 curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
 curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
@@ -2657,39 +2479,47 @@ $json_response = curl_exec($curl);
 ```
 
 ```python
+import hashlib
+import hmac
+import json
 import requests
 
-url = "https://api.datacue.co/v1/batch"
-headers = {
-  "Content-type": "application/json",
-  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-}
+url = "https://api.datacue.co/v1/batch/<banners/products/orders/users>"
+apikey = "your-api-key-goes-here"
+apisecret = "your-api-secret-goes-here"
+
 data = {
-  "type": "users",
   "batch": [
     {
+      "user_id":"U1",
       "first_name":"Paulo"
       "email":"u1@abc.com"
     },
     {
+      "user_id":"U2",
       "last_name":"Rabani"
       "email":"u2@abc.com"
     },
     {
+      "user_id":"U3",
       "first_name":"Hisham"
       "email":"u3@abc.com"
     }
   ]
 }
 
-response = requests.put(url, data=data, headers=headers)
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(json.dumps(data)), 'utf-8'), hashlib.sha256)
+
+response = requests.put(url, data=data, auth=(apikey, checksum.hexdigest())
+
 ```
 
 ```javascript--node
 const axios = require('axios');
 
-axios.defaults.baseURL = 'https://api.datacue.co/v1';
-axios.defaults.auth = { username: 'API-key', password: 'API-secret' };
+const url = `https://api.datacue.co/v1/batch/<banners/products/orders/users>`
+const apikey = 'your-api-key-goes-here';
+const apisecret = 'your-api-secret-goes-here';
 
 const data = {
   type: 'users',
@@ -2705,12 +2535,17 @@ const data = {
   }]
 };
 
-axios.put('/batch', data);
+var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
+
+//add to default authentication header
+axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
+
+axios.put(url, data);
 ```
 
-Endpoint: `PUT` `https://api.datacue.co/v1/batch`
+Endpoint: `PUT` `https://api.datacue.co/v1/batch/<banners/products/orders/users>`
 
-Update multiple banners, products or users. Note that orders cannot be updated only created or cancelled.
+Update multiple banners, products or users. Note that orders cannot be updated, only created or cancelled.
 
 ### Request parameters
 
@@ -2747,7 +2582,11 @@ We will send you a status for each item you sent, so you can handle and resend o
 ```php
 <?php
 
-$url = "https://api.datacue.co/v1/batch";
+$url = "https://api.datacue.co/v1/batch/<banners/products/users/orders>";
+
+$apikey = "Your-API-Key-goes-here";
+$apisecret = "Your-API-secret-goes-here";
+
 $data = array(
   "type" => "users",
   "batch" => array(
@@ -2759,12 +2598,18 @@ $data = array(
 
 $payload = json_encode($data);
 
+// now encode it to base64
+$checksum = hash_hmac('sha256', $payload, $apisecret, true);
+
+$encode = base64_encode("$apikey:$checksum");
+$auth = "Basic $encode";
+
 $curl = curl_init($url);
 curl_setopt($curl, CURLOPT_HEADER, false);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($curl, CURLOPT_HTTPHEADER, array(
   "Content-type" => "application/json",
-  "Authorization" => "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
+  "Authorization" => $auth
 ));
 curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
 curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
@@ -2773,15 +2618,16 @@ $json_response = curl_exec($curl);
 ```
 
 ```python
+import hashlib
+import hmac
+import json
 import requests
 
-url = "https://api.datacue.co/v1/batch"
-headers = {
-  "Content-type": "application/json",
-  "Authorization": "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-}
+url = "https://api.datacue.co/v1/batch/<banners/products/orders/users>"
+apikey = "your-api-key-goes-here"
+apisecret = "your-api-secret-goes-here"
+
 data = {
-  "type": "users",
   "batch": [
     {
       "user_id": "u1"
@@ -2795,7 +2641,9 @@ data = {
   ]
 }
 
-response = requests.delete(url, data=data, headers=headers)
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(json.dumps(data)), 'utf-8'), hashlib.sha256)
+
+response = requests.delete(url, data=data, auth=(apikey, checksum.hexdigest())
 ```
 
 ```javascript--node
