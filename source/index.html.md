@@ -548,13 +548,22 @@ window.datacue.track({
   subtype: 'update',
   cart: [{
     product_id: 'p1',
-    variant_id: 'v1'
+    variant_id: 'v1',
+    quantity: 1,
+    unit_price: 24,
+    currency: 'USD'
   },{
     product_id: 'p2',
-    variant_id: 'v1'
+    variant_id: 'v1',
+    quantity: 1,
+    unit_price: 24,
+    currency: 'USD'
   },{
     product_id: 'p3',
-    variant_id: 'v1'
+    variant_id: 'v1',
+    quantity: 1,
+    unit_price: 24,
+    currency: 'USD'
   }],
   cart_link:'https://myshop.com/cart/123'
 });
@@ -858,7 +867,13 @@ window.datacue.track({
     product_id: 'p1',
     variant: 'v1',
     quantity: 1,
-    price: 24,
+    unit_price: 24,
+    currency: 'USD'
+  },{
+    product_id: 'p2',
+    variant: 'v2',
+    quantity: 3,
+    unit_price: 39,
     currency: 'USD'
   }],
   cart_link:'https://myshop.com/cart/123'
