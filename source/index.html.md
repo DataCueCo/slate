@@ -109,7 +109,7 @@ response = requests.post(url, json=data, auth=(apikey, checksum.hexdigest())
 const axios = require('axios');
 const cryto = require('crypto');
 
-const url = `https://api.datacue.co/v1/users'
+const url = 'https://api.datacue.co/v1/users'
 const apikey = 'your-api-key-goes-here';
 const apisecret = 'your-api-secret-goes-here';
 
@@ -242,12 +242,12 @@ Only required if you're sending us historical events, if not, we log the event a
 Refer to the example json on the right to view the format.
 
 ```json
-  "timestamp": "2018-01-23T00:30:08.276Z"
+  "timestamp": "2018-01-23 00:30:08.276Z"
 ```
 
 | Field       | Data Type     | Required | Description |
 | ----------- | ------------- | -------- | ----------- |
-| `timestamp` | ISO-8601 Date | No       | The current time in UTC for when the event happened. E.g. `"2017-11-01T00:29:03.123Z"`
+| `timestamp` | ISO-8601 Date | No       | The current time in UTC for when the event happened. E.g. `"2017-11-01 00:29:03.123Z"`
 
 
 ## Home pageview
@@ -1063,7 +1063,7 @@ response = requests.post(url, json=data, auth=(apikey, checksum.hexdigest())
 const axios = require('axios');
 const cryto = require('crypto');
 
-const url = `https://api.datacue.co/v1/products'
+const url = 'https://api.datacue.co/v1/products'
 const apikey = 'your-api-key-goes-here';
 const apisecret = 'your-api-secret-goes-here';
 
@@ -1104,7 +1104,6 @@ axios.post(url, data);
 > The above command returns a 201 response code
 
 Endpoint: `POST` `https://api.datacue.co/v1/products`
-
 Whenever a new product is created, send this request from your backend.
 
 ### Request parameters
@@ -1421,7 +1420,7 @@ response = requests.post(url, json=data, auth=(apikey, checksum.hexdigest())
 const axios = require('axios');
 const cryto = require('crypto');
 
-const url = `https://api.datacue.co/v1/banners'
+const url = 'https://api.datacue.co/v1/banners'
 const apikey = 'your-api-key-goes-here';
 const apisecret = 'your-api-secret-goes-here';
 
@@ -1651,7 +1650,6 @@ $apisecret = "Your-API-secret-goes-here";
 
 $data = array(
   "user_id" => "u1",
-  "anonymous_ids" => "v1",
   "email" => "xyz@abc.com",
   "title" => "Mr",
   "first_name" => "John",
@@ -1661,12 +1659,9 @@ $data = array(
     "sex" => "male",
     "segment" => "platinum"
   ),
+  "wishlist" => array("P1","P3","P4"), //array of product ids
   "email_subscriber" => true,
-  "cart" => array(
-    array("product_id" => "p1", "variant_id" => "v1"),
-    array("product_id" => "p2", "variant_id" => "v1")
-  ),
-  "timestamp" => "2018-04-04T23:29:04-03:00"
+  "timestamp" => "2018-04-04 23:29:04-03:00"
 );
 
 $payload = json_encode($data);
@@ -1702,7 +1697,6 @@ apisecret = "your-api-secret-goes-here"
 
 data = {
   "user_id": "u1",
-  "anonymous_ids": "v1",
   "email": "xyz@abc.com",
   "title": "Mr",
   "first_name": "John",
@@ -1712,18 +1706,9 @@ data = {
     "sex": "male",
     "segment": "platinum"
   },
+  "wishlist": ['P1','P3','P4'], #array of product ids
   "email_subscriber": True,
-  "cart": [
-    {
-      "product_id": "p1",
-      "variant_id": "v1"
-    },
-    {
-      "product_id": "p2",
-      "variant_id": "v1"
-    }
-  ],
-  "timestamp": "2018-04-04T23:29:04-03:00"
+  "timestamp": "2018-04-04 23:29:04-03:00"
 }
 
 
@@ -1737,13 +1722,12 @@ response = requests.post(url, json=data, auth=(apikey, checksum.hexdigest())
 const axios = require('axios');
 const cryto = require('crypto');
 
-const url = `https://api.datacue.co/v1/banners'
+const url = 'https://api.datacue.co/v1/banners'
 const apikey = 'your-api-key-goes-here';
 const apisecret = 'your-api-secret-goes-here';
 
 const data = {
   user_id: 'u1',
-  anonymous_ids: 'v1',
   email: 'xyz@abc.com',
   title: 'Mr',
   first_name: 'Noob',
@@ -1753,15 +1737,9 @@ const data = {
     sex: 'male',
     segment: 'platinum'
   },
+  wishlist: ['P1','P3','P4'], //array of product ids
   email_subscriber: true,
-  cart: [{
-    product_id: 'p1',
-    variant_id: 'v1'
-  }, {
-    product_id: 'p2',
-    variant_id: 'v1'
-  }],
-  timestamp: '2018-04-04T23:29:04-03:00'
+  timestamp: '2018-04-04 23:29:04-03:00'
 };
 
 var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
@@ -1790,7 +1768,7 @@ When a new user has successfully signed up / registered on your system.
 | `last_name`        | String        | No                            | User's last name
 | `profile`          | JSON Object   | No                            | User's profile. See table below for field description
 | `email_subscriber` | Boolean       | No                            | Has this user consented to receive marketing email?
-| `cart`             | Array         | No                            | An array of product ids and variant ids representing the current products in the users shopping cart.
+| `wishlist`         | Array         | No                            | An array of product ids representing the products the user has on their wishlist.
 | `timestamp`        | ISO-8601 Date | No                            | User creation date/time in UTC timezone
 
 ### profile
@@ -2047,7 +2025,7 @@ response = requests.post(url, json=data, auth=(apikey, checksum.hexdigest())
 const axios = require('axios');
 const cryto = require('crypto');
 
-const url = `https://api.datacue.co/v1/orders'
+const url = 'https://api.datacue.co/v1/orders'
 const apikey = 'your-api-key-goes-here';
 const apisecret = 'your-api-secret-goes-here';
 
@@ -2390,7 +2368,8 @@ response = requests.post(url, json=data, auth=(apikey, checksum.hexdigest())
 const axios = require('axios');
 const cryto = require('crypto');
 
-const url = `https://api.datacue.co/v1/batch/users'
+const url = 
+'https://api.datacue.co/v1/batch/users'
 const apikey = 'your-api-key-goes-here';
 const apisecret = 'your-api-secret-goes-here';
 
