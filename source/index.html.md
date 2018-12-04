@@ -1722,7 +1722,7 @@ response = requests.post(url, json=data, auth=(apikey, checksum.hexdigest())
 const axios = require('axios');
 const cryto = require('crypto');
 
-const url = 'https://api.datacue.co/v1/banners'
+const url = 'https://api.datacue.co/v1/users'
 const apikey = 'your-api-key-goes-here';
 const apisecret = 'your-api-secret-goes-here';
 
