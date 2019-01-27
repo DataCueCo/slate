@@ -64,7 +64,7 @@ $data = array(
 $payload = json_encode($data);
 
 // now encode it to base64
-$checksum = hash_hmac('sha256', $payload, $apisecret, true);
+$checksum = hash_hmac('sha256', $payload, $apisecret, false);
 
 $encode = base64_encode("$apikey:$checksum");
 $auth = "Basic $encode";
@@ -989,7 +989,7 @@ $data = array(
 $payload = json_encode($data);
 
 // now encode it to base64
-$checksum = hash_hmac('sha256', $payload, $apisecret, true);
+$checksum = hash_hmac('sha256', $payload, $apisecret, false);
 
 $encode = base64_encode("$apikey:$checksum");
 $auth = "Basic $encode";
@@ -1164,7 +1164,7 @@ $data = array(
 $payload = json_encode($data);
 
 // now encode it to base64
-$checksum = hash_hmac('sha256', $payload, $apisecret, true);
+$checksum = hash_hmac('sha256', $payload, $apisecret, false);
 
 $encode = base64_encode("$apikey:$checksum");
 $auth = "Basic $encode";
@@ -1260,7 +1260,7 @@ $apikey = "Your-API-Key-goes-here";
 $apisecret = "Your-API-secret-goes-here";
 
 // now encode it to base64
-$checksum = hash_hmac("sha256", "", $apisecret, true);
+$checksum = hash_hmac("sha256", "", $apisecret, false);
 
 $encode = base64_encode("$apikey:$checksum");
 $auth = "Basic $encode";
@@ -1363,7 +1363,7 @@ $data = array(
 $payload = json_encode($data);
 
 // now encode it to base64
-$checksum = hash_hmac("sha256", $payload, $apisecret, true);
+$checksum = hash_hmac("sha256", $payload, $apisecret, false);
 
 $encode = base64_encode("$apikey:$checksum");
 $auth = "Basic $encode";
@@ -1493,7 +1493,7 @@ $data = array(
 $payload = json_encode($data);
 
 // now encode it to base64
-$checksum = hash_hmac('sha256', $payload, $apisecret, true);
+$checksum = hash_hmac('sha256', $payload, $apisecret, false);
 
 $encode = base64_encode("$apikey:$checksum");
 $auth = "Basic $encode";
@@ -1577,7 +1577,7 @@ $apikey = "Your-API-Key-goes-here";
 $apisecret = "Your-API-secret-goes-here";
 
 // now encode it to base64
-$checksum = hash_hmac("sha256", "", $apisecret, true);
+$checksum = hash_hmac("sha256", "", $apisecret, false);
 
 $encode = base64_encode("$apikey:$checksum");
 $auth = "Basic $encode";
@@ -1667,7 +1667,7 @@ $data = array(
 $payload = json_encode($data);
 
 // now encode it to base64
-$checksum = hash_hmac('sha256', $payload, $apisecret, true);
+$checksum = hash_hmac('sha256', $payload, $apisecret, false);
 
 $encode = base64_encode("$apikey:$checksum");
 $auth = "Basic $encode";
@@ -1882,7 +1882,7 @@ $apikey = "Your-API-Key-goes-here";
 $apisecret = "Your-API-secret-goes-here";
 
 // now encode it to base64
-$checksum = hash_hmac('sha256', "", $apisecret, true);
+$checksum = hash_hmac('sha256', "", $apisecret, false);
 
 $encode = base64_encode("$apikey:$checksum");
 $auth = "Basic $encode";
@@ -1966,7 +1966,7 @@ $data = array(
 $payload = json_encode($data);
 
 // now encode it to base64
-$checksum = hash_hmac("sha256", $payload, $apisecret, true);
+$checksum = hash_hmac("sha256", $payload, $apisecret, false);
 
 $encode = base64_encode("$apikey:$checksum");
 $auth = "Basic $encode";
@@ -2105,7 +2105,7 @@ $data = array(
 $payload = json_encode($data);
 
 // now encode it to base64
-$checksum = hash_hmac('sha256', $payload, $apisecret, true);
+$checksum = hash_hmac('sha256', $payload, $apisecret, false);
 
 $encode = base64_encode("$apikey:$checksum");
 $auth = "Basic $encode";
@@ -2189,7 +2189,7 @@ $apikey = "Your-API-Key-goes-here";
 $apisecret = "Your-API-secret-goes-here";
 
 // now encode it to base64
-$checksum = hash_hmac("sha256", "", $apisecret, true);
+$checksum = hash_hmac("sha256", "", $apisecret, false);
 
 $encode = base64_encode("$apikey:$checksum");
 $auth = "Basic $encode";
@@ -2311,7 +2311,7 @@ $data = array(
 $payload = json_encode($data);
 
 // now encode it to base64
-$checksum = hash_hmac("sha256", $payload, $apisecret, true);
+$checksum = hash_hmac("sha256", $payload, $apisecret, false);
 
 $encode = base64_encode("$apikey:$checksum");
 $auth = "Basic $encode";
@@ -2454,7 +2454,7 @@ $data = array(
 $payload = json_encode($data);
 
 // now encode it to base64
-$checksum = hash_hmac('sha256', $payload, $apisecret, true);
+$checksum = hash_hmac('sha256', $payload, $apisecret, false);
 
 $encode = base64_encode("$apikey:$checksum");
 $auth = "Basic $encode";
@@ -2593,7 +2593,7 @@ $data = array(
 $payload = json_encode($data);
 
 // now encode it to base64
-$checksum = hash_hmac('sha256', $payload, $apisecret, true);
+$checksum = hash_hmac('sha256', $payload, $apisecret, false);
 
 $encode = base64_encode("$apikey:$checksum");
 $auth = "Basic $encode";
