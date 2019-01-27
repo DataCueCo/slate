@@ -403,7 +403,7 @@
 <span class="nv">$payload</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
 
 <span class="c1">// now encode it to base64
-</span><span class="nv">$checksum</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="nv">$payload</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</span><span class="nv">$checksum</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="nv">$payload</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
 
 <span class="nv">$encode</span> <span class="o">=</span> <span class="nb">base64_encode</span><span class="p">(</span><span class="s2">"</span><span class="nv">$apikey</span><span class="s2">:</span><span class="nv">$checksum</span><span class="s2">"</span><span class="p">);</span>
 <span class="nv">$auth</span> <span class="o">=</span> <span class="s2">"Basic </span><span class="nv">$encode</span><span class="s2">"</span><span class="p">;</span>
@@ -1505,7 +1505,7 @@
 <span class="nv">$payload</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
 
 <span class="c1">// now encode it to base64
-</span><span class="nv">$checksum</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="nv">$payload</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</span><span class="nv">$checksum</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="nv">$payload</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
 
 <span class="nv">$encode</span> <span class="o">=</span> <span class="nb">base64_encode</span><span class="p">(</span><span class="s2">"</span><span class="nv">$apikey</span><span class="s2">:</span><span class="nv">$checksum</span><span class="s2">"</span><span class="p">);</span>
 <span class="nv">$auth</span> <span class="o">=</span> <span class="s2">"Basic </span><span class="nv">$encode</span><span class="s2">"</span><span class="p">;</span>
@@ -1772,7 +1772,7 @@ Update the product like so:
 <span class="nv">$payload</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
 
 <span class="c1">// now encode it to base64
-</span><span class="nv">$checksum</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="nv">$payload</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</span><span class="nv">$checksum</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="nv">$payload</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
 
 <span class="nv">$encode</span> <span class="o">=</span> <span class="nb">base64_encode</span><span class="p">(</span><span class="s2">"</span><span class="nv">$apikey</span><span class="s2">:</span><span class="nv">$checksum</span><span class="s2">"</span><span class="p">);</span>
 <span class="nv">$auth</span> <span class="o">=</span> <span class="s2">"Basic </span><span class="nv">$encode</span><span class="s2">"</span><span class="p">;</span>
@@ -1854,7 +1854,7 @@ Update the product like so:
 <span class="nv">$apisecret</span> <span class="o">=</span> <span class="s2">"Your-API-secret-goes-here"</span><span class="p">;</span>
 
 <span class="c1">// now encode it to base64
-</span><span class="nv">$checksum</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s2">"sha256"</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</span><span class="nv">$checksum</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s2">"sha256"</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
 
 <span class="nv">$encode</span> <span class="o">=</span> <span class="nb">base64_encode</span><span class="p">(</span><span class="s2">"</span><span class="nv">$apikey</span><span class="s2">:</span><span class="nv">$checksum</span><span class="s2">"</span><span class="p">);</span>
 <span class="nv">$auth</span> <span class="o">=</span> <span class="s2">"Basic </span><span class="nv">$encode</span><span class="s2">"</span><span class="p">;</span>
@@ -1939,7 +1939,7 @@ Update the product like so:
 <span class="nv">$payload</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
 
 <span class="c1">// now encode it to base64
-</span><span class="nv">$checksum</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s2">"sha256"</span><span class="p">,</span> <span class="nv">$payload</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</span><span class="nv">$checksum</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s2">"sha256"</span><span class="p">,</span> <span class="nv">$payload</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
 
 <span class="nv">$encode</span> <span class="o">=</span> <span class="nb">base64_encode</span><span class="p">(</span><span class="s2">"</span><span class="nv">$apikey</span><span class="s2">:</span><span class="nv">$checksum</span><span class="s2">"</span><span class="p">);</span>
 <span class="nv">$auth</span> <span class="o">=</span> <span class="s2">"Basic </span><span class="nv">$encode</span><span class="s2">"</span><span class="p">;</span>
@@ -2112,7 +2112,7 @@ Update the product like so:
 <span class="nv">$payload</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
 
 <span class="c1">// now encode it to base64
-</span><span class="nv">$checksum</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="nv">$payload</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</span><span class="nv">$checksum</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="nv">$payload</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
 
 <span class="nv">$encode</span> <span class="o">=</span> <span class="nb">base64_encode</span><span class="p">(</span><span class="s2">"</span><span class="nv">$apikey</span><span class="s2">:</span><span class="nv">$checksum</span><span class="s2">"</span><span class="p">);</span>
 <span class="nv">$auth</span> <span class="o">=</span> <span class="s2">"Basic </span><span class="nv">$encode</span><span class="s2">"</span><span class="p">;</span>
@@ -2182,7 +2182,7 @@ Update the product like so:
 <span class="nv">$apisecret</span> <span class="o">=</span> <span class="s2">"Your-API-secret-goes-here"</span><span class="p">;</span>
 
 <span class="c1">// now encode it to base64
-</span><span class="nv">$checksum</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s2">"sha256"</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</span><span class="nv">$checksum</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s2">"sha256"</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
 
 <span class="nv">$encode</span> <span class="o">=</span> <span class="nb">base64_encode</span><span class="p">(</span><span class="s2">"</span><span class="nv">$apikey</span><span class="s2">:</span><span class="nv">$checksum</span><span class="s2">"</span><span class="p">);</span>
 <span class="nv">$auth</span> <span class="o">=</span> <span class="s2">"Basic </span><span class="nv">$encode</span><span class="s2">"</span><span class="p">;</span>
@@ -2258,7 +2258,7 @@ Update the product like so:
 <span class="nv">$payload</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
 
 <span class="c1">// now encode it to base64
-</span><span class="nv">$checksum</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="nv">$payload</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</span><span class="nv">$checksum</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="nv">$payload</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
 
 <span class="nv">$encode</span> <span class="o">=</span> <span class="nb">base64_encode</span><span class="p">(</span><span class="s2">"</span><span class="nv">$apikey</span><span class="s2">:</span><span class="nv">$checksum</span><span class="s2">"</span><span class="p">);</span>
 <span class="nv">$auth</span> <span class="o">=</span> <span class="s2">"Basic </span><span class="nv">$encode</span><span class="s2">"</span><span class="p">;</span>
@@ -2522,7 +2522,7 @@ Update the product like so:
 <span class="nv">$apisecret</span> <span class="o">=</span> <span class="s2">"Your-API-secret-goes-here"</span><span class="p">;</span>
 
 <span class="c1">// now encode it to base64
-</span><span class="nv">$checksum</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</span><span class="nv">$checksum</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
 
 <span class="nv">$encode</span> <span class="o">=</span> <span class="nb">base64_encode</span><span class="p">(</span><span class="s2">"</span><span class="nv">$apikey</span><span class="s2">:</span><span class="nv">$checksum</span><span class="s2">"</span><span class="p">);</span>
 <span class="nv">$auth</span> <span class="o">=</span> <span class="s2">"Basic </span><span class="nv">$encode</span><span class="s2">"</span><span class="p">;</span>
@@ -2592,7 +2592,7 @@ Update the product like so:
 <span class="nv">$payload</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
 
 <span class="c1">// now encode it to base64
-</span><span class="nv">$checksum</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s2">"sha256"</span><span class="p">,</span> <span class="nv">$payload</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</span><span class="nv">$checksum</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s2">"sha256"</span><span class="p">,</span> <span class="nv">$payload</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
 
 <span class="nv">$encode</span> <span class="o">=</span> <span class="nb">base64_encode</span><span class="p">(</span><span class="s2">"</span><span class="nv">$apikey</span><span class="s2">:</span><span class="nv">$checksum</span><span class="s2">"</span><span class="p">);</span>
 <span class="nv">$auth</span> <span class="o">=</span> <span class="s2">"Basic </span><span class="nv">$encode</span><span class="s2">"</span><span class="p">;</span>
@@ -2774,7 +2774,7 @@ Update the product like so:
 <span class="nv">$payload</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
 
 <span class="c1">// now encode it to base64
-</span><span class="nv">$checksum</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="nv">$payload</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</span><span class="nv">$checksum</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="nv">$payload</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
 
 <span class="nv">$encode</span> <span class="o">=</span> <span class="nb">base64_encode</span><span class="p">(</span><span class="s2">"</span><span class="nv">$apikey</span><span class="s2">:</span><span class="nv">$checksum</span><span class="s2">"</span><span class="p">);</span>
 <span class="nv">$auth</span> <span class="o">=</span> <span class="s2">"Basic </span><span class="nv">$encode</span><span class="s2">"</span><span class="p">;</span>
@@ -2856,7 +2856,7 @@ Update the product like so:
 <span class="nv">$apisecret</span> <span class="o">=</span> <span class="s2">"Your-API-secret-goes-here"</span><span class="p">;</span>
 
 <span class="c1">// now encode it to base64
-</span><span class="nv">$checksum</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s2">"sha256"</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</span><span class="nv">$checksum</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s2">"sha256"</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
 
 <span class="nv">$encode</span> <span class="o">=</span> <span class="nb">base64_encode</span><span class="p">(</span><span class="s2">"</span><span class="nv">$apikey</span><span class="s2">:</span><span class="nv">$checksum</span><span class="s2">"</span><span class="p">);</span>
 <span class="nv">$auth</span> <span class="o">=</span> <span class="s2">"Basic </span><span class="nv">$encode</span><span class="s2">"</span><span class="p">;</span>
@@ -2961,7 +2961,7 @@ Update the product like so:
 <span class="nv">$payload</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
 
 <span class="c1">// now encode it to base64
-</span><span class="nv">$checksum</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s2">"sha256"</span><span class="p">,</span> <span class="nv">$payload</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</span><span class="nv">$checksum</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s2">"sha256"</span><span class="p">,</span> <span class="nv">$payload</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
 
 <span class="nv">$encode</span> <span class="o">=</span> <span class="nb">base64_encode</span><span class="p">(</span><span class="s2">"</span><span class="nv">$apikey</span><span class="s2">:</span><span class="nv">$checksum</span><span class="s2">"</span><span class="p">);</span>
 <span class="nv">$auth</span> <span class="o">=</span> <span class="s2">"Basic </span><span class="nv">$encode</span><span class="s2">"</span><span class="p">;</span>
@@ -3097,7 +3097,7 @@ Update the product like so:
 <span class="nv">$payload</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
 
 <span class="c1">// now encode it to base64
-</span><span class="nv">$checksum</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="nv">$payload</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</span><span class="nv">$checksum</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="nv">$payload</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
 
 <span class="nv">$encode</span> <span class="o">=</span> <span class="nb">base64_encode</span><span class="p">(</span><span class="s2">"</span><span class="nv">$apikey</span><span class="s2">:</span><span class="nv">$checksum</span><span class="s2">"</span><span class="p">);</span>
 <span class="nv">$auth</span> <span class="o">=</span> <span class="s2">"Basic </span><span class="nv">$encode</span><span class="s2">"</span><span class="p">;</span>
@@ -3217,7 +3217,7 @@ Update the product like so:
 <span class="nv">$payload</span> <span class="o">=</span> <span class="nb">json_encode</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
 
 <span class="c1">// now encode it to base64
-</span><span class="nv">$checksum</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="nv">$payload</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+</span><span class="nv">$checksum</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="nv">$payload</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
 
 <span class="nv">$encode</span> <span class="o">=</span> <span class="nb">base64_encode</span><span class="p">(</span><span class="s2">"</span><span class="nv">$apikey</span><span class="s2">:</span><span class="nv">$checksum</span><span class="s2">"</span><span class="p">);</span>
 <span class="nv">$auth</span> <span class="o">=</span> <span class="s2">"Basic </span><span class="nv">$encode</span><span class="s2">"</span><span class="p">;</span>
