@@ -52,34 +52,17 @@ The API is located at `https://api.datacue.co`.
 ```php
 <?php
 
-$url = "https://api.datacue.co/v1/users";
 $apikey = "Your-API-Key-goes-here";
 $apisecret = "Your-API-secret-goes-here";
 
-$data = array(
+$datacue = new \DataCue\Client($apikey, $apisecret);
+
+$data = [
   "name"  => "Spongebob",
   "email" => "pineapple@underthe.sea"
-);
+];
 
-$payload = json_encode($data);
-
-// now encode it to base64
-$checksum = hash_hmac('sha256', $payload, $apisecret, false);
-
-$encode = base64_encode("$apikey:$checksum");
-$auth = "Basic $encode";
-
-$curl = curl_init($url);
-curl_setopt($curl, CURLOPT_HEADER, false);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-  "Content-type" => "application/json",
-  "Authorization" => $auth
-));
-curl_setopt($curl, CURLOPT_POST, true);
-curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
-
-$json_response = curl_exec($curl);
+$res = $datacue->users->create($data);
 
 ?>
 
@@ -956,55 +939,38 @@ Record a login event by a user on your website, if the user login is cached, you
 ```php
 <?php
 
-$url = "https://api.datacue.co/v1/products";
 $apikey = "Your-API-Key-goes-here";
 $apisecret = "Your-API-secret-goes-here";
 
-$data = array(
+$datacue = new \DataCue\Client($apikey, $apisecret);
+
+$data = [
   "product_id" => "p1",
   "variant_id" => "v1",
   "category_1" => "men",
   "category_2" => "jeans",
   "category_3" => "skinny",
   "category_4" => "c4",
-  "category_extra" => array(
+  "category_extra" => [
     "category_5" => "c5"
-  ),
+  ],
   "name" => "cool jeans",
   "brand" => "zara",
   "description" => "very fashionable jeans",
-  "color" => "blue"
+  "color" => "blue",
   "size" => "M",
   "price" => 25000,
   "full_price" => 30000,
   "stock" => 5,
-  "extra" => array(
+  "extra" => [
     "extra_feature" => "details"
-  ),
+  ],
   "photo_url" => "https://s3.amazon.com/image.png",
   "link" => "/product/p1",
   "owner_id" => "user_id_3"
-);
+];
 
-$payload = json_encode($data);
-
-// now encode it to base64
-$checksum = hash_hmac('sha256', $payload, $apisecret, false);
-
-$encode = base64_encode("$apikey:$checksum");
-$auth = "Basic $encode";
-
-$curl = curl_init($url);
-curl_setopt($curl, CURLOPT_HEADER, false);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-  "Content-type" => "application/json",
-  "Authorization" => $auth
-));
-curl_setopt($curl, CURLOPT_POST, true);
-curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
-
-$json_response = curl_exec($curl);
+$res = $datacue->products->create($data);
 
 ?>
 ```
@@ -1147,39 +1113,26 @@ Update the product like so:
 
 ```php
 <?php
-// replace :product_id and :variant_id in the url with the actual values you want to update
 
-$url = "https://api.datacue.co/v1/products/:product_id/:variant_id";
 $apikey = "Your-API-Key-goes-here";
 $apisecret = "Your-API-secret-goes-here";
 
-$data = array(
+$datacue = new \DataCue\Client($apikey, $apisecret);
+
+// replace $productId with the actual values you want to update
+$productId = "p1";
+// replace $variantId with the actual values you want to update
+$variantId = "v1";
+$data = [
   "category_1" => "men",
   "category_2" => "jeans",
   "category_3" => "skinny",
   "stock" => 6,
   "available" => false
-);
+];
 
-$payload = json_encode($data);
+$res = $datacue->products->update($productId, $variantId, $data);
 
-// now encode it to base64
-$checksum = hash_hmac('sha256', $payload, $apisecret, false);
-
-$encode = base64_encode("$apikey:$checksum");
-$auth = "Basic $encode";
-
-$curl = curl_init($url);
-curl_setopt($curl, CURLOPT_HEADER, false);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-  "Content-type" => "application/json",
-  "Authorization" => $auth
-));
-curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
-curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
-
-$json_response = curl_exec($curl);
 ```
 
 ```python
@@ -1253,28 +1206,23 @@ Same as for [Create Product](#create-product), except `product_id` and `variant_
 
 ```php
 <?php
-//replace :product_id and :variant_id with the product and variant id you wish to delete
-$url = "https://api.datacue.co/v1/products/:product_id/:variant_id";
 
 $apikey = "Your-API-Key-goes-here";
 $apisecret = "Your-API-secret-goes-here";
 
-// now encode it to base64
-$checksum = hash_hmac("sha256", "", $apisecret, false);
+$datacue = new \DataCue\Client($apikey, $apisecret);
 
-$encode = base64_encode("$apikey:$checksum");
-$auth = "Basic $encode";
+// replace $productId with the actual value you want to delete
+$productId = "p1";
+// replace $variantId with the actual value you want to delete
+$variantId = "v1";
 
-$curl = curl_init($url);
-curl_setopt($curl, CURLOPT_HEADER, false);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-  "Content-type" => "application/json",
-  "Authorization" => $auth
-));
-curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+// if you want to delete a variant
+$res = $datacue->products->delete($productId, $variantId);
 
-$json_response = curl_exec($curl);
+// if you want to delete a product and all associated variants
+$res = $datacue->products->delete($productId);
+
 ```
 
 ```python
@@ -1644,45 +1592,29 @@ When you delete a banner on your system. Does not apply if you're using DataCue 
 ```php
 <?php
 
-$url = "https://api.datacue.co/v1/users";
 $apikey = "Your-API-Key-goes-here";
 $apisecret = "Your-API-secret-goes-here";
 
-$data = array(
+$datacue = new \DataCue\Client($apikey, $apisecret);
+
+$data = [
   "user_id" => "u1",
   "email" => "xyz@abc.com",
   "title" => "Mr",
   "first_name" => "John",
   "last_name" => "Smith",
-  "profile" => array(
+  "profile" => [
     "location" => "santiago",
     "sex" => "male",
     "segment" => "platinum"
-  ),
-  "wishlist" => array("P1","P3","P4"), //array of product ids
+  ],
+  "wishlist" => ["P1", "P3", "P4"], //array of product ids
   "email_subscriber" => true,
   "timestamp" => "2018-04-04 23:29:04-03:00"
-);
+];
 
-$payload = json_encode($data);
+$res = $datacue->users->create($data);
 
-// now encode it to base64
-$checksum = hash_hmac('sha256', $payload, $apisecret, false);
-
-$encode = base64_encode("$apikey:$checksum");
-$auth = "Basic $encode";
-
-$curl = curl_init($url);
-curl_setopt($curl, CURLOPT_HEADER, false);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-  "Content-type" => "application/json",
-  "Authorization" => $auth
-));
-curl_setopt($curl, CURLOPT_POST, true);
-curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
-
-$json_response = curl_exec($curl);
 ```
 
 ```python
@@ -1787,31 +1719,22 @@ When a new user has successfully signed up / registered on your system.
 
 ```php
 <?php
-// replace :user_id in the url with the actual values you want to update
 
-$url = "https://api.datacue.co/v1/users/:user_id";
 $apikey = "Your-API-Key-goes-here";
 $apisecret = "Your-API-secret-goes-here";
 
-$data = array(
-  "profile" => array(
+$datacue = new \DataCue\Client($apikey, $apisecret);
+
+// replace $userId with the actual value you want to update
+$userId = "u1";
+$data = [
+  "profile" => [
     "location" => "singapore"
-  )
-);
+  ]
+];
 
-$payload = json_encode($data);
+$res = $datacue->users->update($userId, $data);
 
-$curl = curl_init($url);
-curl_setopt($curl, CURLOPT_HEADER, false);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-  "Content-type" => "application/json",
-  "Authorization" => "Basic VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-));
-curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
-curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
-
-$json_response = curl_exec($curl);
 ```
 
 ```python
@@ -1875,28 +1798,17 @@ Same as for [Create User](#create-user), except `user_id`.
 
 ```php
 <?php
-//replace :user_id with the user id you wish to delete
-$url = "https://api.datacue.co/v1/users/:user_id";
 
 $apikey = "Your-API-Key-goes-here";
 $apisecret = "Your-API-secret-goes-here";
 
-// now encode it to base64
-$checksum = hash_hmac('sha256', "", $apisecret, false);
+$datacue = new \DataCue\Client($apikey, $apisecret);
 
-$encode = base64_encode("$apikey:$checksum");
-$auth = "Basic $encode";
+// replace $userId with the actual value you want to delete
+$userId = "u1";
 
-$curl = curl_init($url);
-curl_setopt($curl, CURLOPT_HEADER, false);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-  "Content-type" => "application/json",
-  "Authorization" => $auth;
-));
-curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+$res = $datacue->users->delete($userId);
 
-$json_response = curl_exec($curl);
 ```
 
 ```python
@@ -1949,39 +1861,23 @@ When a user account is deleted from your system.
 ```php
 <?php
 
-$url = "https://api.datacue.co/v1/orders";
 $apikey = "Your-API-Key-goes-here";
 $apisecret = "Your-API-secret-goes-here";
 
-$data = array(
+$datacue = new \DataCue\Client($apikey, $apisecret);
+
+$data = [
   "order_id" => "O123",
   "user_id" => "U456",
-  "cart" => array(
-    array("product_id" => "p1", "variant_id" => "v1", "quantity" => 1, "unit_price" => 24, "currency" => "USD"),
-    array("product_id" => "p3", "variant_id" => "v2", "quantity" => 9, "unit_price" => 42, "currency" => "USD")
-  ),
+  "cart" => [
+    ["product_id" => "p1", "variant_id" => "v1", "quantity" => 1, "unit_price" => 24, "currency" => "USD"],
+    ["product_id" => "p3", "variant_id" => "v2", "quantity" => 9, "unit_price" => 42, "currency" => "USD"]
+  ],
   "timestamp" => "2018-04-04 23:29:04Z"
-);
+];
 
-$payload = json_encode($data);
+$res = $datacue->orders->create($data);
 
-// now encode it to base64
-$checksum = hash_hmac("sha256", $payload, $apisecret, false);
-
-$encode = base64_encode("$apikey:$checksum");
-$auth = "Basic $encode";
-
-$curl = curl_init($url);
-curl_setopt($curl, CURLOPT_HEADER, false);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-  "Content-type" => "application/json",
-  "Authorization" => $auth
-));
-curl_setopt($curl, CURLOPT_POST, true);
-curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
-
-$json_response = curl_exec($curl);
 ```
 
 ```python
@@ -2093,34 +1989,17 @@ When a user has successfully completed an order on your store. An Order is consi
 
 ```php
 <?php
-// replace :order_id with the actual order_id to cancel
-$url = "https://api.datacue.co/v1/orders/:order_id";
+
 $apikey = "Your-API-Key-goes-here";
 $apisecret = "Your-API-secret-goes-here";
 
-$data = array(
-    "order_status" => "cancelled"
-);
+$datacue = new \DataCue\Client($apikey, $apisecret);
 
-$payload = json_encode($data);
+// replace $orderId with the actual value you want to cancel
+$orderId = 'o1';
 
-// now encode it to base64
-$checksum = hash_hmac('sha256', $payload, $apisecret, false);
+$res = $datacue->orders->cancel($orderId);
 
-$encode = base64_encode("$apikey:$checksum");
-$auth = "Basic $encode";
-
-$curl = curl_init($url);
-curl_setopt($curl, CURLOPT_HEADER, false);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-  "Content-type" => "application/json",
-  "Authorization" => $auth
-));
-curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
-curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
-
-$json_response = curl_exec($curl);
 ```
 
 ```python
@@ -2182,28 +2061,17 @@ When the order makes changes to their profile or when they configure any relevan
 
 ```php
 <?php
-//replace :order_id with the order id you wish to delete
-$url = "https://api.datacue.co/v1/orders/:order_id";
 
 $apikey = "Your-API-Key-goes-here";
 $apisecret = "Your-API-secret-goes-here";
 
-// now encode it to base64
-$checksum = hash_hmac("sha256", "", $apisecret, false);
+$datacue = new \DataCue\Client($apikey, $apisecret);
 
-$encode = base64_encode("$apikey:$checksum");
-$auth = "Basic $encode";
+// replace $orderId with the actual value you want to delete
+$orderId = 'o1';
 
-$curl = curl_init($url);
-curl_setopt($curl, CURLOPT_HEADER, false);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-  "Content-type" => "application/json",
-  "Authorization" => $auth
-));
-curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+$res = $datacue->orders->delete($orderId);
 
-$json_response = curl_exec($curl);
 ```
 
 ```python
@@ -2295,38 +2163,99 @@ Build an array of your requests in the `batch` field, we accept a maximum of 500
 ```php
 <?php
 
-$url = "https://api.datacue.co/v1/batch/users";
 $apikey = "Your-API-Key-goes-here";
 $apisecret = "Your-API-secret-goes-here";
 
-$data = array(
-  "type" => "users",
-  "batch" => array(
-    array("user_id" => "u1","email" => "u1@abc.com"),
-    array("user_id" => "u2","email" => "u2@abc.com"),
-    array("user_id" => "u3","email" => "u3@abc.com"),
-  )
-);
+$datacue = new \DataCue\Client($apikey, $apisecret, $options, $env);
 
-$payload = json_encode($data);
+// batch create products
+$productDataList = [
+    [
+        "product_id" => "p1",
+        "variant_id" => "v1",
+        "category_1" => "men",
+        "category_2" => "jeans",
+        "category_3" => "skinny",
+        "category_4" => "c4",
+        "category_extra" => [
+            "category_5" => "c5"
+        ],
+        "name" => "cool jeans",
+        "brand" => "zara",
+        "description" => "very fashionable jeans",
+        "color" => "blue",
+        "size" => "M",
+        "price" => 25000,
+        "full_price" => 30000,
+        "stock" => 5,
+        "extra" => [
+            "extra_feature" => "details"
+        ],
+        "photo_url" => "https://s3.amazon.com/image.png",
+        "link" => "/product/p1",
+        "owner_id" => "user_id_3"
+    ], [
+        "product_id" => "p2",
+        "variant_id" => "v2",
+        "category_1" => "men",
+        "category_2" => "jeans",
+        "category_3" => "skinny",
+        "category_4" => "c4",
+        "category_extra" => [
+            "category_5" => "c5"
+        ],
+        "name" => "hot jeans",
+        "brand" => "zara",
+        "description" => "very fashionable jeans",
+        "color" => "black",
+        "size" => "M",
+        "price" => 25000,
+        "full_price" => 30000,
+        "stock" => 5,
+        "extra" => [
+            "extra_feature" => "details"
+        ],
+        "photo_url" => "https://s3.amazon.com/image.png",
+        "link" => "/product/p2",
+        "owner_id" => "user_id_3"
+    ]
+];
+$res = $datacue->products->batchCreate($productDataList);
 
-// now encode it to base64
-$checksum = hash_hmac("sha256", $payload, $apisecret, false);
+// batch create users
+$userDataList = [
+    [
+        "user_id" => "u1",
+        "email" => "xyz@abc.com",
+    ], [
+        "user_id" => "u2",
+        "email" => "abc@abc.com",
+    ]
+];
+$res = $datacue->users->batchCreate($userDataList);
 
-$encode = base64_encode("$apikey:$checksum");
-$auth = "Basic $encode";
+// batch create orders
+$orderDataList = [
+    [
+        "order_id" => "o1",
+        "user_id" => "u1",
+        "cart" => [
+            ["product_id" => "p1", "variant_id" => "v1", "quantity" => 1, "unit_price" => 24, "currency" => "USD"],
+            ["product_id" => "p2", "variant_id" => "v2", "quantity" => 9, "unit_price" => 42, "currency" => "USD"],
+        ],
+        "timestamp" => "2018-04-04 23:29:04Z",
+    ], [
+        "order_id" => "o2",
+        "user_id" => "u1",
+        "cart" => [
+            ["product_id" => "p1", "variant_id" => "v1", "quantity" => 1, "unit_price" => 24, "currency" => "USD"],
+            ["product_id" => "p2", "variant_id" => "v2", "quantity" => 9, "unit_price" => 42, "currency" => "USD"],
+        ],
+        "timestamp" => "2018-04-04 23:29:04Z",
+    ]
+];
+$res = $datacue->orders->batchCreate($orderDataList);
 
-$curl = curl_init($url);
-curl_setopt($curl, CURLOPT_HEADER, false);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-  "Content-type" => "application/json",
-  "Authorization" => $auth
-));
-curl_setopt($curl, CURLOPT_POST, true);
-curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
-
-$json_response = curl_exec($curl);
 ```
 
 ```python
@@ -2439,37 +2368,77 @@ We will send you a status for each item you sent, so you can handle and resend o
 ```php
 <?php
 
-$url = "https://api.datacue.co/v1/batch/<banners/products/orders/users>";
 $apikey = "Your-API-Key-goes-here";
 $apisecret = "Your-API-secret-goes-here";
 
-$data = array(
-  "batch" => array(
-    array("user_id" => "U1","first_name" => "Paulo","email" => "u1@abc.com"),
-    array("user_id" => "U2","last_name" => "Rabani","email" => "u2@abc.com"),
-    array("user_id" => "U3","first_name" => "Hisham","email" => "u3@abc.com"),
-  )
-);
+$datacue = new \DataCue\Client($apikey, $apisecret);
 
-$payload = json_encode($data);
+// batch update products
+$productDataList = [
+    [
+        "product_id" => "p1",
+        "variant_id" => "v1",
+        "category_1" => "men",
+        "category_2" => "jeans",
+        "category_3" => "skinny",
+        "category_4" => "c4",
+        "category_extra" => [
+            "category_5" => "c5"
+        ],
+        "name" => "cool jeans",
+        "brand" => "zara",
+        "description" => "very fashionable jeans",
+        "color" => "blue",
+        "size" => "M",
+        "price" => 25000,
+        "full_price" => 30000,
+        "stock" => 5,
+        "extra" => [
+            "extra_feature" => "details"
+        ],
+        "photo_url" => "https://s3.amazon.com/image.png",
+        "link" => "/product/p1",
+        "owner_id" => "user_id_3"
+    ], [
+        "product_id" => "p2",
+        "variant_id" => "v2",
+        "category_1" => "men",
+        "category_2" => "jeans",
+        "category_3" => "skinny",
+        "category_4" => "c4",
+        "category_extra" => [
+            "category_5" => "c5"
+        ],
+        "name" => "hot jeans",
+        "brand" => "zara",
+        "description" => "very fashionable jeans",
+        "color" => "black",
+        "size" => "M",
+        "price" => 25000,
+        "full_price" => 30000,
+        "stock" => 5,
+        "extra" => [
+            "extra_feature" => "details"
+        ],
+        "photo_url" => "https://s3.amazon.com/image.png",
+        "link" => "/product/p2",
+        "owner_id" => "user_id_3"
+    ]
+];
+$res = $datacue->products->batchUpdate($productDataList);
 
-// now encode it to base64
-$checksum = hash_hmac('sha256', $payload, $apisecret, false);
+// batch update users
+$userDataList = [
+    [
+        "user_id" => "u1",
+        "email" => "wxyz@abc.com",
+    ], [
+        "user_id" => "u2",
+        "email" => "abcd@abc.com",
+    ]
+];
+$res = $datacue->users->batchUpdate($userDataList);
 
-$encode = base64_encode("$apikey:$checksum");
-$auth = "Basic $encode";
-
-$curl = curl_init($url);
-curl_setopt($curl, CURLOPT_HEADER, false);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-  "Content-type" => "application/json",
-  "Authorization" => $auth
-));
-curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
-curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
-
-$json_response = curl_exec($curl);
 ```
 
 ```python
@@ -2576,39 +2545,31 @@ We will send you a status for each item you sent, so you can handle and resend o
 ```php
 <?php
 
-$url = "https://api.datacue.co/v1/batch/<banners/products/users/orders>";
-
 $apikey = "Your-API-Key-goes-here";
 $apisecret = "Your-API-secret-goes-here";
 
-$data = array(
-  "type" => "users",
-  "batch" => array(
-    array("user_id" => "u1"),
-    array("user_id" => "u2"),
-    array("user_id" => "u3"),
-  )
-);
+$datacue = new \DataCue\Client($apikey, $apisecret);
 
-$payload = json_encode($data);
+// batch delete products
+$productAndVariantIdList = [
+    [
+        "product_id" => "p1",
+        "variant_id" => "v1",
+    ], [
+        "product_id" => "p2",
+        "variant_id" => "v2",
+    ]
+];
+$res = $datacue->products->batchDelete($productAndVariantIdList);
 
-// now encode it to base64
-$checksum = hash_hmac('sha256', $payload, $apisecret, false);
+// batch delete users
+$userIdList = ['u1', 'u2'];
+$res = $datacue->users->batchDelete($userIdList);
 
-$encode = base64_encode("$apikey:$checksum");
-$auth = "Basic $encode";
+// batch cancel orders
+$orderIdList = ['o1', 'o2'];
+$res = $datacue->orders->batchCancel($orderIdList);
 
-$curl = curl_init($url);
-curl_setopt($curl, CURLOPT_HEADER, false);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-  "Content-type" => "application/json",
-  "Authorization" => $auth
-));
-curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
-curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
-
-$json_response = curl_exec($curl);
 ```
 
 ```python
