@@ -947,13 +947,8 @@ $datacue = new \DataCue\Client($apikey, $apisecret);
 $data = [
   "product_id" => "p1",
   "variant_id" => "v1",
-  "category_1" => "men",
-  "category_2" => "jeans",
-  "category_3" => "skinny",
-  "category_4" => "c4",
-  "category_extra" => [
-    "category_5" => "c5"
-  ],
+  "main_category" => "jeans",
+  "categories" => ["men","summer","jeans"],
   "name" => "cool jeans",
   "brand" => "zara",
   "description" => "very fashionable jeans",
@@ -989,8 +984,8 @@ apisecret = "your-api-secret-goes-here"
 data = {
   "product_id": "p1",
   "variant_id": "v1",
-  "category_1": "men",
-  "category_2": "jeans",
+  "main_category": "jeans",
+  "categories": ["men","summer","jeans"],
   "category_3": "skinny",
   "category_4": "c4",
   "category_extra": {
@@ -1036,13 +1031,8 @@ const apisecret = 'your-api-secret-goes-here';
 const data = {
   product_id: 'p1',
   variant_id: 'v1',
-  category_1: 'men',
-  category_2: 'jeans',
-  category_3: 'skinny',
-  category_4: 'c4',
-  category_extra: {
-    category_5: 'c5'
-  },
+  main_category: 'jeans',
+  categories: ['men','summer','jeans'],
   name: 'cool jeans',
   brand: 'zara',
   description: 'very fashionable jeans',
@@ -1124,9 +1114,8 @@ $productId = "p1";
 // replace $variantId with the actual values you want to update
 $variantId = "v1";
 $data = [
-  "category_1" => "men",
-  "category_2" => "jeans",
-  "category_3" => "skinny",
+  "main_category" => "shorts",
+  "categories" => ["shorts","men"],
   "stock" => 6,
   "available" => false
 ];
@@ -1147,9 +1136,8 @@ apikey = "your-api-key-goes-here"
 apisecret = "your-api-secret-goes-here"
 
 data = {
-  "category_1": "men",
-  "category_2": "jeans",
-  "category_3": "skinny",
+  "main_category" : "shorts",
+  "categories" : ["shorts","men"],
   "stock": 6,
   "available": False
 }
@@ -1169,9 +1157,8 @@ const apikey = 'your-api-key-goes-here';
 const apisecret = 'your-api-secret-goes-here';
 
 const data = {
-  category_1: 'men',
-  category_2: 'jeans',
-  category_3: 'skinny'
+  main_category: 'shorts',
+  categories: ['shorts','men"],
   stock: 6,
   available: false
 };
@@ -1269,317 +1256,6 @@ Endpoint: `DELETE` `https://api.datacue.co/v1/products/<product_id>/<variant_id>
 ### Delete a product and all associated variants
 
 Endpoint: `DELETE` `https://api.datacue.co/v1/products/<product_id>`
-
-# Banners
-
-<aside class="notice">
-  All banners are managed via your DataCue dashboard. These endpoints can be used to import your existing banners programmatically if they are too many to import via the dashboard.
-</aside>
-
-## Create Banner
-
-```javascript--browser
-"backend only event (refer to the Python, PHP or Node tab)"
-```
-
-```php
-<?php
-
-$url = "https://api.datacue.co/v1/banners";
-$apikey = "Your-API-Key-goes-here";
-$apisecret = "Your-API-secret-goes-here";
-
-$data = array(
-  "banner_id" => "b1",
-  "type" => "sub",
-  "name" => "friendly name for b1",
-  "category_1" => "women",
-  "category_2" => "summer",
-  "category_3" => "dresses",
-  "category_4" => "casual",
-  "photo_url" => "/photos/b1.jpg",
-  "photos" => array(
-    "mobile" => "http://s3.amazon.com/photoMobile.png",
-    "desktop" => "http://s3.amazon.com/photoDesktop.png"
-  ),
-  "link" => "/path/to/category/page",
-  "extra" => array(
-    "meta" => "any field you want to store"
-  )
-);
-
-$payload = json_encode($data);
-
-// now encode it to base64
-$checksum = hash_hmac("sha256", $payload, $apisecret, false);
-
-$encode = base64_encode("$apikey:$checksum");
-$auth = "Basic $encode";
-
-$curl = curl_init($url);
-curl_setopt($curl, CURLOPT_HEADER, false);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-  "Content-type" => "application/json",
-  "Authorization" => $auth
-));
-curl_setopt($curl, CURLOPT_POST, true);
-curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
-
-$json_response = curl_exec($curl);
-```
-
-```python
-import hashlib
-import hmac
-import json
-import requests
-
-url = "https://api.datacue.co/v1/banners"
-apikey = "your-api-key-goes-here"
-apisecret = "your-api-secret-goes-here"
-
-data = {
-  "banner_id": "b1",
-  "type": "sub",
-  "name": "friendly name for b1",
-  "category_1": "women",
-  "category_2": "summer",
-  "category_3": "dresses",
-  "category_4": "casual",
-  "photo_url": "/photos/b1.jpg",
-  "other_photos": {
-    "mobile": "http://s3.amazon.com/photoMobile.png",
-    "desktop": "http://s3.amazon.com/photoDesktop.png"
-  },
-  "link": "/path/to/category/page",
-  "extra": {
-    "meta": "any field you want to store"
-  }
-}
-
-checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(json.dumps(data)), 'utf-8'), hashlib.sha256)
-
-response = requests.post(url, json=data, auth=(apikey, checksum.hexdigest())
-
-```
-
-```javascript--node
-const axios = require('axios');
-const cryto = require('crypto');
-
-const url = 'https://api.datacue.co/v1/banners'
-const apikey = 'your-api-key-goes-here';
-const apisecret = 'your-api-secret-goes-here';
-
-const data = {
-  banner_id: 'b1',
-  type: 'sub',
-  name: 'friendly name for b1',
-  category_1: 'women',
-  category_2: 'summer',
-  category_3: 'dresses',
-  category_4: 'casual',
-  photo_url: '/photos/b1.jpg',
-  other_photos: {
-    mobile: 'http://s3.amazon.com/photoMobile.png',
-    desktop: 'http://s3.amazon.com/photoDesktop.png'
-  },
-  link: '/path/to/category/page',
-  extra: {
-    meta: 'any field you want to store'
-  }
-};
-
-var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
-
-//add to default authentication header
-axios.defaults.auth = { username: 'API-key', password: hash.digest('hex') };
-
-axios.post(url, data);
-```
-
-> The above command returns a 201 response code
-
-Endpoint: `POST` `https://api.datacue.co/v1/banners`
-
-When you create a new banner on your system.
-
-### Request parameters
-
-| Field        | Data Type   | Required | Description |
-| ------------ | ----------- | -------- | ----------- |
-| `banner_id`  | String      | Yes      | A unique id for your banner
-| `type`       | String      | Yes      | The type of banner. Set to `'main'` for main banner or `'sub'` for sub banner
-| `name`       | String      | No       | Friendly name for the banner
-| `category_1` | String      | Yes      | The top category level this banner belongs to. In a fashion store, this could be 'Men' , 'Women' or 'Children''
-| `category_2` | String      | No       | The second category level this banner belongs to. In a fashion store, this could be 'Shoes or 'Dresses'
-| `category_3` | String      | No       | The third category level this banner belongs to. In a fashion store, this could be 'Sports' or 'Sandals'
-| `category_4` | String      | No       | The fourth category level this banner belongs to. In a fashion store, this could be 'Running shoes'
-| `photo_url`  | String      | Yes      | URL of the banner image, you can use relative URLs as this is purely for your front-end to request the image
-| `link`       | String      | Yes      | Which page to take the user to when they click on the banner on your website. Typically a collection or catalog page for the banner's associated category.
-| `extra`      | JSON Object | No       | Any other information you would like to use for special processing in the browser.
-
-## Update Banner
-
-```javascript--browser
-"backend only event (refer to the Python, PHP or Node tab)"
-```
-
-```php
-<?php
-// replace :banner_id in the url with the actual values you want to update
-
-$url = "https://api.datacue.co/v1/banners/:banner_id";
-$apikey = "Your-API-Key-goes-here";
-$apisecret = "Your-API-secret-goes-here";
-
-$data = array(
-  "link" => "/new-link"
-);
-
-$payload = json_encode($data);
-
-// now encode it to base64
-$checksum = hash_hmac('sha256', $payload, $apisecret, false);
-
-$encode = base64_encode("$apikey:$checksum");
-$auth = "Basic $encode";
-
-$curl = curl_init($url);
-curl_setopt($curl, CURLOPT_HEADER, false);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-  "Content-type" => "application/json",
-  "Authorization" => $auth
-));
-curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
-curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
-
-$json_response = curl_exec($curl);
-```
-
-```python
-import hashlib
-import hmac
-import json
-import requests
-
-url = "https://api.datacue.co/v1/banners/:banner_id"
-apikey = "your-api-key-goes-here"
-apisecret = "your-api-secret-goes-here"
-
-data = {
-  "link": "/new-link"
-}
-
-checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(json.dumps(data)), 'utf-8'), hashlib.sha256)
-
-response = requests.put(url, data=data, auth=(apikey, checksum.hexdigest())
-```
-
-```javascript--node
-const axios = require('axios');
-const cryto = require('crypto');
-
-const url = `https://api.datacue.co/v1/banners/${bannerId}`
-const apikey = 'your-api-key-goes-here';
-const apisecret = 'your-api-secret-goes-here';
-
-data = {
-  link: '/new-link'
-}
-
-var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
-
-//add to default authentication header
-axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
-
-axios.put(url, data);
-```
-
-> The above command returns a 204 response code
-
-Endpoint: `PUT` `https://api.datacue.co/v1/banners/<banner_id>`
-
-When you update your banner in any way like changing the banner image, link or assigned categories on your system. Does not apply if you're using DataCue to manage your banners.
-
-Only send fields to be updated
-
-### Request parameters
-
-Same as for [Create Banner](#create-banner), except `banner_id`.
-
-## Delete Banner
-
-```javascript--browser
-"backend only event (refer to the Python, PHP or Node tab)"
-```
-
-```php
-<?php
-//replace :banner_id with the banner id you wish to delete
-$url = "https://api.datacue.co/v1/banners/:banner_id";
-
-$apikey = "Your-API-Key-goes-here";
-$apisecret = "Your-API-secret-goes-here";
-
-// now encode it to base64
-$checksum = hash_hmac("sha256", "", $apisecret, false);
-
-$encode = base64_encode("$apikey:$checksum");
-$auth = "Basic $encode";
-
-$curl = curl_init($url);
-curl_setopt($curl, CURLOPT_HEADER, false);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-  "Content-type" => "application/json",
-  "Authorization" => $auth;
-));
-curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
-
-$json_response = curl_exec($curl);
-```
-
-```python
-import hashlib
-import hmac
-import json
-import requests
-
-url = "https://api.datacue.co/v1/banners/:banner_id"
-apikey = "your-api-key-goes-here"
-apisecret = "your-api-secret-goes-here"
-
-checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(""), 'utf-8'), hashlib.sha256)
-
-response = requests.delete(url, auth=(apikey, checksum.hexdigest()))
-
-```
-
-```javascript--node
-const axios = require('axios');
-const cryto = require('crypto');
-
-const url = `https://api.datacue.co/v1/banners/${bannerId}`
-const apikey = 'your-api-key-goes-here';
-const apisecret = 'your-api-secret-goes-here';
-
-var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
-
-//add to default authentication header
-axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
-
-axios.delete(url);
-
-```
-
-> The above command returns a 204 response code
-
-Endpoint: `DELETE` `https://api.datacue.co/v1/banners/<banner_id>`
-
-When you delete a banner on your system. Does not apply if you're using DataCue to manage your banners.
 
 # Users
 
@@ -2154,7 +1830,7 @@ Use the batch endpoint if you want to do a bulk import, typically when you first
 Build an array of your requests in the `batch` field, we accept a maximum of 500 items per request.
 
 
-## Batch Create Banners / Orders / Products / Users
+## Batch Create Products
 
 ```javascript--browser
 "backend only event (refer to the Python, PHP or Node tab)"
@@ -2173,20 +1849,15 @@ $productDataList = [
     [
         "product_id" => "p1",
         "variant_id" => "v1",
-        "category_1" => "men",
-        "category_2" => "jeans",
-        "category_3" => "skinny",
-        "category_4" => "c4",
-        "category_extra" => [
-            "category_5" => "c5"
-        ],
+        "main_category" => "jeans",
+        "categories" => ["jeans","men","summer"],
         "name" => "cool jeans",
         "brand" => "zara",
         "description" => "very fashionable jeans",
         "color" => "blue",
         "size" => "M",
-        "price" => 25000,
-        "full_price" => 30000,
+        "price" => 99,
+        "full_price" => 119,
         "stock" => 5,
         "extra" => [
             "extra_feature" => "details"
@@ -2197,20 +1868,15 @@ $productDataList = [
     ], [
         "product_id" => "p2",
         "variant_id" => "v2",
-        "category_1" => "men",
-        "category_2" => "jeans",
-        "category_3" => "skinny",
-        "category_4" => "c4",
-        "category_extra" => [
-            "category_5" => "c5"
-        ],
-        "name" => "hot jeans",
+        "main_category" => "hats",
+        "categories" => ["hats","women","summer"],
+        "name" => "summer hat",
         "brand" => "zara",
-        "description" => "very fashionable jeans",
+        "description" => "very fashionable hat",
         "color" => "black",
-        "size" => "M",
-        "price" => 25000,
-        "full_price" => 30000,
+        "size" => "",
+        "price" => 24,
+        "full_price" => 30,
         "stock" => 5,
         "extra" => [
             "extra_feature" => "details"
@@ -2222,19 +1888,170 @@ $productDataList = [
 ];
 $res = $datacue->products->batchCreate($productDataList);
 
-// batch create users
-$userDataList = [
-    [
-        "user_id" => "u1",
-        "email" => "xyz@abc.com",
-    ], [
-        "user_id" => "u2",
-        "email" => "abc@abc.com",
-    ]
-];
-$res = $datacue->users->batchCreate($userDataList);
+```
 
-// batch create orders
+```python
+import hashlib
+import hmac
+import json
+import requests
+
+url = "https://api.datacue.co/v1/batch/products"
+apikey = "your-api-key-goes-here"
+apisecret = "your-api-secret-goes-here"
+
+data = {
+  "batch": [
+    {
+      "product_id" : "p1",
+      "variant_id" : "v1",
+      "main_category" : "jeans",
+      "categories" : ["jeans","men","summer"],
+      "name" : "cool jeans",
+      "brand" : "zara",
+      "description" : "very fashionable jeans",
+      "color" : "blue",
+      "size" : "M",
+      "price" : 99,
+      "full_price" : 119,
+      "stock" : 5,
+      "extra" : {
+          "extra_feature": "details"
+      },
+      "photo_url" : "https://s3.amazonaws.com/image.png",
+      "link" : "/product/p1"
+    }, {
+      "product_id" : "p2",
+      "variant_id" : "v2",
+      "main_category" : "hats",
+      "categories" : ["hats","women","summer"],
+      "name" : "summer hat",
+      "brand" : "zara",
+      "description" : "very fashionable hat",
+      "color" : "black",
+      "size" : "",
+      "price" : 24,
+      "full_price" : 30,
+      "stock" : 5,
+      "extra" : {
+          "extra_feature": "details"
+      },
+      "photo_url": "https://s3.amazonaws.com/image.png",
+      "link": "/product/p2"
+    }
+  ]
+}
+
+checksum = hmac.new(bytes(apisecret,'utf-8'),
+  bytes(json.dumps(data)), 'utf-8'),
+  hashlib.sha256)
+
+response = requests.post(url, json=data, auth=(apikey, checksum.hexdigest())
+```
+
+```javascript--node
+const axios = require('axios');
+const cryto = require('crypto');
+
+const url = 'https://api.datacue.co/v1/batch/products';
+const apikey = 'your-api-key-goes-here';
+const apisecret = 'your-api-secret-goes-here';
+
+const data = {
+  batch: [
+    {
+      product_id : 'p1',
+      variant_id : 'v1',
+      main_category : 'jeans',
+      categories : ['jeans','men','summer'],
+      name : 'cool jeans',
+      brand : 'zara',
+      description : 'very fashionable jeans',
+      color : 'blue',
+      size : 'M',
+      price : 99,
+      full_price : 119,
+      stock : 5,
+      extra : {
+          'extra_feature': 'details'
+      },
+      photo_url : 'https://s3.amazonaws.com/image.png',
+      link : '/product/p1'
+    }, {
+      product_id : 'p2',
+      variant_id : 'v2',
+      main_category : 'hats',
+      categories : ['hats','women','summer'],
+      name : 'summer hat',
+      brand : 'zara',
+      description : 'very fashionable hat',
+      color : 'black',
+      size : '',
+      price : 24,
+      full_price : 30,
+      stock : 5,
+      extra : {
+          'extra_feature': 'details'
+      },
+      photo_url: 'https://s3.amazonaws.com/image.png',
+      link: '/product/p2'
+    }
+  ]
+};
+
+var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
+
+//add to default authentication header
+axios.defaults.auth = { username: 'API-key', password: hash.digest('hex') };
+
+axios.post(url, data);
+
+```
+
+Endpoint: `POST` `https://api.datacue.co/v1/batch/products`
+
+### Request parameters
+
+| Field   | Data Type | Required | Description |
+| ------- | --------- | -------- | ----------- |
+| `batch` | Array     | Yes      | Array of products you are sending
+
+### Response JSON
+
+> The above command returns a 207 multi status response code
+
+```json
+{
+    "status": [
+        {
+            "product_id": "p1",
+            "status": "error",
+            "error": "p1 already exists"
+        },
+        {
+            "product_id": "p2",
+            "status": "OK"
+        }
+    ]
+}
+```
+
+We will send you a status for each item you sent, so you can handle and resend only items that had an error.
+
+## Batch Create Orders
+
+```javascript--browser
+"backend only event (refer to the Python, PHP or Node tab)"
+```
+
+```php
+<?php
+
+$apikey = "Your-API-Key-goes-here";
+$apisecret = "Your-API-secret-goes-here";
+
+$datacue = new \DataCue\Client($apikey, $apisecret, $options, $env);
+
 $orderDataList = [
     [
         "order_id" => "o1",
@@ -2264,12 +2081,144 @@ import hmac
 import json
 import requests
 
-url = "https://api.datacue.co/v1/batch"
+url = "https://api.datacue.co/v1/batch/orders"
 apikey = "your-api-key-goes-here"
 apisecret = "your-api-secret-goes-here"
 
 data = {
-  "type": "users",
+  "batch": [
+    {
+      "order_id" : "o1",
+      "user_id" : "u1",
+      "cart" : [
+          {"product_id":  "p1", "variant_id" : "v1", "quantity" : 1, "unit_price":  24, "currency" : "USD"},
+          {"product_id":  "p2", "variant_id" : "v2", "quantity" : 9, "unit_price":  42, "currency" : "USD"},
+      ],
+      "timestamp": "2018-04-04 23:29:04Z",
+    }, {
+      "order_id" : "o2",
+      "user_id" : "u1",
+      "cart" : [
+          {"product_id" : "p1", "variant_id" : "v1", "quantity" : 1, "unit_price" : 24, "currency" : "USD"},
+          {"product_id" : "p2", "variant_id" : "v2", "quantity" : 9, "unit_price" : 42, "currency" : "USD"},
+      ],
+      "timestamp" : "2018-04-04 23:29:04Z",
+    ]
+}
+
+checksum = hmac.new(bytes(apisecret,'utf-8'),
+  bytes(json.dumps(data)), 'utf-8'),
+  hashlib.sha256)
+
+response = requests.post(url, json=data, auth=(apikey, checksum.hexdigest())
+```
+
+```javascript--node
+const axios = require('axios');
+const cryto = require('crypto');
+
+const url = 'https://api.datacue.co/v1/batch/orders';
+const apikey = 'your-api-key-goes-here';
+const apisecret = 'your-api-secret-goes-here';
+
+const data = {
+  batch: [
+    {
+      order_id : 'o1',
+      user_id : 'u1',
+      cart : [
+          {'product_id':  'p1', 'variant_id' : 'v1', 'quantity' : 1, 'unit_price':  24, 'currency' : 'USD'},
+          {'product_id':  'p2', 'variant_id' : 'v2', 'quantity' : 9, 'unit_price':  42, 'currency' : 'USD'},
+      ],
+      timestamp: '2018-04-04 23:29:04Z',
+    }, {
+      order_id : 'o2',
+      user_id : 'u1',
+      cart : [
+          {'product_id' : 'p1', 'variant_id' : 'v1', 'quantity' : 1, 'unit_price' : 24, 'currency' : 'USD'},
+          {'product_id' : 'p2', 'variant_id' : 'v2', 'quantity' : 9, 'unit_price' : 42, 'currency' : 'USD'},
+      ],
+      timestamp : '2018-04-04 23:29:04Z',
+    ]
+};
+
+var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
+
+//add to default authentication header
+axios.defaults.auth = { username: 'API-key', password: hash.digest('hex') };
+
+axios.post(url, data);
+
+```
+
+Endpoint: `POST` `https://api.datacue.co/v1/batch/orders`
+
+### Request parameters
+
+| Field   | Data Type | Required | Description |
+| ------- | --------- | -------- | ----------- |
+| `batch` | Array     | Yes      | Array of orders you are sending
+
+### Response JSON
+
+> The above command returns a 207 multi status response code
+
+```json
+{
+    "status": [
+        {
+            "order_id": "o1",
+            "status": "error",
+            "error": "o1 already exists"
+        },
+        {
+            "product_id": "o2",
+            "status": "OK"
+        }
+    ]
+}
+```
+
+We will send you a status for each item you sent, so you can handle and resend only items that had an error.
+
+## Batch Create Users
+
+```javascript--browser
+"backend only event (refer to the Python, PHP or Node tab)"
+```
+
+```php
+<?php
+
+$apikey = "Your-API-Key-goes-here";
+$apisecret = "Your-API-secret-goes-here";
+
+$datacue = new \DataCue\Client($apikey, $apisecret, $options, $env);
+
+$userDataList = [
+    [
+        "user_id" => "u1",
+        "email" => "xyz@abc.com",
+    ], [
+        "user_id" => "u2",
+        "email" => "abc@abc.com",
+    ]
+];
+$res = $datacue->users->batchCreate($userDataList);
+
+```
+
+```python
+import hashlib
+import hmac
+import json
+import requests
+
+url = "https://api.datacue.co/v1/batch/users"
+apikey = "your-api-key-goes-here"
+apisecret = "your-api-secret-goes-here"
+
+data = {
   "batch": [
     {
       "user_id": "u1"
@@ -2278,10 +2227,6 @@ data = {
     {
       "user_id": "u2"
       "email": "u2@abc.com"
-    },
-    {
-      "user_id": "u3"
-      "email": "u3@abc.com"
     }
   ]
 }
@@ -2297,22 +2242,17 @@ response = requests.post(url, json=data, auth=(apikey, checksum.hexdigest())
 const axios = require('axios');
 const cryto = require('crypto');
 
-const url = 
-'https://api.datacue.co/v1/batch/users'
+const url = 'https://api.datacue.co/v1/batch/users';
 const apikey = 'your-api-key-goes-here';
 const apisecret = 'your-api-secret-goes-here';
 
 const data = {
-  type: 'users',
   batch: [{
     user_id: 'u1',
     email: 'u1@abc.com'
   }, {
     user_id: 'u2',
     email: 'u2@abc.com'
-  }, {
-    user_id: 'u3',
-    email: 'u3@abc.com'
   }]
 };
 
@@ -2325,7 +2265,7 @@ axios.post(url, data);
 
 ```
 
-Endpoint: `POST` `https://api.datacue.co/v1/batch`
+Endpoint: `POST` `https://api.datacue.co/v1/batch/users`
 
 ### Request parameters
 
@@ -2348,10 +2288,6 @@ Endpoint: `POST` `https://api.datacue.co/v1/batch`
         {
             "product_id": "u2",
             "status": "OK"
-        },
-        {
-            "product_id": "u3",
-            "status": "OK"
         }
     ]
 }
@@ -2359,7 +2295,7 @@ Endpoint: `POST` `https://api.datacue.co/v1/batch`
 
 We will send you a status for each item you sent, so you can handle and resend only items that had an error.
 
-## Batch Update Banners / Products / Users
+## Batch Update Products
 
 ```javascript--browser
 "backend only event (refer to the Python, PHP or Node tab)"
@@ -2378,56 +2314,119 @@ $productDataList = [
     [
         "product_id" => "p1",
         "variant_id" => "v1",
-        "category_1" => "men",
-        "category_2" => "jeans",
-        "category_3" => "skinny",
-        "category_4" => "c4",
-        "category_extra" => [
-            "category_5" => "c5"
-        ],
-        "name" => "cool jeans",
-        "brand" => "zara",
-        "description" => "very fashionable jeans",
-        "color" => "blue",
-        "size" => "M",
-        "price" => 25000,
-        "full_price" => 30000,
-        "stock" => 5,
-        "extra" => [
-            "extra_feature" => "details"
-        ],
-        "photo_url" => "https://s3.amazon.com/image.png",
-        "link" => "/product/p1",
-        "owner_id" => "user_id_3"
+        "size" => "L"
     ], [
         "product_id" => "p2",
         "variant_id" => "v2",
-        "category_1" => "men",
-        "category_2" => "jeans",
-        "category_3" => "skinny",
-        "category_4" => "c4",
-        "category_extra" => [
-            "category_5" => "c5"
-        ],
-        "name" => "hot jeans",
-        "brand" => "zara",
-        "description" => "very fashionable jeans",
-        "color" => "black",
-        "size" => "M",
-        "price" => 25000,
-        "full_price" => 30000,
-        "stock" => 5,
-        "extra" => [
-            "extra_feature" => "details"
-        ],
-        "photo_url" => "https://s3.amazon.com/image.png",
-        "link" => "/product/p2",
-        "owner_id" => "user_id_3"
+        "size" => "L"
     ]
 ];
 $res = $datacue->products->batchUpdate($productDataList);
 
-// batch update users
+```
+
+```python
+import hashlib
+import hmac
+import json
+import requests
+
+url = "https://api.datacue.co/v1/batch/products"
+apikey = "your-api-key-goes-here"
+apisecret = "your-api-secret-goes-here"
+
+data = {
+  "batch": [
+    {
+        "product_id": "p1",
+        "variant_id": "v1",
+        "size": "L"
+    }, {
+        "product_id": "p2",
+        "variant_id": "v2",
+        "size": "L"
+    }
+}
+
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(json.dumps(data)), 'utf-8'), hashlib.sha256)
+
+response = requests.put(url, data=data, auth=(apikey, checksum.hexdigest())
+
+```
+
+```javascript--node
+const axios = require('axios');
+
+const url = `https://api.datacue.co/v1/batch/products`
+const apikey = 'your-api-key-goes-here';
+const apisecret = 'your-api-secret-goes-here';
+
+const data = {
+  batch: [{
+    product_id: 'p1',
+    variant_id: 'v1',
+    size: 'L'
+    }, {
+      product_id: 'p2',
+      variant_id: 'v2',
+      size: 'L'
+    }]
+};
+
+var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
+
+//add to default authentication header
+axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
+
+axios.put(url, data);
+```
+
+Endpoint: `PUT` `https://api.datacue.co/v1/batch/products`
+
+Update multiple products. Note that orders cannot be updated, only created or cancelled (delete).
+
+### Request parameters
+
+| Field   | Data Type | Required | Description |
+| ------- | --------- | -------- | ----------- |
+| `batch` | Array     | Yes      | Array of products you are updating |
+
+
+### Response JSON
+
+> The above command returns a 207 multi status response code
+
+```json
+{
+    "status": [
+        {
+            "product_id": "p1",
+            "status": "OK",
+        },
+        {
+            "product_id": "p2",
+            "status": "OK"
+        }
+    ]
+}
+```
+
+We will send you a status for each item you sent, so you can handle and resend only items that had an error.
+
+## Batch Update Users
+
+```javascript--browser
+"backend only event (refer to the Python, PHP or Node tab)"
+```
+
+```php
+<?php
+
+$apikey = "Your-API-Key-goes-here";
+$apisecret = "Your-API-secret-goes-here";
+
+$datacue = new \DataCue\Client($apikey, $apisecret);
+
 $userDataList = [
     [
         "user_id" => "u1",
@@ -2447,7 +2446,7 @@ import hmac
 import json
 import requests
 
-url = "https://api.datacue.co/v1/batch/<banners/products/orders/users>"
+url = "https://api.datacue.co/v1/batch/users"
 apikey = "your-api-key-goes-here"
 apisecret = "your-api-secret-goes-here"
 
@@ -2462,11 +2461,6 @@ data = {
       "user_id":"U2",
       "last_name":"Rabani"
       "email":"u2@abc.com"
-    },
-    {
-      "user_id":"U3",
-      "first_name":"Hisham"
-      "email":"u3@abc.com"
     }
   ]
 }
@@ -2480,7 +2474,7 @@ response = requests.put(url, data=data, auth=(apikey, checksum.hexdigest())
 ```javascript--node
 const axios = require('axios');
 
-const url = `https://api.datacue.co/v1/batch/<banners/products/orders/users>`
+const url = `https://api.datacue.co/v1/batch/users`
 const apikey = 'your-api-key-goes-here';
 const apisecret = 'your-api-secret-goes-here';
 
@@ -2492,9 +2486,6 @@ const data = {
   }, {
     last_name: 'Rabani',
     email: 'u2@abc.com'
-  }, {
-    first_name: 'Hisham',
-    email: 'u3@abc.com'
   }]
 };
 
@@ -2506,13 +2497,16 @@ axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
 axios.put(url, data);
 ```
 
-Endpoint: `PUT` `https://api.datacue.co/v1/batch/<banners/products/orders/users>`
+Endpoint: `PUT` `https://api.datacue.co/v1/batch/users`
 
-Update multiple banners, products or users. Note that orders cannot be updated, only created or cancelled.
+Update multiple users.
 
 ### Request parameters
 
-Same as for [Batch Create](#batch-create-banners-orders-products-users).
+| Field   | Data Type | Required | Description |
+| ------- | --------- | -------- | ----------- |
+| `batch` | Array     | Yes      | Array of users you are updating |
+
 
 ### Response JSON
 
@@ -2522,12 +2516,11 @@ Same as for [Batch Create](#batch-create-banners-orders-products-users).
 {
     "status": [
         {
-            "banner_id": "b1",
-            "status": "error",
-            "error": "Please specify a photo_url"
+            "user_id": "u1",
+            "status": "OK"
         },
         {
-            "banner_id": "b2",
+            "banner_id": "u2",
             "status": "OK"
         }
     ]
@@ -2536,7 +2529,7 @@ Same as for [Batch Create](#batch-create-banners-orders-products-users).
 
 We will send you a status for each item you sent, so you can handle and resend only items that had an error.
 
-## Batch Delete Banners / Products / Users or Cancel Orders
+## Batch Delete Products
 
 ```javascript--browser
 "backend only event (refer to the Python, PHP or Node tab)"
@@ -2562,13 +2555,105 @@ $productAndVariantIdList = [
 ];
 $res = $datacue->products->batchDelete($productAndVariantIdList);
 
+```
+
+```python
+import hashlib
+import hmac
+import json
+import requests
+
+url = "https://api.datacue.co/v1/batch/products"
+apikey = "your-api-key-goes-here"
+apisecret = "your-api-secret-goes-here"
+
+data = {
+  "batch": [
+    {
+      "product_id": "p1",
+      "variant_id":"v1"
+    },
+    {
+      "product_id": "p2",
+      "variant_id":"v1"
+    }
+  ]
+}
+
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(json.dumps(data)), 'utf-8'), hashlib.sha256)
+
+response = requests.delete(url, data=data, auth=(apikey, checksum.hexdigest())
+```
+
+```javascript--node
+const axios = require('axios');
+
+const url = 'https://api.datacue.co/v1/batch/products';
+const data = {
+  batch: [{
+    product_id: 'p1',
+    variant_id: 'v1'
+  }, {
+    product_id: 'p2',
+    variant_id: 'v1'
+  }]
+};
+
+var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
+
+//add to default authentication header
+axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
+
+axios.delete(url, data);
+```
+
+Endpoint: `DELETE` `https://api.datacue.co/v1/batch/products`
+
+Delete multiple products within one request. Batch DELETE requests only require an id field as follows.
+
+### Request parameters
+
+`product_id` and `variant_id`
+
+### Response JSON
+
+> The above command returns a 207 multi status response code
+
+```json
+{
+    "status": [
+        {
+            "product_id": "p1",
+            "status": "error",
+            "error": "Product not found"
+        },
+        {
+            "product_id": "p2",
+            "status": "OK"
+        }
+    ]
+}
+```
+
+We will send you a status for each item you sent, so you can handle and resend only items that had an error.
+
+## Batch Delete Users
+
+```javascript--browser
+"backend only event (refer to the Python, PHP or Node tab)"
+```
+
+```php
+<?php
+
+$apikey = "Your-API-Key-goes-here";
+$apisecret = "Your-API-secret-goes-here";
+
+$datacue = new \DataCue\Client($apikey, $apisecret);
+
 // batch delete users
 $userIdList = ['u1', 'u2'];
 $res = $datacue->users->batchDelete($userIdList);
-
-// batch cancel orders
-$orderIdList = ['o1', 'o2'];
-$res = $datacue->orders->batchCancel($orderIdList);
 
 ```
 
@@ -2578,7 +2663,7 @@ import hmac
 import json
 import requests
 
-url = "https://api.datacue.co/v1/batch/<banners/products/orders/users>"
+url = "https://api.datacue.co/v1/batch/users"
 apikey = "your-api-key-goes-here"
 apisecret = "your-api-secret-goes-here"
 
@@ -2604,11 +2689,9 @@ response = requests.delete(url, data=data, auth=(apikey, checksum.hexdigest())
 ```javascript--node
 const axios = require('axios');
 
-axios.defaults.baseURL = 'https://api.datacue.co/v1';
-axios.defaults.auth = { username: 'API-key', password: 'API-secret' };
+const url = 'https://api.datacue.co/v1/batch/users';
 
 const data = {
-  type: "users",
   batch: [{
     user_id: 'u1'
   }, {
@@ -2618,21 +2701,21 @@ const data = {
   }]
 };
 
-axios.delete('/batch', data);
+var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
+
+//add to default authentication header
+axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
+
+axios.delete(url, data);
 ```
 
-Endpoint: `DELETE` `https://api.datacue.co/v1/batch`
+Endpoint: `DELETE` `https://api.datacue.co/v1/batch/users`
 
-Delete/cancel multiple items within one request. Products, banners and users will be deleted. Orders are an exception, 'DELETING' an order marks it as cancelled. Batch DELETE requests only require an id field as follows:
+Delete multiple users within one request. Batch DELETE requests only require an id field as follows.
 
 ### Request parameters
 
-| Type       | ID Field(s) |
-| ---------- | ----------- |
-| `banners`  | `banner_id`
-| `orders`   | `order_id`
-| `products` | `product_id` and `variant_id`
-| `users`    | `user_id`
+`user_id`
 
 ### Response JSON
 
@@ -2642,12 +2725,106 @@ Delete/cancel multiple items within one request. Products, banners and users wil
 {
     "status": [
         {
-            "product_id": "p1",
-            "status": "error",
-            "error": "Product not found"
+            "user_id": "u1",
+            "status": "OK"
         },
         {
-            "product_id": "p2",
+            "user_id": "u2",
+            "status": "OK"
+        }
+    ]
+}
+```
+
+We will send you a status for each item you sent, so you can handle and resend only items that had an error.
+
+## Batch Delete Orders
+
+```javascript--browser
+"backend only event (refer to the Python, PHP or Node tab)"
+```
+
+```php
+<?php
+
+$apikey = "Your-API-Key-goes-here";
+$apisecret = "Your-API-secret-goes-here";
+
+$datacue = new \DataCue\Client($apikey, $apisecret);
+
+$orderIdList = ['o1', 'o2'];
+$res = $datacue->orders->batchCancel($orderIdList);
+
+```
+
+```python
+import hashlib
+import hmac
+import json
+import requests
+
+url = "https://api.datacue.co/v1/batch/orders"
+apikey = "your-api-key-goes-here"
+apisecret = "your-api-secret-goes-here"
+
+data = {
+  "batch": [
+    {
+      "order_id": "o1"
+    },
+    {
+      "order_id": "o2"
+    }
+  ]
+}
+
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(json.dumps(data)), 'utf-8'), hashlib.sha256)
+
+response = requests.delete(url, data=data, auth=(apikey, checksum.hexdigest())
+```
+
+```javascript--node
+const axios = require('axios');
+
+const url = 'https://api.datacue.co/v1/batch/orders';
+
+const data = {
+  batch: [{
+    order_id: 'o1'
+  }, {
+    order_id: 'o2'
+  }]
+};
+
+var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
+
+//add to default authentication header
+axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
+
+axios.delete(url, data);
+```
+
+Endpoint: `DELETE` `https://api.datacue.co/v1/batch/orders`
+
+Delete multiple orders within one request. Batch DELETE requests only require an id field as follows.
+
+### Request parameters
+
+`order_id`
+
+### Response JSON
+
+> The above command returns a 207 multi status response code
+
+```json
+{
+    "status": [
+        {
+            "order_id": "o1",
+            "status": "OK"
+        },
+        {
+            "order_id": "o2",
             "status": "OK"
         }
     ]
