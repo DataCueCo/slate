@@ -193,7 +193,7 @@ To properly set up tracking, you need to provide some information about the page
 
 Once you're done configuring tracking, you can enable our widgets. It usually requires simply placing a section with a special HTML attribute somewhere in your template.
 
-## Browser Events — Advanced
+## Sending other events
 
 > This is an example of a typical browser event. Notice that `context` and `timestamp` aren't necessary when you're sending events directly from the user's browser.
 
@@ -283,6 +283,264 @@ Refer to the example json on the right to view the format.
 | Field       | Data Type     | Required | Description |
 | ----------- | ------------- | -------- | ----------- |
 | `timestamp` | ISO-8601 Date | No       | The current time in UTC for when the event happened. E.g. `"2017-11-01 00:29:03.123Z"`
+
+## Cart update
+
+```javascript--browser
+// assign user_id and user.profile if you haven't yet
+window.datacue.identify('019mr8mf4r', {
+  sex: 'female',
+  location: 'Santiago',
+  segment: 'platinum'
+});
+
+// track the event
+window.datacue.track({
+  type: 'cart',
+  subtype: 'update',
+  cart: [{
+    product_id: 'p1',
+    variant_id: 'v1',
+    quantity: 1,
+    unit_price: 24,
+    currency: 'USD'
+  },{
+    product_id: 'p2',
+    variant_id: 'v1',
+    quantity: 1,
+    unit_price: 24,
+    currency: 'USD'
+  },{
+    product_id: 'p3',
+    variant_id: 'v1',
+    quantity: 1,
+    unit_price: 24,
+    currency: 'USD'
+  }],
+  cart_link:'https://myshop.com/cart/123'
+});
+```
+
+```php
+<?php
+"browser only event (refer to the Browser tab)"
+```
+
+```python
+"browser only event (refer to the Browser tab)"
+```
+
+```javascript--node
+"browser only event (refer to the Browser tab)"
+```
+
+> The above command returns a 204 response code
+
+Record whenever the users shopping cart changes. Whenever the user:
+
+- Adds a product to the cart
+- Removes a product from the cart
+- Updates a product in the cart (e.g. changes quantity)
+- Clears the cart
+
+### Request parameters
+
+| Field  | Data Type | Required | Description |
+| ------ | --------- | -------- | ----------- |
+| `type`     | String    | Yes      | Set to `'cart'`
+| `subtype`  | String    | Yes      | Set to `'update'`
+| `cart`     | Array     | Yes      | Cart contents as an array of product, variant, unit price, quantity and currency
+| `cart_link`  | String    | Yes      | Link to view cart and resume shopping
+
+## Add product to wishlist
+
+```javascript--browser
+// assign user_id and user.profile if you haven't yet
+window.datacue.identify('019mr8mf4r', {
+  sex: 'female',
+  location: 'Santiago',
+  segment: 'platinum'
+});
+
+// track the event
+window.datacue.track({
+  type: 'wishlist',
+  subtype: 'add',
+  product_id: 'p1',
+  variant_id: 'v2'
+});
+```
+
+```php
+<?php
+"browser only event (refer to the Browser tab)"
+```
+
+```python
+"browser only event (refer to the Browser tab)"
+```
+
+```javascript--node
+"browser only event (refer to the Browser tab)"
+```
+
+> The above command returns a 204 response code
+
+Record changes to user's wishlist when a new product is added to it.
+
+### Request parameters
+
+| Field        | Data Type | Required | Description |
+| ------------ | --------- | -------- | ----------- |
+| `type`       | String    | Yes      | Set to `'wishlist'`
+| `subtype`    | String    | Yes      | Set to `'add'`
+| `product_id` | String    | Yes      | Set to product id being added
+| `variant_id` | String    | No       | Set to product's variant id (if applicable)
+
+## Remove product from wishlist
+
+```javascript--browser
+// assign user_id and user.profile if you haven't yet
+window.datacue.identify('019mr8mf4r', {
+  sex: 'female',
+  location: 'Santiago',
+  segment: 'platinum'
+});
+
+// track the event
+window.datacue.track({
+  type: 'wishlist',
+  subtype: 'remove',
+  product_id: 'p1',
+  variant_id: 'v2'
+});
+```
+
+```php
+<?php
+"browser only event (refer to the Browser tab)"
+```
+
+```python
+"browser only event (refer to the Browser tab)"
+```
+
+```javascript--node
+"browser only event (refer to the Browser tab)"
+```
+
+> The above command returns a 204 response code
+
+Record changes to user's wishlist when a product is removed from it.
+
+### Request parameters
+
+| Field        | Data Type | Required | Description |
+| ------------ | --------- | -------- | ----------- |
+| `type`       | String    | Yes      | Set to `'wishlist'`
+| `subtype`    | String    | Yes      | Set to `'remove'`
+| `product_id` | String    | Yes      | Set to product id being removed
+| `variant_id` | String    | No       | Set to product's variant id (if applicable)
+
+## Checkout started
+
+```javascript--browser
+// assign user_id and user.profile if you haven't yet
+window.datacue.identify('019mr8mf4r', {
+  sex: 'female',
+  location: 'Santiago',
+  segment: 'platinum'
+});
+
+// track the event
+window.datacue.track({
+  type: 'checkout',
+  subtype: 'started',
+  cart: [{
+    product_id: 'p1',
+    variant: 'v1',
+    quantity: 1,
+    unit_price: 24,
+    currency: 'USD'
+  },{
+    product_id: 'p2',
+    variant: 'v2',
+    quantity: 3,
+    unit_price: 39,
+    currency: 'USD'
+  }],
+  cart_link:'https://myshop.com/cart/123'
+});
+```
+
+```php
+<?php
+"browser only event (refer to the Browser tab)"
+```
+
+```python
+"browser only event (refer to the Browser tab)"
+```
+
+```javascript--node
+"browser only event (refer to the Browser tab)"
+```
+
+> The above command returns a 204 response code
+
+Record the moment the user initiates the check out process, typically from their shopping cart.
+
+### Request parameters
+
+| Field      | Data Type | Required | Description |
+| ---------- | --------- | -------- | ----------- |
+| `type`     | String    | Yes      | Set to `'checkout'`
+| `subtype`  | String    | Yes      | Set to `'started'`
+| `cart`     | Array     | Yes      | Cart contents as an array of product, variant, unit price, quantity and currency
+| `cart_link`  | String    | Yes      | Link to view cart and resume shopping
+
+## User Login
+
+```javascript--browser
+// assign user_id and user.profile if you haven't yet
+window.datacue.identify('019mr8mf4r', {
+  sex: 'female',
+  location: 'Santiago',
+  segment: 'platinum'
+});
+
+// track the event
+window.datacue.track({
+  type: 'login'
+});
+```
+
+```php
+<?php
+"browser only event (refer to the Browser tab)"
+```
+
+```python
+"browser only event (refer to the Browser tab)"
+```
+
+```javascript--node
+"browser only event (refer to the Browser tab)"
+```
+
+> The above command returns a 204 response code
+
+Record a login event by a user on your website, if the user login is cached, you do not need to fire this event when the user returns.
+
+### Request parameters
+
+| Field  | Data Type | Required | Description |
+| ------ | --------- | -------- | ----------- |
+| `type` | String    | Yes      | Set to `'login'`
+
+# Optional Events
+
+You don't need to implement those if you're using our scripts.
 
 
 ## Home pageview
@@ -567,74 +825,6 @@ Pages showing multiple products on a page, these are commonly called category, c
 | `subtype`       | String    | Yes      | Set to `'category'`
 | `category_name` | String    | Yes      | Set to the name of the category being viewed
 
-## Cart update
-
-```javascript--browser
-// assign user_id and user.profile if you haven't yet
-window.datacue.identify('019mr8mf4r', {
-  sex: 'female',
-  location: 'Santiago',
-  segment: 'platinum'
-});
-
-// track the event
-window.datacue.track({
-  type: 'cart',
-  subtype: 'update',
-  cart: [{
-    product_id: 'p1',
-    variant_id: 'v1',
-    quantity: 1,
-    unit_price: 24,
-    currency: 'USD'
-  },{
-    product_id: 'p2',
-    variant_id: 'v1',
-    quantity: 1,
-    unit_price: 24,
-    currency: 'USD'
-  },{
-    product_id: 'p3',
-    variant_id: 'v1',
-    quantity: 1,
-    unit_price: 24,
-    currency: 'USD'
-  }],
-  cart_link:'https://myshop.com/cart/123'
-});
-```
-
-```php
-<?php
-"browser only event (refer to the Browser tab)"
-```
-
-```python
-"browser only event (refer to the Browser tab)"
-```
-
-```javascript--node
-"browser only event (refer to the Browser tab)"
-```
-
-> The above command returns a 204 response code
-
-Record whenever the users shopping cart changes. Whenever the user:
-
-- Adds a product to the cart
-- Removes a product from the cart
-- Updates a product in the cart (e.g. changes quantity)
-- Clears the cart
-
-### Request parameters
-
-| Field  | Data Type | Required | Description |
-| ------ | --------- | -------- | ----------- |
-| `type`     | String    | Yes      | Set to `'cart'`
-| `subtype`  | String    | Yes      | Set to `'update'`
-| `cart`     | Array     | Yes      | Cart contents as an array of product, variant, unit price, quantity and currency
-| `cart_link`  | String    | Yes      | Link to view cart and resume shopping
-
 ## Search
 
 ```javascript--browser
@@ -701,96 +891,6 @@ Record when a user performs a search on your website
 | Field                 | Data Type | Description |
 | --------------------- | --------- | ----------- |
 | `recent_product_skus` | Array     | A live list of the last products the current user has viewed
-
-## Add product to wishlist
-
-```javascript--browser
-// assign user_id and user.profile if you haven't yet
-window.datacue.identify('019mr8mf4r', {
-  sex: 'female',
-  location: 'Santiago',
-  segment: 'platinum'
-});
-
-// track the event
-window.datacue.track({
-  type: 'wishlist',
-  subtype: 'add',
-  product_id: 'p1',
-  variant_id: 'v2'
-});
-```
-
-```php
-<?php
-"browser only event (refer to the Browser tab)"
-```
-
-```python
-"browser only event (refer to the Browser tab)"
-```
-
-```javascript--node
-"browser only event (refer to the Browser tab)"
-```
-
-> The above command returns a 204 response code
-
-Record changes to user's wishlist when a new product is added to it.
-
-### Request parameters
-
-| Field        | Data Type | Required | Description |
-| ------------ | --------- | -------- | ----------- |
-| `type`       | String    | Yes      | Set to `'wishlist'`
-| `subtype`    | String    | Yes      | Set to `'add'`
-| `product_id` | String    | Yes      | Set to product id being added
-| `variant_id` | String    | No       | Set to product's variant id (if applicable)
-
-## Remove product from wishlist
-
-```javascript--browser
-// assign user_id and user.profile if you haven't yet
-window.datacue.identify('019mr8mf4r', {
-  sex: 'female',
-  location: 'Santiago',
-  segment: 'platinum'
-});
-
-// track the event
-window.datacue.track({
-  type: 'wishlist',
-  subtype: 'remove',
-  product_id: 'p1',
-  variant_id: 'v2'
-});
-```
-
-```php
-<?php
-"browser only event (refer to the Browser tab)"
-```
-
-```python
-"browser only event (refer to the Browser tab)"
-```
-
-```javascript--node
-"browser only event (refer to the Browser tab)"
-```
-
-> The above command returns a 204 response code
-
-Record changes to user's wishlist when a product is removed from it.
-
-### Request parameters
-
-| Field        | Data Type | Required | Description |
-| ------------ | --------- | -------- | ----------- |
-| `type`       | String    | Yes      | Set to `'wishlist'`
-| `subtype`    | String    | Yes      | Set to `'remove'`
-| `product_id` | String    | Yes      | Set to product id being removed
-| `variant_id` | String    | No       | Set to product's variant id (if applicable)
 
 ## Banner click
 
@@ -883,102 +983,6 @@ Record clicks on a product anywhere on your website.
 | `type`       | String    | Yes      | Set to `'click'`
 | `subtype`    | String    | Yes      | Set to `'related'`, `'similar'` or `'recent'`
 | `product_id` | String    | Yes      | Set to the id of the clicked product
-
-## Checkout started
-
-```javascript--browser
-// assign user_id and user.profile if you haven't yet
-window.datacue.identify('019mr8mf4r', {
-  sex: 'female',
-  location: 'Santiago',
-  segment: 'platinum'
-});
-
-// track the event
-window.datacue.track({
-  type: 'checkout',
-  subtype: 'started',
-  cart: [{
-    product_id: 'p1',
-    variant: 'v1',
-    quantity: 1,
-    unit_price: 24,
-    currency: 'USD'
-  },{
-    product_id: 'p2',
-    variant: 'v2',
-    quantity: 3,
-    unit_price: 39,
-    currency: 'USD'
-  }],
-  cart_link:'https://myshop.com/cart/123'
-});
-```
-
-```php
-<?php
-"browser only event (refer to the Browser tab)"
-```
-
-```python
-"browser only event (refer to the Browser tab)"
-```
-
-```javascript--node
-"browser only event (refer to the Browser tab)"
-```
-
-> The above command returns a 204 response code
-
-Record the moment the user initiates the check out process, typically from their shopping cart.
-
-### Request parameters
-
-| Field      | Data Type | Required | Description |
-| ---------- | --------- | -------- | ----------- |
-| `type`     | String    | Yes      | Set to `'checkout'`
-| `subtype`  | String    | Yes      | Set to `'started'`
-| `cart`     | Array     | Yes      | Cart contents as an array of product, variant, unit price, quantity and currency
-| `cart_link`  | String    | Yes      | Link to view cart and resume shopping
-
-## User Login
-
-```javascript--browser
-// assign user_id and user.profile if you haven't yet
-window.datacue.identify('019mr8mf4r', {
-  sex: 'female',
-  location: 'Santiago',
-  segment: 'platinum'
-});
-
-// track the event
-window.datacue.track({
-  type: 'login'
-});
-```
-
-```php
-<?php
-"browser only event (refer to the Browser tab)"
-```
-
-```python
-"browser only event (refer to the Browser tab)"
-```
-
-```javascript--node
-"browser only event (refer to the Browser tab)"
-```
-
-> The above command returns a 204 response code
-
-Record a login event by a user on your website, if the user login is cached, you do not need to fire this event when the user returns.
-
-### Request parameters
-
-| Field  | Data Type | Required | Description |
-| ------ | --------- | -------- | ----------- |
-| `type` | String    | Yes      | Set to `'login'`
 
 # Products
 
