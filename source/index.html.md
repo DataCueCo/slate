@@ -135,13 +135,65 @@ Whenever you are sending us JSON (all endpoints except `DELETE`). Remember to se
 
 # Browser Events
 
-Endpoint: `POST` `https://events.datacue.co/`
+> Remember to include the config snippet *before* the external scripts
 
-## Authorization
+```html
+<script>
+window.datacueConfig = {
+  api_key: 'your-api-key',
+  user_id: 'logged.in.customer@example.com',
+  page_type: 'product',
+  product_id: 1234,
+  variant_id: 2345
+};
+</script>
+<script src="https://cdn.datacue.co/js/datacue.js"></script>
+<script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
+```
 
-All events are meant to be sent from your users' browsers using our embedded script. This endpoint requires **only** your API Key.
+The easiest way to start tracking browser events is to include our scripts. You'll need only three things:
 
-## Format
+- The config object
+- DataCue Events SDK
+- DataCue storefront script
+
+Place the snippets near the end of the `<head>` element of your main template. This will enable all the basic events:
+
+- pageviews
+- search
+- banner/carousel clicks
+
+## The config object
+
+To properly set up tracking, you need to provide some information about the page that the user is currently visiting. You can do it by setting the following properties of the `window.datacueConfig` object:
+
+| Property        | Required                      | Description |
+| --------------- | ----------------------------- | ----------- |
+| `api_key`       | Yes                           | Your API key
+| `user_id`       | Yes (if logged in)            | If the visitor is not logged in, set the field to `null`
+| `page_type`     | Yes                           | Current page. One of `'home'`, `'product'`, `'category'`, `'cart'`, `'search'` or `'404'`
+| `product_id`    | If `page_type` = `'product'`  | On product pages, id of currently viewed product
+| `variant_id`    | If `page_type` = `'product'`  | On product pages, id of currently viewed product variant
+| `category_name` | If `page_type` = `'category'` | On category pages, name of currently viewed category
+| `term`          | If `page_type` = `'search'`   | On search results page, current search term
+
+## Inserting banners and product carousels
+
+> Home page banners
+
+```html
+<div data-dc-banners></div>
+```
+
+> Product carousels
+
+```html
+<div data-dc-product-carousels></div>
+```
+
+Once you're done configuring tracking, you can enable our widgets. It usually requires simply placing a section with a special HTML attribute somewhere in your template.
+
+## Browser Events — Advanced
 
 > This is an example of a typical browser event. Notice that `context` and `timestamp` aren't necessary when you're sending events directly from the user's browser.
 
@@ -460,7 +512,7 @@ Request product recommendations when a user visits a product page
 | Field        | Data Type | Required | Description |
 | ------------ | --------- | -------- | ----------- |
 | `type`       | String    | Yes      | Set to `'pageview'`
-| `subtype`    | String    | Yes      | Set to `'related'`
+| `subtype`    | String    | Yes      | Set to `'product'`
 | `product_id` | String    | Yes      | Set to product id being viewed
 | `variant_id` | String    | No       | Set to product's variant id (if applicable)
 
