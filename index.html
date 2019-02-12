@@ -1595,34 +1595,16 @@ Whenever a new product is created, send this request from your backend.</p>
 <td>A unique variant id within the product id, if you only use product SKUs set this to a constant such as &#39;no-variants&#39;</td>
 </tr>
 <tr>
-<td><code>category_1</code></td>
+<td><code>main_category</code></td>
 <td>String</td>
 <td>Yes</td>
-<td>Top category level of product e.g. &#39;Men&#39; , &#39;Women&#39; or &#39;Children&#39;&#39;.</td>
+<td>The most specific category for the product e.g. &#39;Jeans&#39;.</td>
 </tr>
 <tr>
-<td><code>category_2</code></td>
-<td>String</td>
-<td>No</td>
-<td>Second category level of product e.g. &#39;Shoes&#39; or &#39;Dresses&#39;</td>
-</tr>
-<tr>
-<td><code>category_3</code></td>
-<td>String</td>
-<td>No</td>
-<td>Third category level of product e.g. &#39;Sports&#39; or &#39;Sandals&#39;</td>
-</tr>
-<tr>
-<td><code>category_4</code></td>
-<td>String</td>
-<td>No</td>
-<td>Fourth category level of product e.g. &#39;Running shoes&#39;</td>
-</tr>
-<tr>
-<td><code>category_extra</code></td>
-<td>JSON Object</td>
-<td>No</td>
-<td>Any other categories can be stored here as an object, e.g. <code>&quot;category_extra&quot;: { &quot;category_5&quot;: &quot;value&quot; }</code> and so on.</td>
+<td><code>categories</code></td>
+<td>String Array</td>
+<td>Yes</td>
+<td>A list of all the matching categories as tags e.g. [&quot;Jeans&quot;,&quot;Summer&quot;,&quot;Men&quot;]</td>
 </tr>
 <tr>
 <td><code>name</code></td>
