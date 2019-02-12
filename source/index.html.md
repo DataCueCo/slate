@@ -1068,11 +1068,8 @@ Whenever a new product is created, send this request from your backend.
 | ---------------- | ----------- | -------- | ----------- |
 | `product_id`     | String      | Yes      | The product id or SKU number
 | `variant_id`     | String      | Yes      | A unique variant id within the product id, if you only use product SKUs set this to a constant such as 'no-variants'
-| `category_1`     | String      | Yes      | Top category level of product e.g. 'Men' , 'Women' or 'Children''.
-| `category_2`     | String      | No       | Second category level of product e.g. 'Shoes' or 'Dresses'
-| `category_3`     | String      | No       | Third category level of product e.g. 'Sports' or 'Sandals'
-| `category_4`     | String      | No       | Fourth category level of product e.g. 'Running shoes'
-| `category_extra` | JSON Object | No       | Any other categories can be stored here as an object, e.g. `"category_extra": { "category_5": "value" }` and so on.
+| `main_category`  | String   | Yes   | The most specific category for the product e.g. 'Jeans'.
+| `categories`     | String Array| Yes       | A list of all the matching categories as tags e.g. ["Jeans","Summer","Men"]
 | `name`           | String      | Yes      | Name or Title of the product
 | `brand`          | String      | No       | Brand name of the product
 | `description`    | String      | No       | Long text description of the product
