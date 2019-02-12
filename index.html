@@ -242,10 +242,13 @@
             <a href="#browser-events" class="toc-h1 toc-link" data-title="Browser Events">Browser Events</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#authorization" class="toc-h2 toc-link" data-title="Authorization">Authorization</a>
+                    <a href="#the-config-object" class="toc-h2 toc-link" data-title="The config object">The config object</a>
                   </li>
                   <li>
-                    <a href="#format" class="toc-h2 toc-link" data-title="Format">Format</a>
+                    <a href="#inserting-banners-and-product-carousels" class="toc-h2 toc-link" data-title="Inserting banners and product carousels">Inserting banners and product carousels</a>
+                  </li>
+                  <li>
+                    <a href="#browser-events-advanced" class="toc-h2 toc-link" data-title="Browser Events — Advanced">Browser Events — Advanced</a>
                   </li>
                   <li>
                     <a href="#parameter-breakdown" class="toc-h2 toc-link" data-title="Parameter breakdown">Parameter breakdown</a>
@@ -460,10 +463,95 @@
 <p>Whenever you are sending us JSON (all endpoints except <code>DELETE</code>). Remember to set a content-type header to &quot;application/json&quot;, some http libraries will do this for you automatically.
 <code>Content-Type: application/json</code></p>
 <h1 id='browser-events'>Browser Events</h1>
-<p>Endpoint: <code>POST</code> <code>https://events.datacue.co/</code></p>
-<h2 id='authorization'>Authorization</h2>
-<p>All events are meant to be sent from your users&#39; browsers using our embedded script. This endpoint requires <strong>only</strong> your API Key.</p>
-<h2 id='format'>Format</h2>
+<blockquote>
+<p>Remember to include the config snippet <em>before</em> the external scripts</p>
+</blockquote>
+<pre class="highlight html tab-html"><code><span class="nt">&lt;script&gt;</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">datacueConfig</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">api_key</span><span class="p">:</span> <span class="s1">'your-api-key'</span><span class="p">,</span>
+  <span class="na">user_id</span><span class="p">:</span> <span class="s1">'logged.in.customer@example.com'</span><span class="p">,</span>
+  <span class="na">page_type</span><span class="p">:</span> <span class="s1">'product'</span><span class="p">,</span>
+  <span class="na">product_id</span><span class="p">:</span> <span class="mi">1234</span><span class="p">,</span>
+  <span class="na">variant_id</span><span class="p">:</span> <span class="mi">2345</span>
+<span class="p">};</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue-storefront.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</code></pre>
+<p>The easiest way to start tracking browser events is to include our scripts. You&#39;ll need only three things:</p>
+
+<ul>
+<li>The config object</li>
+<li>DataCue Events SDK</li>
+<li>DataCue storefront script</li>
+</ul>
+
+<p>Place the snippets near the end of the <code>&lt;head&gt;</code> element of your main template. This will enable all the basic events:</p>
+
+<ul>
+<li>pageviews</li>
+<li>search</li>
+<li>banner/carousel clicks</li>
+</ul>
+<h2 id='the-config-object'>The config object</h2>
+<p>To properly set up tracking, you need to provide some information about the page that the user is currently visiting. You can do it by setting the following properties of the <code>window.datacueConfig</code> object:</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>api_key</code></td>
+<td>Yes</td>
+<td>Your API key</td>
+</tr>
+<tr>
+<td><code>user_id</code></td>
+<td>Yes (if logged in)</td>
+<td>If the visitor is not logged in, set the field to <code>null</code></td>
+</tr>
+<tr>
+<td><code>page_type</code></td>
+<td>Yes</td>
+<td>Current page. One of <code>&#39;home&#39;</code>, <code>&#39;product&#39;</code>, <code>&#39;category&#39;</code>, <code>&#39;cart&#39;</code>, <code>&#39;search&#39;</code> or <code>&#39;404&#39;</code></td>
+</tr>
+<tr>
+<td><code>product_id</code></td>
+<td>If <code>page_type</code> = <code>&#39;product&#39;</code></td>
+<td>On product pages, id of currently viewed product</td>
+</tr>
+<tr>
+<td><code>variant_id</code></td>
+<td>If <code>page_type</code> = <code>&#39;product&#39;</code></td>
+<td>On product pages, id of currently viewed product variant</td>
+</tr>
+<tr>
+<td><code>category_name</code></td>
+<td>If <code>page_type</code> = <code>&#39;category&#39;</code></td>
+<td>On category pages, name of currently viewed category</td>
+</tr>
+<tr>
+<td><code>term</code></td>
+<td>If <code>page_type</code> = <code>&#39;search&#39;</code></td>
+<td>On search results page, current search term</td>
+</tr>
+</tbody></table>
+<h2 id='inserting-banners-and-product-carousels'>Inserting banners and product carousels</h2>
+<blockquote>
+<p>Home page banners</p>
+</blockquote>
+<pre class="highlight html tab-html"><code><span class="nt">&lt;div</span> <span class="na">data-dc-banners</span><span class="nt">&gt;&lt;/div&gt;</span>
+</code></pre>
+<blockquote>
+<p>Product carousels</p>
+</blockquote>
+<pre class="highlight html tab-html"><code><span class="nt">&lt;div</span> <span class="na">data-dc-product-carousels</span><span class="nt">&gt;&lt;/div&gt;</span>
+</code></pre>
+<p>Once you&#39;re done configuring tracking, you can enable our widgets. It usually requires simply placing a section with a special HTML attribute somewhere in your template.</p>
+<h2 id='browser-events-advanced'>Browser Events — Advanced</h2>
 <blockquote>
 <p>This is an example of a typical browser event. Notice that <code>context</code> and <code>timestamp</code> aren&#39;t necessary when you&#39;re sending events directly from the user&#39;s browser.</p>
 </blockquote>
@@ -874,7 +962,7 @@
 <td><code>subtype</code></td>
 <td>String</td>
 <td>Yes</td>
-<td>Set to <code>&#39;related&#39;</code></td>
+<td>Set to <code>&#39;product&#39;</code></td>
 </tr>
 <tr>
 <td><code>product_id</code></td>
