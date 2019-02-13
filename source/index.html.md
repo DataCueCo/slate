@@ -1042,11 +1042,6 @@ data = {
   "variant_id": "v1",
   "main_category": "jeans",
   "categories": ["men","summer","jeans"],
-  "category_3": "skinny",
-  "category_4": "c4",
-  "category_extra": {
-    "category_5": "c5"
-  },
   "name": "cool jeans",
   "brand": "zara",
   "description": "very fashionable jeans",
