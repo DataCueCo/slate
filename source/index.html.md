@@ -182,7 +182,11 @@ To properly set up tracking, you need to provide some information about the page
 > Home page banners
 
 ```html
-<div data-dc-banners></div>
+<div
+  data-dc-banners
+  data-dc-static-img="path/to/your/banner.jpg"
+  data-dc-static-link="link/to/chosen/category"
+></div>
 ```
 
 > Product carousels
