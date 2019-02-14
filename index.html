@@ -544,6 +544,44 @@
 <td>On search results page, current search term</td>
 </tr>
 </tbody></table>
+
+<p>On product pages, you can also add an optional property <code>product_update</code> to the config object, to ensure that the most important information about your products is always synchronized. Following fields are supported at this time:</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>price</code></td>
+<td>Current price, after all discouts applied</td>
+</tr>
+<tr>
+<td><code>full_price</code></td>
+<td>Base price without any discounts</td>
+</tr>
+<tr>
+<td><code>photo_url</code></td>
+<td>URL of the main product photo</td>
+</tr>
+<tr>
+<td><code>available</code></td>
+<td><code>true</code> or <code>false</code></td>
+</tr>
+<tr>
+<td><code>stock</code></td>
+<td>Number of items remaining in stock</td>
+</tr>
+<tr>
+<td><code>main_category</code></td>
+<td>Name of the main product category</td>
+</tr>
+<tr>
+<td><code>categories</code></td>
+<td>Array of product&#39;s category names</td>
+</tr>
+</tbody></table>
 <h2 id='inserting-banners-and-product-carousels'>Inserting banners and product carousels</h2>
 <blockquote>
 <p>Home page banners</p>
