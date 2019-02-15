@@ -218,10 +218,7 @@ Here's a brief summary:
 <div data-dc-product-carousels></div>
 ```
 
-
-You can read all about our product carousels [here](https://help.datacue.co/dashboard/carousels.html).
-
-Here's a brief summary of each carousel:
+We have three types of product carousels:
 
 1. Recommendations: On every page except the product page, we show product recommendations tailored to the user. On the product page, this carousel is related to the current product being viewed based on other people's purchases.
 
