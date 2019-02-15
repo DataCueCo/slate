@@ -245,7 +245,10 @@
                     <a href="#the-config-object" class="toc-h2 toc-link" data-title="The config object">The config object</a>
                   </li>
                   <li>
-                    <a href="#inserting-banners-and-product-carousels" class="toc-h2 toc-link" data-title="Inserting banners and product carousels">Inserting banners and product carousels</a>
+                    <a href="#inserting-banners" class="toc-h2 toc-link" data-title="Inserting banners">Inserting banners</a>
+                  </li>
+                  <li>
+                    <a href="#inserting-product-carousels" class="toc-h2 toc-link" data-title="Inserting product carousels">Inserting product carousels</a>
                   </li>
                   <li>
                     <a href="#sending-other-events" class="toc-h2 toc-link" data-title="Sending other events">Sending other events</a>
@@ -545,7 +548,7 @@
 </tr>
 </tbody></table>
 
-<p>On product pages, you can also add an optional property <code>product_update</code> to the config object, to ensure that the most important information about your products is always synchronized. Following fields are supported at this time:</p>
+<p>On product pages, you can also add an optional property <code>product_update</code> to the config object, to ensure that the most important information about your products is always synchronized. The following fields are supported at this time:</p>
 
 <table><thead>
 <tr>
@@ -553,6 +556,10 @@
 <th>Description</th>
 </tr>
 </thead><tbody>
+<tr>
+<td><code>name</code></td>
+<td>Name of the product</td>
+</tr>
 <tr>
 <td><code>price</code></td>
 <td>Current price, after all discouts applied</td>
@@ -581,8 +588,12 @@
 <td><code>categories</code></td>
 <td>Array of product&#39;s category names</td>
 </tr>
+<tr>
+<td><code>brand</code></td>
+<td>Name of the brand</td>
+</tr>
 </tbody></table>
-<h2 id='inserting-banners-and-product-carousels'>Inserting banners and product carousels</h2>
+<h2 id='inserting-banners'>Inserting banners</h2>
 <blockquote>
 <p>Home page banners</p>
 </blockquote>
@@ -592,12 +603,32 @@
   <span class="na">data-dc-static-link=</span><span class="s">"link/to/chosen/category"</span>
 <span class="nt">&gt;&lt;/div&gt;</span>
 </code></pre>
+<p>Once you&#39;re done configuring tracking, you can enable our widgets. You can read all about banners <a href="https://help.datacue.co/dashboard/banners.html">here</a>.</p>
+
+<p>Here&#39;s a brief summary:</p>
+
+<ol>
+<li>There are two types of banners, wide: 1200x720px and narrow: 480x720px</li>
+<li>You upload all the banners you want us to personalize directly to DataCue. </li>
+<li>The Static banner is a wide banner (1200x720px) that shows up for everyone. Tell us where it is with the <code>data-dc-static-img</code> attribute and what the link should be with the <code>data-dc-static-link</code> attribute and we&#39;ll do the rest.</li>
+</ol>
+<h2 id='inserting-product-carousels'>Inserting product carousels</h2>
 <blockquote>
 <p>Product carousels</p>
 </blockquote>
 <pre class="highlight html tab-html"><code><span class="nt">&lt;div</span> <span class="na">data-dc-product-carousels</span><span class="nt">&gt;&lt;/div&gt;</span>
 </code></pre>
-<p>Once you&#39;re done configuring tracking, you can enable our widgets. It usually requires simply placing a section with a special HTML attribute somewhere in your template.</p>
+<p>You can read all about our product carousels <a href="https://help.datacue.co/dashboard/carousels.html">here</a>.</p>
+
+<p>Here&#39;s a brief summary of each carousel:</p>
+
+<ol>
+<li><p>Recommendations: On every page except the product page, we show product recommendations tailored to the user. On the product page, this carousel is related to the current product being viewed based on other people&#39;s purchases.</p></li>
+<li><p>Recently viewed: A list of all the products that were recently viewed by the user</p></li>
+<li><p>Similar products: Only on the product page, all products that are similar to the existing product looking at name, brand, categories and description.</p></li>
+</ol>
+
+<p>Just insert the following code and we&#39;ll do the rest. You can control which carousels you want to see and how many products in each carousel from your dashboard.</p>
 <h2 id='sending-other-events'>Sending other events</h2>
 <blockquote>
 <p>This is an example of a typical browser event. Notice that <code>context</code> and <code>timestamp</code> aren&#39;t necessary when you&#39;re sending events directly from the user&#39;s browser.</p>
