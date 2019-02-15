@@ -177,10 +177,11 @@ To properly set up tracking, you need to provide some information about the page
 | `category_name` | If `page_type` = `'category'` | On category pages, name of currently viewed category
 | `term`          | If `page_type` = `'search'`   | On search results page, current search term
 
-On product pages, you can also add an optional property `product_update` to the config object, to ensure that the most important information about your products is always synchronized. Following fields are supported at this time:
+On product pages, you can also add an optional property `product_update` to the config object, to ensure that the most important information about your products is always synchronized. The following fields are supported at this time:
 
 | Property        | Description |
 | --------------- | ----------- |
+| `name`          | Name of the product
 | `price`         | Current price, after all discouts applied
 | `full_price`    | Base price without any discounts
 | `photo_url`     | URL of the main product photo
@@ -188,8 +189,9 @@ On product pages, you can also add an optional property `product_update` to the 
 | `stock`         | Number of items remaining in stock
 | `main_category` | Name of the main product category
 | `categories`    | Array of product's category names
+| `brand`         | Name of the brand
 
-## Inserting banners and product carousels
+## Inserting banners
 
 > Home page banners
 
@@ -201,13 +203,33 @@ On product pages, you can also add an optional property `product_update` to the 
 ></div>
 ```
 
+Once you're done configuring tracking, you can enable our widgets. You can read all about banners [here](https://help.datacue.co/dashboard/banners.html).
+
+Here's a brief summary:
+
+1. There are two types of banners, wide: 1200x720px and narrow: 480x720px
+2. You upload all the banners you want us to personalize directly to DataCue. 
+2. The Static banner is a wide banner (1200x720px) that shows up for everyone. Tell us where it is with the `data-dc-static-img` attribute and what the link should be with the `data-dc-static-link` attribute and we'll do the rest.
+
+## Inserting product carousels
 > Product carousels
 
 ```html
 <div data-dc-product-carousels></div>
 ```
 
-Once you're done configuring tracking, you can enable our widgets. It usually requires simply placing a section with a special HTML attribute somewhere in your template.
+
+You can read all about our product carousels [here](https://help.datacue.co/dashboard/carousels.html).
+
+Here's a brief summary of each carousel:
+
+1. Recommendations: On every page except the product page, we show product recommendations tailored to the user. On the product page, this carousel is related to the current product being viewed based on other people's purchases.
+
+2. Recently viewed: A list of all the products that were recently viewed by the user
+
+3. Similar products: Only on the product page, all products that are similar to the existing product looking at name, brand, categories and description.
+
+Just insert the following code and we'll do the rest. You can control which carousels you want to see and how many products in each carousel from your dashboard.
 
 ## Sending other events
 
