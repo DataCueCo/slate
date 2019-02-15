@@ -177,6 +177,18 @@ To properly set up tracking, you need to provide some information about the page
 | `category_name` | If `page_type` = `'category'` | On category pages, name of currently viewed category
 | `term`          | If `page_type` = `'search'`   | On search results page, current search term
 
+On product pages, you can also add an optional property `product_update` to the config object, to ensure that the most important information about your products is always synchronized. Following fields are supported at this time:
+
+| Property        | Description |
+| --------------- | ----------- |
+| `price`         | Current price, after all discouts applied
+| `full_price`    | Base price without any discounts
+| `photo_url`     | URL of the main product photo
+| `available`     | `true` or `false`
+| `stock`         | Number of items remaining in stock
+| `main_category` | Name of the main product category
+| `categories`    | Array of product's category names
+
 ## Inserting banners and product carousels
 
 > Home page banners
