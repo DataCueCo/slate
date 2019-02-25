@@ -263,7 +263,7 @@ All events are registered in a similar format. There are 4 main objects in each 
 
 ### User
 
-| Field          | Data Type   | Required               | Description |
+| FieldName | Data Type   | Required               | Description |
 | -------------- | ----------- | ---------------------- | ----------- |
 | `user_id`      | String      | Yes (if logged in)     | The unique user id if the user has logged in
 | `anonymous_id` | String      | Yes (if not logged in) | An automatically generated visitor id if the user has not logged in.
@@ -275,7 +275,7 @@ All events are registered in a similar format. There are 4 main objects in each 
 
 #### User Profile (user.profile)
 
-| Field      | Data Type | Required | Description |
+| FieldName | Data Type | Required | Description |
 | ---------- | --------- | -------- | ----------- |
 | `sex`      | String    | No       | Sex of the user
 | `segment`  | String    | No       | Custom segment name that you store e.g. Gold class / Member
@@ -300,7 +300,7 @@ Refer to the example json on the right to view the format.
   }
 ```
 
-| Field        | Data Type | Required | Description |
+| FieldName   | Data Type | Required | Description |
 | ------------ | --------- | -------- | ----------- |
 | `ip`         | String    | No       | IP address
 | `user_agent` | String    | No       | User agent string of the browser
@@ -315,7 +315,7 @@ Refer to the example json on the right to view the format.
   "timestamp": "2018-01-23 00:30:08.276Z"
 ```
 
-| Field       | Data Type     | Required | Description |
+| FieldName  | Data Type     | Required | Description |
 | ----------- | ------------- | -------- | ----------- |
 | `timestamp` | ISO-8601 Date | No       | The current time in UTC for when the event happened. E.g. `"2017-11-01 00:29:03.123Z"`
 
@@ -380,7 +380,7 @@ Record whenever the users shopping cart changes. Whenever the user:
 
 ### Request parameters
 
-| Field  | Data Type | Required | Description |
+| FieldName  | Data Type | Required | Description |
 | ------ | --------- | -------- | ----------- |
 | `type`     | String    | Yes      | Set to `'cart'`
 | `subtype`  | String    | Yes      | Set to `'update'`
@@ -425,7 +425,7 @@ Record changes to user's wishlist when a new product is added to it.
 
 ### Request parameters
 
-| Field        | Data Type | Required | Description |
+| FieldName   | Data Type | Required | Description |
 | ------------ | --------- | -------- | ----------- |
 | `type`       | String    | Yes      | Set to `'wishlist'`
 | `subtype`    | String    | Yes      | Set to `'add'`
@@ -470,7 +470,7 @@ Record changes to user's wishlist when a product is removed from it.
 
 ### Request parameters
 
-| Field        | Data Type | Required | Description |
+| FieldName   | Data Type | Required | Description |
 | ------------ | --------- | -------- | ----------- |
 | `type`       | String    | Yes      | Set to `'wishlist'`
 | `subtype`    | String    | Yes      | Set to `'remove'`
@@ -527,7 +527,7 @@ Record the moment the user initiates the check out process, typically from their
 
 ### Request parameters
 
-| Field      | Data Type | Required | Description |
+| FieldName | Data Type | Required | Description |
 | ---------- | --------- | -------- | ----------- |
 | `type`     | String    | Yes      | Set to `'checkout'`
 | `subtype`  | String    | Yes      | Set to `'started'`
@@ -569,7 +569,7 @@ Record a login event by a user on your website, if the user login is cached, you
 
 ### Request parameters
 
-| Field  | Data Type | Required | Description |
+| FieldName | Data Type | Required | Description |
 | ------ | --------- | -------- | ----------- |
 | `type` | String    | Yes      | Set to `'login'`
 
@@ -696,14 +696,14 @@ Request banner and product recommendations when a user visits your home page
 
 ### Request parameters
 
-| Field     | Data Type | Required | Description |
+| FieldName | Data Type | Required | Description |
 | --------- | --------- | -------- | ----------- |
 | `type`    | String    | Yes      | Set to `'pageview'`
 | `subtype` | String    | Yes      | Set to `'home'`
 
 ### Response JSON
 
-| Field                  | Data Type | Description |
+| FieldName             | Data Type | Description |
 | ---------------------- | --------- | ----------- |
 | `main_banners`         | Array     | An array of banner objects recommended for the current user
 | `sub_banners`          | Array     | An array of sub banner objects recommended for the current user
@@ -802,7 +802,7 @@ Request product recommendations when a user visits a product page
 
 ### Request parameters
 
-| Field        | Data Type | Required | Description |
+| FieldName   | Data Type | Required | Description |
 | ------------ | --------- | -------- | ----------- |
 | `type`       | String    | Yes      | Set to `'pageview'`
 | `subtype`    | String    | Yes      | Set to `'product'`
@@ -811,7 +811,7 @@ Request product recommendations when a user visits a product page
 
 ### Response JSON
 
-| Field                  | Data Type | Description |
+| FieldName             | Data Type | Description |
 | ---------------------- | --------- | ----------- |
 | `similar_product_skus` | Array     | An array of product objects with similar characteristics to the current product
 | `related_product_skus` | Array     | An array of product objects that are frequently bought with the current product
@@ -854,7 +854,7 @@ Pages showing multiple products on a page, these are commonly called category, c
 
 ### Request parameters
 
-| Field           | Data Type | Required | Description |
+| FieldName      | Data Type | Required | Description |
 | --------------- | --------- | -------- | ----------- |
 | `type`          | String    | Yes      | Set to `'pageview'`
 | `subtype`       | String    | Yes      | Set to `'category'`
@@ -916,14 +916,14 @@ Record when a user performs a search on your website
 
 ### Request parameters
 
-| Field  | Data Type | Required | Description |
+| FieldName | Data Type | Required | Description |
 | ------ | --------- | -------- | ----------- |
 | `type` | String    | Yes      | Set to `'search'`
 | `term` | String    | Yes      | Set to the user's search term
 
 ### Response JSON
 
-| Field                 | Data Type | Description |
+| FieldName            | Data Type | Description |
 | --------------------- | --------- | ----------- |
 | `recent_product_skus` | Array     | A live list of the last products the current user has viewed
 
@@ -967,7 +967,7 @@ Record clicks to a banner or a sub banner, typically on your home page
 
 ### Request parameters
 
-| Field       | Data Type | Required | Description |
+| FieldName  | Data Type | Required | Description |
 | ----------- | --------- | -------- | ----------- |
 | `type`      | String    | Yes      | Set to `'click'`
 | `subtype`   | String    | Yes      | Set to `'banner'`
@@ -1013,7 +1013,7 @@ Record clicks on a product anywhere on your website.
 
 ### Request parameters
 
-| Field        | Data Type | Required | Description |
+| FieldName   | Data Type | Required | Description |
 | ------------ | --------- | -------- | ----------- |
 | `type`       | String    | Yes      | Set to `'click'`
 | `subtype`    | String    | Yes      | Set to `'related'`, `'similar'` or `'recent'`
@@ -1047,6 +1047,7 @@ $data = [
   "size" => "M",
   "price" => 25000,
   "full_price" => 30000,
+  "available" => True,
   "stock" => 5,
   "extra" => [
     "extra_feature" => "details"
@@ -1084,6 +1085,7 @@ data = {
   "size": "M",
   "price": 25000,
   "full_price": 35000,
+  "available": True,
   "stock": 5,
   "extra": {
     "extra_feature": "details"
@@ -1126,6 +1128,7 @@ const data = {
   size: 'M',
   price: 25000,
   full_price: 35000,
+  available: true,
   stock: 5,
   extra: {
     extra_feature: 'details'
@@ -1150,7 +1153,7 @@ Whenever a new product is created, send this request from your backend.
 
 ### Request parameters
 
-| Field            | Data Type   | Required | Description |
+| FieldName       | Data Type   | Required | Description |
 | ---------------- | ----------- | -------- | ----------- |
 | `product_id`     | String      | Yes      | The product id or SKU number
 | `variant_id`     | String      | Yes      | A unique variant id within the product id, if you only use product SKUs set this to a constant such as 'no-variants'
@@ -1449,7 +1452,7 @@ When a new user has successfully signed up / registered on your system.
 
 ### Request parameters
 
-| Field              | Data Type     | Required                      | Description |
+| FieldName | Data Type     | Required                      | Description |
 | ------------------ | ------------- | ----------------------------- | ----------- |
 | `user_id`          | String        | Yes                           | The unique user id assigned
 | `anonymous_id`     | String        | No                            | Anonymous ID that was previously associated with this user prior to user sign up
@@ -1464,7 +1467,7 @@ When a new user has successfully signed up / registered on your system.
 
 ### profile
 
-| Field      | Data Type | Required | Description |
+| FieldName | Data Type | Required | Description |
 | ---------- | --------- | -------- | ----------- |
 | `sex`      | String    | No       | Sex of the user
 | `segment`  | String    | No       | Custom segment name that you store e.g. Gold class / Member
@@ -1723,7 +1726,7 @@ When a user has successfully completed an order on your store. An Order is consi
 
 ### Request parameters
 
-| Field              | Data Type     | Required                      | Description |
+| FieldName | Data Type     | Required                      | Description |
 | ------------------ | ------------- | ----------------------------- | ----------- |
 | `order_id`         | String        | Yes                           | The unique order id assigned
 | `user_id`          | String        | Yes                           | User ID that made the order
@@ -1733,7 +1736,7 @@ When a user has successfully completed an order on your store. An Order is consi
 
 ### cart items
 
-| Field      | Data Type | Required | Description |
+| FieldName | Data Type | Required | Description |
 | ---------- | --------- | -------- | ----------- |
 | `product_id`      | String    | Yes       | Product ID code
 | `variant_id`  | String    | Yes       | Variant ID of the product
@@ -1808,7 +1811,7 @@ When the order makes changes to their profile or when they configure any relevan
 
 ### Request parameters
 
-| Field              | Data Type     | Required                      | Description |
+| Field | Data Type     | Required                      | Description |
 | ------------------ | ------------- | ----------------------------- | ----------- |
 | `order_status`          | String        | Yes                           | Can be `completed` or `cancelled`
 
@@ -2095,7 +2098,7 @@ Endpoint: `POST` `https://api.datacue.co/v1/batch/products`
 
 ### Request parameters
 
-| Field   | Data Type | Required | Description |
+| FieldName | Data Type | Required | Description |
 | ------- | --------- | -------- | ----------- |
 | `batch` | Array     | Yes      | Array of products you are sending
 
@@ -2238,7 +2241,7 @@ Endpoint: `POST` `https://api.datacue.co/v1/batch/orders`
 
 ### Request parameters
 
-| Field   | Data Type | Required | Description |
+| FieldName | Data Type | Required | Description |
 | ------- | --------- | -------- | ----------- |
 | `batch` | Array     | Yes      | Array of orders you are sending
 
@@ -2352,7 +2355,7 @@ Endpoint: `POST` `https://api.datacue.co/v1/batch/users`
 
 ### Request parameters
 
-| Field   | Data Type | Required | Description |
+| FieldName | Data Type | Required | Description |
 | ------- | --------- | -------- | ----------- |
 | `batch` | Array     | Yes      | Array of users you are sending
 
@@ -2470,7 +2473,7 @@ Update multiple products. Note that orders cannot be updated, only created or ca
 
 ### Request parameters
 
-| Field   | Data Type | Required | Description |
+| FieldName   | Data Type | Required | Description |
 | ------- | --------- | -------- | ----------- |
 | `batch` | Array     | Yes      | Array of products you are updating |
 
@@ -2586,7 +2589,7 @@ Update multiple users.
 
 ### Request parameters
 
-| Field   | Data Type | Required | Description |
+| FieldName   | Data Type | Required | Description |
 | ------- | --------- | -------- | ----------- |
 | `batch` | Array     | Yes      | Array of users you are updating |
 
