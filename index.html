@@ -477,7 +477,7 @@
 <pre class="highlight html tab-html"><code><span class="nt">&lt;script&gt;</span>
 <span class="nb">window</span><span class="p">.</span><span class="nx">datacueConfig</span> <span class="o">=</span> <span class="p">{</span>
   <span class="na">api_key</span><span class="p">:</span> <span class="s1">'your-api-key'</span><span class="p">,</span>
-  <span class="na">user_id</span><span class="p">:</span> <span class="s1">'logged.in.customer@example.com'</span><span class="p">,</span>
+  <span class="na">user_id</span><span class="p">:</span> <span class="s1">'id of user (user_id field you send us for users)'</span><span class="p">,</span>
   <span class="na">page_type</span><span class="p">:</span> <span class="s1">'product'</span><span class="p">,</span>
   <span class="na">product_id</span><span class="p">:</span> <span class="mi">1234</span><span class="p">,</span>
   <span class="na">variant_id</span><span class="p">:</span> <span class="mi">2345</span>
@@ -534,7 +534,7 @@
 <tr>
 <td><code>variant_id</code></td>
 <td>If <code>page_type</code> = <code>&#39;product&#39;</code></td>
-<td>On product pages, id of currently viewed product variant</td>
+<td>On product pages, id of currently viewed product variant, set to null if not applicable</td>
 </tr>
 <tr>
 <td><code>category_name</code></td>
