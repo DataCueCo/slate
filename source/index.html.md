@@ -141,7 +141,7 @@ Whenever you are sending us JSON (all endpoints except `DELETE`). Remember to se
 <script>
 window.datacueConfig = {
   api_key: 'your-api-key',
-  user_id: 'logged.in.customer@example.com',
+  user_id: 'id of user (user_id field you send us for users)',
   page_type: 'product',
   product_id: 1234,
   variant_id: 2345
@@ -173,7 +173,7 @@ To properly set up tracking, you need to provide some information about the page
 | `user_id`       | Yes (if logged in)            | If the visitor is not logged in, set the field to `null`
 | `page_type`     | Yes                           | Current page. One of `'home'`, `'product'`, `'category'`, `'cart'`, `'search'` or `'404'`
 | `product_id`    | If `page_type` = `'product'`  | On product pages, id of currently viewed product
-| `variant_id`    | If `page_type` = `'product'`  | On product pages, id of currently viewed product variant
+| `variant_id`    | If `page_type` = `'product'`  | On product pages, id of currently viewed product variant, set to null if not applicable
 | `category_name` | If `page_type` = `'category'` | On category pages, name of currently viewed category
 | `term`          | If `page_type` = `'search'`   | On search results page, current search term
 
