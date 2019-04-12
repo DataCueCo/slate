@@ -142,9 +142,9 @@ Whenever you are sending us JSON (all endpoints except `DELETE`). Remember to se
 window.datacueConfig = {
   api_key: 'your-api-key',
   user_id: 'id of user (user_id field you send us for users)',
-  page_type: 'product',
-  product_id: 1234,
-  variant_id: 2345
+  page_type: 'product', //can be many values, see table reference on the right
+  product_id: '1234', //only for product page
+  variant_id: '2345'  //only for product page
 };
 </script>
 <script src="https://cdn.datacue.co/js/datacue.js"></script>
