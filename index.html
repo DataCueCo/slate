@@ -248,7 +248,7 @@
                     <a href="#inserting-banners" class="toc-h2 toc-link" data-title="Inserting banners">Inserting banners</a>
                   </li>
                   <li>
-                    <a href="#inserting-product-carousels" class="toc-h2 toc-link" data-title="Inserting product carousels">Inserting product carousels</a>
+                    <a href="#inserting-product-carousels-grids" class="toc-h2 toc-link" data-title="Inserting product carousels/grids">Inserting product carousels/grids</a>
                   </li>
                   <li>
                     <a href="#sending-other-events" class="toc-h2 toc-link" data-title="Sending other events">Sending other events</a>
@@ -499,7 +499,7 @@
 <ul>
 <li>pageviews</li>
 <li>search</li>
-<li>banner/carousel clicks</li>
+<li>banner/product clicks</li>
 </ul>
 <h2 id='the-config-object'>The config object</h2>
 <p>To properly set up tracking, you need to provide some information about the page that the user is currently visiting. You can do it by setting the following properties of the <code>window.datacueConfig</code> object:</p>
@@ -612,21 +612,21 @@
 <li>You upload all the banners you want us to personalize directly to DataCue. </li>
 <li>The Static banner is a wide banner (1200x720px) that shows up for everyone. Tell us where it is with the <code>data-dc-static-img</code> attribute and what the link should be with the <code>data-dc-static-link</code> attribute and we&#39;ll do the rest.</li>
 </ol>
-<h2 id='inserting-product-carousels'>Inserting product carousels</h2>
+<h2 id='inserting-product-carousels-grids'>Inserting product carousels/grids</h2>
 <blockquote>
-<p>Product carousels</p>
+<p>Product recommendations</p>
 </blockquote>
-<pre class="highlight html tab-html"><code><span class="nt">&lt;div</span> <span class="na">data-dc-product-carousels</span><span class="nt">&gt;&lt;/div&gt;</span>
+<pre class="highlight html tab-html"><code><span class="nt">&lt;div</span> <span class="na">data-dc-products</span><span class="nt">&gt;&lt;/div&gt;</span>
 </code></pre>
-<p>We have three types of product carousels:</p>
+<p>We have three types of product recommendation widgets:</p>
 
 <ol>
-<li><p>Recommendations: On every page except the product page, we show product recommendations tailored to the user. On the product page, this carousel is related to the current product being viewed based on other people&#39;s purchases.</p></li>
+<li><p>Recommendations: On every page except the product page, we show product recommendations tailored to the user. On the product page, this section is related to the current product being viewed based on other people&#39;s purchases.</p></li>
 <li><p>Recently viewed: A list of all the products that were recently viewed by the user</p></li>
 <li><p>Similar products: Only on the product page, all products that are similar to the existing product looking at name, brand, categories and description.</p></li>
 </ol>
 
-<p>Just insert the following code and we&#39;ll do the rest. You can control which carousels you want to see and how many products in each carousel from your dashboard.</p>
+<p>Just insert the following code and we&#39;ll do the rest. You can control which recommendations you want to see and how many products in each section from your dashboard. You can also switch between grid and carousel widget types there.</p>
 <h2 id='sending-other-events'>Sending other events</h2>
 <blockquote>
 <p>This is an example of a typical browser event. Notice that <code>context</code> and <code>timestamp</code> aren&#39;t necessary when you&#39;re sending events directly from the user&#39;s browser.</p>
