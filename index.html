@@ -616,7 +616,17 @@
 <blockquote>
 <p>Product recommendations</p>
 </blockquote>
-<pre class="highlight html tab-html"><code><span class="nt">&lt;div</span> <span class="na">data-dc-products</span><span class="nt">&gt;&lt;/div&gt;</span>
+<pre class="highlight html tab-html"><code><span class="c">&lt;!-- insert all product recommendations for current page type --&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">data-dc-products</span><span class="nt">&gt;&lt;/div&gt;</span>
+
+<span class="c">&lt;!-- insert related/recommended products --&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">data-dc-products=</span><span class="s">"related"</span><span class="nt">&gt;&lt;/div&gt;</span>
+
+<span class="c">&lt;!-- insert recently viewed products --&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">data-dc-products=</span><span class="s">"recent"</span><span class="nt">&gt;&lt;/div&gt;</span>
+
+<span class="c">&lt;!-- insert similar products (product page only) --&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">data-dc-products=</span><span class="s">"similar"</span><span class="nt">&gt;&lt;/div&gt;</span>
 </code></pre>
 <p>We have three types of product recommendation widgets:</p>
 
@@ -626,7 +636,7 @@
 <li><p>Similar products: Only on the product page, all products that are similar to the existing product looking at name, brand, categories and description.</p></li>
 </ol>
 
-<p>Just insert the following code and we&#39;ll do the rest. You can control which recommendations you want to see and how many products in each section from your dashboard. You can also switch between grid and carousel widget types there.</p>
+<p>Just insert one of the following snippets and we&#39;ll do the rest. You can control which recommendations you want to see and how many products in each section from your dashboard. You can also switch between grid and carousel widget types there.</p>
 <h2 id='sending-other-events'>Sending other events</h2>
 <blockquote>
 <p>This is an example of a typical browser event. Notice that <code>context</code> and <code>timestamp</code> aren&#39;t necessary when you&#39;re sending events directly from the user&#39;s browser.</p>
