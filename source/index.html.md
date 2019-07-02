@@ -215,7 +215,17 @@ Here's a brief summary:
 > Product recommendations
 
 ```html
+<!-- insert all product recommendations for current page type -->
 <div data-dc-products></div>
+
+<!-- insert related/recommended products -->
+<div data-dc-products="related"></div>
+
+<!-- insert recently viewed products -->
+<div data-dc-products="recent"></div>
+
+<!-- insert similar products (product page only) -->
+<div data-dc-products="similar"></div>
 ```
 
 We have three types of product recommendation widgets:
@@ -226,7 +236,7 @@ We have three types of product recommendation widgets:
 
 3. Similar products: Only on the product page, all products that are similar to the existing product looking at name, brand, categories and description.
 
-Just insert the following code and we'll do the rest. You can control which recommendations you want to see and how many products in each section from your dashboard. You can also switch between grid and carousel widget types there.
+Just insert one of the following snippets and we'll do the rest. You can control which recommendations you want to see and how many products in each section from your dashboard. You can also switch between grid and carousel widget types there.
 
 ## Sending other events
 
