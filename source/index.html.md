@@ -36,8 +36,9 @@ This includes:
 - [Products](#products)
 - [Users](#users)
 
-### 3. Integrate recommendations to your site with our Javascript library
-Refer to the [store frontend](#store-frontend) section to understand all the events that you can send us via our Javascript library. All events have sample code attached, just copy/paste them and change the values as appropriate.
+### 3. Integrate recommendations to your site with our JavaScript library
+
+Refer to the [store frontend](#store-frontend) section to understand all the events that you can send us via our JavaScript library. All events have sample code attached, just copy/paste them and change the values as appropriate.
 
 ## Quick facts
 
@@ -47,7 +48,7 @@ The API is located at `https://api.datacue.co`.
 
 ### Authentication
 
-> Replace `API-key` with your API key and `API-secret` with your API secret. Browser/frontend events only need your api key, while the other endpoints require both.
+> Replace `API-key` with your API key and `API-secret` with your API secret. Browser/frontend events only need your API key, while the other endpoints require both.
 
 ```php
 <?php
@@ -122,9 +123,9 @@ window.datacue.init('API-key');
 
 You can find your API key and API secret in your [DataCue Dashboard](https://app.datacue.co "Dashboard").
 
-We use HTTP Basic Authentication, the username is your `apikey` and the password is a signed hash of the JSON payload you are sending. This way you don't need to send your actual api secret with the message. You get to keep it... a secret (sorry!).
+We use HTTP Basic Authentication, the username is your `apikey` and the password is a signed hash of the JSON payload you are sending. This way you don't need to send your actual API secret with the message. You get to keep it... a secret (sorry!).
 
-The store frontend events are public so you only fill in the username field with your api key and leave the password blank. Our Javascript library manages authentication for you. Just pass the `apikey` to the `init()` method and you're done. See code sample on the right.
+The store frontend events are public so you only fill in the username field with your API key and leave the password blank. Our JavaScript library manages authentication for you. Just pass the `apikey` to the `init()` method and you're done. See code sample on the right.
 
 For all other endpoints, we have reference implementations on how to sign your message with your `apisecret` in Node, PHP and Python.
 
@@ -182,7 +183,7 @@ On product pages, you can also add an optional property `product_update` to the 
 | Property        | Description |
 | --------------- | ----------- |
 | `name`          | Name of the product
-| `price`         | Current price, after all discouts applied
+| `price`         | Current price, after all discounts applied
 | `full_price`    | Base price without any discounts
 | `photo_url`     | URL of the main product photo
 | `available`     | `true` or `false`
