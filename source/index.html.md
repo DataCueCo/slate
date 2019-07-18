@@ -224,9 +224,6 @@ Here's a brief summary:
 <!-- ADVANCED: insert related categories -->
 <div data-dc-products="categories"></div>
 
-<!-- ADVANCED: insert recommendations for category, only for product category pages -->
-<div data-dc-products="category"></div>
-
 <!-- ADVANCED: insert recently viewed products -->
 <div data-dc-products="recent"></div>
 
