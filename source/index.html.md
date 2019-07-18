@@ -37,7 +37,7 @@ This includes:
 - [Users](#users)
 
 ### 3. Integrate recommendations to your site with our Javascript library
-Refer to the [browser events](#browser-events) section to understand all the events that you can send us via our Javascript library. All events have sample code attached, just copy/paste them and change the values as appropriate.
+Refer to the [store frontend](#store-frontend) section to understand all the events that you can send us via our Javascript library. All events have sample code attached, just copy/paste them and change the values as appropriate.
 
 ## Quick facts
 
@@ -47,7 +47,7 @@ The API is located at `https://api.datacue.co`.
 
 ### Authentication
 
-> Replace `API-key` with your API key and `API-secret` with your API secret. Browser events only need your api key, while the other endpoints require both.
+> Replace `API-key` with your API key and `API-secret` with your API secret. Browser/frontend events only need your api key, while the other endpoints require both.
 
 ```php
 <?php
@@ -124,7 +124,7 @@ You can find your API key and API secret in your [DataCue Dashboard](https://app
 
 We use HTTP Basic Authentication, the username is your `apikey` and the password is a signed hash of the JSON payload you are sending. This way you don't need to send your actual api secret with the message. You get to keep it... a secret (sorry!).
 
-The browser events are public so you only fill in the username field with your api key and leave the password blank. Our Javascript library manages authentication for you. Just pass the `apikey` to the `init()` method and you're done. See code sample on the right.
+The store frontend events are public so you only fill in the username field with your api key and leave the password blank. Our Javascript library manages authentication for you. Just pass the `apikey` to the `init()` method and you're done. See code sample on the right.
 
 For all other endpoints, we have reference implementations on how to sign your message with your `apisecret` in Node, PHP and Python.
 
@@ -133,7 +133,7 @@ For all other endpoints, we have reference implementations on how to sign your m
 Whenever you are sending us JSON (all endpoints except `DELETE`). Remember to set a content-type header to "application/json", some http libraries will do this for you automatically.
 `Content-Type: application/json`
 
-# Browser Events
+# Store frontend
 
 > Remember to include the config snippet *before* the external scripts
 
@@ -151,7 +151,7 @@ window.datacueConfig = {
 <script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
 ```
 
-The easiest way to start tracking browser events is to include our scripts. You'll need only three things:
+The easiest way to start tracking browser/frontend events is to include our scripts. You'll need only three things:
 
 - The config object
 - DataCue Events SDK
@@ -211,30 +211,52 @@ Here's a brief summary:
 2. You upload all the banners you want us to personalize directly to DataCue. 
 2. The Static banner is a wide banner (1200x720px) that shows up for everyone. Tell us where it is with the `data-dc-static-img` attribute and what the link should be with the `data-dc-static-link` attribute and we'll do the rest.
 
-## Inserting product carousels/grids
+## Inserting products
 > Product recommendations
 
 ```html
-<!-- insert all product recommendations for current page type -->
+<!-- RECOMMENDED: insert all relevent product recommendations for current page type -->
 <div data-dc-products></div>
 
-<!-- insert related/recommended products -->
+<!-- ADVANCED: insert related/recommended products -->
 <div data-dc-products="related"></div>
 
-<!-- insert recently viewed products -->
+<!-- ADVANCED: insert related categories -->
+<div data-dc-products="categories"></div>
+
+<!-- ADVANCED: insert recommendations for category, only for product category pages -->
+<div data-dc-products="category"></div>
+
+<!-- ADVANCED: insert recently viewed products -->
 <div data-dc-products="recent"></div>
 
-<!-- insert similar products (product page only) -->
+<!-- ADVANCED: insert similar products (product page only) -->
 <div data-dc-products="similar"></div>
 ```
 
-We have three types of product recommendation widgets:
+We strongly recommend that you just insert the `<div data-dc-products></div>` wherever you want to see product recommendations. DataCue will automatically display the most appropriate product recommendations based on the page type. If you want to hide any type of recommendation, you can do it easily from your dashboard.
 
-1. Recommendations: On every page except the product page, we show product recommendations tailored to the user. On the product page, this section is related to the current product being viewed based on other people's purchases.
+If you want to insert each recommendation in different areas of your website, you can specify a value for `data-dc-products` as shown in the code samples.
 
-2. Recently viewed: A list of all the products that were recently viewed by the user
+### Types of recommendations
 
-3. Similar products: Only on the product page, all products that are similar to the existing product looking at name, brand, categories and description.
+#### Product page
+
+1. Related: Show top products that are the most related to the current product being viewed based on other people's purchases.
+
+2. Similar: Only on the product page, all products that are similar to the existing product looking at name, brand, categories and description.
+
+#### Category page
+
+1. Category: Show top products from the current product being viewed based on other people's purchases.
+
+#### All pages (home, search, 404, cart etc)
+
+1. Categories: Show multiple rows of products based on the product categories that best match the current customer's preferences.
+
+2. Related: Show top products that match the customer's preferences.
+
+3. Recently viewed: A list of all the products that were recently viewed by the user
 
 Just insert one of the following snippets and we'll do the rest. You can control which recommendations you want to see and how many products in each section from your dashboard. You can also switch between grid and carousel widget types there.
 
