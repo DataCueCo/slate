@@ -1667,7 +1667,7 @@ $datacue = new \DataCue\Client($apikey, $apisecret);
 $data = [
   "order_id" => "O123",
   "user_id" => "U456",
-  "guest_checkout" => True,
+  "guest_checkout" => true,
   "cart" => [
     ["product_id" => "p1", "variant_id" => "v1", "quantity" => 1, "unit_price" => 24, "currency" => "USD"],
     ["product_id" => "p3", "variant_id" => "v2", "quantity" => 9, "unit_price" => 42, "currency" => "USD"]
