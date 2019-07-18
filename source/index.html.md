@@ -1410,6 +1410,7 @@ $data = [
   ],
   "wishlist" => ["P1", "P3", "P4"], //array of product ids
   "email_subscriber" => true,
+  "guest_account" => false,
   "timestamp" => "2018-04-04 23:29:04-03:00"
 ];
 
@@ -1440,6 +1441,7 @@ data = {
   },
   "wishlist": ['P1','P3','P4'], #array of product ids
   "email_subscriber": True,
+  "guest_account": False,
   "timestamp": "2018-04-04 23:29:04-03:00"
 }
 
@@ -1471,6 +1473,7 @@ const data = {
   },
   wishlist: ['P1','P3','P4'], //array of product ids
   email_subscriber: true,
+  guest_account: false,
   timestamp: '2018-04-04 23:29:04-03:00'
 };
 
@@ -1500,6 +1503,7 @@ When a new user has successfully signed up / registered on your system.
 | `last_name`        | String        | No                            | User's last name
 | `profile`          | JSON Object   | No                            | User's profile. See table below for field description
 | `email_subscriber` | Boolean       | No                            | Has this user consented to receive marketing email?
+| `guest_account` | Boolean       | No                            | Is this a guest account (user has no login credentials)
 | `wishlist`         | Array         | No                            | An array of product ids representing the products the user has on their wishlist.
 | `timestamp`        | ISO-8601 Date | No                            | User creation date/time in UTC timezone
 
@@ -1669,7 +1673,6 @@ $datacue = new \DataCue\Client($apikey, $apisecret);
 $data = [
   "order_id" => "O123",
   "user_id" => "U456",
-  "guest_checkout" => true,
   "cart" => [
     ["product_id" => "p1", "variant_id" => "v1", "quantity" => 1, "unit_price" => 24, "currency" => "USD"],
     ["product_id" => "p3", "variant_id" => "v2", "quantity" => 9, "unit_price" => 42, "currency" => "USD"]
