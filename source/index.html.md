@@ -161,7 +161,7 @@ Place the snippets near the end of the `<head>` element of your main template. T
 
 - pageviews
 - search
-- banner/carousel clicks
+- banner/product clicks
 
 ## The config object
 
@@ -211,22 +211,32 @@ Here's a brief summary:
 2. You upload all the banners you want us to personalize directly to DataCue. 
 2. The Static banner is a wide banner (1200x720px) that shows up for everyone. Tell us where it is with the `data-dc-static-img` attribute and what the link should be with the `data-dc-static-link` attribute and we'll do the rest.
 
-## Inserting product carousels
-> Product carousels
+## Inserting product carousels/grids
+> Product recommendations
 
 ```html
-<div data-dc-product-carousels></div>
+<!-- insert all product recommendations for current page type -->
+<div data-dc-products></div>
+
+<!-- insert related/recommended products -->
+<div data-dc-products="related"></div>
+
+<!-- insert recently viewed products -->
+<div data-dc-products="recent"></div>
+
+<!-- insert similar products (product page only) -->
+<div data-dc-products="similar"></div>
 ```
 
-We have three types of product carousels:
+We have three types of product recommendation widgets:
 
-1. Recommendations: On every page except the product page, we show product recommendations tailored to the user. On the product page, this carousel is related to the current product being viewed based on other people's purchases.
+1. Recommendations: On every page except the product page, we show product recommendations tailored to the user. On the product page, this section is related to the current product being viewed based on other people's purchases.
 
 2. Recently viewed: A list of all the products that were recently viewed by the user
 
 3. Similar products: Only on the product page, all products that are similar to the existing product looking at name, brand, categories and description.
 
-Just insert the following code and we'll do the rest. You can control which carousels you want to see and how many products in each carousel from your dashboard.
+Just insert one of the following snippets and we'll do the rest. You can control which recommendations you want to see and how many products in each section from your dashboard. You can also switch between grid and carousel widget types there.
 
 ## Sending other events
 
