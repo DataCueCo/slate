@@ -393,13 +393,13 @@
 <li><a href="#products">Products</a></li>
 <li><a href="#users">Users</a></li>
 </ul>
-<h3 id='3-integrate-recommendations-to-your-site-with-our-javascript-library'>3. Integrate recommendations to your site with our Javascript library</h3>
-<p>Refer to the <a href="#store-frontend">store frontend</a> section to understand all the events that you can send us via our Javascript library. All events have sample code attached, just copy/paste them and change the values as appropriate.</p>
+<h3 id='3-integrate-recommendations-to-your-site-with-our-javascript-library'>3. Integrate recommendations to your site with our JavaScript library</h3>
+<p>Refer to the <a href="#store-frontend">store frontend</a> section to understand all the events that you can send us via our JavaScript library. All events have sample code attached, just copy/paste them and change the values as appropriate.</p>
 <h2 id='quick-facts'>Quick facts</h2><h3 id='api-url'>API URL</h3>
 <p>The API is located at <code>https://api.datacue.co</code>.</p>
 <h3 id='authentication'>Authentication</h3>
 <blockquote>
-<p>Replace <code>API-key</code> with your API key and <code>API-secret</code> with your API secret. Browser/frontend events only need your api key, while the other endpoints require both.</p>
+<p>Replace <code>API-key</code> with your API key and <code>API-secret</code> with your API secret. Browser/frontend events only need your API key, while the other endpoints require both.</p>
 </blockquote>
 <pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
@@ -462,9 +462,9 @@
 </code></pre>
 <p>You can find your API key and API secret in your <a href="https://app.datacue.co" title="Dashboard">DataCue Dashboard</a>.</p>
 
-<p>We use HTTP Basic Authentication, the username is your <code>apikey</code> and the password is a signed hash of the JSON payload you are sending. This way you don&#39;t need to send your actual api secret with the message. You get to keep it... a secret (sorry!).</p>
+<p>We use HTTP Basic Authentication, the username is your <code>apikey</code> and the password is a signed hash of the JSON payload you are sending. This way you don&#39;t need to send your actual API secret with the message. You get to keep it... a secret (sorry!).</p>
 
-<p>The store frontend events are public so you only fill in the username field with your api key and leave the password blank. Our Javascript library manages authentication for you. Just pass the <code>apikey</code> to the <code>init()</code> method and you&#39;re done. See code sample on the right.</p>
+<p>The store frontend events are public so you only fill in the username field with your API key and leave the password blank. Our JavaScript library manages authentication for you. Just pass the <code>apikey</code> to the <code>init()</code> method and you&#39;re done. See code sample on the right.</p>
 
 <p>For all other endpoints, we have reference implementations on how to sign your message with your <code>apisecret</code> in Node, PHP and Python.</p>
 <h3 id='content-type'>Content-Type</h3>
@@ -562,7 +562,7 @@
 </tr>
 <tr>
 <td><code>price</code></td>
-<td>Current price, after all discouts applied</td>
+<td>Current price, after all discounts applied</td>
 </tr>
 <tr>
 <td><code>full_price</code></td>
@@ -625,9 +625,6 @@
 <span class="c">&lt;!-- ADVANCED: insert related categories --&gt;</span>
 <span class="nt">&lt;div</span> <span class="na">data-dc-products=</span><span class="s">"categories"</span><span class="nt">&gt;&lt;/div&gt;</span>
 
-<span class="c">&lt;!-- ADVANCED: insert recommendations for category, only for product category pages --&gt;</span>
-<span class="nt">&lt;div</span> <span class="na">data-dc-products=</span><span class="s">"category"</span><span class="nt">&gt;&lt;/div&gt;</span>
-
 <span class="c">&lt;!-- ADVANCED: insert recently viewed products --&gt;</span>
 <span class="nt">&lt;div</span> <span class="na">data-dc-products=</span><span class="s">"recent"</span><span class="nt">&gt;&lt;/div&gt;</span>
 
@@ -637,20 +634,27 @@
 <p>We strongly recommend that you just insert the <code>&lt;div data-dc-products&gt;&lt;/div&gt;</code> wherever you want to see product recommendations. DataCue will automatically display the most appropriate product recommendations based on the page type. If you want to hide any type of recommendation, you can do it easily from your dashboard.</p>
 
 <p>If you want to insert each recommendation in different areas of your website, you can specify a value for <code>data-dc-products</code> as shown in the code samples.</p>
-<h3 id='types-of-recommendations'>Types of recommendations</h3><h4 id='product-page'>Product page</h4>
-<ol>
-<li><p>Related: Show top products that are the most related to the current product being viewed based on other people&#39;s purchases.</p></li>
-<li><p>Similar: Only on the product page, all products that are similar to the existing product looking at name, brand, categories and description.</p></li>
-</ol>
-<h4 id='category-page'>Category page</h4>
-<ol>
-<li>Category: Show top products from the current product being viewed based on other people&#39;s purchases.</li>
-</ol>
-<h4 id='all-pages-home-search-404-cart-etc'>All pages (home, search, 404, cart etc)</h4>
+<h3 id='types-of-recommendations'>Types of recommendations</h3><h4 id='all-pages-home-product-category-search-404-cart-etc'>All pages (home, product, category, search, 404, cart etc)</h4>
 <ol>
 <li><p>Categories: Show multiple rows of products based on the product categories that best match the current customer&#39;s preferences.</p></li>
 <li><p>Related: Show top products that match the customer&#39;s preferences.</p></li>
 <li><p>Recently viewed: A list of all the products that were recently viewed by the user</p></li>
+</ol>
+<h4 id='category-page-only'>Category page only</h4>
+<ol>
+<li>Related: Show top products that are the most related to the current category being viewed based on your customers purchases.</li>
+</ol>
+
+<p><em>Replaces the regular <code>related</code> carousel</em></p>
+<h4 id='product-page-only'>Product page only</h4>
+<ol>
+<li>Related: Show top products that are the most related to the current product being viewed based on your customers purchases.</li>
+</ol>
+
+<p><em>Replaces the regular <code>related</code> carousel</em></p>
+
+<ol>
+<li>Similar: All products that are similar to the existing product looking at name, brand, categories and description.</li>
 </ol>
 
 <p>Just insert one of the following snippets and we&#39;ll do the rest. You can control which recommendations you want to see and how many products in each section from your dashboard. You can also switch between grid and carousel widget types there.</p>
