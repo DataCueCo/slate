@@ -133,7 +133,7 @@ For all other endpoints, we have reference implementations on how to sign your m
 Whenever you are sending us JSON (all endpoints except `DELETE`). Remember to set a content-type header to "application/json", some http libraries will do this for you automatically.
 `Content-Type: application/json`
 
-# Store frontend
+# Store Frontend
 
 > Remember to include the config snippet *before* the external scripts
 
@@ -151,7 +151,7 @@ window.datacueConfig = {
 <script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
 ```
 
-The easiest way to start tracking browser/frontend events is to include our scripts. You'll need only three things:
+The easiest way to start tracking browser/frontend events is to include our scripts. You only need three things:
 
 - The config object
 - DataCue Events SDK
