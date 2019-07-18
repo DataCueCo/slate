@@ -1049,6 +1049,7 @@ $data = [
   "full_price" => 30000,
   "available" => True,
   "stock" => 5,
+  "rating" => 90,
   "extra" => [
     "extra_feature" => "details"
   ],
@@ -1087,6 +1088,7 @@ data = {
   "full_price": 35000,
   "available": True,
   "stock": 5,
+  "rating": 90,
   "extra": {
     "extra_feature": "details"
   },
@@ -1125,6 +1127,7 @@ const data = {
   full_price: 35000,
   available: true,
   stock: 5,
+  rating: 90,
   extra: {
     extra_feature: 'details'
   },
@@ -1163,18 +1166,24 @@ Whenever a new product is created, send this request from your backend.
 | `full_price`          | Decimal     | Yes      | Full price without discount to two decimal places e.g. 5.30
 | `available`      | Boolean     | No       | Is the product available for Sale (Default true)
 | `stock`          | Integer     | Yes      | Number of product in stock
+| `rating`          | Integer     | No      | Rating from 0-100 of the product/variant
 | `extra`          | JSON Object | No       | Any other fields you want to store about the product that you want to display on site e.g. discounts or promotions.
 | `photo_url`      | String      | Yes      | URL of the photo, you can use relative URLs as this is purely for your front-end to request the image
 | `link`           | String      | Yes      | URL of product page for this product e.g. /products/p1
 | `owner_id`       | String      | No       | If you're running a marketplace, store the product's owner or seller's user ID here.
 
 #### Discounts
+
 DataCue can feature your discounted products automatically. Use the `price` and `full_price` field when you have a discount. If `full_price` is empty or less than `price`, we assume the product is not on discount.
 
 Lets say you have a product that usually costs $50. This week you have it's on discount and costs $40.
 Update the product like so:
 - `price` = 40.00
 - `full_price` = 50.00
+
+#### Rating
+
+DataCue can display a star rating under each product recommendation if you collect user reviews or have any other kind of rating system. Just send us a value from 0-100 in the rating field. This will appear as 5 stars under each product. e.g. a rating of 58, will show a star rating of 3 filled in stars out of 5.
 
 ## Update Product
 
@@ -1626,6 +1635,7 @@ $datacue = new \DataCue\Client($apikey, $apisecret);
 $data = [
   "order_id" => "O123",
   "user_id" => "U456",
+  "guest_checkout" => True,
   "cart" => [
     ["product_id" => "p1", "variant_id" => "v1", "quantity" => 1, "unit_price" => 24, "currency" => "USD"],
     ["product_id" => "p3", "variant_id" => "v2", "quantity" => 9, "unit_price" => 42, "currency" => "USD"]
@@ -1650,6 +1660,7 @@ apisecret = "your-api-secret-goes-here"
 data = {
   "order_id": "o123",
   "user_id": "u456",
+  "guest_checkout": True,
   "cart": [
     {
       "product_id": "p1",
@@ -1685,6 +1696,7 @@ const apisecret = 'your-api-secret-goes-here';
 const data = {
   order_id : 'O123',
   user_id : 'U456',
+  guest_checkout: true,
   order_status : 'completed',
   cart: [
     {
@@ -1725,6 +1737,7 @@ When a user has successfully completed an order on your store. An Order is consi
 | ------------------ | ------------- | ----------------------------- | ----------- |
 | `order_id`         | String        | Yes                           | The unique order id assigned
 | `user_id`          | String        | Yes                           | User ID that made the order
+| `guest_checkout`          | Boolean        | No                           | Specify if this was a guest checkout, meaning no user account was created
 | `order_status`          | String        | No                           | Can be `completed` (default) or `cancelled`
 | `cart`             | Array         | No                            | An array of line items in the order shopping cart
 | `timestamp`        | ISO-8601 Date | No                            | Order creation date/time in UTC timezone
