@@ -2046,6 +2046,7 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
   <span class="p">],</span>
   <span class="s2">"wishlist"</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s2">"P1"</span><span class="p">,</span> <span class="s2">"P3"</span><span class="p">,</span> <span class="s2">"P4"</span><span class="p">],</span> <span class="c1">//array of product ids
 </span>  <span class="s2">"email_subscriber"</span> <span class="o">=&gt;</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="s2">"guest_account"</span> <span class="o">=&gt;</span> <span class="kc">false</span><span class="p">,</span>
   <span class="s2">"timestamp"</span> <span class="o">=&gt;</span> <span class="s2">"2018-04-04 23:29:04-03:00"</span>
 <span class="p">];</span>
 
@@ -2073,6 +2074,7 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
   <span class="p">},</span>
   <span class="s">"wishlist"</span><span class="p">:</span> <span class="p">[</span><span class="s">'P1'</span><span class="p">,</span><span class="s">'P3'</span><span class="p">,</span><span class="s">'P4'</span><span class="p">],</span> <span class="c">#array of product ids</span>
   <span class="s">"email_subscriber"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+  <span class="s">"guest_account"</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
   <span class="s">"timestamp"</span><span class="p">:</span> <span class="s">"2018-04-04 23:29:04-03:00"</span>
 <span class="p">}</span>
 
@@ -2101,6 +2103,7 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
   <span class="p">},</span>
   <span class="na">wishlist</span><span class="p">:</span> <span class="p">[</span><span class="s1">'P1'</span><span class="p">,</span><span class="s1">'P3'</span><span class="p">,</span><span class="s1">'P4'</span><span class="p">],</span> <span class="c1">//array of product ids</span>
   <span class="na">email_subscriber</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="na">guest_account</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
   <span class="na">timestamp</span><span class="p">:</span> <span class="s1">'2018-04-04 23:29:04-03:00'</span>
 <span class="p">};</span>
 
@@ -2174,6 +2177,12 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 <td>Boolean</td>
 <td>No</td>
 <td>Has this user consented to receive marketing email?</td>
+</tr>
+<tr>
+<td><code>guest_account</code></td>
+<td>Boolean</td>
+<td>No</td>
+<td>Is this a guest account (user has no login credentials)</td>
 </tr>
 <tr>
 <td><code>wishlist</code></td>
@@ -2340,7 +2349,6 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 <span class="nv">$data</span> <span class="o">=</span> <span class="p">[</span>
   <span class="s2">"order_id"</span> <span class="o">=&gt;</span> <span class="s2">"O123"</span><span class="p">,</span>
   <span class="s2">"user_id"</span> <span class="o">=&gt;</span> <span class="s2">"U456"</span><span class="p">,</span>
-  <span class="s2">"guest_checkout"</span> <span class="o">=&gt;</span> <span class="kc">true</span><span class="p">,</span>
   <span class="s2">"cart"</span> <span class="o">=&gt;</span> <span class="p">[</span>
     <span class="p">[</span><span class="s2">"product_id"</span> <span class="o">=&gt;</span> <span class="s2">"p1"</span><span class="p">,</span> <span class="s2">"variant_id"</span> <span class="o">=&gt;</span> <span class="s2">"v1"</span><span class="p">,</span> <span class="s2">"quantity"</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"unit_price"</span> <span class="o">=&gt;</span> <span class="mi">24</span><span class="p">,</span> <span class="s2">"currency"</span> <span class="o">=&gt;</span> <span class="s2">"USD"</span><span class="p">],</span>
     <span class="p">[</span><span class="s2">"product_id"</span> <span class="o">=&gt;</span> <span class="s2">"p3"</span><span class="p">,</span> <span class="s2">"variant_id"</span> <span class="o">=&gt;</span> <span class="s2">"v2"</span><span class="p">,</span> <span class="s2">"quantity"</span> <span class="o">=&gt;</span> <span class="mi">9</span><span class="p">,</span> <span class="s2">"unit_price"</span> <span class="o">=&gt;</span> <span class="mi">42</span><span class="p">,</span> <span class="s2">"currency"</span> <span class="o">=&gt;</span> <span class="s2">"USD"</span><span class="p">]</span>
