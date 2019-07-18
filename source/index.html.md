@@ -240,23 +240,27 @@ If you want to insert each recommendation in different areas of your website, yo
 
 ### Types of recommendations
 
-#### Product page
-
-1. Related: Show top products that are the most related to the current product being viewed based on other people's purchases.
-
-2. Similar: Only on the product page, all products that are similar to the existing product looking at name, brand, categories and description.
-
-#### Category page
-
-1. Category: Show top products from the current product being viewed based on other people's purchases.
-
-#### All pages (home, search, 404, cart etc)
+#### All pages (home, product, category, search, 404, cart etc)
 
 1. Categories: Show multiple rows of products based on the product categories that best match the current customer's preferences.
 
 2. Related: Show top products that match the customer's preferences.
 
 3. Recently viewed: A list of all the products that were recently viewed by the user
+
+#### Category page only
+
+1. Related: Show top products that are the most related to the current category being viewed based on your customers purchases.
+
+  *Replaces the regular `related` carousel*
+
+#### Product page only
+
+1. Related: Show top products that are the most related to the current product being viewed based on your customers purchases.
+
+  *Replaces the regular `related` carousel*
+
+2. Similar: All products that are similar to the existing product looking at name, brand, categories and description.
 
 Just insert one of the following snippets and we'll do the rest. You can control which recommendations you want to see and how many products in each section from your dashboard. You can also switch between grid and carousel widget types there.
 
