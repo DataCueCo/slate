@@ -239,7 +239,7 @@
               </ul>
           </li>
           <li>
-            <a href="#browser-events" class="toc-h1 toc-link" data-title="Browser Events">Browser Events</a>
+            <a href="#store-frontend" class="toc-h1 toc-link" data-title="Store frontend">Store frontend</a>
               <ul class="toc-list-h2">
                   <li>
                     <a href="#the-config-object" class="toc-h2 toc-link" data-title="The config object">The config object</a>
@@ -248,7 +248,7 @@
                     <a href="#inserting-banners" class="toc-h2 toc-link" data-title="Inserting banners">Inserting banners</a>
                   </li>
                   <li>
-                    <a href="#inserting-product-carousels-grids" class="toc-h2 toc-link" data-title="Inserting product carousels/grids">Inserting product carousels/grids</a>
+                    <a href="#inserting-products" class="toc-h2 toc-link" data-title="Inserting products">Inserting products</a>
                   </li>
                   <li>
                     <a href="#sending-other-events" class="toc-h2 toc-link" data-title="Sending other events">Sending other events</a>
@@ -394,12 +394,12 @@
 <li><a href="#users">Users</a></li>
 </ul>
 <h3 id='3-integrate-recommendations-to-your-site-with-our-javascript-library'>3. Integrate recommendations to your site with our Javascript library</h3>
-<p>Refer to the <a href="#browser-events">browser events</a> section to understand all the events that you can send us via our Javascript library. All events have sample code attached, just copy/paste them and change the values as appropriate.</p>
+<p>Refer to the <a href="#store-frontend">store frontend</a> section to understand all the events that you can send us via our Javascript library. All events have sample code attached, just copy/paste them and change the values as appropriate.</p>
 <h2 id='quick-facts'>Quick facts</h2><h3 id='api-url'>API URL</h3>
 <p>The API is located at <code>https://api.datacue.co</code>.</p>
 <h3 id='authentication'>Authentication</h3>
 <blockquote>
-<p>Replace <code>API-key</code> with your API key and <code>API-secret</code> with your API secret. Browser events only need your api key, while the other endpoints require both.</p>
+<p>Replace <code>API-key</code> with your API key and <code>API-secret</code> with your API secret. Browser/frontend events only need your api key, while the other endpoints require both.</p>
 </blockquote>
 <pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
@@ -464,13 +464,13 @@
 
 <p>We use HTTP Basic Authentication, the username is your <code>apikey</code> and the password is a signed hash of the JSON payload you are sending. This way you don&#39;t need to send your actual api secret with the message. You get to keep it... a secret (sorry!).</p>
 
-<p>The browser events are public so you only fill in the username field with your api key and leave the password blank. Our Javascript library manages authentication for you. Just pass the <code>apikey</code> to the <code>init()</code> method and you&#39;re done. See code sample on the right.</p>
+<p>The store frontend events are public so you only fill in the username field with your api key and leave the password blank. Our Javascript library manages authentication for you. Just pass the <code>apikey</code> to the <code>init()</code> method and you&#39;re done. See code sample on the right.</p>
 
 <p>For all other endpoints, we have reference implementations on how to sign your message with your <code>apisecret</code> in Node, PHP and Python.</p>
 <h3 id='content-type'>Content-Type</h3>
 <p>Whenever you are sending us JSON (all endpoints except <code>DELETE</code>). Remember to set a content-type header to &quot;application/json&quot;, some http libraries will do this for you automatically.
 <code>Content-Type: application/json</code></p>
-<h1 id='browser-events'>Browser Events</h1>
+<h1 id='store-frontend'>Store frontend</h1>
 <blockquote>
 <p>Remember to include the config snippet <em>before</em> the external scripts</p>
 </blockquote>
@@ -486,7 +486,7 @@
 <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
 <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue-storefront.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
 </code></pre>
-<p>The easiest way to start tracking browser events is to include our scripts. You&#39;ll need only three things:</p>
+<p>The easiest way to start tracking browser/frontend events is to include our scripts. You&#39;ll need only three things:</p>
 
 <ul>
 <li>The config object</li>
@@ -612,28 +612,45 @@
 <li>You upload all the banners you want us to personalize directly to DataCue. </li>
 <li>The Static banner is a wide banner (1200x720px) that shows up for everyone. Tell us where it is with the <code>data-dc-static-img</code> attribute and what the link should be with the <code>data-dc-static-link</code> attribute and we&#39;ll do the rest.</li>
 </ol>
-<h2 id='inserting-product-carousels-grids'>Inserting product carousels/grids</h2>
+<h2 id='inserting-products'>Inserting products</h2>
 <blockquote>
 <p>Product recommendations</p>
 </blockquote>
-<pre class="highlight html tab-html"><code><span class="c">&lt;!-- insert all product recommendations for current page type --&gt;</span>
+<pre class="highlight html tab-html"><code><span class="c">&lt;!-- RECOMMENDED: insert all relevent product recommendations for current page type --&gt;</span>
 <span class="nt">&lt;div</span> <span class="na">data-dc-products</span><span class="nt">&gt;&lt;/div&gt;</span>
 
-<span class="c">&lt;!-- insert related/recommended products --&gt;</span>
+<span class="c">&lt;!-- ADVANCED: insert related/recommended products --&gt;</span>
 <span class="nt">&lt;div</span> <span class="na">data-dc-products=</span><span class="s">"related"</span><span class="nt">&gt;&lt;/div&gt;</span>
 
-<span class="c">&lt;!-- insert recently viewed products --&gt;</span>
+<span class="c">&lt;!-- ADVANCED: insert related categories --&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">data-dc-products=</span><span class="s">"categories"</span><span class="nt">&gt;&lt;/div&gt;</span>
+
+<span class="c">&lt;!-- ADVANCED: insert recommendations for category, only for product category pages --&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">data-dc-products=</span><span class="s">"category"</span><span class="nt">&gt;&lt;/div&gt;</span>
+
+<span class="c">&lt;!-- ADVANCED: insert recently viewed products --&gt;</span>
 <span class="nt">&lt;div</span> <span class="na">data-dc-products=</span><span class="s">"recent"</span><span class="nt">&gt;&lt;/div&gt;</span>
 
-<span class="c">&lt;!-- insert similar products (product page only) --&gt;</span>
+<span class="c">&lt;!-- ADVANCED: insert similar products (product page only) --&gt;</span>
 <span class="nt">&lt;div</span> <span class="na">data-dc-products=</span><span class="s">"similar"</span><span class="nt">&gt;&lt;/div&gt;</span>
 </code></pre>
-<p>We have three types of product recommendation widgets:</p>
+<p>We strongly recommend that you just insert the <code>&lt;div data-dc-products&gt;&lt;/div&gt;</code> wherever you want to see product recommendations. DataCue will automatically display the most appropriate product recommendations based on the page type. If you want to hide any type of recommendation, you can do it easily from your dashboard.</p>
 
+<p>If you want to insert each recommendation in different areas of your website, you can specify a value for <code>data-dc-products</code> as shown in the code samples.</p>
+<h3 id='types-of-recommendations'>Types of recommendations</h3><h4 id='product-page'>Product page</h4>
 <ol>
-<li><p>Recommendations: On every page except the product page, we show product recommendations tailored to the user. On the product page, this section is related to the current product being viewed based on other people&#39;s purchases.</p></li>
+<li><p>Related: Show top products that are the most related to the current product being viewed based on other people&#39;s purchases.</p></li>
+<li><p>Similar: Only on the product page, all products that are similar to the existing product looking at name, brand, categories and description.</p></li>
+</ol>
+<h4 id='category-page'>Category page</h4>
+<ol>
+<li>Category: Show top products from the current product being viewed based on other people&#39;s purchases.</li>
+</ol>
+<h4 id='all-pages-home-search-404-cart-etc'>All pages (home, search, 404, cart etc)</h4>
+<ol>
+<li><p>Categories: Show multiple rows of products based on the product categories that best match the current customer&#39;s preferences.</p></li>
+<li><p>Related: Show top products that match the customer&#39;s preferences.</p></li>
 <li><p>Recently viewed: A list of all the products that were recently viewed by the user</p></li>
-<li><p>Similar products: Only on the product page, all products that are similar to the existing product looking at name, brand, categories and description.</p></li>
 </ol>
 
 <p>Just insert one of the following snippets and we&#39;ll do the rest. You can control which recommendations you want to see and how many products in each section from your dashboard. You can also switch between grid and carousel widget types there.</p>
@@ -1651,6 +1668,7 @@
   <span class="s2">"full_price"</span> <span class="o">=&gt;</span> <span class="mi">30000</span><span class="p">,</span>
   <span class="s2">"available"</span> <span class="o">=&gt;</span> <span class="nx">True</span><span class="p">,</span>
   <span class="s2">"stock"</span> <span class="o">=&gt;</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="s2">"rating"</span> <span class="o">=&gt;</span> <span class="mi">90</span><span class="p">,</span>
   <span class="s2">"extra"</span> <span class="o">=&gt;</span> <span class="p">[</span>
     <span class="s2">"extra_feature"</span> <span class="o">=&gt;</span> <span class="s2">"details"</span>
   <span class="p">],</span>
@@ -1686,6 +1704,7 @@
   <span class="s">"full_price"</span><span class="p">:</span> <span class="mi">35000</span><span class="p">,</span>
   <span class="s">"available"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
   <span class="s">"stock"</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="s">"rating"</span><span class="p">:</span> <span class="mi">90</span><span class="p">,</span>
   <span class="s">"extra"</span><span class="p">:</span> <span class="p">{</span>
     <span class="s">"extra_feature"</span><span class="p">:</span> <span class="s">"details"</span>
   <span class="p">},</span>
@@ -1721,6 +1740,7 @@
   <span class="na">full_price</span><span class="p">:</span> <span class="mi">35000</span><span class="p">,</span>
   <span class="na">available</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
   <span class="na">stock</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="na">rating</span><span class="p">:</span> <span class="mi">90</span><span class="p">,</span>
   <span class="na">extra</span><span class="p">:</span> <span class="p">{</span>
     <span class="na">extra_feature</span><span class="p">:</span> <span class="s1">'details'</span>
   <span class="p">},</span>
@@ -1830,6 +1850,12 @@ Whenever a new product is created, send this request from your backend.</p>
 <td>Number of product in stock</td>
 </tr>
 <tr>
+<td><code>rating</code></td>
+<td>Integer</td>
+<td>No</td>
+<td>Rating from 0-100 of the product/variant</td>
+</tr>
+<tr>
 <td><code>extra</code></td>
 <td>JSON Object</td>
 <td>No</td>
@@ -1861,6 +1887,8 @@ Whenever a new product is created, send this request from your backend.</p>
 Update the product like so:
 - <code>price</code> = 40.00
 - <code>full_price</code> = 50.00</p>
+<h4 id='rating'>Rating</h4>
+<p>DataCue can display a star rating under each product recommendation if you collect user reviews or have any other kind of rating system. Just send us a value from 0-100 in the rating field. This will appear as 5 stars under each product. e.g. a rating of 58, will show a star rating of 3 filled in stars out of 5.</p>
 <h2 id='update-product'>Update Product</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="s2">"backend only event (refer to the Python, PHP or Node tab)"</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
@@ -2308,6 +2336,7 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 <span class="nv">$data</span> <span class="o">=</span> <span class="p">[</span>
   <span class="s2">"order_id"</span> <span class="o">=&gt;</span> <span class="s2">"O123"</span><span class="p">,</span>
   <span class="s2">"user_id"</span> <span class="o">=&gt;</span> <span class="s2">"U456"</span><span class="p">,</span>
+  <span class="s2">"guest_checkout"</span> <span class="o">=&gt;</span> <span class="nx">True</span><span class="p">,</span>
   <span class="s2">"cart"</span> <span class="o">=&gt;</span> <span class="p">[</span>
     <span class="p">[</span><span class="s2">"product_id"</span> <span class="o">=&gt;</span> <span class="s2">"p1"</span><span class="p">,</span> <span class="s2">"variant_id"</span> <span class="o">=&gt;</span> <span class="s2">"v1"</span><span class="p">,</span> <span class="s2">"quantity"</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"unit_price"</span> <span class="o">=&gt;</span> <span class="mi">24</span><span class="p">,</span> <span class="s2">"currency"</span> <span class="o">=&gt;</span> <span class="s2">"USD"</span><span class="p">],</span>
     <span class="p">[</span><span class="s2">"product_id"</span> <span class="o">=&gt;</span> <span class="s2">"p3"</span><span class="p">,</span> <span class="s2">"variant_id"</span> <span class="o">=&gt;</span> <span class="s2">"v2"</span><span class="p">,</span> <span class="s2">"quantity"</span> <span class="o">=&gt;</span> <span class="mi">9</span><span class="p">,</span> <span class="s2">"unit_price"</span> <span class="o">=&gt;</span> <span class="mi">42</span><span class="p">,</span> <span class="s2">"currency"</span> <span class="o">=&gt;</span> <span class="s2">"USD"</span><span class="p">]</span>
@@ -2329,6 +2358,7 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s">"order_id"</span><span class="p">:</span> <span class="s">"o123"</span><span class="p">,</span>
   <span class="s">"user_id"</span><span class="p">:</span> <span class="s">"u456"</span><span class="p">,</span>
+  <span class="s">"guest_checkout"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
   <span class="s">"cart"</span><span class="p">:</span> <span class="p">[</span>
     <span class="p">{</span>
       <span class="s">"product_id"</span><span class="p">:</span> <span class="s">"p1"</span><span class="p">,</span>
@@ -2361,6 +2391,7 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 <span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
   <span class="na">order_id</span> <span class="p">:</span> <span class="s1">'O123'</span><span class="p">,</span>
   <span class="na">user_id</span> <span class="p">:</span> <span class="s1">'U456'</span><span class="p">,</span>
+  <span class="na">guest_checkout</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
   <span class="na">order_status</span> <span class="p">:</span> <span class="s1">'completed'</span><span class="p">,</span>
   <span class="na">cart</span><span class="p">:</span> <span class="p">[</span>
     <span class="p">{</span>
@@ -2415,6 +2446,12 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 <td>String</td>
 <td>Yes</td>
 <td>User ID that made the order</td>
+</tr>
+<tr>
+<td><code>guest_checkout</code></td>
+<td>Boolean</td>
+<td>No</td>
+<td>Specify if this was a guest checkout, meaning no user account was created</td>
 </tr>
 <tr>
 <td><code>order_status</code></td>
