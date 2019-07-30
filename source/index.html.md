@@ -83,10 +83,11 @@ data = {
   "name" : 'Spongebob',
   "email" : 'pineapple@underthe.sea'
 }
+jsonData = json.dumps(data)
 
-checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(json.dumps(data), 'utf-8'), hashlib.sha256)
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(jsonData, 'utf-8'), hashlib.sha256)
 
-response = requests.post(url, json=data, auth=(apikey, checksum.hexdigest()))
+response = requests.post(url, data=jsonData, auth=(apikey, checksum.hexdigest()))
 ```
 
 ```javascript--node
@@ -1132,11 +1133,11 @@ data = {
 }
 
 
-
+jsonData = json.dumps(data)
 checksum = hmac.new(bytes(apisecret, 'utf-8'),
-                    bytes(json.dumps(data), 'utf-8'), hashlib.sha256)
+                    bytes(jsonData, 'utf-8'), hashlib.sha256)
 
-response = requests.post(url, json=data, auth=(apikey, checksum.hexdigest()))
+response = requests.post(url, data=jsonData, auth=(apikey, checksum.hexdigest()))
 ```
 
 ```javascript--node
@@ -1266,10 +1267,11 @@ data = {
   "available": False
 }
 
+jsonData = json.dumps(data)
 checksum = hmac.new(bytes(apisecret, 'utf-8'),
-                    bytes(json.dumps(data), 'utf-8'), hashlib.sha256)
+                    bytes(jsonData, 'utf-8'), hashlib.sha256)
 
-response = requests.put(url, json=data, auth=(apikey, checksum.hexdigest()))
+response = requests.put(url, data=jsonData, auth=(apikey, checksum.hexdigest()))
 ```
 
 ```javascript--node
@@ -1445,10 +1447,10 @@ data = {
   "timestamp": "2018-04-04 23:29:04-03:00"
 }
 
+jsonData = json.dumps(data)
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(jsonData, 'utf-8'), hashlib.sha256)
 
-checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(json.dumps(data), 'utf-8'), hashlib.sha256)
-
-response = requests.post(url, json=data, auth=(apikey, checksum.hexdigest()))
+response = requests.post(url, data=jsonData, auth=(apikey, checksum.hexdigest()))
 
 ```
 
@@ -1557,9 +1559,10 @@ data = {
   }
 }
 
-checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(json.dumps(data), 'utf-8'), hashlib.sha256)
+jsonData = json.dumps(data)
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(jsonData, 'utf-8'), hashlib.sha256)
 
-response = requests.put(url, json=data, auth=(apikey, checksum.hexdigest()))
+response = requests.put(url, data=jsonData, auth=(apikey, checksum.hexdigest()))
 ```
 
 ```javascript--node
@@ -1697,7 +1700,6 @@ apisecret = "your-api-secret-goes-here"
 data = {
   "order_id": "o123",
   "user_id": "u456",
-  "guest_checkout": True,
   "cart": [
     {
       "product_id": "p1",
@@ -1717,9 +1719,10 @@ data = {
   "timestamp": "2018-04-04 23:29:04Z"
 }
 
-checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(json.dumps(data), 'utf-8'), hashlib.sha256)
+jsonData = json.dumps(data)
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(jsonData, 'utf-8'), hashlib.sha256)
 
-response = requests.post(url, json=data, auth=(apikey, checksum.hexdigest()))
+response = requests.post(url, data=jsonData, auth=(apikey, checksum.hexdigest()))
 ```
 
 ```javascript--node
@@ -1774,7 +1777,6 @@ When a user has successfully completed an order on your store. An Order is consi
 | ------------------ | ------------- | ----------------------------- | ----------- |
 | `order_id`         | String        | Yes                           | The unique order id assigned
 | `user_id`          | String        | Yes                           | User ID that made the order
-| `guest_checkout`          | Boolean        | No                           | Specify if this was a guest checkout, meaning no user account was created
 | `order_status`          | String        | No                           | Can be `completed` (default) or `cancelled`
 | `cart`             | Array         | No                            | An array of line items in the order shopping cart
 | `timestamp`        | ISO-8601 Date | No                            | Order creation date/time in UTC timezone
@@ -1823,9 +1825,10 @@ data = {
   "order_status": "cancelled"
 }
 
-checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(json.dumps(data), 'utf-8'), hashlib.sha256)
+jsonData = json.dumps(data)
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(jsonData, 'utf-8'), hashlib.sha256)
 
-response = requests.put(url, json=data, auth=(apikey, checksum.hexdigest())
+response = requests.put(url, data=jsonData, auth=(apikey, checksum.hexdigest())
 ```
 
 ```javascript--node
@@ -2073,11 +2076,12 @@ data = {
   ]
 }
 
+jsonData = json.dumps(data)
 checksum = hmac.new(bytes(apisecret,'utf-8'),
-  bytes(json.dumps(data), 'utf-8'),
+  bytes(jsonData, 'utf-8'),
   hashlib.sha256)
 
-response = requests.post(url, json=data, auth=(apikey, checksum.hexdigest()))
+response = requests.post(url, data=jsonData, auth=(apikey, checksum.hexdigest()))
 ```
 
 ```javascript--node
@@ -2237,11 +2241,12 @@ data = {
     ]
 }
 
+jsonData = json.dumps(data)
 checksum = hmac.new(bytes(apisecret,'utf-8'),
-  bytes(json.dumps(data), 'utf-8'),
+  bytes(jsonData, 'utf-8'),
   hashlib.sha256)
 
-response = requests.post(url, json=data, auth=(apikey, checksum.hexdigest()))
+response = requests.post(url, data=jsonData, auth=(apikey, checksum.hexdigest()))
 ```
 
 ```javascript--node
@@ -2362,11 +2367,12 @@ data = {
   ]
 }
 
+jsonData = json.dumps(data)
 checksum = hmac.new(bytes(apisecret,'utf-8'),
-  bytes(json.dumps(data), 'utf-8'),
+  bytes(jsonData, 'utf-8'),
   hashlib.sha256)
 
-response = requests.post(url, json=data, auth=(apikey, checksum.hexdigest()))
+response = requests.post(url, data=jsonData, auth=(apikey, checksum.hexdigest()))
 ```
 
 ```javascript--node
@@ -2479,9 +2485,10 @@ data = {
     }
 }
 
-checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(json.dumps(data), 'utf-8'), hashlib.sha256)
+jsonData = json.dumps(data)
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(jsonData, 'utf-8'), hashlib.sha256)
 
-response = requests.put(url, json=data, auth=(apikey, checksum.hexdigest()))
+response = requests.put(url, data=jsonData, auth=(apikey, checksum.hexdigest()))
 
 ```
 
@@ -2596,9 +2603,10 @@ data = {
   ]
 }
 
-checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(json.dumps(data), 'utf-8'), hashlib.sha256)
+jsonData = json.dumps(data)
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(jsonData, 'utf-8'), hashlib.sha256)
 
-response = requests.put(url, json=data, auth=(apikey, checksum.hexdigest()))
+response = requests.put(url, data=jsonData, auth=(apikey, checksum.hexdigest()))
 
 ```
 
@@ -2711,9 +2719,10 @@ data = {
   ]
 }
 
-checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(json.dumps(data), 'utf-8'), hashlib.sha256)
+jsonData = json.dumps(data)
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(jsonData, 'utf-8'), hashlib.sha256)
 
-response = requests.delete(url, json=data, auth=(apikey, checksum.hexdigest()))
+response = requests.delete(url, data=jsonData, auth=(apikey, checksum.hexdigest()))
 ```
 
 ```javascript--node
@@ -2812,9 +2821,10 @@ data = {
   ]
 }
 
-checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(json.dumps(data), 'utf-8'), hashlib.sha256)
+jsonData = json.dumps(data)
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(jsonData, 'utf-8'), hashlib.sha256)
 
-response = requests.delete(url, json=data, auth=(apikey, checksum.hexdigest()))
+response = requests.delete(url, data=jsonData, auth=(apikey, checksum.hexdigest()))
 ```
 
 ```javascript--node
@@ -2909,9 +2919,10 @@ data = {
   ]
 }
 
-checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(json.dumps(data), 'utf-8'), hashlib.sha256)
+jsonData = json.dumps(data)
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(jsonData, 'utf-8'), hashlib.sha256)
 
-response = requests.delete(url, json=data, auth=(apikey, checksum.hexdigest()))
+response = requests.delete(url, data=jsonData, auth=(apikey, checksum.hexdigest()))
 ```
 
 ```javascript--node
