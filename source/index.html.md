@@ -1736,7 +1736,6 @@ const apisecret = 'your-api-secret-goes-here';
 const data = {
   order_id : 'O123',
   user_id : 'U456',
-  guest_checkout: true,
   order_status : 'completed',
   cart: [
     {
