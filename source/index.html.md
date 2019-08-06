@@ -2,8 +2,8 @@
 title: DataCue API
 
 language_tabs: # must be one of https://git.io/vQNgJ
-  - javascript--browser: Browser
-  - javascript--node: Node.js
+  - html: Browser
+  - javascript: Node.js
   - python: Python
   - php: PHP
 includes:
@@ -90,7 +90,7 @@ checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(jsonData, 'utf-8'), hashlib.
 response = requests.post(url, data=jsonData, auth=(apikey, checksum.hexdigest()))
 ```
 
-```javascript--node
+```javascript
 const axios = require('axios');
 const cryto = require('crypto');
 
@@ -111,8 +111,10 @@ axios.defaults.auth = { username: 'API-key', password: hash.digest('hex') };
 axios.post(url, data);
 ```
 
-```javascript--browser
+```html
+<script>
 window.datacue.init('API-key');
+</script>
 ```
 
 > Sample Headers
@@ -356,7 +358,9 @@ Refer to the example json on the right to view the format.
 
 ## Cart update
 
-```javascript--browser
+```html
+<script>
+
 // assign user_id and user.profile if you haven't yet
 window.datacue.identify('019mr8mf4r', {
   sex: 'female',
@@ -389,6 +393,7 @@ window.datacue.track({
   }],
   cart_link:'https://myshop.com/cart/123'
 });
+</script>
 ```
 
 ```php
@@ -400,7 +405,7 @@ window.datacue.track({
 "browser only event (refer to the Browser tab)"
 ```
 
-```javascript--node
+```javascript
 "browser only event (refer to the Browser tab)"
 ```
 
@@ -424,7 +429,9 @@ Record whenever the users shopping cart changes. Whenever the user:
 
 ## Add product to wishlist
 
-```javascript--browser
+```html
+<script>
+
 // assign user_id and user.profile if you haven't yet
 window.datacue.identify('019mr8mf4r', {
   sex: 'female',
@@ -439,6 +446,7 @@ window.datacue.track({
   product_id: 'p1',
   variant_id: 'v2'
 });
+</script>
 ```
 
 ```php
@@ -450,7 +458,7 @@ window.datacue.track({
 "browser only event (refer to the Browser tab)"
 ```
 
-```javascript--node
+```javascript
 "browser only event (refer to the Browser tab)"
 ```
 
@@ -469,7 +477,9 @@ Record changes to user's wishlist when a new product is added to it.
 
 ## Remove product from wishlist
 
-```javascript--browser
+```html
+<script>
+
 // assign user_id and user.profile if you haven't yet
 window.datacue.identify('019mr8mf4r', {
   sex: 'female',
@@ -484,6 +494,7 @@ window.datacue.track({
   product_id: 'p1',
   variant_id: 'v2'
 });
+</script>
 ```
 
 ```php
@@ -495,7 +506,7 @@ window.datacue.track({
 "browser only event (refer to the Browser tab)"
 ```
 
-```javascript--node
+```javascript
 "browser only event (refer to the Browser tab)"
 ```
 
@@ -514,7 +525,9 @@ Record changes to user's wishlist when a product is removed from it.
 
 ## Checkout started
 
-```javascript--browser
+```html
+<script>
+
 // assign user_id and user.profile if you haven't yet
 window.datacue.identify('019mr8mf4r', {
   sex: 'female',
@@ -541,6 +554,7 @@ window.datacue.track({
   }],
   cart_link:'https://myshop.com/cart/123'
 });
+</script>
 ```
 
 ```php
@@ -552,7 +566,7 @@ window.datacue.track({
 "browser only event (refer to the Browser tab)"
 ```
 
-```javascript--node
+```javascript
 "browser only event (refer to the Browser tab)"
 ```
 
@@ -571,7 +585,9 @@ Record the moment the user initiates the check out process, typically from their
 
 ## User Login
 
-```javascript--browser
+```html
+<script>
+
 // assign user_id and user.profile if you haven't yet
 window.datacue.identify('019mr8mf4r', {
   sex: 'female',
@@ -583,6 +599,7 @@ window.datacue.identify('019mr8mf4r', {
 window.datacue.track({
   type: 'login'
 });
+</script>
 ```
 
 ```php
@@ -594,7 +611,7 @@ window.datacue.track({
 "browser only event (refer to the Browser tab)"
 ```
 
-```javascript--node
+```javascript
 "browser only event (refer to the Browser tab)"
 ```
 
@@ -615,7 +632,9 @@ You don't need to implement those if you're using our scripts.
 
 ## Home pageview
 
-```javascript--browser
+```html
+<script>
+
 // assign user_id and user.profile if you haven't yet
 window.datacue.identify('019mr8mf4r', {
   sex: 'female',
@@ -630,6 +649,7 @@ window.datacue.track({
 }).then(function(response) {
   // see response structure below
 });
+</script>
 ```
 
 ```php
@@ -641,7 +661,7 @@ window.datacue.track({
 "browser only event (refer to the Browser tab)"
 ```
 
-```javascript--node
+```javascript
 "browser only event (refer to the Browser tab)"
 ```
 
@@ -747,7 +767,9 @@ Request banner and product recommendations when a user visits your home page
 
 ## Product pageview
 
-```javascript--browser
+```html
+<script>
+
 // assign user_id and user.profile if you haven't yet
 window.datacue.identify('019mr8mf4r', {
   sex: 'female',
@@ -764,6 +786,7 @@ window.datacue.track({
 }).then(function(response) {
   // see response structure below
 });
+</script>
 ```
 
 ```php
@@ -775,7 +798,7 @@ window.datacue.track({
 "browser only event (refer to the Browser tab)"
 ```
 
-```javascript--node
+```javascript
 "browser only event (refer to the Browser tab)"
 ```
 
@@ -854,7 +877,9 @@ Request product recommendations when a user visits a product page
 
 ## Category pageview
 
-```javascript--browser
+```html
+<script>
+
 // assign user_id and user.profile if you haven't yet
 window.datacue.identify('019mr8mf4r', {
   sex: 'female',
@@ -868,6 +893,7 @@ window.datacue.track({
   subtype: 'category',
   category_name: 'living-room'
 });
+</script>
 ```
 
 ```php
@@ -879,7 +905,7 @@ window.datacue.track({
 "browser only event (refer to the Browser tab)"
 ```
 
-```javascript--node
+```javascript
 "browser only event (refer to the Browser tab)"
 ```
 
@@ -897,7 +923,9 @@ Pages showing multiple products on a page, these are commonly called category, c
 
 ## Search
 
-```javascript--browser
+```html
+<script>
+
 // assign user_id and user.profile if you haven't yet
 window.datacue.identify('019mr8mf4r', {
   sex: 'female',
@@ -912,6 +940,7 @@ window.datacue.track({
 }).then(function(response) {
   // see response structure below
 });
+</script>
 ```
 
 ```php
@@ -923,7 +952,7 @@ window.datacue.track({
 "browser only event (refer to the Browser tab)"
 ```
 
-```javascript--node
+```javascript
 "browser only event (refer to the Browser tab)"
 ```
 
@@ -964,7 +993,9 @@ Record when a user performs a search on your website
 
 ## Banner click
 
-```javascript--browser
+```html
+<script>
+
 // assign user_id and user.profile if you haven't yet
 window.datacue.identify('019mr8mf4r', {
   sex: 'female',
@@ -981,6 +1012,7 @@ window.datacue.track({
   subtype: 'banner',
   banner_id: 'b1'
 }, true);
+</script>
 ```
 
 ```php
@@ -992,7 +1024,7 @@ window.datacue.track({
 "browser only event (refer to the Browser tab)"
 ```
 
-```javascript--node
+```javascript
 "browser only event (refer to the Browser tab)"
 ```
 
@@ -1010,7 +1042,9 @@ Record clicks to a banner or a sub banner, typically on your home page
 
 ## Product click
 
-```javascript--browser
+```html
+<script>
+
 // assign user_id and user.profile if you haven't yet
 window.datacue.identify('019mr8mf4r', {
   sex: 'female',
@@ -1027,6 +1061,7 @@ window.datacue.track({
   subtype: 'product',
   product_id: 'p2'
 }, true);
+</script>
 ```
 
 ```php
@@ -1038,7 +1073,7 @@ window.datacue.track({
 "browser only event (refer to the Browser tab)"
 ```
 
-```javascript--node
+```javascript
 "browser only event (refer to the Browser tab)"
 ```
 
@@ -1058,8 +1093,8 @@ Record clicks on a product anywhere on your website.
 
 ## Create Product
 
-```javascript--browser
-"backend only event (refer to the Python, PHP or Node tab)"
+```html
+<!--- backend only event (refer to the Python, PHP or Node tab) -->
 ```
 
 ```php
@@ -1140,7 +1175,7 @@ checksum = hmac.new(bytes(apisecret, 'utf-8'),
 response = requests.post(url, data=jsonData, auth=(apikey, checksum.hexdigest()))
 ```
 
-```javascript--node
+```javascript
 const axios = require('axios');
 const cryto = require('crypto');
 
@@ -1222,8 +1257,8 @@ DataCue can display a star rating under each product recommendation if you colle
 
 ## Update Product
 
-```javascript--browser
-"backend only event (refer to the Python, PHP or Node tab)"
+```html
+<!--- backend only event (refer to the Python, PHP or Node tab) -->
 ```
 
 ```php
@@ -1274,7 +1309,7 @@ checksum = hmac.new(bytes(apisecret, 'utf-8'),
 response = requests.put(url, data=jsonData, auth=(apikey, checksum.hexdigest()))
 ```
 
-```javascript--node
+```javascript
 const axios = require('axios');
 const cryto = require('crypto');
 
@@ -1313,8 +1348,8 @@ Same as for [Create Product](#create-product), except `product_id` and `variant_
 
 ## Delete Product
 
-```javascript--browser
-"backend only event (refer to the Python, PHP or Node tab)"
+```html
+<!--- backend only event (refer to the Python, PHP or Node tab) -->
 ```
 
 ```php
@@ -1355,7 +1390,7 @@ checksum = hmac.new(bytes(apisecret,'utf-8'), bytes("", 'utf-8'), hashlib.sha256
 response = requests.delete(url, auth=(apikey, checksum.hexdigest()))
 ```
 
-```javascript--node
+```javascript
 const axios = require('axios');
 const cryto = require('crypto');
 
@@ -1387,8 +1422,8 @@ Endpoint: `DELETE` `https://api.datacue.co/v1/products/<product_id>`
 
 ## Create User
 
-```javascript--browser
-"backend only event (refer to the Python, PHP or Node tab)"
+```html
+<!--- backend only event (refer to the Python, PHP or Node tab) -->
 ```
 
 ```php
@@ -1454,7 +1489,7 @@ response = requests.post(url, data=jsonData, auth=(apikey, checksum.hexdigest())
 
 ```
 
-```javascript--node
+```javascript
 const axios = require('axios');
 const cryto = require('crypto');
 
@@ -1519,8 +1554,8 @@ When a new user has successfully signed up / registered on your system.
 
 ## Update User
 
-```javascript--browser
-"backend only event (refer to the Python, PHP or Node tab)"
+```html
+<!--- backend only event (refer to the Python, PHP or Node tab) -->
 ```
 
 ```php
@@ -1565,7 +1600,7 @@ checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(jsonData, 'utf-8'), hashlib.
 response = requests.put(url, data=jsonData, auth=(apikey, checksum.hexdigest()))
 ```
 
-```javascript--node
+```javascript
 const axios = require('axios');
 const cryto = require('crypto');
 
@@ -1599,8 +1634,8 @@ Same as for [Create User](#create-user), except `user_id`.
 
 ## Delete User
 
-```javascript--browser
-"backend only event (refer to the Python, PHP or Node tab)"
+```html
+<!--- backend only event (refer to the Python, PHP or Node tab) -->
 ```
 
 ```php
@@ -1634,7 +1669,7 @@ response = requests.delete(url, auth=(apikey, checksum.hexdigest()))
 
 ```
 
-```javascript--node
+```javascript
 const axios = require('axios');
 const cryto = require('crypto');
 
@@ -1661,8 +1696,40 @@ When a user account is deleted from your system.
 
 ## Create Order
 
-```javascript--browser
-"backend only event (refer to the Python, PHP or Node tab)"
+```html
+<script>
+window.datacueConfig = {
+  api_key: 'your-api-key',
+  user_id: 'id of user making purchase',
+  page_type: 'order confirmation',
+  order_id: 'O123',
+  orderDetails: {
+    order_id : 'O123',
+    user_id : 'U456',
+    order_status : 'completed',
+    cart: [
+      {
+        product_id : 'p1',
+        variant_id : 'v1',
+        quantity : 1,
+        unit_price : 24,
+        currency : 'USD'
+      },
+      {
+        product_id : 'p3',
+        variant_id : 'v2',
+        quantity : 9,
+        unit_price : 42,
+        currency : 'USD'
+      }
+    ],
+    timestamp: '2018-04-04 23:29:04Z'
+  }
+};
+</script>
+<script src="https://cdn.datacue.co/js/datacue.js"></script>
+<script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
+
 ```
 
 ```php
@@ -1725,7 +1792,7 @@ checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(jsonData, 'utf-8'), hashlib.
 response = requests.post(url, data=jsonData, auth=(apikey, checksum.hexdigest()))
 ```
 
-```javascript--node
+```javascript
 const axios = require('axios');
 const cryto = require('crypto');
 
@@ -1766,9 +1833,13 @@ axios.post(url, data);
 
 > The above command returns a 201 response code
 
+Orders can be sent in two ways. The easiest way is to insert your order data into the datacueConfig object in the order confirmation page. Look at the 'browser' tab code samples to see how to do it.
+
+Alternatively, you can use our REST api to send it.
+
 Endpoint: `POST` `https://api.datacue.co/v1/orders`
 
-When a user has successfully completed an order on your store. An Order is considered 'completed' as soon as the checkout process is completed on your website. It does not matter if the order has further steps such as waiting for payment, or order fulfilment.
+An Order is considered 'completed' as soon as the checkout process is completed on your website. It does not matter if the order has further steps such as waiting for payment, or order fulfilment.
 
 ### Request parameters
 
@@ -1789,10 +1860,33 @@ When a user has successfully completed an order on your store. An Order is consi
 | `unit_price` | Decimal    | Yes       | The unit price of the product (including any discounts)
 | `quantity` | Integer    | Yes       | Number of products purchased
 
+### Guest checkout
+
+Guest checkouts are when a customer does not need to create an account with a password to make a purchase.
+
+To create a guest checkout, you just need to do two things.
+
+1. Set the `user_id` to the email of the guest account.
+
+2. If you are sending order data via the REST api, you must add a snippet to the order confirmation page.
+
+```html
+<script>
+window.datacueConfig = {
+  api_key: 'your-api-key',
+  user_id: '<guest-email-id>',
+  page_type: 'order confirmation'
+};
+</script>
+
+<script src="https://cdn.datacue.co/js/datacue.js"></script>
+<script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
+
+```
 ## Cancel Order
 
-```javascript--browser
-"backend only event (refer to the Python, PHP or Node tab)"
+```html
+<!--- backend only event (refer to the Python, PHP or Node tab) -->
 ```
 
 ```php
@@ -1830,7 +1924,7 @@ checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(jsonData, 'utf-8'), hashlib.
 response = requests.put(url, data=jsonData, auth=(apikey, checksum.hexdigest())
 ```
 
-```javascript--node
+```javascript
 const axios = require('axios');
 const cryto = require('crypto');
 
@@ -1852,6 +1946,8 @@ axios.put(url, data);
 
 > The above command returns a 204 response code
 
+Orders cannot be cancelled via the browser or frontend. You MUST use the REST API to do so as it's more secure.
+
 Endpoint: `PUT` `https://api.datacue.co/v1/orders/<order_id>`
 
 When the order makes changes to their profile or when they configure any relevant preferences. For instance if they indicate their gender, this is very helpful for recommendations.
@@ -1864,8 +1960,8 @@ When the order makes changes to their profile or when they configure any relevan
 
 ## Delete Order
 
-```javascript--browser
-"backend only event (refer to the Python, PHP or Node tab)"
+```html
+<!--- backend only event (refer to the Python, PHP or Node tab) -->
 ```
 
 ```php
@@ -1898,7 +1994,7 @@ checksum = hmac.new(bytes(apisecret,'utf-8'), bytes("", 'utf-8'), hashlib.sha256
 response = requests.delete(url, auth=(apikey, checksum.hexdigest()))
 ```
 
-```javascript--node
+```javascript
 const axios = require('axios');
 const cryto = require('crypto');
 
@@ -1916,6 +2012,8 @@ axios.delete(url);
 ```
 
 > The above command returns a 204 response code
+
+Orders cannot be deleted via the browser or frontend. You MUST use the REST API to do so as it's more secure.
 
 Endpoint: `DELETE` `https://api.datacue.co/v1/orders/<order_id>`
 
@@ -1965,8 +2063,8 @@ Build an array of your requests in the `batch` field, we accept a maximum of 500
 
 ## Batch Create Products
 
-```javascript--browser
-"backend only event (refer to the Python, PHP or Node tab)"
+```html
+<!--- backend only event (refer to the Python, PHP or Node tab) -->
 ```
 
 ```php
@@ -2083,7 +2181,7 @@ checksum = hmac.new(bytes(apisecret,'utf-8'),
 response = requests.post(url, data=jsonData, auth=(apikey, checksum.hexdigest()))
 ```
 
-```javascript--node
+```javascript
 const axios = require('axios');
 const cryto = require('crypto');
 
@@ -2174,8 +2272,8 @@ We will send you a status for each item you sent, so you can handle and resend o
 
 ## Batch Create Orders
 
-```javascript--browser
-"backend only event (refer to the Python, PHP or Node tab)"
+```html
+<!--- backend only event (refer to the Python, PHP or Node tab) -->
 ```
 
 ```php
@@ -2248,7 +2346,7 @@ checksum = hmac.new(bytes(apisecret,'utf-8'),
 response = requests.post(url, data=jsonData, auth=(apikey, checksum.hexdigest()))
 ```
 
-```javascript--node
+```javascript
 const axios = require('axios');
 const cryto = require('crypto');
 
@@ -2318,8 +2416,8 @@ We will send you a status for each item you sent, so you can handle and resend o
 
 ## Batch Create Users
 
-```javascript--browser
-"backend only event (refer to the Python, PHP or Node tab)"
+```html
+<!--- backend only event (refer to the Python, PHP or Node tab) -->
 ```
 
 ```php
@@ -2374,7 +2472,7 @@ checksum = hmac.new(bytes(apisecret,'utf-8'),
 response = requests.post(url, data=jsonData, auth=(apikey, checksum.hexdigest()))
 ```
 
-```javascript--node
+```javascript
 const axios = require('axios');
 const cryto = require('crypto');
 
@@ -2433,8 +2531,8 @@ We will send you a status for each item you sent, so you can handle and resend o
 
 ## Batch Update Products
 
-```javascript--browser
-"backend only event (refer to the Python, PHP or Node tab)"
+```html
+<!--- backend only event (refer to the Python, PHP or Node tab) -->
 ```
 
 ```php
@@ -2491,7 +2589,7 @@ response = requests.put(url, data=jsonData, auth=(apikey, checksum.hexdigest()))
 
 ```
 
-```javascript--node
+```javascript
 const axios = require('axios');
 
 const url = `https://api.datacue.co/v1/batch/products`
@@ -2552,8 +2650,8 @@ We will send you a status for each item you sent, so you can handle and resend o
 
 ## Batch Update Users
 
-```javascript--browser
-"backend only event (refer to the Python, PHP or Node tab)"
+```html
+<!--- backend only event (refer to the Python, PHP or Node tab) -->
 ```
 
 ```php
@@ -2609,7 +2707,7 @@ response = requests.put(url, data=jsonData, auth=(apikey, checksum.hexdigest()))
 
 ```
 
-```javascript--node
+```javascript
 const axios = require('axios');
 
 const url = `https://api.datacue.co/v1/batch/users`
@@ -2669,8 +2767,8 @@ We will send you a status for each item you sent, so you can handle and resend o
 
 ## Batch Delete Products
 
-```javascript--browser
-"backend only event (refer to the Python, PHP or Node tab)"
+```html
+<!--- backend only event (refer to the Python, PHP or Node tab) -->
 ```
 
 ```php
@@ -2724,7 +2822,7 @@ checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(jsonData, 'utf-8'), hashlib.
 response = requests.delete(url, data=jsonData, auth=(apikey, checksum.hexdigest()))
 ```
 
-```javascript--node
+```javascript
 const axios = require('axios');
 
 const url = 'https://api.datacue.co/v1/batch/products';
@@ -2778,8 +2876,8 @@ We will send you a status for each item you sent, so you can handle and resend o
 
 ## Batch Delete Users
 
-```javascript--browser
-"backend only event (refer to the Python, PHP or Node tab)"
+```html
+<!--- backend only event (refer to the Python, PHP or Node tab) -->
 ```
 
 ```php
@@ -2826,7 +2924,7 @@ checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(jsonData, 'utf-8'), hashlib.
 response = requests.delete(url, data=jsonData, auth=(apikey, checksum.hexdigest()))
 ```
 
-```javascript--node
+```javascript
 const axios = require('axios');
 
 const url = 'https://api.datacue.co/v1/batch/users';
@@ -2880,8 +2978,8 @@ We will send you a status for each item you sent, so you can handle and resend o
 
 ## Batch Delete Orders
 
-```javascript--browser
-"backend only event (refer to the Python, PHP or Node tab)"
+```html
+<!--- backend only event (refer to the Python, PHP or Node tab) -->
 ```
 
 ```php
@@ -2924,7 +3022,7 @@ checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(jsonData, 'utf-8'), hashlib.
 response = requests.delete(url, data=jsonData, auth=(apikey, checksum.hexdigest()))
 ```
 
-```javascript--node
+```javascript
 const axios = require('axios');
 
 const url = 'https://api.datacue.co/v1/batch/orders';
