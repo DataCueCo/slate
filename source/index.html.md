@@ -1868,7 +1868,7 @@ To create a guest checkout, you just need to do two things.
 
 1. Set the `user_id` to the email of the guest account.
 
-2. If you are sending order data via the REST api, you must add a snippet to the order confirmation page.
+2. If you are sending order data via the REST api, you must add a snippet to the order confirmation page. Switch the code samples to 'Browser' to see the snippet.
 
 ```html
 <script>
