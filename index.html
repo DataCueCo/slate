@@ -205,7 +205,7 @@
       <script src="javascripts/all.js"></script>
   </head>
 
-  <body class="index" data-languages="[&quot;javascript--browser&quot;,&quot;javascript--node&quot;,&quot;python&quot;,&quot;php&quot;]">
+  <body class="index" data-languages="[&quot;html&quot;,&quot;javascript&quot;,&quot;python&quot;,&quot;php&quot;]">
     <a href="#" id="nav-button">
       <span>
         <img src="images/navbar.png" alt="Navbar" />
@@ -214,8 +214,8 @@
     <div class="toc-wrapper">
       <img src="images/logo.png" class="logo" alt="Logo" />
         <div class="lang-selector">
-              <a href="#" data-language-name="javascript--browser">Browser</a>
-              <a href="#" data-language-name="javascript--node">Node.js</a>
+              <a href="#" data-language-name="html">Browser</a>
+              <a href="#" data-language-name="javascript">Node.js</a>
               <a href="#" data-language-name="python">Python</a>
               <a href="#" data-language-name="php">PHP</a>
         </div>
@@ -435,7 +435,7 @@
 <span class="n">checksum</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">apisecret</span><span class="p">,</span><span class="s">'utf-8'</span><span class="p">),</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">jsonData</span><span class="p">,</span> <span class="s">'utf-8'</span><span class="p">),</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">jsonData</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="n">apikey</span><span class="p">,</span> <span class="n">checksum</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()))</span>
-</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
 <span class="kr">const</span> <span class="nx">cryto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'crypto'</span><span class="p">);</span>
 
 <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s1">'https://api.datacue.co/v1/users'</span>
@@ -453,7 +453,9 @@
 <span class="nx">axios</span><span class="p">.</span><span class="nx">defaults</span><span class="p">.</span><span class="nx">auth</span> <span class="o">=</span> <span class="p">{</span> <span class="na">username</span><span class="p">:</span> <span class="s1">'API-key'</span><span class="p">,</span> <span class="na">password</span><span class="p">:</span> <span class="nx">hash</span><span class="p">.</span><span class="nx">digest</span><span class="p">(</span><span class="s1">'hex'</span><span class="p">)</span> <span class="p">};</span>
 
 <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">data</span><span class="p">);</span>
-</code></pre><pre class="highlight javascript tab-javascript--browser"><code><span class="nb">window</span><span class="p">.</span><span class="nx">datacue</span><span class="p">.</span><span class="nx">init</span><span class="p">(</span><span class="s1">'API-key'</span><span class="p">);</span>
+</code></pre><pre class="highlight html tab-html"><code><span class="nt">&lt;script&gt;</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">datacue</span><span class="p">.</span><span class="nx">init</span><span class="p">(</span><span class="s1">'API-key'</span><span class="p">);</span>
+<span class="nt">&lt;/script&gt;</span>
 </code></pre>
 <blockquote>
 <p>Sample Headers</p>
@@ -824,7 +826,9 @@
 <td>The current time in UTC for when the event happened. E.g. <code>&quot;2017-11-01 00:29:03.123Z&quot;</code></td>
 </tr>
 </tbody></table>
-<h2 id='cart-update'>Cart update</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="c1">// assign user_id and user.profile if you haven't yet</span>
+<h2 id='cart-update'>Cart update</h2><pre class="highlight html tab-html"><code><span class="nt">&lt;script&gt;</span>
+
+<span class="c1">// assign user_id and user.profile if you haven't yet</span>
 <span class="nb">window</span><span class="p">.</span><span class="nx">datacue</span><span class="p">.</span><span class="nx">identify</span><span class="p">(</span><span class="s1">'019mr8mf4r'</span><span class="p">,</span> <span class="p">{</span>
   <span class="na">sex</span><span class="p">:</span> <span class="s1">'female'</span><span class="p">,</span>
   <span class="na">location</span><span class="p">:</span> <span class="s1">'Santiago'</span><span class="p">,</span>
@@ -856,10 +860,11 @@
   <span class="p">}],</span>
   <span class="na">cart_link</span><span class="p">:</span><span class="s1">'https://myshop.com/cart/123'</span>
 <span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 <span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="s">"browser only event (refer to the Browser tab)"</span>
-</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="s2">"browser only event (refer to the Browser tab)"</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns a 204 response code</p>
@@ -907,7 +912,9 @@
 <td>Link to view cart and resume shopping</td>
 </tr>
 </tbody></table>
-<h2 id='add-product-to-wishlist'>Add product to wishlist</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="c1">// assign user_id and user.profile if you haven't yet</span>
+<h2 id='add-product-to-wishlist'>Add product to wishlist</h2><pre class="highlight html tab-html"><code><span class="nt">&lt;script&gt;</span>
+
+<span class="c1">// assign user_id and user.profile if you haven't yet</span>
 <span class="nb">window</span><span class="p">.</span><span class="nx">datacue</span><span class="p">.</span><span class="nx">identify</span><span class="p">(</span><span class="s1">'019mr8mf4r'</span><span class="p">,</span> <span class="p">{</span>
   <span class="na">sex</span><span class="p">:</span> <span class="s1">'female'</span><span class="p">,</span>
   <span class="na">location</span><span class="p">:</span> <span class="s1">'Santiago'</span><span class="p">,</span>
@@ -921,10 +928,11 @@
   <span class="na">product_id</span><span class="p">:</span> <span class="s1">'p1'</span><span class="p">,</span>
   <span class="na">variant_id</span><span class="p">:</span> <span class="s1">'v2'</span>
 <span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 <span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="s">"browser only event (refer to the Browser tab)"</span>
-</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="s2">"browser only event (refer to the Browser tab)"</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns a 204 response code</p>
@@ -965,7 +973,9 @@
 <td>Set to product&#39;s variant id (if applicable)</td>
 </tr>
 </tbody></table>
-<h2 id='remove-product-from-wishlist'>Remove product from wishlist</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="c1">// assign user_id and user.profile if you haven't yet</span>
+<h2 id='remove-product-from-wishlist'>Remove product from wishlist</h2><pre class="highlight html tab-html"><code><span class="nt">&lt;script&gt;</span>
+
+<span class="c1">// assign user_id and user.profile if you haven't yet</span>
 <span class="nb">window</span><span class="p">.</span><span class="nx">datacue</span><span class="p">.</span><span class="nx">identify</span><span class="p">(</span><span class="s1">'019mr8mf4r'</span><span class="p">,</span> <span class="p">{</span>
   <span class="na">sex</span><span class="p">:</span> <span class="s1">'female'</span><span class="p">,</span>
   <span class="na">location</span><span class="p">:</span> <span class="s1">'Santiago'</span><span class="p">,</span>
@@ -979,10 +989,11 @@
   <span class="na">product_id</span><span class="p">:</span> <span class="s1">'p1'</span><span class="p">,</span>
   <span class="na">variant_id</span><span class="p">:</span> <span class="s1">'v2'</span>
 <span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 <span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="s">"browser only event (refer to the Browser tab)"</span>
-</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="s2">"browser only event (refer to the Browser tab)"</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns a 204 response code</p>
@@ -1023,7 +1034,9 @@
 <td>Set to product&#39;s variant id (if applicable)</td>
 </tr>
 </tbody></table>
-<h2 id='checkout-started'>Checkout started</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="c1">// assign user_id and user.profile if you haven't yet</span>
+<h2 id='checkout-started'>Checkout started</h2><pre class="highlight html tab-html"><code><span class="nt">&lt;script&gt;</span>
+
+<span class="c1">// assign user_id and user.profile if you haven't yet</span>
 <span class="nb">window</span><span class="p">.</span><span class="nx">datacue</span><span class="p">.</span><span class="nx">identify</span><span class="p">(</span><span class="s1">'019mr8mf4r'</span><span class="p">,</span> <span class="p">{</span>
   <span class="na">sex</span><span class="p">:</span> <span class="s1">'female'</span><span class="p">,</span>
   <span class="na">location</span><span class="p">:</span> <span class="s1">'Santiago'</span><span class="p">,</span>
@@ -1049,10 +1062,11 @@
   <span class="p">}],</span>
   <span class="na">cart_link</span><span class="p">:</span><span class="s1">'https://myshop.com/cart/123'</span>
 <span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 <span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="s">"browser only event (refer to the Browser tab)"</span>
-</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="s2">"browser only event (refer to the Browser tab)"</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns a 204 response code</p>
@@ -1093,7 +1107,9 @@
 <td>Link to view cart and resume shopping</td>
 </tr>
 </tbody></table>
-<h2 id='user-login'>User Login</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="c1">// assign user_id and user.profile if you haven't yet</span>
+<h2 id='user-login'>User Login</h2><pre class="highlight html tab-html"><code><span class="nt">&lt;script&gt;</span>
+
+<span class="c1">// assign user_id and user.profile if you haven't yet</span>
 <span class="nb">window</span><span class="p">.</span><span class="nx">datacue</span><span class="p">.</span><span class="nx">identify</span><span class="p">(</span><span class="s1">'019mr8mf4r'</span><span class="p">,</span> <span class="p">{</span>
   <span class="na">sex</span><span class="p">:</span> <span class="s1">'female'</span><span class="p">,</span>
   <span class="na">location</span><span class="p">:</span> <span class="s1">'Santiago'</span><span class="p">,</span>
@@ -1104,10 +1120,11 @@
 <span class="nb">window</span><span class="p">.</span><span class="nx">datacue</span><span class="p">.</span><span class="nx">track</span><span class="p">({</span>
   <span class="na">type</span><span class="p">:</span> <span class="s1">'login'</span>
 <span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 <span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="s">"browser only event (refer to the Browser tab)"</span>
-</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="s2">"browser only event (refer to the Browser tab)"</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns a 204 response code</p>
@@ -1132,7 +1149,9 @@
 </tbody></table>
 <h1 id='optional-events'>Optional Events</h1>
 <p>You don&#39;t need to implement those if you&#39;re using our scripts.</p>
-<h2 id='home-pageview'>Home pageview</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="c1">// assign user_id and user.profile if you haven't yet</span>
+<h2 id='home-pageview'>Home pageview</h2><pre class="highlight html tab-html"><code><span class="nt">&lt;script&gt;</span>
+
+<span class="c1">// assign user_id and user.profile if you haven't yet</span>
 <span class="nb">window</span><span class="p">.</span><span class="nx">datacue</span><span class="p">.</span><span class="nx">identify</span><span class="p">(</span><span class="s1">'019mr8mf4r'</span><span class="p">,</span> <span class="p">{</span>
   <span class="na">sex</span><span class="p">:</span> <span class="s1">'female'</span><span class="p">,</span>
   <span class="na">location</span><span class="p">:</span> <span class="s1">'Santiago'</span><span class="p">,</span>
@@ -1146,10 +1165,11 @@
 <span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// see response structure below</span>
 <span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 <span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="s">"browser only event (refer to the Browser tab)"</span>
-</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="s2">"browser only event (refer to the Browser tab)"</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
@@ -1284,7 +1304,9 @@
 <td>A live list of the last products the current user has viewed</td>
 </tr>
 </tbody></table>
-<h2 id='product-pageview'>Product pageview</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="c1">// assign user_id and user.profile if you haven't yet</span>
+<h2 id='product-pageview'>Product pageview</h2><pre class="highlight html tab-html"><code><span class="nt">&lt;script&gt;</span>
+
+<span class="c1">// assign user_id and user.profile if you haven't yet</span>
 <span class="nb">window</span><span class="p">.</span><span class="nx">datacue</span><span class="p">.</span><span class="nx">identify</span><span class="p">(</span><span class="s1">'019mr8mf4r'</span><span class="p">,</span> <span class="p">{</span>
   <span class="na">sex</span><span class="p">:</span> <span class="s1">'female'</span><span class="p">,</span>
   <span class="na">location</span><span class="p">:</span> <span class="s1">'Santiago'</span><span class="p">,</span>
@@ -1300,10 +1322,11 @@
 <span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// see response structure below</span>
 <span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 <span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="s">"browser only event (refer to the Browser tab)"</span>
-</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="s2">"browser only event (refer to the Browser tab)"</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
@@ -1417,7 +1440,9 @@
 <td>A live list of the last products the current user has viewed</td>
 </tr>
 </tbody></table>
-<h2 id='category-pageview'>Category pageview</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="c1">// assign user_id and user.profile if you haven't yet</span>
+<h2 id='category-pageview'>Category pageview</h2><pre class="highlight html tab-html"><code><span class="nt">&lt;script&gt;</span>
+
+<span class="c1">// assign user_id and user.profile if you haven't yet</span>
 <span class="nb">window</span><span class="p">.</span><span class="nx">datacue</span><span class="p">.</span><span class="nx">identify</span><span class="p">(</span><span class="s1">'019mr8mf4r'</span><span class="p">,</span> <span class="p">{</span>
   <span class="na">sex</span><span class="p">:</span> <span class="s1">'female'</span><span class="p">,</span>
   <span class="na">location</span><span class="p">:</span> <span class="s1">'Santiago'</span><span class="p">,</span>
@@ -1430,10 +1455,11 @@
   <span class="na">subtype</span><span class="p">:</span> <span class="s1">'category'</span><span class="p">,</span>
   <span class="na">category_name</span><span class="p">:</span> <span class="s1">'living-room'</span>
 <span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 <span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="s">"browser only event (refer to the Browser tab)"</span>
-</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="s2">"browser only event (refer to the Browser tab)"</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns a 204 response code</p>
@@ -1468,7 +1494,9 @@
 <td>Set to the name of the category being viewed</td>
 </tr>
 </tbody></table>
-<h2 id='search'>Search</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="c1">// assign user_id and user.profile if you haven't yet</span>
+<h2 id='search'>Search</h2><pre class="highlight html tab-html"><code><span class="nt">&lt;script&gt;</span>
+
+<span class="c1">// assign user_id and user.profile if you haven't yet</span>
 <span class="nb">window</span><span class="p">.</span><span class="nx">datacue</span><span class="p">.</span><span class="nx">identify</span><span class="p">(</span><span class="s1">'019mr8mf4r'</span><span class="p">,</span> <span class="p">{</span>
   <span class="na">sex</span><span class="p">:</span> <span class="s1">'female'</span><span class="p">,</span>
   <span class="na">location</span><span class="p">:</span> <span class="s1">'Santiago'</span><span class="p">,</span>
@@ -1482,10 +1510,11 @@
 <span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// see response structure below</span>
 <span class="p">});</span>
+<span class="nt">&lt;/script&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 <span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="s">"browser only event (refer to the Browser tab)"</span>
-</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="s2">"browser only event (refer to the Browser tab)"</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
@@ -1543,7 +1572,9 @@
 <td>A live list of the last products the current user has viewed</td>
 </tr>
 </tbody></table>
-<h2 id='banner-click'>Banner click</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="c1">// assign user_id and user.profile if you haven't yet</span>
+<h2 id='banner-click'>Banner click</h2><pre class="highlight html tab-html"><code><span class="nt">&lt;script&gt;</span>
+
+<span class="c1">// assign user_id and user.profile if you haven't yet</span>
 <span class="nb">window</span><span class="p">.</span><span class="nx">datacue</span><span class="p">.</span><span class="nx">identify</span><span class="p">(</span><span class="s1">'019mr8mf4r'</span><span class="p">,</span> <span class="p">{</span>
   <span class="na">sex</span><span class="p">:</span> <span class="s1">'female'</span><span class="p">,</span>
   <span class="na">location</span><span class="p">:</span> <span class="s1">'Santiago'</span><span class="p">,</span>
@@ -1559,10 +1590,11 @@
   <span class="na">subtype</span><span class="p">:</span> <span class="s1">'banner'</span><span class="p">,</span>
   <span class="na">banner_id</span><span class="p">:</span> <span class="s1">'b1'</span>
 <span class="p">},</span> <span class="kc">true</span><span class="p">);</span>
+<span class="nt">&lt;/script&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 <span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="s">"browser only event (refer to the Browser tab)"</span>
-</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="s2">"browser only event (refer to the Browser tab)"</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns a 204 response code</p>
@@ -1597,7 +1629,9 @@
 <td>Set to the id of the clicked banner</td>
 </tr>
 </tbody></table>
-<h2 id='product-click'>Product click</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="c1">// assign user_id and user.profile if you haven't yet</span>
+<h2 id='product-click'>Product click</h2><pre class="highlight html tab-html"><code><span class="nt">&lt;script&gt;</span>
+
+<span class="c1">// assign user_id and user.profile if you haven't yet</span>
 <span class="nb">window</span><span class="p">.</span><span class="nx">datacue</span><span class="p">.</span><span class="nx">identify</span><span class="p">(</span><span class="s1">'019mr8mf4r'</span><span class="p">,</span> <span class="p">{</span>
   <span class="na">sex</span><span class="p">:</span> <span class="s1">'female'</span><span class="p">,</span>
   <span class="na">location</span><span class="p">:</span> <span class="s1">'Santiago'</span><span class="p">,</span>
@@ -1613,10 +1647,11 @@
   <span class="na">subtype</span><span class="p">:</span> <span class="s1">'product'</span><span class="p">,</span>
   <span class="na">product_id</span><span class="p">:</span> <span class="s1">'p2'</span>
 <span class="p">},</span> <span class="kc">true</span><span class="p">);</span>
+<span class="nt">&lt;/script&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 <span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="s">"browser only event (refer to the Browser tab)"</span>
-</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="s2">"browser only event (refer to the Browser tab)"</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre>
 <blockquote>
 <p>The above command returns a 204 response code</p>
@@ -1651,7 +1686,7 @@
 <td>Set to the id of the clicked product</td>
 </tr>
 </tbody></table>
-<h1 id='products'>Products</h1><h2 id='create-product'>Create Product</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="s2">"backend only event (refer to the Python, PHP or Node tab)"</span>
+<h1 id='products'>Products</h1><h2 id='create-product'>Create Product</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
@@ -1724,7 +1759,7 @@
                     <span class="nb">bytes</span><span class="p">(</span><span class="n">jsonData</span><span class="p">,</span> <span class="s">'utf-8'</span><span class="p">),</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">jsonData</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="n">apikey</span><span class="p">,</span> <span class="n">checksum</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()))</span>
-</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
 <span class="kr">const</span> <span class="nx">cryto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'crypto'</span><span class="p">);</span>
 
 <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s1">'https://api.datacue.co/v1/products'</span>
@@ -1894,7 +1929,7 @@ Update the product like so:
 - <code>full_price</code> = 50.00</p>
 <h4 id='rating'>Rating</h4>
 <p>DataCue can display a star rating under each product recommendation if you collect user reviews or have any other kind of rating system. Just send us a value from 0-100 in the rating field. This will appear as 5 stars under each product. e.g. a rating of 58, will show a star rating of 3 filled in stars out of 5.</p>
-<h2 id='update-product'>Update Product</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="s2">"backend only event (refer to the Python, PHP or Node tab)"</span>
+<h2 id='update-product'>Update Product</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
@@ -1937,7 +1972,7 @@ Update the product like so:
                     <span class="nb">bytes</span><span class="p">(</span><span class="n">jsonData</span><span class="p">,</span> <span class="s">'utf-8'</span><span class="p">),</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">jsonData</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="n">apikey</span><span class="p">,</span> <span class="n">checksum</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()))</span>
-</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
 <span class="kr">const</span> <span class="nx">cryto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'crypto'</span><span class="p">);</span>
 
 <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">`https://api.datacue.co/v1/products/</span><span class="p">${</span><span class="nx">productId</span><span class="p">}</span><span class="s2">/</span><span class="p">${</span><span class="nx">variantId</span><span class="p">}</span><span class="s2">`</span>
@@ -1971,7 +2006,7 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 <aside class="success">
   Remember that when an order is completed this is also a product update as the stock level of the product will change. Sending us a product update after an order will ensure that if a product is out of stock, it is no longer recommended to other users.
 </aside>
-<h2 id='delete-product'>Delete Product</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="s2">"backend only event (refer to the Python, PHP or Node tab)"</span>
+<h2 id='delete-product'>Delete Product</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
@@ -2004,7 +2039,7 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 <span class="n">checksum</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">apisecret</span><span class="p">,</span><span class="s">'utf-8'</span><span class="p">),</span> <span class="nb">bytes</span><span class="p">(</span><span class="s">""</span><span class="p">,</span> <span class="s">'utf-8'</span><span class="p">),</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="n">apikey</span><span class="p">,</span> <span class="n">checksum</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()))</span>
-</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
 <span class="kr">const</span> <span class="nx">cryto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'crypto'</span><span class="p">);</span>
 
 <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">`https://api.datacue.co/v1/products/</span><span class="p">${</span><span class="nx">productId</span><span class="p">}</span><span class="s2">/</span><span class="p">${</span><span class="nx">variantId</span><span class="p">}</span><span class="s2">`</span>
@@ -2027,7 +2062,7 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 <p>Endpoint: <code>DELETE</code> <code>https://api.datacue.co/v1/products/&lt;product_id&gt;/&lt;variant_id&gt;</code></p>
 <h3 id='delete-a-product-and-all-associated-variants'>Delete a product and all associated variants</h3>
 <p>Endpoint: <code>DELETE</code> <code>https://api.datacue.co/v1/products/&lt;product_id&gt;</code></p>
-<h1 id='users'>Users</h1><h2 id='create-user'>Create User</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="s2">"backend only event (refer to the Python, PHP or Node tab)"</span>
+<h1 id='users'>Users</h1><h2 id='create-user'>Create User</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
@@ -2085,7 +2120,7 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">jsonData</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="n">apikey</span><span class="p">,</span> <span class="n">checksum</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()))</span>
 
-</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
 <span class="kr">const</span> <span class="nx">cryto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'crypto'</span><span class="p">);</span>
 
 <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s1">'https://api.datacue.co/v1/users'</span>
@@ -2227,7 +2262,7 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 <td>Location of the user as a commune, city, region or country</td>
 </tr>
 </tbody></table>
-<h2 id='update-user'>Update User</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="s2">"backend only event (refer to the Python, PHP or Node tab)"</span>
+<h2 id='update-user'>Update User</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
@@ -2264,7 +2299,7 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 <span class="n">checksum</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">apisecret</span><span class="p">,</span><span class="s">'utf-8'</span><span class="p">),</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">jsonData</span><span class="p">,</span> <span class="s">'utf-8'</span><span class="p">),</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">jsonData</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="n">apikey</span><span class="p">,</span> <span class="n">checksum</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()))</span>
-</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
 <span class="kr">const</span> <span class="nx">cryto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'crypto'</span><span class="p">);</span>
 
 <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">`https://api.datacue.co/v1/users/</span><span class="p">${</span><span class="nx">userId</span><span class="p">}</span><span class="s2">`</span>
@@ -2293,7 +2328,7 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 <p>When the user makes changes to their profile or when they configure any relevant preferences. For instance if they indicate their gender, this is very helpful for recommendations.</p>
 <h3 id='request-parameters-15'>Request parameters</h3>
 <p>Same as for <a href="#create-user">Create User</a>, except <code>user_id</code>.</p>
-<h2 id='delete-user'>Delete User</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="s2">"backend only event (refer to the Python, PHP or Node tab)"</span>
+<h2 id='delete-user'>Delete User</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
@@ -2319,7 +2354,7 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="n">apikey</span><span class="p">,</span> <span class="n">checksum</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()))</span>
 
-</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
 <span class="kr">const</span> <span class="nx">cryto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'crypto'</span><span class="p">);</span>
 
 <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">`https://api.datacue.co/v1/users/</span><span class="p">${</span><span class="nx">userId</span><span class="p">}</span><span class="s2">`</span>
@@ -2341,7 +2376,39 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 <p>Endpoint: <code>DELETE</code> <code>https://api.datacue.co/v1/users/&lt;user_id&gt;</code></p>
 
 <p>When a user account is deleted from your system.</p>
-<h1 id='orders'>Orders</h1><h2 id='create-order'>Create Order</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="s2">"backend only event (refer to the Python, PHP or Node tab)"</span>
+<h1 id='orders'>Orders</h1><h2 id='create-order'>Create Order</h2><pre class="highlight html tab-html"><code><span class="nt">&lt;script&gt;</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">datacueConfig</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">api_key</span><span class="p">:</span> <span class="s1">'your-api-key'</span><span class="p">,</span>
+  <span class="na">user_id</span><span class="p">:</span> <span class="s1">'id of user making purchase'</span><span class="p">,</span>
+  <span class="na">page_type</span><span class="p">:</span> <span class="s1">'order confirmation'</span><span class="p">,</span>
+  <span class="na">order_id</span><span class="p">:</span> <span class="s1">'O123'</span><span class="p">,</span>
+  <span class="na">orderDetails</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">order_id</span> <span class="p">:</span> <span class="s1">'O123'</span><span class="p">,</span>
+    <span class="na">user_id</span> <span class="p">:</span> <span class="s1">'U456'</span><span class="p">,</span>
+    <span class="na">order_status</span> <span class="p">:</span> <span class="s1">'completed'</span><span class="p">,</span>
+    <span class="na">cart</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="na">product_id</span> <span class="p">:</span> <span class="s1">'p1'</span><span class="p">,</span>
+        <span class="na">variant_id</span> <span class="p">:</span> <span class="s1">'v1'</span><span class="p">,</span>
+        <span class="na">quantity</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="na">unit_price</span> <span class="p">:</span> <span class="mi">24</span><span class="p">,</span>
+        <span class="na">currency</span> <span class="p">:</span> <span class="s1">'USD'</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="na">product_id</span> <span class="p">:</span> <span class="s1">'p3'</span><span class="p">,</span>
+        <span class="na">variant_id</span> <span class="p">:</span> <span class="s1">'v2'</span><span class="p">,</span>
+        <span class="na">quantity</span> <span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+        <span class="na">unit_price</span> <span class="p">:</span> <span class="mi">42</span><span class="p">,</span>
+        <span class="na">currency</span> <span class="p">:</span> <span class="s1">'USD'</span>
+      <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="na">timestamp</span><span class="p">:</span> <span class="s1">'2018-04-04 23:29:04Z'</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue-storefront.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
@@ -2396,7 +2463,7 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 <span class="n">checksum</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">apisecret</span><span class="p">,</span><span class="s">'utf-8'</span><span class="p">),</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">jsonData</span><span class="p">,</span> <span class="s">'utf-8'</span><span class="p">),</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">jsonData</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="n">apikey</span><span class="p">,</span> <span class="n">checksum</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()))</span>
-</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
 <span class="kr">const</span> <span class="nx">cryto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'crypto'</span><span class="p">);</span>
 
 <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s1">'https://api.datacue.co/v1/orders'</span>
@@ -2437,9 +2504,13 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 <p>The above command returns a 201 response code</p>
 </blockquote>
 
+<p>Orders can be sent in two ways. The easiest way is to insert your order data into the datacueConfig object in the order confirmation page. Look at the &#39;browser&#39; tab code samples to see how to do it.</p>
+
+<p>Alternatively, you can use our REST api to send it.</p>
+
 <p>Endpoint: <code>POST</code> <code>https://api.datacue.co/v1/orders</code></p>
 
-<p>When a user has successfully completed an order on your store. An Order is considered &#39;completed&#39; as soon as the checkout process is completed on your website. It does not matter if the order has further steps such as waiting for payment, or order fulfilment.</p>
+<p>An Order is considered &#39;completed&#39; as soon as the checkout process is completed on your website. It does not matter if the order has further steps such as waiting for payment, or order fulfilment.</p>
 <h3 id='request-parameters-16'>Request parameters</h3>
 <table><thead>
 <tr>
@@ -2514,7 +2585,27 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 <td>Number of products purchased</td>
 </tr>
 </tbody></table>
-<h2 id='cancel-order'>Cancel Order</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="s2">"backend only event (refer to the Python, PHP or Node tab)"</span>
+<h3 id='guest-checkout'>Guest checkout</h3>
+<p>Guest checkouts are when a customer does not need to create an account with a password to make a purchase.</p>
+
+<p>To create a guest checkout, you just need to do two things.</p>
+
+<ol>
+<li><p>Set the <code>user_id</code> to the email of the guest account.</p></li>
+<li><p>If you are sending order data via the REST api, you must add a snippet to the order confirmation page.</p></li>
+</ol>
+<pre class="highlight html tab-html"><code><span class="nt">&lt;script&gt;</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">datacueConfig</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">api_key</span><span class="p">:</span> <span class="s1">'your-api-key'</span><span class="p">,</span>
+  <span class="na">user_id</span><span class="p">:</span> <span class="s1">'&lt;guest-email-id&gt;'</span><span class="p">,</span>
+  <span class="na">page_type</span><span class="p">:</span> <span class="s1">'order confirmation'</span>
+<span class="p">};</span>
+<span class="nt">&lt;/script&gt;</span>
+
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue-storefront.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+</code></pre><h2 id='cancel-order'>Cancel Order</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
@@ -2544,7 +2635,7 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 <span class="n">checksum</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">apisecret</span><span class="p">,</span><span class="s">'utf-8'</span><span class="p">),</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">jsonData</span><span class="p">,</span> <span class="s">'utf-8'</span><span class="p">),</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">jsonData</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="n">apikey</span><span class="p">,</span> <span class="n">checksum</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">())</span>
-</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
 <span class="kr">const</span> <span class="nx">cryto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'crypto'</span><span class="p">);</span>
 
 <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">`https://api.datacue.co/v1/orders/</span><span class="p">${</span><span class="nx">orderId</span><span class="p">}</span><span class="s2">`</span>
@@ -2566,6 +2657,8 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 <p>The above command returns a 204 response code</p>
 </blockquote>
 
+<p>Orders cannot be cancelled via the browser or frontend. You MUST use the REST API to do so as it&#39;s more secure.</p>
+
 <p>Endpoint: <code>PUT</code> <code>https://api.datacue.co/v1/orders/&lt;order_id&gt;</code></p>
 
 <p>When the order makes changes to their profile or when they configure any relevant preferences. For instance if they indicate their gender, this is very helpful for recommendations.</p>
@@ -2585,7 +2678,7 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 <td>Can be <code>completed</code> or <code>cancelled</code></td>
 </tr>
 </tbody></table>
-<h2 id='delete-order'>Delete Order</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="s2">"backend only event (refer to the Python, PHP or Node tab)"</span>
+<h2 id='delete-order'>Delete Order</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
@@ -2610,7 +2703,7 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 <span class="n">checksum</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">apisecret</span><span class="p">,</span><span class="s">'utf-8'</span><span class="p">),</span> <span class="nb">bytes</span><span class="p">(</span><span class="s">""</span><span class="p">,</span> <span class="s">'utf-8'</span><span class="p">),</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="n">apikey</span><span class="p">,</span> <span class="n">checksum</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()))</span>
-</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
 <span class="kr">const</span> <span class="nx">cryto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'crypto'</span><span class="p">);</span>
 
 <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">`https://api.datacue.co/v1/orders/</span><span class="p">${</span><span class="nx">orderId</span><span class="p">}</span><span class="s2">`</span>
@@ -2628,6 +2721,8 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 <blockquote>
 <p>The above command returns a 204 response code</p>
 </blockquote>
+
+<p>Orders cannot be deleted via the browser or frontend. You MUST use the REST API to do so as it&#39;s more secure.</p>
 
 <p>Endpoint: <code>DELETE</code> <code>https://api.datacue.co/v1/orders/&lt;order_id&gt;</code></p>
 
@@ -2669,7 +2764,7 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 <p>Use the batch endpoint if you want to do a bulk import, typically when you first start using DataCue and you want to add your historical orders, products or users.</p>
 
 <p>Build an array of your requests in the <code>batch</code> field, we accept a maximum of 500 items per request.</p>
-<h2 id='batch-create-products'>Batch Create Products</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="s2">"backend only event (refer to the Python, PHP or Node tab)"</span>
+<h2 id='batch-create-products'>Batch Create Products</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
@@ -2778,7 +2873,7 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
   <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">jsonData</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="n">apikey</span><span class="p">,</span> <span class="n">checksum</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()))</span>
-</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
 <span class="kr">const</span> <span class="nx">cryto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'crypto'</span><span class="p">);</span>
 
 <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s1">'https://api.datacue.co/v1/batch/products'</span><span class="p">;</span>
@@ -2871,7 +2966,7 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>We will send you a status for each item you sent, so you can handle and resend only items that had an error.</p>
-<h2 id='batch-create-orders'>Batch Create Orders</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="s2">"backend only event (refer to the Python, PHP or Node tab)"</span>
+<h2 id='batch-create-orders'>Batch Create Orders</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
@@ -2936,7 +3031,7 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
   <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">jsonData</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="n">apikey</span><span class="p">,</span> <span class="n">checksum</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()))</span>
-</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
 <span class="kr">const</span> <span class="nx">cryto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'crypto'</span><span class="p">);</span>
 
 <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s1">'https://api.datacue.co/v1/batch/orders'</span><span class="p">;</span>
@@ -3008,7 +3103,7 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>We will send you a status for each item you sent, so you can handle and resend only items that had an error.</p>
-<h2 id='batch-create-users'>Batch Create Users</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="s2">"backend only event (refer to the Python, PHP or Node tab)"</span>
+<h2 id='batch-create-users'>Batch Create Users</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
@@ -3055,7 +3150,7 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
   <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">jsonData</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="n">apikey</span><span class="p">,</span> <span class="n">checksum</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()))</span>
-</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
 <span class="kr">const</span> <span class="nx">cryto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'crypto'</span><span class="p">);</span>
 
 <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s1">'https://api.datacue.co/v1/batch/users'</span><span class="p">;</span>
@@ -3116,7 +3211,7 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>We will send you a status for each item you sent, so you can handle and resend only items that had an error.</p>
-<h2 id='batch-update-products'>Batch Update Products</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="s2">"backend only event (refer to the Python, PHP or Node tab)"</span>
+<h2 id='batch-update-products'>Batch Update Products</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
@@ -3165,7 +3260,7 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">jsonData</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="n">apikey</span><span class="p">,</span> <span class="n">checksum</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()))</span>
 
-</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
 
 <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">`https://api.datacue.co/v1/batch/products`</span>
 <span class="kr">const</span> <span class="nx">apikey</span> <span class="o">=</span> <span class="s1">'your-api-key-goes-here'</span><span class="p">;</span>
@@ -3227,7 +3322,7 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>We will send you a status for each item you sent, so you can handle and resend only items that had an error.</p>
-<h2 id='batch-update-users'>Batch Update Users</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="s2">"backend only event (refer to the Python, PHP or Node tab)"</span>
+<h2 id='batch-update-users'>Batch Update Users</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
@@ -3275,7 +3370,7 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">jsonData</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="n">apikey</span><span class="p">,</span> <span class="n">checksum</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()))</span>
 
-</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
 
 <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">`https://api.datacue.co/v1/batch/users`</span>
 <span class="kr">const</span> <span class="nx">apikey</span> <span class="o">=</span> <span class="s1">'your-api-key-goes-here'</span><span class="p">;</span>
@@ -3336,7 +3431,7 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>We will send you a status for each item you sent, so you can handle and resend only items that had an error.</p>
-<h2 id='batch-delete-products'>Batch Delete Products</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="s2">"backend only event (refer to the Python, PHP or Node tab)"</span>
+<h2 id='batch-delete-products'>Batch Delete Products</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
@@ -3382,7 +3477,7 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 <span class="n">checksum</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">apisecret</span><span class="p">,</span><span class="s">'utf-8'</span><span class="p">),</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">jsonData</span><span class="p">,</span> <span class="s">'utf-8'</span><span class="p">),</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">jsonData</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="n">apikey</span><span class="p">,</span> <span class="n">checksum</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()))</span>
-</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
 
 <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s1">'https://api.datacue.co/v1/batch/products'</span><span class="p">;</span>
 <span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
@@ -3426,7 +3521,7 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>We will send you a status for each item you sent, so you can handle and resend only items that had an error.</p>
-<h2 id='batch-delete-users'>Batch Delete Users</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="s2">"backend only event (refer to the Python, PHP or Node tab)"</span>
+<h2 id='batch-delete-users'>Batch Delete Users</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
@@ -3465,7 +3560,7 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 <span class="n">checksum</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">apisecret</span><span class="p">,</span><span class="s">'utf-8'</span><span class="p">),</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">jsonData</span><span class="p">,</span> <span class="s">'utf-8'</span><span class="p">),</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">jsonData</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="n">apikey</span><span class="p">,</span> <span class="n">checksum</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()))</span>
-</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
 
 <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s1">'https://api.datacue.co/v1/batch/users'</span><span class="p">;</span>
 
@@ -3509,7 +3604,7 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>We will send you a status for each item you sent, so you can handle and resend only items that had an error.</p>
-<h2 id='batch-delete-orders'>Batch Delete Orders</h2><pre class="highlight javascript tab-javascript--browser"><code><span class="s2">"backend only event (refer to the Python, PHP or Node tab)"</span>
+<h2 id='batch-delete-orders'>Batch Delete Orders</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
@@ -3544,7 +3639,7 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
 <span class="n">checksum</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">apisecret</span><span class="p">,</span><span class="s">'utf-8'</span><span class="p">),</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">jsonData</span><span class="p">,</span> <span class="s">'utf-8'</span><span class="p">),</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span>
 
 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">jsonData</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="n">apikey</span><span class="p">,</span> <span class="n">checksum</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()))</span>
-</code></pre><pre class="highlight javascript tab-javascript--node"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
 
 <span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s1">'https://api.datacue.co/v1/batch/orders'</span><span class="p">;</span>
 
@@ -3612,8 +3707,8 @@ axios.defaults.auth = { username: apikey, password: hash.digest('</span><span cl
       </div>
       <div class="dark-box">
           <div class="lang-selector">
-                <a href="#" data-language-name="javascript--browser">Browser</a>
-                <a href="#" data-language-name="javascript--node">Node.js</a>
+                <a href="#" data-language-name="html">Browser</a>
+                <a href="#" data-language-name="javascript">Node.js</a>
                 <a href="#" data-language-name="python">Python</a>
                 <a href="#" data-language-name="php">PHP</a>
           </div>
