@@ -1111,7 +1111,7 @@ $data = [
   "main_category" => "jeans",
   "categories" => ["men","summer","jeans"],
   "name" => "cool jeans",
-  "brand" => "zara",
+  "brand" => "zayra",
   "description" => "very fashionable jeans",
   "color" => "blue",
   "size" => "M",
@@ -1150,7 +1150,7 @@ data = {
   "main_category": "jeans",
   "categories": ["men","summer","jeans"],
   "name": "cool jeans",
-  "brand": "zara",
+  "brand": "zayra",
   "description": "very fashionable jeans",
   "color": "blue",
   "size": "M",
@@ -1189,7 +1189,7 @@ const data = {
   main_category: 'jeans',
   categories: ['men','summer','jeans'],
   name: 'cool jeans',
-  brand: 'zara',
+  brand: 'zayra',
   description: 'very fashionable jeans',
   color: 'blue',
   size: 'M',
@@ -1274,10 +1274,24 @@ $productId = "p1";
 // replace $variantId with the actual values you want to update
 $variantId = "v1";
 $data = [
-  "main_category" => "shorts",
-  "categories" => ["shorts","men"],
-  "stock" => 6,
-  "available" => false
+  "main_category" => "jeans",
+  "categories" => ["men","summer","jeans"],
+  "name" => "cool jeans",
+  "brand" => "zayra",
+  "description" => "very fashionable jeans",
+  "color" => "blue",
+  "size" => "M",
+  "price" => 25000,
+  "full_price" => 30000,
+  "available" => true,
+  "stock" => 5,
+  "rating" => 90,
+  "extra" => [
+    "extra_feature" => "details"
+  ],
+  "photo_url" => "https://s3.amazon.com/image.png",
+  "link" => "/product/p1",
+  "owner_id" => "user_id_3"
 ];
 
 $res = $datacue->products->update($productId, $variantId, $data);
@@ -1291,15 +1305,32 @@ import hmac
 import json
 import requests
 
-url = "https://api.datacue.co/v1/products/:product_id/:variant_id"
+productId = "p1";
+variantId = "v1";
+
+url = f"https://api.datacue.co/v1/products/{productId}/{variantId}"
 apikey = "your-api-key-goes-here"
 apisecret = "your-api-secret-goes-here"
 
 data = {
-  "main_category" : "shorts",
-  "categories" : ["shorts","men"],
-  "stock": 6,
-  "available": False
+  "main_category": "jeans",
+  "categories": ["men","summer","jeans"],
+  "name": "cool jeans",
+  "brand": "zayra",
+  "description": "very fashionable jeans",
+  "color": "blue",
+  "size": "M",
+  "price": 25000,
+  "full_price": 35000,
+  "available": True,
+  "stock": 5,
+  "rating": 90,
+  "extra": {
+    "extra_feature": "details"
+  },
+  "photo_url": "https://s3.amazon.com/image.png",
+  "link": "/product/p1",
+  "owner_id": "user_id_3"
 }
 
 jsonData = json.dumps(data)
@@ -1313,15 +1344,32 @@ response = requests.put(url, data=jsonData, auth=(apikey, checksum.hexdigest()))
 const axios = require('axios');
 const cryto = require('crypto');
 
+const productId = 'p1';
+const variantId = 'v1';
+
 const url = `https://api.datacue.co/v1/products/${productId}/${variantId}`
 const apikey = 'your-api-key-goes-here';
 const apisecret = 'your-api-secret-goes-here';
 
 const data = {
-  main_category: 'shorts',
-  categories: ['shorts','men"],
-  stock: 6,
-  available: false
+  main_category: 'jeans',
+  categories: ['men','summer','jeans'],
+  name: 'cool jeans',
+  brand: 'zayra',
+  description: 'very fashionable jeans',
+  color: 'blue',
+  size: 'M',
+  price: 25000,
+  full_price: 35000,
+  available: true,
+  stock: 5,
+  rating: 90,
+  extra: {
+    extra_feature: 'details'
+  },
+  photo_url: 'https://s3.amazon.com/image.png',
+  link: '/product/p1',
+  owner_id: 'user_id_3'
 };
 
 var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
@@ -1343,7 +1391,7 @@ Whenever an existing product is updated such as image, name, price or new discou
 Same as for [Create Product](#create-product), except `product_id` and `variant_id`.
 
 <aside class="success">
-  Remember that when an order is completed this is also a product update as the stock level of the product will change. Sending us a product update after an order will ensure that if a product is out of stock, it is no longer recommended to other users.
+  Remember that when an order is completed this should also trigger a product update if the stock level of the product changes. This helps ensure that out of stock items are no longer recommended to other users.
 </aside>
 
 ## Delete Product
@@ -1380,7 +1428,11 @@ import hmac
 import json
 import requests
 
-url = "https://api.datacue.co/v1/products/:product_id/:variant_id"
+# replace these values with the product and variant id you want to delete
+productId = "p1"
+variantId = "v1"
+
+url = f"https://api.datacue.co/v1/products/{productId}/{variantId}"
 
 apikey = "your-api-key-goes-here"
 apisecret = "your-api-secret-goes-here"
@@ -1393,6 +1445,10 @@ response = requests.delete(url, auth=(apikey, checksum.hexdigest()))
 ```javascript
 const axios = require('axios');
 const cryto = require('crypto');
+
+// replace these values with the product and variant id you want to delete
+const productId = 'p1';
+const variantId = 'v1';
 
 const url = `https://api.datacue.co/v1/products/${productId}/${variantId}`
 const apikey = 'your-api-key-goes-here';
@@ -1569,9 +1625,19 @@ $datacue = new \DataCue\Client($apikey, $apisecret);
 // replace $userId with the actual value you want to update
 $userId = "u1";
 $data = [
+  "email" => "xyz@abc.com",
+  "title" => "Mr",
+  "first_name" => "John",
+  "last_name" => "Smith",
   "profile" => [
-    "location" => "singapore"
-  ]
+    "location" => "santiago",
+    "sex" => "male",
+    "segment" => "platinum"
+  ],
+  "wishlist" => ["P1", "P3", "P4"], //array of product ids
+  "email_subscriber" => true,
+  "guest_account" => false,
+  "timestamp" => "2018-04-04 23:29:04-03:00"
 ];
 
 $res = $datacue->users->update($userId, $data);
@@ -1584,14 +1650,28 @@ import hmac
 import json
 import requests
 
-url = "https://api.datacue.co/v1/users/:user_id"
+# replace this value with the user id you want to update
+userId = "u1"
+
+url = f"https://api.datacue.co/v1/users/{userId}"
 apikey = "your-api-key-goes-here"
 apisecret = "your-api-secret-goes-here"
 
 data = {
+  "user_id": "u1",
+  "email": "xyz@abc.com",
+  "title": "Mr",
+  "first_name": "John",
+  "last_name": "Smith",
   "profile": {
-    "location": "singapore"
-  }
+    "location": "santiago",
+    "sex": "male",
+    "segment": "platinum"
+  },
+  "wishlist": ['P1','P3','P4'], #array of product ids
+  "email_subscriber": True,
+  "guest_account": False,
+  "timestamp": "2018-04-04 23:29:04-03:00"
 }
 
 jsonData = json.dumps(data)
@@ -1604,14 +1684,27 @@ response = requests.put(url, data=jsonData, auth=(apikey, checksum.hexdigest()))
 const axios = require('axios');
 const cryto = require('crypto');
 
+// replace this value with the user id you want to update
+const userId = 'u1';
+
 const url = `https://api.datacue.co/v1/users/${userId}`
 const apikey = 'your-api-key-goes-here';
 const apisecret = 'your-api-secret-goes-here';
 
 const data = {
+  email: 'xyz@abc.com',
+  title: 'Mr',
+  first_name: 'Noob',
+  last_name: 'Saibot',
   profile: {
-    location: 'singapore'
-  }
+    location: 'santiago',
+    sex: 'male',
+    segment: 'platinum'
+  },
+  wishlist: ['P1','P3','P4'], //array of product ids
+  email_subscriber: true,
+  guest_account: false,
+  timestamp: '2018-04-04 23:29:04-03:00'
 };
 
 var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
@@ -1659,7 +1752,10 @@ import hmac
 import json
 import requests
 
-url = "https://api.datacue.co/v1/users/:user_id"
+# replace this value with the user id you want to delete
+userId = "u1"
+
+url = f"https://api.datacue.co/v1/users/{userId}"
 apikey = "your-api-key-goes-here"
 apisecret = "your-api-secret-goes-here"
 
@@ -1672,6 +1768,9 @@ response = requests.delete(url, auth=(apikey, checksum.hexdigest()))
 ```javascript
 const axios = require('axios');
 const cryto = require('crypto');
+
+// replace this value with the user id you want to delete
+const userId = 'u1';
 
 const url = `https://api.datacue.co/v1/users/${userId}`
 const apikey = 'your-api-key-goes-here';
@@ -1910,7 +2009,10 @@ import hmac
 import json
 import requests
 
-url = "https://api.datacue.co/v1/orders/:order_id"
+# replace this value with the order id you want to cancel
+orderId = "o1"
+
+url = f"https://api.datacue.co/v1/orders/{orderId}"
 apikey = "your-api-key-goes-here"
 apisecret = "your-api-secret-goes-here"
 
@@ -1927,6 +2029,9 @@ response = requests.put(url, data=jsonData, auth=(apikey, checksum.hexdigest())
 ```javascript
 const axios = require('axios');
 const cryto = require('crypto');
+
+// replace this value with the order id you want to cancel
+const orderId = 'o1';
 
 const url = `https://api.datacue.co/v1/orders/${orderId}`
 const apikey = 'your-api-key-goes-here';
@@ -1985,7 +2090,10 @@ import hmac
 import json
 import requests
 
-url = "https://api.datacue.co/v1/orders/:order_id"
+# replace this value with the order id you want to delete
+orderId = "o1"
+
+url = f"https://api.datacue.co/v1/orders/{orderId}"
 apikey = "your-api-key-goes-here"
 apisecret = "your-api-secret-goes-here"
 
@@ -1997,6 +2105,9 @@ response = requests.delete(url, auth=(apikey, checksum.hexdigest()))
 ```javascript
 const axios = require('axios');
 const cryto = require('crypto');
+
+// replace this value with the order id you want to delete
+const orderId = 'o1';
 
 const url = `https://api.datacue.co/v1/orders/${orderId}`
 const apikey = 'your-api-key-goes-here';
@@ -2060,7 +2171,6 @@ Use the batch endpoint if you want to do a bulk import, typically when you first
 
 Build an array of your requests in the `batch` field, we accept a maximum of 500 items per request.
 
-
 ## Batch Create Products
 
 ```html
@@ -2083,7 +2193,7 @@ $productDataList = [
         "main_category" => "jeans",
         "categories" => ["jeans","men","summer"],
         "name" => "cool jeans",
-        "brand" => "zara",
+        "brand" => "zayra",
         "description" => "very fashionable jeans",
         "color" => "blue",
         "size" => "M",
@@ -2102,7 +2212,7 @@ $productDataList = [
         "main_category" => "hats",
         "categories" => ["hats","women","summer"],
         "name" => "summer hat",
-        "brand" => "zara",
+        "brand" => "zayra",
         "description" => "very fashionable hat",
         "color" => "black",
         "size" => "",
@@ -2139,7 +2249,7 @@ data = {
       "main_category" : "jeans",
       "categories" : ["jeans","men","summer"],
       "name" : "cool jeans",
-      "brand" : "zara",
+      "brand" : "zayra",
       "description" : "very fashionable jeans",
       "color" : "blue",
       "size" : "M",
@@ -2157,7 +2267,7 @@ data = {
       "main_category" : "hats",
       "categories" : ["hats","women","summer"],
       "name" : "summer hat",
-      "brand" : "zara",
+      "brand" : "zayra",
       "description" : "very fashionable hat",
       "color" : "black",
       "size" : "",
@@ -2197,7 +2307,7 @@ const data = {
       main_category : 'jeans',
       categories : ['jeans','men','summer'],
       name : 'cool jeans',
-      brand : 'zara',
+      brand : 'zayra',
       description : 'very fashionable jeans',
       color : 'blue',
       size : 'M',
@@ -2215,7 +2325,7 @@ const data = {
       main_category : 'hats',
       categories : ['hats','women','summer'],
       name : 'summer hat',
-      brand : 'zara',
+      brand : 'zayra',
       description : 'very fashionable hat',
       color : 'black',
       size : '',
