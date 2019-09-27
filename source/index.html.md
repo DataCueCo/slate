@@ -1089,6 +1089,323 @@ Record clicks on a product anywhere on your website.
 | `subtype`    | String    | Yes      | Set to `'related'`, `'similar'` or `'recent'`
 | `product_id` | String    | Yes      | Set to the id of the clicked product
 
+# Overview
+
+## Summary
+
+```html
+<!--- backend only event (refer to the Python, PHP or Node tab) -->
+```
+
+```php
+<?php
+
+$apikey = "Your-API-Key-goes-here";
+$apisecret = "Your-API-secret-goes-here";
+
+$datacue = new \DataCue\Client($apikey, $apisecret);
+
+$res = $this->client->overview->all();
+
+print($res);
+
+?>
+```
+
+```python
+
+import hashlib
+import hmac
+import requests
+
+url = "https://api.datacue.co/v1/overview"
+apikey = "your-api-key-goes-here"
+apisecret = "your-api-secret-goes-here"
+
+checksum = hmac.new(bytes(apisecret, "utf-8"),
+                    bytes("", "utf-8"), hashlib.sha256)
+
+response = requests.get(url, auth=(apikey, checksum.hexdigest()))
+
+print(response.json())
+
+```
+
+```javascript
+const axios = require('axios');
+const cryto = require('crypto');
+
+const url = 'https://api.datacue.co/v1/overview'
+const apikey = 'your-api-key-goes-here';
+const apisecret = 'your-api-secret-goes-here';
+
+var hash = crypto.createHmac('sha256', apisecret).update("");
+
+//add to default authentication header
+axios.defaults.auth = { username: 'API-key', password: hash.digest('hex') };
+
+axios.get(url).then(response => {
+  if (response.data) {
+    console.log(response.data);
+  }
+}).catch(err => {
+  console.err(err);
+});
+```
+
+> The above command returns a 200 response code
+
+```json
+{ "products":{"products":500,"variants":2500}, "orders":5000, "users":4900 }
+```
+
+
+Endpoint: `GET` `https://api.datacue.co/v1/overview`
+Provides an overview of all backend data received by the DataCue API from your store.
+
+### Response parameters
+
+| FieldName       | Data Type   | Description |
+| ---------------- | ----------- | ----------- |
+| `products`     | Integer      | Number of unique product received (excluding variants)
+| `variants`     | Integer     | Number of unique product variants received
+| `orders`  | Integer   | Number of unique orders received
+| `users`     | Integer | Number of unique users received
+
+## Products
+
+```html
+<!--- backend only event (refer to the Python, PHP or Node tab) -->
+```
+
+```php
+<?php
+
+$apikey = "Your-API-Key-goes-here";
+$apisecret = "Your-API-secret-goes-here";
+
+$datacue = new \DataCue\Client($apikey, $apisecret);
+
+$res = $this->client->overview->products();
+
+print($res);
+
+?>
+```
+
+```python
+
+import hashlib
+import hmac
+import requests
+
+url = "https://api.datacue.co/v1/overview/products"
+apikey = "your-api-key-goes-here"
+apisecret = "your-api-secret-goes-here"
+
+checksum = hmac.new(bytes(apisecret, "utf-8"),
+                    bytes("", "utf-8"), hashlib.sha256)
+
+response = requests.get(url, auth=(apikey, checksum.hexdigest()))
+
+print(response.json())
+
+```
+
+```javascript
+const axios = require('axios');
+const cryto = require('crypto');
+
+const url = 'https://api.datacue.co/v1/overview/products'
+const apikey = 'your-api-key-goes-here';
+const apisecret = 'your-api-secret-goes-here';
+
+var hash = crypto.createHmac('sha256', apisecret).update("");
+
+//add to default authentication header
+axios.defaults.auth = { username: 'API-key', password: hash.digest('hex') };
+
+axios.get(url).then(response => {
+  if (response.data) {
+    console.log(response.data);
+  }
+}).catch(err => {
+  console.err(err);
+});
+```
+
+> The above command returns a 200 response code
+
+```json
+{ "ids": ["P1","P2"], "count": 2 }
+```
+
+Endpoint: `GET` `https://api.datacue.co/v1/overview/products`
+Provides an overview of all product data received by the DataCue API from your store.
+
+### Response parameters
+
+| Field       | Data Type   | Description |
+| ----------- | ----------- | ----------- |
+| `ids`     | String Array      | Array of all product ids received successfully
+| `count`     | Integer     | Number of unique products
+
+## Orders
+
+```html
+<!--- backend only event (refer to the Python, PHP or Node tab) -->
+```
+
+```php
+<?php
+
+$apikey = "Your-API-Key-goes-here";
+$apisecret = "Your-API-secret-goes-here";
+
+$datacue = new \DataCue\Client($apikey, $apisecret);
+
+$res = $this->client->overview->orders();
+
+print($res);
+
+?>
+```
+
+```python
+
+import hashlib
+import hmac
+import requests
+
+url = "https://api.datacue.co/v1/overview/orders"
+apikey = "your-api-key-goes-here"
+apisecret = "your-api-secret-goes-here"
+
+checksum = hmac.new(bytes(apisecret, "utf-8"),
+                    bytes("", "utf-8"), hashlib.sha256)
+
+response = requests.get(url, auth=(apikey, checksum.hexdigest()))
+
+print(response.json())
+
+```
+
+```javascript
+const axios = require('axios');
+const cryto = require('crypto');
+
+const url = 'https://api.datacue.co/v1/overview/orders'
+const apikey = 'your-api-key-goes-here';
+const apisecret = 'your-api-secret-goes-here';
+
+var hash = crypto.createHmac('sha256', apisecret).update("");
+
+//add to default authentication header
+axios.defaults.auth = { username: 'API-key', password: hash.digest('hex') };
+
+axios.get(url).then(response => {
+  if (response.data) {
+    console.log(response.data);
+  }
+}).catch(err => {
+  console.err(err);
+});
+```
+
+> The above command returns a 200 response code
+
+```json
+{ "ids": ["O1","O2"], "count": 2 }
+```
+
+Endpoint: `GET` `https://api.datacue.co/v1/overview/orders`
+Provides an overview of all order data received by the DataCue API from your store.
+
+### Response parameters
+
+| Field       | Data Type   | Description |
+| ----------- | ----------- | ----------- |
+| `ids`     | String Array      | Array of all order ids received successfully
+| `count`     | Integer     | Number of unique orders
+
+## Users
+
+```html
+<!--- backend only event (refer to the Python, PHP or Node tab) -->
+```
+
+```php
+<?php
+
+$apikey = "Your-API-Key-goes-here";
+$apisecret = "Your-API-secret-goes-here";
+
+$datacue = new \DataCue\Client($apikey, $apisecret);
+
+$res = $this->client->overview->users();
+
+print($res);
+
+?>
+```
+
+```python
+
+import hashlib
+import hmac
+import requests
+
+url = "https://api.datacue.co/v1/overview/users"
+apikey = "your-api-key-goes-here"
+apisecret = "your-api-secret-goes-here"
+
+checksum = hmac.new(bytes(apisecret, "utf-8"),
+                    bytes("", "utf-8"), hashlib.sha256)
+
+response = requests.get(url, auth=(apikey, checksum.hexdigest()))
+
+print(response.json())
+
+```
+
+```javascript
+const axios = require('axios');
+const cryto = require('crypto');
+
+const url = 'https://api.datacue.co/v1/overview/users'
+const apikey = 'your-api-key-goes-here';
+const apisecret = 'your-api-secret-goes-here';
+
+var hash = crypto.createHmac('sha256', apisecret).update("");
+
+//add to default authentication header
+axios.defaults.auth = { username: 'API-key', password: hash.digest('hex') };
+
+axios.get(url).then(response => {
+  if (response.data) {
+    console.log(response.data);
+  }
+}).catch(err => {
+  console.err(err);
+});
+```
+
+> The above command returns a 200 response code
+
+```json
+{ "ids": ["U1","U2"], "count": 2 }
+```
+
+Endpoint: `GET` `https://api.datacue.co/v1/overview/users`
+Provides an overview of all user data received by the DataCue API from your store.
+
+### Response parameters
+
+| Field       | Data Type   | Description |
+| ----------- | ----------- | ----------- |
+| `ids`     | String Array      | Array of all users ids received successfully
+| `count`     | Integer     | Number of unique users
+
 # Products
 
 ## Create Product
@@ -2171,7 +2488,7 @@ Use the batch endpoint if you want to do a bulk import, typically when you first
 
 Build an array of your requests in the `batch` field, we accept a maximum of 500 items per request.
 
-## Batch Create Products
+## Create Products
 
 ```html
 <!--- backend only event (refer to the Python, PHP or Node tab) -->
@@ -2380,7 +2697,7 @@ Endpoint: `POST` `https://api.datacue.co/v1/batch/products`
 
 We will send you a status for each item you sent, so you can handle and resend only items that had an error.
 
-## Batch Create Orders
+## Create Orders
 
 ```html
 <!--- backend only event (refer to the Python, PHP or Node tab) -->
@@ -2524,7 +2841,7 @@ Endpoint: `POST` `https://api.datacue.co/v1/batch/orders`
 
 We will send you a status for each item you sent, so you can handle and resend only items that had an error.
 
-## Batch Create Users
+## Create Users
 
 ```html
 <!--- backend only event (refer to the Python, PHP or Node tab) -->
@@ -2639,7 +2956,7 @@ Endpoint: `POST` `https://api.datacue.co/v1/batch/users`
 
 We will send you a status for each item you sent, so you can handle and resend only items that had an error.
 
-## Batch Update Products
+## Update Products
 
 ```html
 <!--- backend only event (refer to the Python, PHP or Node tab) -->
@@ -2758,7 +3075,7 @@ Update multiple products. Note that orders cannot be updated, only created or ca
 
 We will send you a status for each item you sent, so you can handle and resend only items that had an error.
 
-## Batch Update Users
+## Update Users
 
 ```html
 <!--- backend only event (refer to the Python, PHP or Node tab) -->
@@ -2875,7 +3192,7 @@ Update multiple users.
 
 We will send you a status for each item you sent, so you can handle and resend only items that had an error.
 
-## Batch Delete Products
+## Delete Multiple Products
 
 ```html
 <!--- backend only event (refer to the Python, PHP or Node tab) -->
@@ -2984,7 +3301,7 @@ Delete multiple products within one request. Batch DELETE requests only require 
 
 We will send you a status for each item you sent, so you can handle and resend only items that had an error.
 
-## Batch Delete Users
+## Delete Multiple Users
 
 ```html
 <!--- backend only event (refer to the Python, PHP or Node tab) -->
@@ -3086,7 +3403,7 @@ Delete multiple users within one request. Batch DELETE requests only require an 
 
 We will send you a status for each item you sent, so you can handle and resend only items that had an error.
 
-## Batch Delete Orders
+## Delete Multiple Orders
 
 ```html
 <!--- backend only event (refer to the Python, PHP or Node tab) -->
@@ -3181,3 +3498,172 @@ Delete multiple orders within one request. Batch DELETE requests only require an
 ```
 
 We will send you a status for each item you sent, so you can handle and resend only items that had an error.
+
+## Delete All Products
+
+```html
+<!--- backend only event (refer to the Python, PHP or Node tab) -->
+```
+
+```php
+<?php
+
+$apikey = "Your-API-Key-goes-here";
+$apisecret = "Your-API-secret-goes-here";
+
+$datacue = new \DataCue\Client($apikey, $apisecret);
+
+$res = $this->client->products->deleteAll();
+
+```
+
+```python
+import hashlib
+import hmac
+import requests
+
+url = "https://api.datacue.co/v1/batch/products/all"
+apikey = "your-api-key-goes-here"
+apisecret = "your-api-secret-goes-here"
+
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes("", 'utf-8'), hashlib.sha256)
+
+response = requests.delete(url, auth=(apikey, checksum.hexdigest()))
+```
+
+```javascript
+const axios = require('axios');
+
+const url = 'https://api.datacue.co/v1/batch/products/all';
+
+var hash = crypto.createHmac('sha256', apisecret).update("");
+
+//add to default authentication header
+axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
+
+axios.delete(url);
+```
+
+Endpoint: `DELETE` `https://api.datacue.co/v1/batch/products/all`
+
+Delete ALL products within one request.
+
+### Request parameters
+
+None
+
+### Response JSON
+
+> The above command returns a 204 response code
+
+## Delete All Users
+
+```html
+<!--- backend only event (refer to the Python, PHP or Node tab) -->
+```
+
+```php
+<?php
+
+$apikey = "Your-API-Key-goes-here";
+$apisecret = "Your-API-secret-goes-here";
+
+$datacue = new \DataCue\Client($apikey, $apisecret);
+
+// batch delete users
+$res = $datacue->users->deleteAll();
+
+```
+
+```python
+import hashlib
+import hmac
+import requests
+
+url = "https://api.datacue.co/v1/batch/users/all"
+apikey = "your-api-key-goes-here"
+apisecret = "your-api-secret-goes-here"
+
+
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes("", 'utf-8'), hashlib.sha256)
+
+response = requests.delete(url, auth=(apikey, checksum.hexdigest()))
+```
+
+```javascript
+const axios = require('axios');
+
+const url = 'https://api.datacue.co/v1/batch/users/all';
+
+var hash = crypto.createHmac('sha256', apisecret).update("");
+
+//add to default authentication header
+axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
+
+axios.delete(url);
+```
+
+Endpoint: `DELETE` `https://api.datacue.co/v1/batch/users/all`
+
+Delete ALL users within one request.
+
+### Response JSON
+
+> The above command returns a 204 response code
+
+## Delete All Users
+
+```html
+<!--- backend only event (refer to the Python, PHP or Node tab) -->
+```
+
+```php
+<?php
+
+$apikey = "Your-API-Key-goes-here";
+$apisecret = "Your-API-secret-goes-here";
+
+$datacue = new \DataCue\Client($apikey, $apisecret);
+
+// batch delete orders
+$res = $datacue->orders->deleteAll();
+
+```
+
+```python
+import hashlib
+import hmac
+import requests
+
+url = "https://api.datacue.co/v1/batch/orders/all"
+apikey = "your-api-key-goes-here"
+apisecret = "your-api-secret-goes-here"
+
+
+checksum = hmac.new(bytes(apisecret,'utf-8'), bytes("", 'utf-8'), hashlib.sha256)
+
+response = requests.delete(url, auth=(apikey, checksum.hexdigest()))
+```
+
+```javascript
+const axios = require('axios');
+
+const url = 'https://api.datacue.co/v1/batch/orders/all';
+
+var hash = crypto.createHmac('sha256', apisecret).update("");
+
+//add to default authentication header
+axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
+
+axios.delete(url);
+```
+
+Endpoint: `DELETE` `https://api.datacue.co/v1/batch/orders/all`
+
+Delete ALL orders within one request.
+
+### Response JSON
+
+> The above command returns a 204 response code
+
+
