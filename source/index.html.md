@@ -3611,7 +3611,7 @@ Delete ALL users within one request.
 
 > The above command returns a 204 response code
 
-## Delete All Users
+## Delete All Orders
 
 ```html
 <!--- backend only event (refer to the Python, PHP or Node tab) -->
