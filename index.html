@@ -1321,7 +1321,7 @@
 <td>Set to <code>&#39;home&#39;</code></td>
 </tr>
 </tbody></table>
-<h3 id='response-json'>Response JSON</h3>
+<h3 id='response-json-fields'>Response JSON fields</h3>
 <table><thead>
 <tr>
 <th>FieldName</th>
@@ -1462,7 +1462,7 @@
 <td>Set to product&#39;s variant id (if applicable)</td>
 </tr>
 </tbody></table>
-<h3 id='response-json-2'>Response JSON</h3>
+<h3 id='response-json-fields-2'>Response JSON fields</h3>
 <table><thead>
 <tr>
 <th>FieldName</th>
@@ -1604,7 +1604,7 @@
 <td>Set to the user&#39;s search term</td>
 </tr>
 </tbody></table>
-<h3 id='response-json-3'>Response JSON</h3>
+<h3 id='response-json-fields-3'>Response JSON fields</h3>
 <table><thead>
 <tr>
 <th>FieldName</th>
@@ -1788,7 +1788,7 @@
 </span></code></pre>
 <p>Endpoint: <code>GET</code> <code>https://api.datacue.co/v1/overview</code>
 Provides an overview of all backend data received by the DataCue API from your store.</p>
-<h3 id='response-json-fields'>Response JSON fields</h3>
+<h3 id='response-json-fields-4'>Response JSON fields</h3>
 <table><thead>
 <tr>
 <th>FieldName</th>
@@ -1873,7 +1873,7 @@ Provides an overview of all backend data received by the DataCue API from your s
 </span></code></pre>
 <p>Endpoint: <code>GET</code> <code>https://api.datacue.co/v1/overview/products</code>
 Provides an overview of all product data received by the DataCue API from your store.</p>
-<h3 id='response-json-fields-2'>Response JSON fields</h3>
+<h3 id='response-json-fields-5'>Response JSON fields</h3>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -1948,7 +1948,7 @@ Provides an overview of all product data received by the DataCue API from your s
 </span></code></pre>
 <p>Endpoint: <code>GET</code> <code>https://api.datacue.co/v1/overview/categories</code>
 Provides an overview of all categories received by the DataCue API from your store.</p>
-<h3 id='response-json-fields-3'>Response JSON fields</h3>
+<h3 id='response-json-fields-6'>Response JSON fields</h3>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -2023,7 +2023,7 @@ Provides an overview of all categories received by the DataCue API from your sto
 </span></code></pre>
 <p>Endpoint: <code>GET</code> <code>https://api.datacue.co/v1/overview/orders</code>
 Provides an overview of all order data received by the DataCue API from your store.</p>
-<h3 id='response-json-fields-4'>Response JSON fields</h3>
+<h3 id='response-json-fields-7'>Response JSON fields</h3>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -2098,7 +2098,7 @@ Provides an overview of all order data received by the DataCue API from your sto
 </span></code></pre>
 <p>Endpoint: <code>GET</code> <code>https://api.datacue.co/v1/overview/users</code>
 Provides an overview of all user data received by the DataCue API from your store.</p>
-<h3 id='response-json-fields-5'>Response JSON fields</h3>
+<h3 id='response-json-fields-8'>Response JSON fields</h3>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -3703,25 +3703,10 @@ Update the product like so:
 <td>Array of products you are sending</td>
 </tr>
 </tbody></table>
-<h3 id='response-json-4'>Response JSON</h3>
+
 <blockquote>
 <p>The above command returns a 201 response code</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"product_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p1"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"error"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p1 already exists"</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"product_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p2"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OK"</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-    </span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>We will send you a status for each item you sent, so you can handle and resend only items that had an error.</p>
 <h2 id='create-update-categories'>Create/Update Categories</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
@@ -3819,7 +3804,7 @@ Update the product like so:
 <td>Array of categories you are sending</td>
 </tr>
 </tbody></table>
-<h3 id='response-json-5'>Response JSON</h3>
+
 <blockquote>
 <p>The above command returns a 201 response code</p>
 </blockquote>
@@ -4111,7 +4096,7 @@ Update the product like so:
 <p>Delete multiple products within one request. Batch DELETE requests only require an id field as follows.</p>
 <h3 id='request-json-fields-24'>Request JSON fields</h3>
 <p><code>product_id</code> and <code>variant_id</code></p>
-<h3 id='response-json-6'>Response JSON</h3>
+
 <blockquote>
 <p>The above command returns a 204 response code</p>
 </blockquote>
@@ -4312,7 +4297,7 @@ Update the product like so:
 <p>Delete multiple orders within one request. Batch DELETE requests only require an id field as follows.</p>
 <h3 id='request-json-fields-27'>Request JSON fields</h3>
 <p><code>order_id</code></p>
-<h3 id='response-json-7'>Response JSON</h3>
+
 <blockquote>
 <p>The above command returns a 207 multi status response code</p>
 </blockquote>
@@ -4367,7 +4352,7 @@ Update the product like so:
 <p>Delete ALL products within one request.</p>
 <h3 id='request-json-fields-28'>Request JSON fields</h3>
 <p>None</p>
-<h3 id='response-json-8'>Response JSON</h3>
+
 <blockquote>
 <p>The above command returns a 204 response code</p>
 </blockquote>
@@ -4408,7 +4393,7 @@ Update the product like so:
 <p>Endpoint: <code>DELETE</code> <code>https://api.datacue.co/v1/batch/categories/all</code></p>
 
 <p>Delete ALL categories within one request.</p>
-<h3 id='response-json-9'>Response JSON</h3>
+
 <blockquote>
 <p>The above command returns a 204 response code</p>
 </blockquote>
@@ -4449,7 +4434,7 @@ Update the product like so:
 <p>Endpoint: <code>DELETE</code> <code>https://api.datacue.co/v1/batch/users/all</code></p>
 
 <p>Delete ALL users within one request.</p>
-<h3 id='response-json-10'>Response JSON</h3>
+
 <blockquote>
 <p>The above command returns a 204 response code</p>
 </blockquote>
@@ -4490,7 +4475,7 @@ Update the product like so:
 <p>Endpoint: <code>DELETE</code> <code>https://api.datacue.co/v1/batch/orders/all</code></p>
 
 <p>Delete ALL orders within one request.</p>
-<h3 id='response-json-11'>Response JSON</h3>
+
 <blockquote>
 <p>The above command returns a 204 response code</p>
 </blockquote>
