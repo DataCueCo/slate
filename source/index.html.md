@@ -756,7 +756,7 @@ Request banner and product recommendations when a user visits your home page
 | `type`    | String    | Yes      | Set to `'pageview'`
 | `subtype` | String    | Yes      | Set to `'home'`
 
-### Response JSON
+### Response JSON fields
 
 | FieldName             | Data Type | Description |
 | ---------------------- | --------- | ----------- |
@@ -867,7 +867,7 @@ Request product recommendations when a user visits a product page
 | `product_id` | String    | Yes      | Set to product id being viewed
 | `variant_id` | String    | No       | Set to product's variant id (if applicable)
 
-### Response JSON
+### Response JSON fields
 
 | FieldName             | Data Type | Description |
 | ---------------------- | --------- | ----------- |
@@ -985,7 +985,7 @@ Record when a user performs a search on your website
 | `type` | String    | Yes      | Set to `'search'`
 | `term` | String    | Yes      | Set to the user's search term
 
-### Response JSON
+### Response JSON fields
 
 | FieldName            | Data Type | Description |
 | --------------------- | --------- | ----------- |
@@ -2987,27 +2987,7 @@ Endpoint: `POST` `https://api.datacue.co/v1/batch/products`
 | ------- | --------- | -------- | ----------- |
 | `batch` | Array     | Yes      | Array of products you are sending
 
-### Response JSON
-
 > The above command returns a 201 response code
-
-```json
-{
-    "status": [
-        {
-            "product_id": "p1",
-            "status": "error",
-            "error": "p1 already exists"
-        },
-        {
-            "product_id": "p2",
-            "status": "OK"
-        }
-    ]
-}
-```
-
-We will send you a status for each item you sent, so you can handle and resend only items that had an error.
 
 ## Create/Update Categories
 
@@ -3109,8 +3089,6 @@ Endpoint: `POST` `https://api.datacue.co/v1/batch/categories`
 | FieldName | Data Type | Required | Description |
 | ------- | --------- | -------- | ----------- |
 | `batch` | Array     | Yes      | Array of categories you are sending
-
-### Response JSON
 
 > The above command returns a 201 response code
 
@@ -3422,8 +3400,6 @@ Delete multiple products within one request. Batch DELETE requests only require 
 
 `product_id` and `variant_id`
 
-### Response JSON
-
 > The above command returns a 204 response code
 
 ## Delete Multiple Categories
@@ -3667,8 +3643,6 @@ Delete multiple orders within one request. Batch DELETE requests only require an
 
 `order_id`
 
-### Response JSON
-
 > The above command returns a 207 multi status response code
 
 ```json
@@ -3741,8 +3715,6 @@ Delete ALL products within one request.
 
 None
 
-### Response JSON
-
 > The above command returns a 204 response code
 
 ## Delete All Categories
@@ -3795,8 +3767,6 @@ axios.delete(url);
 Endpoint: `DELETE` `https://api.datacue.co/v1/batch/categories/all`
 
 Delete ALL categories within one request.
-
-### Response JSON
 
 > The above command returns a 204 response code
 
@@ -3851,8 +3821,6 @@ Endpoint: `DELETE` `https://api.datacue.co/v1/batch/users/all`
 
 Delete ALL users within one request.
 
-### Response JSON
-
 > The above command returns a 204 response code
 
 ## Delete All Orders
@@ -3906,8 +3874,4 @@ Endpoint: `DELETE` `https://api.datacue.co/v1/batch/orders/all`
 
 Delete ALL orders within one request.
 
-### Response JSON
-
 > The above command returns a 204 response code
-
-
