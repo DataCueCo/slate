@@ -303,18 +303,21 @@
                     <a href="#summary" class="toc-h2 toc-link" data-title="Summary">Summary</a>
                   </li>
                   <li>
-                    <a href="#products" class="toc-h2 toc-link" data-title="Products">Products</a>
+                    <a href="#get-products" class="toc-h2 toc-link" data-title="Get Products">Get Products</a>
                   </li>
                   <li>
-                    <a href="#orders" class="toc-h2 toc-link" data-title="Orders">Orders</a>
+                    <a href="#get-categories" class="toc-h2 toc-link" data-title="Get Categories">Get Categories</a>
                   </li>
                   <li>
-                    <a href="#users" class="toc-h2 toc-link" data-title="Users">Users</a>
+                    <a href="#get-orders" class="toc-h2 toc-link" data-title="Get Orders">Get Orders</a>
+                  </li>
+                  <li>
+                    <a href="#get-users" class="toc-h2 toc-link" data-title="Get Users">Get Users</a>
                   </li>
               </ul>
           </li>
           <li>
-            <a href="#products-2" class="toc-h1 toc-link" data-title="Products">Products</a>
+            <a href="#products" class="toc-h1 toc-link" data-title="Products">Products</a>
               <ul class="toc-list-h2">
                   <li>
                     <a href="#create-product" class="toc-h2 toc-link" data-title="Create Product">Create Product</a>
@@ -328,7 +331,21 @@
               </ul>
           </li>
           <li>
-            <a href="#users-2" class="toc-h1 toc-link" data-title="Users">Users</a>
+            <a href="#categories" class="toc-h1 toc-link" data-title="Categories">Categories</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#create-category" class="toc-h2 toc-link" data-title="Create Category">Create Category</a>
+                  </li>
+                  <li>
+                    <a href="#update-category" class="toc-h2 toc-link" data-title="Update Category">Update Category</a>
+                  </li>
+                  <li>
+                    <a href="#delete-category" class="toc-h2 toc-link" data-title="Delete Category">Delete Category</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#users" class="toc-h1 toc-link" data-title="Users">Users</a>
               <ul class="toc-list-h2">
                   <li>
                     <a href="#create-user" class="toc-h2 toc-link" data-title="Create User">Create User</a>
@@ -342,7 +359,7 @@
               </ul>
           </li>
           <li>
-            <a href="#orders-2" class="toc-h1 toc-link" data-title="Orders">Orders</a>
+            <a href="#orders" class="toc-h1 toc-link" data-title="Orders">Orders</a>
               <ul class="toc-list-h2">
                   <li>
                     <a href="#create-order" class="toc-h2 toc-link" data-title="Create Order">Create Order</a>
@@ -359,22 +376,22 @@
             <a href="#batch" class="toc-h1 toc-link" data-title="Batch">Batch</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#create-products" class="toc-h2 toc-link" data-title="Create Products">Create Products</a>
+                    <a href="#create-update-products" class="toc-h2 toc-link" data-title="Create/Update Products">Create/Update Products</a>
                   </li>
                   <li>
-                    <a href="#create-orders" class="toc-h2 toc-link" data-title="Create Orders">Create Orders</a>
+                    <a href="#create-update-categories" class="toc-h2 toc-link" data-title="Create/Update Categories">Create/Update Categories</a>
                   </li>
                   <li>
-                    <a href="#create-users" class="toc-h2 toc-link" data-title="Create Users">Create Users</a>
+                    <a href="#create-update-orders" class="toc-h2 toc-link" data-title="Create/Update Orders">Create/Update Orders</a>
                   </li>
                   <li>
-                    <a href="#update-products" class="toc-h2 toc-link" data-title="Update Products">Update Products</a>
-                  </li>
-                  <li>
-                    <a href="#update-users" class="toc-h2 toc-link" data-title="Update Users">Update Users</a>
+                    <a href="#create-update-users" class="toc-h2 toc-link" data-title="Create/Update Users">Create/Update Users</a>
                   </li>
                   <li>
                     <a href="#delete-multiple-products" class="toc-h2 toc-link" data-title="Delete Multiple Products">Delete Multiple Products</a>
+                  </li>
+                  <li>
+                    <a href="#delete-multiple-categories" class="toc-h2 toc-link" data-title="Delete Multiple Categories">Delete Multiple Categories</a>
                   </li>
                   <li>
                     <a href="#delete-multiple-users" class="toc-h2 toc-link" data-title="Delete Multiple Users">Delete Multiple Users</a>
@@ -384,6 +401,9 @@
                   </li>
                   <li>
                     <a href="#delete-all-products" class="toc-h2 toc-link" data-title="Delete All Products">Delete All Products</a>
+                  </li>
+                  <li>
+                    <a href="#delete-all-categories" class="toc-h2 toc-link" data-title="Delete All Categories">Delete All Categories</a>
                   </li>
                   <li>
                     <a href="#delete-all-users" class="toc-h2 toc-link" data-title="Delete All Users">Delete All Users</a>
@@ -904,7 +924,7 @@
 <li>Updates a product in the cart (e.g. changes quantity)</li>
 <li>Clears the cart</li>
 </ul>
-<h3 id='request-parameters'>Request parameters</h3>
+<h3 id='request-json-fields'>Request JSON fields</h3>
 <table><thead>
 <tr>
 <th>FieldName</th>
@@ -965,7 +985,7 @@
 </blockquote>
 
 <p>Record changes to user&#39;s wishlist when a new product is added to it.</p>
-<h3 id='request-parameters-2'>Request parameters</h3>
+<h3 id='request-json-fields-2'>Request JSON fields</h3>
 <table><thead>
 <tr>
 <th>FieldName</th>
@@ -1026,7 +1046,7 @@
 </blockquote>
 
 <p>Record changes to user&#39;s wishlist when a product is removed from it.</p>
-<h3 id='request-parameters-3'>Request parameters</h3>
+<h3 id='request-json-fields-3'>Request JSON fields</h3>
 <table><thead>
 <tr>
 <th>FieldName</th>
@@ -1099,7 +1119,7 @@
 </blockquote>
 
 <p>Record the moment the user initiates the check out process, typically from their shopping cart.</p>
-<h3 id='request-parameters-4'>Request parameters</h3>
+<h3 id='request-json-fields-4'>Request JSON fields</h3>
 <table><thead>
 <tr>
 <th>FieldName</th>
@@ -1157,7 +1177,7 @@
 </blockquote>
 
 <p>Record a login event by a user on your website, if the user login is cached, you do not need to fire this event when the user returns.</p>
-<h3 id='request-parameters-5'>Request parameters</h3>
+<h3 id='request-json-fields-5'>Request JSON fields</h3>
 <table><thead>
 <tr>
 <th>FieldName</th>
@@ -1279,7 +1299,7 @@
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>Request banner and product recommendations when a user visits your home page</p>
-<h3 id='request-parameters-6'>Request parameters</h3>
+<h3 id='request-json-fields-6'>Request JSON fields</h3>
 <table><thead>
 <tr>
 <th>FieldName</th>
@@ -1408,7 +1428,7 @@
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>Request product recommendations when a user visits a product page</p>
-<h3 id='request-parameters-7'>Request parameters</h3>
+<h3 id='request-json-fields-7'>Request JSON fields</h3>
 <table><thead>
 <tr>
 <th>FieldName</th>
@@ -1492,7 +1512,7 @@
 </blockquote>
 
 <p>Pages showing multiple products on a page, these are commonly called category, collection or catalog pages.</p>
-<h3 id='request-parameters-8'>Request parameters</h3>
+<h3 id='request-json-fields-8'>Request JSON fields</h3>
 <table><thead>
 <tr>
 <th>FieldName</th>
@@ -1562,7 +1582,7 @@
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>Record when a user performs a search on your website</p>
-<h3 id='request-parameters-9'>Request parameters</h3>
+<h3 id='request-json-fields-9'>Request JSON fields</h3>
 <table><thead>
 <tr>
 <th>FieldName</th>
@@ -1627,7 +1647,7 @@
 </blockquote>
 
 <p>Record clicks to a banner or a sub banner, typically on your home page</p>
-<h3 id='request-parameters-10'>Request parameters</h3>
+<h3 id='request-json-fields-10'>Request JSON fields</h3>
 <table><thead>
 <tr>
 <th>FieldName</th>
@@ -1684,7 +1704,7 @@
 </blockquote>
 
 <p>Record clicks on a product anywhere on your website.</p>
-<h3 id='request-parameters-11'>Request parameters</h3>
+<h3 id='request-json-fields-11'>Request JSON fields</h3>
 <table><thead>
 <tr>
 <th>FieldName</th>
@@ -1768,7 +1788,7 @@
 </span></code></pre>
 <p>Endpoint: <code>GET</code> <code>https://api.datacue.co/v1/overview</code>
 Provides an overview of all backend data received by the DataCue API from your store.</p>
-<h3 id='response-parameters'>Response parameters</h3>
+<h3 id='response-json-fields'>Response JSON fields</h3>
 <table><thead>
 <tr>
 <th>FieldName</th>
@@ -1797,7 +1817,7 @@ Provides an overview of all backend data received by the DataCue API from your s
 <td>Number of unique users received</td>
 </tr>
 </tbody></table>
-<h2 id='products'>Products</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
+<h2 id='get-products'>Get Products</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
@@ -1853,7 +1873,7 @@ Provides an overview of all backend data received by the DataCue API from your s
 </span></code></pre>
 <p>Endpoint: <code>GET</code> <code>https://api.datacue.co/v1/overview/products</code>
 Provides an overview of all product data received by the DataCue API from your store.</p>
-<h3 id='response-parameters-2'>Response parameters</h3>
+<h3 id='response-json-fields-2'>Response JSON fields</h3>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -1872,7 +1892,82 @@ Provides an overview of all product data received by the DataCue API from your s
 <td>Number of unique products</td>
 </tr>
 </tbody></table>
-<h2 id='orders'>Orders</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
+<h2 id='get-categories'>Get Categories</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
+
+<span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
+<span class="nv">$apisecret</span> <span class="o">=</span> <span class="s2">"Your-API-secret-goes-here"</span><span class="p">;</span>
+
+<span class="nv">$datacue</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\DataCue\Client</span><span class="p">(</span><span class="nv">$apikey</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">);</span>
+
+<span class="nv">$res</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">client</span><span class="o">-&gt;</span><span class="na">overview</span><span class="o">-&gt;</span><span class="na">categories</span><span class="p">();</span>
+
+<span class="k">print</span><span class="p">(</span><span class="nv">$res</span><span class="p">);</span>
+
+<span class="cp">?&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code>
+<span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">import</span> <span class="nn">hmac</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.datacue.co/v1/overview/categories"</span>
+<span class="n">apikey</span> <span class="o">=</span> <span class="s">"your-api-key-goes-here"</span>
+<span class="n">apisecret</span> <span class="o">=</span> <span class="s">"your-api-secret-goes-here"</span>
+
+<span class="n">checksum</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">apisecret</span><span class="p">,</span> <span class="s">"utf-8"</span><span class="p">),</span>
+                    <span class="nb">bytes</span><span class="p">(</span><span class="s">""</span><span class="p">,</span> <span class="s">"utf-8"</span><span class="p">),</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="n">apikey</span><span class="p">,</span> <span class="n">checksum</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()))</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
+<span class="kr">const</span> <span class="nx">cryto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'crypto'</span><span class="p">);</span>
+
+<span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s1">'https://api.datacue.co/v1/overview/categories'</span>
+<span class="kr">const</span> <span class="nx">apikey</span> <span class="o">=</span> <span class="s1">'your-api-key-goes-here'</span><span class="p">;</span>
+<span class="kr">const</span> <span class="nx">apisecret</span> <span class="o">=</span> <span class="s1">'your-api-secret-goes-here'</span><span class="p">;</span>
+
+<span class="kd">var</span> <span class="nx">hash</span> <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">createHmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="nx">apisecret</span><span class="p">).</span><span class="nx">update</span><span class="p">(</span><span class="s2">""</span><span class="p">);</span>
+
+<span class="c1">//add to default authentication header</span>
+<span class="nx">axios</span><span class="p">.</span><span class="nx">defaults</span><span class="p">.</span><span class="nx">auth</span> <span class="o">=</span> <span class="p">{</span> <span class="na">username</span><span class="p">:</span> <span class="s1">'API-key'</span><span class="p">,</span> <span class="na">password</span><span class="p">:</span> <span class="nx">hash</span><span class="p">.</span><span class="nx">digest</span><span class="p">(</span><span class="s1">'hex'</span><span class="p">)</span> <span class="p">};</span>
+
+<span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">url</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}).</span><span class="k">catch</span><span class="p">(</span><span class="nx">err</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">err</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+<blockquote>
+<p>The above command returns a 200 response code</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"ids"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"C1"</span><span class="p">,</span><span class="s2">"C2"</span><span class="p">],</span><span class="w"> </span><span class="s2">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Endpoint: <code>GET</code> <code>https://api.datacue.co/v1/overview/categories</code>
+Provides an overview of all categories received by the DataCue API from your store.</p>
+<h3 id='response-json-fields-3'>Response JSON fields</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>ids</code></td>
+<td>String Array</td>
+<td>Array of all categoriy ids received successfully</td>
+</tr>
+<tr>
+<td><code>count</code></td>
+<td>Integer</td>
+<td>Number of unique categories</td>
+</tr>
+</tbody></table>
+<h2 id='get-orders'>Get Orders</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
@@ -1928,7 +2023,7 @@ Provides an overview of all product data received by the DataCue API from your s
 </span></code></pre>
 <p>Endpoint: <code>GET</code> <code>https://api.datacue.co/v1/overview/orders</code>
 Provides an overview of all order data received by the DataCue API from your store.</p>
-<h3 id='response-parameters-3'>Response parameters</h3>
+<h3 id='response-json-fields-4'>Response JSON fields</h3>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -1947,7 +2042,7 @@ Provides an overview of all order data received by the DataCue API from your sto
 <td>Number of unique orders</td>
 </tr>
 </tbody></table>
-<h2 id='users'>Users</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
+<h2 id='get-users'>Get Users</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
@@ -2003,7 +2098,7 @@ Provides an overview of all order data received by the DataCue API from your sto
 </span></code></pre>
 <p>Endpoint: <code>GET</code> <code>https://api.datacue.co/v1/overview/users</code>
 Provides an overview of all user data received by the DataCue API from your store.</p>
-<h3 id='response-parameters-4'>Response parameters</h3>
+<h3 id='response-json-fields-5'>Response JSON fields</h3>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -2022,7 +2117,7 @@ Provides an overview of all user data received by the DataCue API from your stor
 <td>Number of unique users</td>
 </tr>
 </tbody></table>
-<h1 id='products-2'>Products</h1><h2 id='create-product'>Create Product</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
+<h1 id='products'>Products</h1><h2 id='create-product'>Create Product</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
@@ -2138,7 +2233,7 @@ Provides an overview of all user data received by the DataCue API from your stor
 
 <p>Endpoint: <code>POST</code> <code>https://api.datacue.co/v1/products</code>
 Whenever a new product is created, send this request from your backend.</p>
-<h3 id='request-parameters-12'>Request parameters</h3>
+<h3 id='request-json-fields-12'>Request JSON fields</h3>
 <table><thead>
 <tr>
 <th>FieldName</th>
@@ -2384,7 +2479,7 @@ Update the product like so:
 <p>Endpoint: <code>PUT</code> <code>https://api.datacue.co/v1/products/&lt;product_id&gt;/&lt;variant_id&gt;</code></p>
 
 <p>Whenever an existing product is updated such as image, name, price or new discounts, send this request from your backend.</p>
-<h3 id='request-parameters-13'>Request parameters</h3>
+<h3 id='request-json-fields-13'>Request JSON fields</h3>
 <p>Same as for <a href="#create-product">Create Product</a>, except <code>product_id</code> and <code>variant_id</code>.</p>
 
 <aside class="success">
@@ -2454,7 +2549,221 @@ Update the product like so:
 <p>Endpoint: <code>DELETE</code> <code>https://api.datacue.co/v1/products/&lt;product_id&gt;/&lt;variant_id&gt;</code></p>
 <h3 id='delete-a-product-and-all-associated-variants'>Delete a product and all associated variants</h3>
 <p>Endpoint: <code>DELETE</code> <code>https://api.datacue.co/v1/products/&lt;product_id&gt;</code></p>
-<h1 id='users-2'>Users</h1><h2 id='create-user'>Create User</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
+<h1 id='categories'>Categories</h1><h2 id='create-category'>Create Category</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
+
+<span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
+<span class="nv">$apisecret</span> <span class="o">=</span> <span class="s2">"Your-API-secret-goes-here"</span><span class="p">;</span>
+
+<span class="nv">$datacue</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\DataCue\Client</span><span class="p">(</span><span class="nv">$apikey</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">);</span>
+
+<span class="nv">$data</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="s2">"category_id"</span> <span class="o">=&gt;</span> <span class="s2">"summer-jeans"</span><span class="p">,</span>
+  <span class="s2">"name"</span> <span class="o">=&gt;</span> <span class="s2">"Summer Jeans"</span><span class="p">,</span>
+  <span class="s2">"link"</span> <span class="o">=&gt;</span> <span class="s2">"/categories/summer-jeans"</span>
+<span class="p">];</span>
+
+<span class="nv">$res</span> <span class="o">=</span> <span class="nv">$datacue</span><span class="o">-&gt;</span><span class="na">categories</span><span class="o">-&gt;</span><span class="na">create</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+
+</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">import</span> <span class="nn">hmac</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.datacue.co/v1/categories"</span>
+<span class="n">apikey</span> <span class="o">=</span> <span class="s">"your-api-key-goes-here"</span>
+<span class="n">apisecret</span> <span class="o">=</span> <span class="s">"your-api-secret-goes-here"</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s">"category_id"</span><span class="p">:</span> <span class="s">"summer-jeans"</span><span class="p">,</span>
+  <span class="s">"name"</span><span class="p">:</span> <span class="s">"Summer Jeans"</span><span class="p">,</span>
+  <span class="s">"link"</span><span class="p">:</span> <span class="s">"/categories/summer-jeans"</span>
+<span class="p">}</span>
+
+<span class="n">jsonData</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">checksum</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">apisecret</span><span class="p">,</span><span class="s">'utf-8'</span><span class="p">),</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">jsonData</span><span class="p">,</span> <span class="s">'utf-8'</span><span class="p">),</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">jsonData</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="n">apikey</span><span class="p">,</span> <span class="n">checksum</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()))</span>
+
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
+<span class="kr">const</span> <span class="nx">cryto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'crypto'</span><span class="p">);</span>
+
+<span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s1">'https://api.datacue.co/v1/categories'</span>
+<span class="kr">const</span> <span class="nx">apikey</span> <span class="o">=</span> <span class="s1">'your-api-key-goes-here'</span><span class="p">;</span>
+<span class="kr">const</span> <span class="nx">apisecret</span> <span class="o">=</span> <span class="s1">'your-api-secret-goes-here'</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">category_id</span><span class="p">:</span> <span class="s1">'summer-jeans'</span>
+  <span class="na">name</span><span class="p">:</span> <span class="s1">'Summer Jeans'</span>
+  <span class="na">link</span><span class="p">:</span> <span class="s1">'/categories/summer-jeans'</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">hash</span> <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">createHmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="nx">apisecret</span><span class="p">).</span><span class="nx">update</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">Stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
+
+<span class="c1">//add to default authentication header</span>
+<span class="nx">axios</span><span class="p">.</span><span class="nx">defaults</span><span class="p">.</span><span class="nx">auth</span> <span class="o">=</span> <span class="p">{</span> <span class="na">username</span><span class="p">:</span> <span class="s1">'API-key'</span><span class="p">,</span> <span class="na">password</span><span class="p">:</span> <span class="nx">hash</span><span class="p">.</span><span class="nx">digest</span><span class="p">(</span><span class="s1">'hex'</span><span class="p">)</span> <span class="p">};</span>
+
+<span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">data</span><span class="p">);</span>
+</code></pre>
+<blockquote>
+<p>The above command returns a 201 response code</p>
+</blockquote>
+
+<p>Endpoint: <code>POST</code> <code>https://api.datacue.co/v1/categories</code></p>
+
+<p>When a new category is created on your store</p>
+<h3 id='request-json-fields-14'>Request JSON fields</h3>
+<table><thead>
+<tr>
+<th>FieldName</th>
+<th>Data Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>category_id</code></td>
+<td>String</td>
+<td>Yes</td>
+<td>The unique category id assigned</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>String</td>
+<td>Yes</td>
+<td>Category friendly name</td>
+</tr>
+<tr>
+<td><code>link</code></td>
+<td>String</td>
+<td>No</td>
+<td>Link to the respective category&#39;s page</td>
+</tr>
+</tbody></table>
+<h2 id='update-category'>Update Category</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
+
+<span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
+<span class="nv">$apisecret</span> <span class="o">=</span> <span class="s2">"Your-API-secret-goes-here"</span><span class="p">;</span>
+
+<span class="nv">$datacue</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\DataCue\Client</span><span class="p">(</span><span class="nv">$apikey</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">);</span>
+
+<span class="c1">// replace $userId with the actual value you want to update
+</span><span class="nv">$categoryId</span> <span class="o">=</span> <span class="s2">"summer-jeans"</span><span class="p">;</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="s2">"name"</span> <span class="o">=&gt;</span> <span class="s2">"Summer Jeans Special"</span><span class="p">,</span>
+  <span class="s2">"link"</span> <span class="o">=&gt;</span> <span class="s2">"/categories/summer-jeans-2"</span>
+<span class="p">];</span>
+
+<span class="nv">$res</span> <span class="o">=</span> <span class="nv">$datacue</span><span class="o">-&gt;</span><span class="na">category</span><span class="o">-&gt;</span><span class="na">update</span><span class="p">(</span><span class="nv">$categoryId</span><span class="p">,</span> <span class="nv">$data</span><span class="p">);</span>
+
+</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">import</span> <span class="nn">hmac</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="c"># replace this value with the user id you want to update</span>
+<span class="n">categoryId</span> <span class="o">=</span> <span class="s">"summer-jeans"</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="n">f</span><span class="s">"https://api.datacue.co/v1/category/{categoryId}"</span>
+<span class="n">apikey</span> <span class="o">=</span> <span class="s">"your-api-key-goes-here"</span>
+<span class="n">apisecret</span> <span class="o">=</span> <span class="s">"your-api-secret-goes-here"</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s">"name"</span> <span class="p">:</span> <span class="s">"Summer Jeans Special"</span><span class="p">,</span>
+  <span class="s">"link"</span> <span class="p">:</span> <span class="s">"/categories/summer-jeans-2"</span>
+<span class="p">}</span>
+
+<span class="n">jsonData</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">checksum</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">apisecret</span><span class="p">,</span><span class="s">'utf-8'</span><span class="p">),</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">jsonData</span><span class="p">,</span> <span class="s">'utf-8'</span><span class="p">),</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">jsonData</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="n">apikey</span><span class="p">,</span> <span class="n">checksum</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()))</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
+<span class="kr">const</span> <span class="nx">cryto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'crypto'</span><span class="p">);</span>
+
+<span class="c1">// replace this value with the user id you want to update</span>
+<span class="kr">const</span> <span class="nx">categoryId</span> <span class="o">=</span> <span class="s1">'summer-jeans'</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">`https://api.datacue.co/v1/categories/</span><span class="p">${</span><span class="nx">categoryId</span><span class="p">}</span><span class="s2">`</span>
+<span class="kr">const</span> <span class="nx">apikey</span> <span class="o">=</span> <span class="s1">'your-api-key-goes-here'</span><span class="p">;</span>
+<span class="kr">const</span> <span class="nx">apisecret</span> <span class="o">=</span> <span class="s1">'your-api-secret-goes-here'</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">name</span> <span class="p">:</span> <span class="s2">"Summer Jeans Special"</span><span class="p">,</span>
+  <span class="na">link</span> <span class="p">:</span> <span class="s2">"/categories/summer-jeans-2"</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">hash</span> <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">createHmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="nx">apisecret</span><span class="p">).</span><span class="nx">update</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">Stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
+
+<span class="c1">//add to default authentication header</span>
+<span class="nx">axios</span><span class="p">.</span><span class="nx">defaults</span><span class="p">.</span><span class="nx">auth</span> <span class="o">=</span> <span class="p">{</span> <span class="na">username</span><span class="p">:</span> <span class="nx">apikey</span><span class="p">,</span> <span class="na">password</span><span class="p">:</span> <span class="nx">hash</span><span class="p">.</span><span class="nx">digest</span><span class="p">(</span><span class="s1">'hex'</span><span class="p">)</span> <span class="p">};</span>
+
+<span class="nx">axios</span><span class="p">.</span><span class="nx">put</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">data</span><span class="p">);</span>
+</code></pre>
+<blockquote>
+<p>The above command returns a 204 response code</p>
+</blockquote>
+
+<p>Endpoint: <code>PUT</code> <code>https://api.datacue.co/v1/categories/&lt;category_id&gt;</code></p>
+
+<p>Send any updates to your category objects with this endpoint.</p>
+<h3 id='request-json-fields-15'>Request JSON fields</h3>
+<p>Same as for <a href="#create-category">Create Category</a>, except <code>category_id</code>.</p>
+<h2 id='delete-category'>Delete Category</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
+
+<span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
+<span class="nv">$apisecret</span> <span class="o">=</span> <span class="s2">"Your-API-secret-goes-here"</span><span class="p">;</span>
+
+<span class="nv">$datacue</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\DataCue\Client</span><span class="p">(</span><span class="nv">$apikey</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">);</span>
+
+<span class="c1">// replace $userId with the actual value you want to delete
+</span><span class="nv">$categoryId</span> <span class="o">=</span> <span class="s2">"summer-jeans"</span><span class="p">;</span>
+
+<span class="nv">$res</span> <span class="o">=</span> <span class="nv">$datacue</span><span class="o">-&gt;</span><span class="na">categories</span><span class="o">-&gt;</span><span class="na">delete</span><span class="p">(</span><span class="nv">$categoryId</span><span class="p">);</span>
+
+</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">import</span> <span class="nn">hmac</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="c"># replace this value with the user id you want to delete</span>
+<span class="n">categoryId</span> <span class="o">=</span> <span class="s">"summer-jeans"</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="n">f</span><span class="s">"https://api.datacue.co/v1/categories/{categoryId}"</span>
+<span class="n">apikey</span> <span class="o">=</span> <span class="s">"your-api-key-goes-here"</span>
+<span class="n">apisecret</span> <span class="o">=</span> <span class="s">"your-api-secret-goes-here"</span>
+
+<span class="n">checksum</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">apisecret</span><span class="p">,</span><span class="s">'utf-8'</span><span class="p">),</span> <span class="nb">bytes</span><span class="p">(</span><span class="s">""</span><span class="p">,</span> <span class="s">'utf-8'</span><span class="p">),</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="n">apikey</span><span class="p">,</span> <span class="n">checksum</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()))</span>
+
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
+<span class="kr">const</span> <span class="nx">cryto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'crypto'</span><span class="p">);</span>
+
+<span class="c1">// replace this value with the user id you want to delete</span>
+<span class="kr">const</span> <span class="nx">categoryId</span> <span class="o">=</span> <span class="s1">'summer-jeans'</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">`https://api.datacue.co/v1/categories/</span><span class="p">${</span><span class="nx">categoryId</span><span class="p">}</span><span class="s2">`</span>
+<span class="kr">const</span> <span class="nx">apikey</span> <span class="o">=</span> <span class="s1">'your-api-key-goes-here'</span><span class="p">;</span>
+<span class="kr">const</span> <span class="nx">apisecret</span> <span class="o">=</span> <span class="s1">'your-api-secret-goes-here'</span><span class="p">;</span>
+
+<span class="kd">var</span> <span class="nx">hash</span> <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">createHmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="nx">apisecret</span><span class="p">).</span><span class="nx">update</span><span class="p">(</span><span class="s1">''</span><span class="p">);</span>
+
+<span class="c1">//add to default authentication header</span>
+<span class="nx">axios</span><span class="p">.</span><span class="nx">defaults</span><span class="p">.</span><span class="nx">auth</span> <span class="o">=</span> <span class="p">{</span> <span class="na">username</span><span class="p">:</span> <span class="nx">apikey</span><span class="p">,</span> <span class="na">password</span><span class="p">:</span> <span class="nx">hash</span><span class="p">.</span><span class="nx">digest</span><span class="p">(</span><span class="s1">'hex'</span><span class="p">)</span> <span class="p">};</span>
+
+<span class="nx">axios</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="nx">url</span><span class="p">);</span>
+
+</code></pre>
+<blockquote>
+<p>The above command returns a 204 response code</p>
+</blockquote>
+
+<p>Endpoint: <code>DELETE</code> <code>https://api.datacue.co/v1/categories/&lt;category_id&gt;</code></p>
+
+<p>When a product category is deleted from your system.</p>
+<h1 id='users'>Users</h1><h2 id='create-user'>Create User</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
@@ -2550,7 +2859,7 @@ Update the product like so:
 <p>Endpoint: <code>POST</code> <code>https://api.datacue.co/v1/users</code></p>
 
 <p>When a new user has successfully signed up / registered on your system.</p>
-<h3 id='request-parameters-14'>Request parameters</h3>
+<h3 id='request-json-fields-16'>Request JSON fields</h3>
 <table><thead>
 <tr>
 <th>FieldName</th>
@@ -2754,8 +3063,8 @@ Update the product like so:
 
 <p>Endpoint: <code>PUT</code> <code>https://api.datacue.co/v1/users/&lt;user_id&gt;</code></p>
 
-<p>When the user makes changes to their profile or when they configure any relevant preferences. For instance if they indicate their gender, this is very helpful for recommendations.</p>
-<h3 id='request-parameters-15'>Request parameters</h3>
+<p>When the user makes changes to their profile or when they configure any relevant preferences. For instance if they unsubscribe from receiving marketing email, this is very important to know.</p>
+<h3 id='request-json-fields-17'>Request JSON fields</h3>
 <p>Same as for <a href="#create-user">Create User</a>, except <code>user_id</code>.</p>
 <h2 id='delete-user'>Delete User</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
@@ -2811,7 +3120,7 @@ Update the product like so:
 <p>Endpoint: <code>DELETE</code> <code>https://api.datacue.co/v1/users/&lt;user_id&gt;</code></p>
 
 <p>When a user account is deleted from your system.</p>
-<h1 id='orders-2'>Orders</h1><h2 id='create-order'>Create Order</h2><pre class="highlight html tab-html"><code><span class="nt">&lt;script&gt;</span>
+<h1 id='orders'>Orders</h1><h2 id='create-order'>Create Order</h2><pre class="highlight html tab-html"><code><span class="nt">&lt;script&gt;</span>
 <span class="nb">window</span><span class="p">.</span><span class="nx">datacueConfig</span> <span class="o">=</span> <span class="p">{</span>
   <span class="na">api_key</span><span class="p">:</span> <span class="s1">'your-api-key'</span><span class="p">,</span>
   <span class="na">user_id</span><span class="p">:</span> <span class="s1">'id of user making purchase'</span><span class="p">,</span>
@@ -2946,7 +3255,7 @@ Update the product like so:
 <p>Endpoint: <code>POST</code> <code>https://api.datacue.co/v1/orders</code></p>
 
 <p>An Order is considered &#39;completed&#39; as soon as the checkout process is completed on your website. It does not matter if the order has further steps such as waiting for payment, or order fulfilment.</p>
-<h3 id='request-parameters-16'>Request parameters</h3>
+<h3 id='request-json-fields-18'>Request JSON fields</h3>
 <table><thead>
 <tr>
 <th>FieldName</th>
@@ -3103,7 +3412,7 @@ Update the product like so:
 <p>Endpoint: <code>PUT</code> <code>https://api.datacue.co/v1/orders/&lt;order_id&gt;</code></p>
 
 <p>When the order makes changes to their profile or when they configure any relevant preferences. For instance if they indicate their gender, this is very helpful for recommendations.</p>
-<h3 id='request-parameters-17'>Request parameters</h3>
+<h3 id='request-json-fields-19'>Request JSON fields</h3>
 <table><thead>
 <tr>
 <th>Field</th>
@@ -3211,7 +3520,7 @@ Update the product like so:
 <p>Use the batch endpoint if you want to do a bulk import, typically when you first start using DataCue and you want to add your historical orders, products or users.</p>
 
 <p>Build an array of your requests in the <code>batch</code> field, we accept a maximum of 500 items per request.</p>
-<h2 id='create-products'>Create Products</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
+<h2 id='create-update-products'>Create/Update Products</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
@@ -3378,7 +3687,7 @@ Update the product like so:
 
 </code></pre>
 <p>Endpoint: <code>POST</code> <code>https://api.datacue.co/v1/batch/products</code></p>
-<h3 id='request-parameters-18'>Request parameters</h3>
+<h3 id='request-json-fields-20'>Request JSON fields</h3>
 <table><thead>
 <tr>
 <th>FieldName</th>
@@ -3396,7 +3705,7 @@ Update the product like so:
 </tbody></table>
 <h3 id='response-json-4'>Response JSON</h3>
 <blockquote>
-<p>The above command returns a 207 multi status response code</p>
+<p>The above command returns a 201 response code</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
@@ -3413,7 +3722,108 @@ Update the product like so:
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>We will send you a status for each item you sent, so you can handle and resend only items that had an error.</p>
-<h2 id='create-orders'>Create Orders</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
+<h2 id='create-update-categories'>Create/Update Categories</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
+
+<span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
+<span class="nv">$apisecret</span> <span class="o">=</span> <span class="s2">"Your-API-secret-goes-here"</span><span class="p">;</span>
+
+<span class="nv">$datacue</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\DataCue\Client</span><span class="p">(</span><span class="nv">$apikey</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">,</span> <span class="nv">$options</span><span class="p">,</span> <span class="nv">$env</span><span class="p">);</span>
+
+<span class="c1">// batch create categories
+</span><span class="nv">$categoryDataList</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span>
+        <span class="s2">"category_id"</span> <span class="o">=&gt;</span> <span class="s2">"c1"</span><span class="p">,</span>
+        <span class="s2">"name"</span> <span class="o">=&gt;</span> <span class="s2">"jeans"</span><span class="p">,</span>
+        <span class="s2">"link"</span> <span class="o">=&gt;</span> <span class="s2">"/category/jeans"</span>
+    <span class="p">],</span> <span class="p">[</span>
+        <span class="s2">"category_id"</span> <span class="o">=&gt;</span> <span class="s2">"c2"</span><span class="p">,</span>
+        <span class="s2">"name"</span> <span class="o">=&gt;</span> <span class="s2">"shoes"</span><span class="p">,</span>
+        <span class="s2">"link"</span> <span class="o">=&gt;</span> <span class="s2">"/category/shoes"</span>
+    <span class="p">]</span>
+<span class="p">];</span>
+<span class="nv">$res</span> <span class="o">=</span> <span class="nv">$datacue</span><span class="o">-&gt;</span><span class="na">categories</span><span class="o">-&gt;</span><span class="na">batchCreate</span><span class="p">(</span><span class="nv">$categoryDataList</span><span class="p">);</span>
+
+</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">import</span> <span class="nn">hmac</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.datacue.co/v1/batch/categories"</span>
+<span class="n">apikey</span> <span class="o">=</span> <span class="s">"your-api-key-goes-here"</span>
+<span class="n">apisecret</span> <span class="o">=</span> <span class="s">"your-api-secret-goes-here"</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s">"batch"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s">"category_id"</span> <span class="p">:</span> <span class="s">"c1"</span><span class="p">,</span>
+      <span class="s">"name"</span> <span class="p">:</span> <span class="s">"jeans"</span><span class="p">,</span>
+      <span class="s">"link"</span> <span class="p">:</span> <span class="s">"/categories/jeans"</span>
+    <span class="p">},</span> <span class="p">{</span>
+      <span class="s">"category_id"</span> <span class="p">:</span> <span class="s">"c2"</span><span class="p">,</span>
+      <span class="s">"name"</span> <span class="p">:</span> <span class="s">"shoes"</span><span class="p">,</span>
+      <span class="s">"link"</span> <span class="p">:</span> <span class="s">"/categories/shoes"</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+
+<span class="n">jsonData</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">checksum</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">apisecret</span><span class="p">,</span><span class="s">'utf-8'</span><span class="p">),</span>
+  <span class="nb">bytes</span><span class="p">(</span><span class="n">jsonData</span><span class="p">,</span> <span class="s">'utf-8'</span><span class="p">),</span>
+  <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">jsonData</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="n">apikey</span><span class="p">,</span> <span class="n">checksum</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()))</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
+<span class="kr">const</span> <span class="nx">cryto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'crypto'</span><span class="p">);</span>
+
+<span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s1">'https://api.datacue.co/v1/batch/products'</span><span class="p">;</span>
+<span class="kr">const</span> <span class="nx">apikey</span> <span class="o">=</span> <span class="s1">'your-api-key-goes-here'</span><span class="p">;</span>
+<span class="kr">const</span> <span class="nx">apisecret</span> <span class="o">=</span> <span class="s1">'your-api-secret-goes-here'</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">batch</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="na">category_id</span> <span class="p">:</span> <span class="s1">'c1'</span><span class="p">,</span>
+      <span class="na">name</span> <span class="p">:</span> <span class="s1">'jeans'</span><span class="p">,</span>
+      <span class="na">link</span> <span class="p">:</span> <span class="s1">'/categories/jeans'</span>
+    <span class="p">},</span> <span class="p">{</span>
+      <span class="na">category_id</span> <span class="p">:</span> <span class="s1">'c2'</span><span class="p">,</span>
+      <span class="na">name</span> <span class="p">:</span> <span class="s1">'shoes'</span><span class="p">,</span>
+      <span class="na">link</span> <span class="p">:</span> <span class="s1">'/categories/shoes'</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">hash</span> <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">createHmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="nx">apisecret</span><span class="p">).</span><span class="nx">update</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">Stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
+
+<span class="c1">//add to default authentication header</span>
+<span class="nx">axios</span><span class="p">.</span><span class="nx">defaults</span><span class="p">.</span><span class="nx">auth</span> <span class="o">=</span> <span class="p">{</span> <span class="na">username</span><span class="p">:</span> <span class="s1">'API-key'</span><span class="p">,</span> <span class="na">password</span><span class="p">:</span> <span class="nx">hash</span><span class="p">.</span><span class="nx">digest</span><span class="p">(</span><span class="s1">'hex'</span><span class="p">)</span> <span class="p">};</span>
+
+<span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">data</span><span class="p">);</span>
+
+</code></pre>
+<p>Endpoint: <code>POST</code> <code>https://api.datacue.co/v1/batch/categories</code></p>
+<h3 id='request-json-fields-21'>Request JSON fields</h3>
+<table><thead>
+<tr>
+<th>FieldName</th>
+<th>Data Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>batch</code></td>
+<td>Array</td>
+<td>Yes</td>
+<td>Array of categories you are sending</td>
+</tr>
+</tbody></table>
+<h3 id='response-json-5'>Response JSON</h3>
+<blockquote>
+<p>The above command returns a 201 response code</p>
+</blockquote>
+<h2 id='create-update-orders'>Create/Update Orders</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
@@ -3515,7 +3925,9 @@ Update the product like so:
 
 </code></pre>
 <p>Endpoint: <code>POST</code> <code>https://api.datacue.co/v1/batch/orders</code></p>
-<h3 id='request-parameters-19'>Request parameters</h3>
+
+<aside class="notice">If any order_id(s) already exists in DataCue, we will <strong>replace</strong> the existing order with what you send.</aside>
+<h3 id='request-json-fields-22'>Request JSON fields</h3>
 <table><thead>
 <tr>
 <th>FieldName</th>
@@ -3531,26 +3943,11 @@ Update the product like so:
 <td>Array of orders you are sending</td>
 </tr>
 </tbody></table>
-<h3 id='response-json-5'>Response JSON</h3>
+
 <blockquote>
-<p>The above command returns a 207 multi status response code</p>
+<p>The above command returns a 201 response code</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"order_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"o1"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"error"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"o1 already exists"</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"product_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"o2"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OK"</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-    </span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>We will send you a status for each item you sent, so you can handle and resend only items that had an error.</p>
-<h2 id='create-users'>Create Users</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
+<h2 id='create-update-users'>Create/Update Users</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
@@ -3623,7 +4020,7 @@ Update the product like so:
 
 </code></pre>
 <p>Endpoint: <code>POST</code> <code>https://api.datacue.co/v1/batch/users</code></p>
-<h3 id='request-parameters-20'>Request parameters</h3>
+<h3 id='request-json-fields-23'>Request JSON fields</h3>
 <table><thead>
 <tr>
 <th>FieldName</th>
@@ -3639,245 +4036,10 @@ Update the product like so:
 <td>Array of users you are sending</td>
 </tr>
 </tbody></table>
-<h3 id='response-json-6'>Response JSON</h3>
+
 <blockquote>
-<p>The above command returns a 207 multi status response code</p>
+<p>The above command returns a 201 response code</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"user_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"u1"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"error"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"u1 already exists"</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"product_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"u2"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OK"</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-    </span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>We will send you a status for each item you sent, so you can handle and resend only items that had an error.</p>
-<h2 id='update-products'>Update Products</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
-</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
-
-<span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
-<span class="nv">$apisecret</span> <span class="o">=</span> <span class="s2">"Your-API-secret-goes-here"</span><span class="p">;</span>
-
-<span class="nv">$datacue</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\DataCue\Client</span><span class="p">(</span><span class="nv">$apikey</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">);</span>
-
-<span class="c1">// batch update products
-</span><span class="nv">$productDataList</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">[</span>
-        <span class="s2">"product_id"</span> <span class="o">=&gt;</span> <span class="s2">"p1"</span><span class="p">,</span>
-        <span class="s2">"variant_id"</span> <span class="o">=&gt;</span> <span class="s2">"v1"</span><span class="p">,</span>
-        <span class="s2">"size"</span> <span class="o">=&gt;</span> <span class="s2">"L"</span>
-    <span class="p">],</span> <span class="p">[</span>
-        <span class="s2">"product_id"</span> <span class="o">=&gt;</span> <span class="s2">"p2"</span><span class="p">,</span>
-        <span class="s2">"variant_id"</span> <span class="o">=&gt;</span> <span class="s2">"v2"</span><span class="p">,</span>
-        <span class="s2">"size"</span> <span class="o">=&gt;</span> <span class="s2">"L"</span>
-    <span class="p">]</span>
-<span class="p">];</span>
-<span class="nv">$res</span> <span class="o">=</span> <span class="nv">$datacue</span><span class="o">-&gt;</span><span class="na">products</span><span class="o">-&gt;</span><span class="na">batchUpdate</span><span class="p">(</span><span class="nv">$productDataList</span><span class="p">);</span>
-
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">hashlib</span>
-<span class="kn">import</span> <span class="nn">hmac</span>
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">requests</span>
-
-<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.datacue.co/v1/batch/products"</span>
-<span class="n">apikey</span> <span class="o">=</span> <span class="s">"your-api-key-goes-here"</span>
-<span class="n">apisecret</span> <span class="o">=</span> <span class="s">"your-api-secret-goes-here"</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">"batch"</span><span class="p">:</span> <span class="p">[</span>
-    <span class="p">{</span>
-        <span class="s">"product_id"</span><span class="p">:</span> <span class="s">"p1"</span><span class="p">,</span>
-        <span class="s">"variant_id"</span><span class="p">:</span> <span class="s">"v1"</span><span class="p">,</span>
-        <span class="s">"size"</span><span class="p">:</span> <span class="s">"L"</span>
-    <span class="p">},</span> <span class="p">{</span>
-        <span class="s">"product_id"</span><span class="p">:</span> <span class="s">"p2"</span><span class="p">,</span>
-        <span class="s">"variant_id"</span><span class="p">:</span> <span class="s">"v2"</span><span class="p">,</span>
-        <span class="s">"size"</span><span class="p">:</span> <span class="s">"L"</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="n">jsonData</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="n">checksum</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">apisecret</span><span class="p">,</span><span class="s">'utf-8'</span><span class="p">),</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">jsonData</span><span class="p">,</span> <span class="s">'utf-8'</span><span class="p">),</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span>
-
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">jsonData</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="n">apikey</span><span class="p">,</span> <span class="n">checksum</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()))</span>
-
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
-
-<span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">`https://api.datacue.co/v1/batch/products`</span>
-<span class="kr">const</span> <span class="nx">apikey</span> <span class="o">=</span> <span class="s1">'your-api-key-goes-here'</span><span class="p">;</span>
-<span class="kr">const</span> <span class="nx">apisecret</span> <span class="o">=</span> <span class="s1">'your-api-secret-goes-here'</span><span class="p">;</span>
-
-<span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">batch</span><span class="p">:</span> <span class="p">[{</span>
-    <span class="na">product_id</span><span class="p">:</span> <span class="s1">'p1'</span><span class="p">,</span>
-    <span class="na">variant_id</span><span class="p">:</span> <span class="s1">'v1'</span><span class="p">,</span>
-    <span class="na">size</span><span class="p">:</span> <span class="s1">'L'</span>
-    <span class="p">},</span> <span class="p">{</span>
-      <span class="na">product_id</span><span class="p">:</span> <span class="s1">'p2'</span><span class="p">,</span>
-      <span class="na">variant_id</span><span class="p">:</span> <span class="s1">'v2'</span><span class="p">,</span>
-      <span class="na">size</span><span class="p">:</span> <span class="s1">'L'</span>
-    <span class="p">}]</span>
-<span class="p">};</span>
-
-<span class="kd">var</span> <span class="nx">hash</span> <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">createHmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="nx">apisecret</span><span class="p">).</span><span class="nx">update</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">Stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
-
-<span class="c1">//add to default authentication header</span>
-<span class="nx">axios</span><span class="p">.</span><span class="nx">defaults</span><span class="p">.</span><span class="nx">auth</span> <span class="o">=</span> <span class="p">{</span> <span class="na">username</span><span class="p">:</span> <span class="nx">apikey</span><span class="p">,</span> <span class="na">password</span><span class="p">:</span> <span class="nx">hash</span><span class="p">.</span><span class="nx">digest</span><span class="p">(</span><span class="s1">'hex'</span><span class="p">)</span> <span class="p">};</span>
-
-<span class="nx">axios</span><span class="p">.</span><span class="nx">put</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">data</span><span class="p">);</span>
-</code></pre>
-<p>Endpoint: <code>PUT</code> <code>https://api.datacue.co/v1/batch/products</code></p>
-
-<p>Update multiple products. Note that orders cannot be updated, only created or cancelled (delete).</p>
-<h3 id='request-parameters-21'>Request parameters</h3>
-<table><thead>
-<tr>
-<th>FieldName</th>
-<th>Data Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>batch</code></td>
-<td>Array</td>
-<td>Yes</td>
-<td>Array of products you are updating</td>
-</tr>
-</tbody></table>
-<h3 id='response-json-7'>Response JSON</h3>
-<blockquote>
-<p>The above command returns a 207 multi status response code</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"product_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p1"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OK"</span><span class="p">,</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"product_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p2"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OK"</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-    </span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>We will send you a status for each item you sent, so you can handle and resend only items that had an error.</p>
-<h2 id='update-users'>Update Users</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
-</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
-
-<span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
-<span class="nv">$apisecret</span> <span class="o">=</span> <span class="s2">"Your-API-secret-goes-here"</span><span class="p">;</span>
-
-<span class="nv">$datacue</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\DataCue\Client</span><span class="p">(</span><span class="nv">$apikey</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">);</span>
-
-<span class="nv">$userDataList</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">[</span>
-        <span class="s2">"user_id"</span> <span class="o">=&gt;</span> <span class="s2">"u1"</span><span class="p">,</span>
-        <span class="s2">"email"</span> <span class="o">=&gt;</span> <span class="s2">"wxyz@abc.com"</span><span class="p">,</span>
-    <span class="p">],</span> <span class="p">[</span>
-        <span class="s2">"user_id"</span> <span class="o">=&gt;</span> <span class="s2">"u2"</span><span class="p">,</span>
-        <span class="s2">"email"</span> <span class="o">=&gt;</span> <span class="s2">"abcd@abc.com"</span><span class="p">,</span>
-    <span class="p">]</span>
-<span class="p">];</span>
-<span class="nv">$res</span> <span class="o">=</span> <span class="nv">$datacue</span><span class="o">-&gt;</span><span class="na">users</span><span class="o">-&gt;</span><span class="na">batchUpdate</span><span class="p">(</span><span class="nv">$userDataList</span><span class="p">);</span>
-
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">hashlib</span>
-<span class="kn">import</span> <span class="nn">hmac</span>
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">requests</span>
-
-<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.datacue.co/v1/batch/users"</span>
-<span class="n">apikey</span> <span class="o">=</span> <span class="s">"your-api-key-goes-here"</span>
-<span class="n">apisecret</span> <span class="o">=</span> <span class="s">"your-api-secret-goes-here"</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">"batch"</span><span class="p">:</span> <span class="p">[</span>
-    <span class="p">{</span>
-      <span class="s">"user_id"</span><span class="p">:</span><span class="s">"U1"</span><span class="p">,</span>
-      <span class="s">"first_name"</span><span class="p">:</span><span class="s">"Paulo"</span>
-      <span class="s">"email"</span><span class="p">:</span><span class="s">"u1@abc.com"</span>
-    <span class="p">},</span>
-    <span class="p">{</span>
-      <span class="s">"user_id"</span><span class="p">:</span><span class="s">"U2"</span><span class="p">,</span>
-      <span class="s">"last_name"</span><span class="p">:</span><span class="s">"Rabani"</span>
-      <span class="s">"email"</span><span class="p">:</span><span class="s">"u2@abc.com"</span>
-    <span class="p">}</span>
-  <span class="p">]</span>
-<span class="p">}</span>
-
-<span class="n">jsonData</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="n">checksum</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">apisecret</span><span class="p">,</span><span class="s">'utf-8'</span><span class="p">),</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">jsonData</span><span class="p">,</span> <span class="s">'utf-8'</span><span class="p">),</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span>
-
-<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">jsonData</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="n">apikey</span><span class="p">,</span> <span class="n">checksum</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()))</span>
-
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
-
-<span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s2">`https://api.datacue.co/v1/batch/users`</span>
-<span class="kr">const</span> <span class="nx">apikey</span> <span class="o">=</span> <span class="s1">'your-api-key-goes-here'</span><span class="p">;</span>
-<span class="kr">const</span> <span class="nx">apisecret</span> <span class="o">=</span> <span class="s1">'your-api-secret-goes-here'</span><span class="p">;</span>
-
-<span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">type</span><span class="p">:</span> <span class="s1">'users'</span><span class="p">,</span>
-  <span class="na">batch</span><span class="p">:</span> <span class="p">[{</span>
-    <span class="na">first_name</span><span class="p">:</span> <span class="s1">'Paulo'</span><span class="p">,</span>
-    <span class="na">email</span><span class="p">:</span> <span class="s1">'u1@abc.com'</span>
-  <span class="p">},</span> <span class="p">{</span>
-    <span class="na">last_name</span><span class="p">:</span> <span class="s1">'Rabani'</span><span class="p">,</span>
-    <span class="na">email</span><span class="p">:</span> <span class="s1">'u2@abc.com'</span>
-  <span class="p">}]</span>
-<span class="p">};</span>
-
-<span class="kd">var</span> <span class="nx">hash</span> <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">createHmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="nx">apisecret</span><span class="p">).</span><span class="nx">update</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">Stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
-
-<span class="c1">//add to default authentication header</span>
-<span class="nx">axios</span><span class="p">.</span><span class="nx">defaults</span><span class="p">.</span><span class="nx">auth</span> <span class="o">=</span> <span class="p">{</span> <span class="na">username</span><span class="p">:</span> <span class="nx">apikey</span><span class="p">,</span> <span class="na">password</span><span class="p">:</span> <span class="nx">hash</span><span class="p">.</span><span class="nx">digest</span><span class="p">(</span><span class="s1">'hex'</span><span class="p">)</span> <span class="p">};</span>
-
-<span class="nx">axios</span><span class="p">.</span><span class="nx">put</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">data</span><span class="p">);</span>
-</code></pre>
-<p>Endpoint: <code>PUT</code> <code>https://api.datacue.co/v1/batch/users</code></p>
-
-<p>Update multiple users.</p>
-<h3 id='request-parameters-22'>Request parameters</h3>
-<table><thead>
-<tr>
-<th>FieldName</th>
-<th>Data Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>batch</code></td>
-<td>Array</td>
-<td>Yes</td>
-<td>Array of users you are updating</td>
-</tr>
-</tbody></table>
-<h3 id='response-json-8'>Response JSON</h3>
-<blockquote>
-<p>The above command returns a 207 multi status response code</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"user_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"u1"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OK"</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"banner_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"u2"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OK"</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-    </span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>We will send you a status for each item you sent, so you can handle and resend only items that had an error.</p>
 <h2 id='delete-multiple-products'>Delete Multiple Products</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
@@ -3947,27 +4109,81 @@ Update the product like so:
 <p>Endpoint: <code>DELETE</code> <code>https://api.datacue.co/v1/batch/products</code></p>
 
 <p>Delete multiple products within one request. Batch DELETE requests only require an id field as follows.</p>
-<h3 id='request-parameters-23'>Request parameters</h3>
+<h3 id='request-json-fields-24'>Request JSON fields</h3>
 <p><code>product_id</code> and <code>variant_id</code></p>
-<h3 id='response-json-9'>Response JSON</h3>
+<h3 id='response-json-6'>Response JSON</h3>
 <blockquote>
-<p>The above command returns a 207 multi status response code</p>
+<p>The above command returns a 204 response code</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"product_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p1"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"error"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Product not found"</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"product_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"p2"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OK"</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-    </span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>We will send you a status for each item you sent, so you can handle and resend only items that had an error.</p>
+<h2 id='delete-multiple-categories'>Delete Multiple Categories</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
+
+<span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
+<span class="nv">$apisecret</span> <span class="o">=</span> <span class="s2">"Your-API-secret-goes-here"</span><span class="p">;</span>
+
+<span class="nv">$datacue</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\DataCue\Client</span><span class="p">(</span><span class="nv">$apikey</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">);</span>
+
+<span class="c1">// batch delete users
+</span><span class="nv">$userIdList</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'c1'</span><span class="p">,</span> <span class="s1">'c2'</span><span class="p">];</span>
+<span class="nv">$res</span> <span class="o">=</span> <span class="nv">$datacue</span><span class="o">-&gt;</span><span class="na">categories</span><span class="o">-&gt;</span><span class="na">batchDelete</span><span class="p">(</span><span class="nv">$categoryIdList</span><span class="p">);</span>
+
+</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">import</span> <span class="nn">hmac</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.datacue.co/v1/batch/categories"</span>
+<span class="n">apikey</span> <span class="o">=</span> <span class="s">"your-api-key-goes-here"</span>
+<span class="n">apisecret</span> <span class="o">=</span> <span class="s">"your-api-secret-goes-here"</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s">"batch"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s">"category_id"</span><span class="p">:</span> <span class="s">"c1"</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s">"category_id"</span><span class="p">:</span> <span class="s">"c2"</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s">"category_id"</span><span class="p">:</span> <span class="s">"c3"</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+
+<span class="n">jsonData</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">checksum</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">apisecret</span><span class="p">,</span><span class="s">'utf-8'</span><span class="p">),</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">jsonData</span><span class="p">,</span> <span class="s">'utf-8'</span><span class="p">),</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">jsonData</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="n">apikey</span><span class="p">,</span> <span class="n">checksum</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()))</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
+
+<span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s1">'https://api.datacue.co/v1/batch/categories'</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">batch</span><span class="p">:</span> <span class="p">[{</span>
+    <span class="na">category_id</span><span class="p">:</span> <span class="s1">'c1'</span>
+  <span class="p">},</span> <span class="p">{</span>
+    <span class="na">category_id</span><span class="p">:</span> <span class="s1">'c2'</span>
+  <span class="p">},</span> <span class="p">{</span>
+    <span class="na">category_id</span><span class="p">:</span> <span class="s1">'c3'</span>
+  <span class="p">}]</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">hash</span> <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">createHmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="nx">apisecret</span><span class="p">).</span><span class="nx">update</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">Stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
+
+<span class="c1">//add to default authentication header</span>
+<span class="nx">axios</span><span class="p">.</span><span class="nx">defaults</span><span class="p">.</span><span class="nx">auth</span> <span class="o">=</span> <span class="p">{</span> <span class="na">username</span><span class="p">:</span> <span class="nx">apikey</span><span class="p">,</span> <span class="na">password</span><span class="p">:</span> <span class="nx">hash</span><span class="p">.</span><span class="nx">digest</span><span class="p">(</span><span class="s1">'hex'</span><span class="p">)</span> <span class="p">};</span>
+
+<span class="nx">axios</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">data</span><span class="p">);</span>
+</code></pre>
+<p>Endpoint: <code>DELETE</code> <code>https://api.datacue.co/v1/batch/categories</code></p>
+
+<p>Delete multiple categories within one request. Batch DELETE requests only require an id field as follows.</p>
+<h3 id='request-json-fields-25'>Request JSON fields</h3>
+<p><code>category_id</code></p>
+
+<blockquote>
+<p>The above command returns a 204 response code</p>
+</blockquote>
 <h2 id='delete-multiple-users'>Delete Multiple Users</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
@@ -4031,26 +4247,12 @@ Update the product like so:
 <p>Endpoint: <code>DELETE</code> <code>https://api.datacue.co/v1/batch/users</code></p>
 
 <p>Delete multiple users within one request. Batch DELETE requests only require an id field as follows.</p>
-<h3 id='request-parameters-24'>Request parameters</h3>
+<h3 id='request-json-fields-26'>Request JSON fields</h3>
 <p><code>user_id</code></p>
-<h3 id='response-json-10'>Response JSON</h3>
+
 <blockquote>
-<p>The above command returns a 207 multi status response code</p>
+<p>The above command returns a 204 response code</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"user_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"u1"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OK"</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-            </span><span class="s2">"user_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"u2"</span><span class="p">,</span><span class="w">
-            </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OK"</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-    </span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>We will send you a status for each item you sent, so you can handle and resend only items that had an error.</p>
 <h2 id='delete-multiple-orders'>Delete Multiple Orders</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
@@ -4108,9 +4310,9 @@ Update the product like so:
 <p>Endpoint: <code>DELETE</code> <code>https://api.datacue.co/v1/batch/orders</code></p>
 
 <p>Delete multiple orders within one request. Batch DELETE requests only require an id field as follows.</p>
-<h3 id='request-parameters-25'>Request parameters</h3>
+<h3 id='request-json-fields-27'>Request JSON fields</h3>
 <p><code>order_id</code></p>
-<h3 id='response-json-11'>Response JSON</h3>
+<h3 id='response-json-7'>Response JSON</h3>
 <blockquote>
 <p>The above command returns a 207 multi status response code</p>
 </blockquote>
@@ -4163,9 +4365,50 @@ Update the product like so:
 <p>Endpoint: <code>DELETE</code> <code>https://api.datacue.co/v1/batch/products/all</code></p>
 
 <p>Delete ALL products within one request.</p>
-<h3 id='request-parameters-26'>Request parameters</h3>
+<h3 id='request-json-fields-28'>Request JSON fields</h3>
 <p>None</p>
-<h3 id='response-json-12'>Response JSON</h3>
+<h3 id='response-json-8'>Response JSON</h3>
+<blockquote>
+<p>The above command returns a 204 response code</p>
+</blockquote>
+<h2 id='delete-all-categories'>Delete All Categories</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
+
+<span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
+<span class="nv">$apisecret</span> <span class="o">=</span> <span class="s2">"Your-API-secret-goes-here"</span><span class="p">;</span>
+
+<span class="nv">$datacue</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\DataCue\Client</span><span class="p">(</span><span class="nv">$apikey</span><span class="p">,</span> <span class="nv">$apisecret</span><span class="p">);</span>
+
+<span class="c1">// batch delete categories
+</span><span class="nv">$res</span> <span class="o">=</span> <span class="nv">$datacue</span><span class="o">-&gt;</span><span class="na">categories</span><span class="o">-&gt;</span><span class="na">deleteAll</span><span class="p">();</span>
+
+</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">import</span> <span class="nn">hmac</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"https://api.datacue.co/v1/batch/categories/all"</span>
+<span class="n">apikey</span> <span class="o">=</span> <span class="s">"your-api-key-goes-here"</span>
+<span class="n">apisecret</span> <span class="o">=</span> <span class="s">"your-api-secret-goes-here"</span>
+
+
+<span class="n">checksum</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">apisecret</span><span class="p">,</span><span class="s">'utf-8'</span><span class="p">),</span> <span class="nb">bytes</span><span class="p">(</span><span class="s">""</span><span class="p">,</span> <span class="s">'utf-8'</span><span class="p">),</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="n">apikey</span><span class="p">,</span> <span class="n">checksum</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()))</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'axios'</span><span class="p">);</span>
+
+<span class="kr">const</span> <span class="nx">url</span> <span class="o">=</span> <span class="s1">'https://api.datacue.co/v1/batch/categories/all'</span><span class="p">;</span>
+
+<span class="kd">var</span> <span class="nx">hash</span> <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">createHmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="nx">apisecret</span><span class="p">).</span><span class="nx">update</span><span class="p">(</span><span class="s2">""</span><span class="p">);</span>
+
+<span class="c1">//add to default authentication header</span>
+<span class="nx">axios</span><span class="p">.</span><span class="nx">defaults</span><span class="p">.</span><span class="nx">auth</span> <span class="o">=</span> <span class="p">{</span> <span class="na">username</span><span class="p">:</span> <span class="nx">apikey</span><span class="p">,</span> <span class="na">password</span><span class="p">:</span> <span class="nx">hash</span><span class="p">.</span><span class="nx">digest</span><span class="p">(</span><span class="s1">'hex'</span><span class="p">)</span> <span class="p">};</span>
+
+<span class="nx">axios</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="nx">url</span><span class="p">);</span>
+</code></pre>
+<p>Endpoint: <code>DELETE</code> <code>https://api.datacue.co/v1/batch/categories/all</code></p>
+
+<p>Delete ALL categories within one request.</p>
+<h3 id='response-json-9'>Response JSON</h3>
 <blockquote>
 <p>The above command returns a 204 response code</p>
 </blockquote>
@@ -4206,7 +4449,7 @@ Update the product like so:
 <p>Endpoint: <code>DELETE</code> <code>https://api.datacue.co/v1/batch/users/all</code></p>
 
 <p>Delete ALL users within one request.</p>
-<h3 id='response-json-13'>Response JSON</h3>
+<h3 id='response-json-10'>Response JSON</h3>
 <blockquote>
 <p>The above command returns a 204 response code</p>
 </blockquote>
@@ -4247,7 +4490,7 @@ Update the product like so:
 <p>Endpoint: <code>DELETE</code> <code>https://api.datacue.co/v1/batch/orders/all</code></p>
 
 <p>Delete ALL orders within one request.</p>
-<h3 id='response-json-14'>Response JSON</h3>
+<h3 id='response-json-11'>Response JSON</h3>
 <blockquote>
 <p>The above command returns a 204 response code</p>
 </blockquote>
