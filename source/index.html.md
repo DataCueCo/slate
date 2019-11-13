@@ -32,6 +32,7 @@ Use the appropriate endpoints to ensure all updates to your store data are synch
 
 This includes:
 
+- [Product Categories](#categories)
 - [Orders](#orders)
 - [Products](#products)
 - [Users](#users)
@@ -178,7 +179,7 @@ To properly set up tracking, you need to provide some information about the page
 | `page_type`     | Yes                           | Current page. One of `'home'`, `'product'`, `'category'`, `'cart'`, `'search'` or `'404'`
 | `product_id`    | If `page_type` = `'product'`  | On product pages, id of currently viewed product
 | `variant_id`    | If `page_type` = `'product'`  | On product pages, id of currently viewed product variant, set to null if not applicable
-| `category_name` | If `page_type` = `'category'` | On category pages, name of currently viewed category
+| `category_id`   | If `page_type` = `'category'` | On category pages, id of currently viewed category
 | `term`          | If `page_type` = `'search'`   | On search results page, current search term
 
 On product pages, you can also add an optional property `product_update` to the config object, to ensure that the most important information about your products is always synchronized. The following fields are supported at this time:
@@ -191,8 +192,8 @@ On product pages, you can also add an optional property `product_update` to the 
 | `photo_url`     | URL of the main product photo
 | `available`     | `true` or `false`
 | `stock`         | Number of items remaining in stock
-| `main_category` | Name of the main product category
-| `categories`    | Array of product's category names
+| `main_category` | Main product category id
+| `categories`    | Array of product's category ids
 | `brand`         | Name of the brand
 
 ## Inserting banners
@@ -1620,8 +1621,8 @@ Whenever a new product is created, send this request from your backend.
 | ---------------- | ----------- | -------- | ----------- |
 | `product_id`     | String      | Yes      | The product id or SKU number
 | `variant_id`     | String      | Yes      | A unique variant id within the product id, if you only use product SKUs set this to a constant such as 'no-variants'
-| `main_category`  | String   | Yes   | The most specific category for the product e.g. 'Jeans'.
-| `categories`     | String Array| Yes       | A list of all the matching categories as tags e.g. ["Jeans","Summer","Men"]
+| `main_category`  | String   | Yes   | The most specific category for the product e.g. 'Jeans'. Must be a valid category_id (see categories)
+| `categories`     | String Array| Yes       | A list of all the matching category ids as tags e.g. ["Jeans","Summer","Men"]. Must be a valid category_id (see categories)
 | `name`           | String      | Yes      | Name or Title of the product
 | `brand`          | String      | No       | Brand name of the product
 | `description`    | String      | No       | Long text description of the product
@@ -2611,7 +2612,9 @@ window.datacueConfig = {
 <script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
 
 ```
-## Cancel Order
+## Change Order Status
+
+Order status can be `completed` or `cancelled`.
 
 ```html
 <!--- backend only event (refer to the Python, PHP or Node tab) -->
@@ -3092,7 +3095,7 @@ Endpoint: `POST` `https://api.datacue.co/v1/batch/categories`
 
 > The above command returns a 201 response code
 
-## Create/Update Orders
+## Create Orders
 
 ```html
 <!--- backend only event (refer to the Python, PHP or Node tab) -->
