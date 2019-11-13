@@ -365,7 +365,7 @@
                     <a href="#create-order" class="toc-h2 toc-link" data-title="Create Order">Create Order</a>
                   </li>
                   <li>
-                    <a href="#cancel-order" class="toc-h2 toc-link" data-title="Cancel Order">Cancel Order</a>
+                    <a href="#change-order-status" class="toc-h2 toc-link" data-title="Change Order Status">Change Order Status</a>
                   </li>
                   <li>
                     <a href="#delete-order" class="toc-h2 toc-link" data-title="Delete Order">Delete Order</a>
@@ -382,7 +382,7 @@
                     <a href="#create-update-categories" class="toc-h2 toc-link" data-title="Create/Update Categories">Create/Update Categories</a>
                   </li>
                   <li>
-                    <a href="#create-update-orders" class="toc-h2 toc-link" data-title="Create/Update Orders">Create/Update Orders</a>
+                    <a href="#create-orders" class="toc-h2 toc-link" data-title="Create Orders">Create Orders</a>
                   </li>
                   <li>
                     <a href="#create-update-users" class="toc-h2 toc-link" data-title="Create/Update Users">Create/Update Users</a>
@@ -435,6 +435,7 @@
 <p>This includes:</p>
 
 <ul>
+<li><a href="#categories">Product Categories</a></li>
 <li><a href="#orders">Orders</a></li>
 <li><a href="#products">Products</a></li>
 <li><a href="#users">Users</a></li>
@@ -586,9 +587,9 @@
 <td>On product pages, id of currently viewed product variant, set to null if not applicable</td>
 </tr>
 <tr>
-<td><code>category_name</code></td>
+<td><code>category_id</code></td>
 <td>If <code>page_type</code> = <code>&#39;category&#39;</code></td>
-<td>On category pages, name of currently viewed category</td>
+<td>On category pages, id of currently viewed category</td>
 </tr>
 <tr>
 <td><code>term</code></td>
@@ -631,11 +632,11 @@
 </tr>
 <tr>
 <td><code>main_category</code></td>
-<td>Name of the main product category</td>
+<td>Main product category id</td>
 </tr>
 <tr>
 <td><code>categories</code></td>
-<td>Array of product&#39;s category names</td>
+<td>Array of product&#39;s category ids</td>
 </tr>
 <tr>
 <td><code>brand</code></td>
@@ -2258,13 +2259,13 @@ Whenever a new product is created, send this request from your backend.</p>
 <td><code>main_category</code></td>
 <td>String</td>
 <td>Yes</td>
-<td>The most specific category for the product e.g. &#39;Jeans&#39;.</td>
+<td>The most specific category for the product e.g. &#39;Jeans&#39;. Must be a valid category_id (see categories)</td>
 </tr>
 <tr>
 <td><code>categories</code></td>
 <td>String Array</td>
 <td>Yes</td>
-<td>A list of all the matching categories as tags e.g. [&quot;Jeans&quot;,&quot;Summer&quot;,&quot;Men&quot;]</td>
+<td>A list of all the matching category ids as tags e.g. [&quot;Jeans&quot;,&quot;Summer&quot;,&quot;Men&quot;]. Must be a valid category_id (see categories)</td>
 </tr>
 <tr>
 <td><code>name</code></td>
@@ -3349,7 +3350,9 @@ Update the product like so:
 <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
 <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue-storefront.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
 
-</code></pre><h2 id='cancel-order'>Cancel Order</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
+</code></pre><h2 id='change-order-status'>Change Order Status</h2>
+<p>Order status can be <code>completed</code> or <code>cancelled</code>.</p>
+<pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
@@ -3808,7 +3811,7 @@ Update the product like so:
 <blockquote>
 <p>The above command returns a 201 response code</p>
 </blockquote>
-<h2 id='create-update-orders'>Create/Update Orders</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
+<h2 id='create-orders'>Create Orders</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
