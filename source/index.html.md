@@ -1011,7 +1011,8 @@ window.datacue.identify('019mr8mf4r', {
 window.datacue.track({
   type: 'click',
   subtype: 'banner',
-  banner_id: 'b1'
+  banner_id: 'b1',
+  category_id: 'c1'
 }, true);
 </script>
 ```
