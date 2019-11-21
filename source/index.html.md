@@ -305,7 +305,7 @@ window.datacueConfig = {
 
 If you prefer to send order data from the frontend, you can include an optional property `order_details` to the config object. This allows you to send completed orders via the frontend instead of using any backend hooks.
 
-**order_details object**
+**order details object**
 
 | Property  | Data Type     | Required                      | Description |
 | --------- | ------------- | ----------------------------- | ----------- |
