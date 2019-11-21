@@ -616,6 +616,22 @@ The frontend events API is located at <code>https://events.datacue.co</code>.</p
 <td>On search results page, current search term</td>
 </tr>
 </tbody></table>
+<h3 id='home-page'>Home page</h3>
+<blockquote>
+<p>Register a home pageview</p>
+</blockquote>
+<pre class="highlight html tab-html"><code><span class="nt">&lt;script&gt;</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">datacueConfig</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">api_key</span><span class="p">:</span> <span class="s1">'your-api-key'</span><span class="p">,</span>
+  <span class="na">user_id</span><span class="p">:</span> <span class="s1">'id of user / null if not logged in'</span><span class="p">,</span>
+  <span class="na">page_type</span><span class="p">:</span> <span class="s1">'home'</span>
+<span class="p">};</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue-storefront.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+</code></pre>
+<p>Place this code on your home page.</p>
 <h3 id='product-pages'>Product pages</h3>
 <blockquote>
 <p>Synchronize product data automatically</p>
@@ -623,7 +639,7 @@ The frontend events API is located at <code>https://events.datacue.co</code>.</p
 <pre class="highlight html tab-html"><code><span class="nt">&lt;script&gt;</span>
 <span class="nb">window</span><span class="p">.</span><span class="nx">datacueConfig</span> <span class="o">=</span> <span class="p">{</span>
   <span class="na">api_key</span><span class="p">:</span> <span class="s1">'your-api-key'</span><span class="p">,</span>
-  <span class="na">user_id</span><span class="p">:</span> <span class="s1">'id of user / email address if guest checkout'</span><span class="p">,</span>
+  <span class="na">user_id</span><span class="p">:</span> <span class="s1">'id of user / null if not logged in'</span><span class="p">,</span>
   <span class="na">page_type</span><span class="p">:</span> <span class="s1">'product'</span><span class="p">,</span>
   <span class="na">product_id</span><span class="p">:</span> <span class="s1">'p1'</span><span class="p">,</span>
   <span class="na">variant_id</span><span class="p">:</span> <span class="s1">'v1'</span><span class="p">,</span>
@@ -684,6 +700,76 @@ The frontend events API is located at <code>https://events.datacue.co</code>.</p
 <td>Name of the brand</td>
 </tr>
 </tbody></table>
+<h3 id='category-pages'>Category pages</h3>
+<blockquote>
+<p>Register a category pageview</p>
+</blockquote>
+<pre class="highlight html tab-html"><code><span class="nt">&lt;script&gt;</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">datacueConfig</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">api_key</span><span class="p">:</span> <span class="s1">'your-api-key'</span><span class="p">,</span>
+  <span class="na">user_id</span><span class="p">:</span> <span class="s1">'id of user / null if not logged in'</span><span class="p">,</span>
+  <span class="na">page_type</span><span class="p">:</span> <span class="s1">'category'</span><span class="p">,</span>
+  <span class="na">category_id</span><span class="p">:</span> <span class="s1">'jeans'</span>
+<span class="p">};</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue-storefront.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+</code></pre>
+<p>Place this code on your category template page.</p>
+<h3 id='search-pages'>Search pages</h3>
+<blockquote>
+<p>Register a user search</p>
+</blockquote>
+<pre class="highlight html tab-html"><code><span class="nt">&lt;script&gt;</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">datacueConfig</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">api_key</span><span class="p">:</span> <span class="s1">'your-api-key'</span><span class="p">,</span>
+  <span class="na">user_id</span><span class="p">:</span> <span class="s1">'id of user / null if not logged in'</span><span class="p">,</span>
+  <span class="na">page_type</span><span class="p">:</span> <span class="s1">'search'</span><span class="p">,</span>
+  <span class="na">term</span><span class="p">:</span> <span class="s1">'blue jeans'</span>
+<span class="p">};</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue-storefront.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+</code></pre>
+<p>Place this code on your search results page</p>
+<h3 id='cart-page'>Cart page</h3>
+<blockquote>
+<p>Register a cart pageview</p>
+</blockquote>
+<pre class="highlight html tab-html"><code><span class="nt">&lt;script&gt;</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">datacueConfig</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">api_key</span><span class="p">:</span> <span class="s1">'your-api-key'</span><span class="p">,</span>
+  <span class="na">user_id</span><span class="p">:</span> <span class="s1">'id of user / null if not logged in'</span><span class="p">,</span>
+  <span class="na">page_type</span><span class="p">:</span> <span class="s1">'cart'</span>
+<span class="p">};</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue-storefront.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+</code></pre>
+<p>Place this code on your cart page.</p>
+<h3 id='404-page'>404 page</h3>
+<blockquote>
+<p>Register a 404 error pageview</p>
+</blockquote>
+<pre class="highlight html tab-html"><code><span class="nt">&lt;script&gt;</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">datacueConfig</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">api_key</span><span class="p">:</span> <span class="s1">'your-api-key'</span><span class="p">,</span>
+  <span class="na">user_id</span><span class="p">:</span> <span class="s1">'id of user / null if not logged in'</span><span class="p">,</span>
+  <span class="na">page_type</span><span class="p">:</span> <span class="s1">'404'</span>
+<span class="p">};</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue-storefront.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+</code></pre>
+<p>Place this code on your cart page.</p>
+
+<aside class="notice">
+  This is not related to shopping cart updates. Whenever the user modifies their cart (add product to cart, remove product from cart etc), you must call the cart update function (see below).
+</aside>
 <h3 id='order-confirmation'>Order confirmation</h3>
 <p>You can choose to send completed orders via the frontend or the backend.</p>
 <h4 id='backend-recommended'>Backend (recommended)</h4>
