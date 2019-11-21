@@ -242,6 +242,9 @@
             <a href="#store-frontend" class="toc-h1 toc-link" data-title="Store Frontend">Store Frontend</a>
               <ul class="toc-list-h2">
                   <li>
+                    <a href="#include-datacue-js-library" class="toc-h2 toc-link" data-title="Include DataCue JS library">Include DataCue JS library</a>
+                  </li>
+                  <li>
                     <a href="#the-config-object" class="toc-h2 toc-link" data-title="The config object">The config object</a>
                   </li>
                   <li>
@@ -443,7 +446,10 @@
 <h3 id='3-integrate-recommendations-to-your-site-with-our-javascript-library'>3. Integrate recommendations to your site with our JavaScript library</h3>
 <p>Refer to the <a href="#store-frontend">store frontend</a> section to understand all the events that you can send us via our JavaScript library. All events have sample code attached, just copy/paste them and change the values as appropriate.</p>
 <h2 id='quick-facts'>Quick facts</h2><h3 id='api-url'>API URL</h3>
-<p>The API is located at <code>https://api.datacue.co</code>.</p>
+<p>The backend data API is located at <code>https://api.datacue.co</code>.
+The frontend events API is located at <code>https://events.datacue.co</code>.</p>
+
+<p>Our javascript library interacts with <code>events.datacue.co</code> for you. This is why you don&#39;t see this URL in the frontend code samples.</p>
 <h3 id='authentication'>Authentication</h3>
 <blockquote>
 <p>Replace <code>API-key</code> with your API key and <code>API-secret</code> with your API secret. Browser/frontend events only need your API key, while the other endpoints require both.</p>
@@ -518,9 +524,17 @@
 
 <p>For all other endpoints, we have reference implementations on how to sign your message with your <code>apisecret</code> in Node, PHP and Python.</p>
 <h3 id='content-type'>Content-Type</h3>
-<p>Whenever you are sending us JSON (all endpoints except <code>DELETE</code>). Remember to set a content-type header to &quot;application/json&quot;, some http libraries will do this for you automatically.
-<code>Content-Type: application/json</code></p>
+<p>Whenever you are sending us JSON (all endpoints except <code>DELETE</code>). Remember to set a content-type header to &quot;application/json&quot;, some http libraries will do this for you automatically.</p>
+
+<p><code>Content-Type: application/json</code></p>
 <h1 id='store-frontend'>Store Frontend</h1>
+<p>Integrate DataCue to your storefront in two steps:</p>
+
+<ol>
+<li><p>Add our javascript library and set a config object for all pages (except payment / order checkout pages)</p></li>
+<li><p>Include banner and/or product widgets to the pages you want to show recommendations</p></li>
+</ol>
+<h2 id='include-datacue-js-library'>Include DataCue JS library</h2>
 <blockquote>
 <p>Remember to include the config snippet <em>before</em> the external scripts</p>
 </blockquote>
@@ -528,7 +542,7 @@
 <span class="nb">window</span><span class="p">.</span><span class="nx">datacueConfig</span> <span class="o">=</span> <span class="p">{</span>
   <span class="na">api_key</span><span class="p">:</span> <span class="s1">'your-api-key'</span><span class="p">,</span>
   <span class="na">user_id</span><span class="p">:</span> <span class="s1">'id of user (user_id field you send us for users)'</span><span class="p">,</span>
-  <span class="na">page_type</span><span class="p">:</span> <span class="s1">'product'</span><span class="p">,</span> <span class="c1">//can be many values, see table reference on the right</span>
+  <span class="na">page_type</span><span class="p">:</span> <span class="s1">'product'</span><span class="p">,</span> <span class="c1">//can be many values, see the section 'Config object' on the left</span>
   <span class="na">product_id</span><span class="p">:</span> <span class="s1">'1234'</span><span class="p">,</span> <span class="c1">//only for product page</span>
   <span class="na">variant_id</span><span class="p">:</span> <span class="s1">'2345'</span>  <span class="c1">//only for product page</span>
 <span class="p">};</span>
@@ -536,21 +550,21 @@
 <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
 <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue-storefront.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
 </code></pre>
-<p>The easiest way to start tracking browser/frontend events is to include our scripts. You only need three things:</p>
+<p>Place the snippets near the end of the <code>&lt;head&gt;</code> element of your main template. You should include it in these pages:</p>
 
 <ul>
-<li>The config object</li>
-<li>DataCue Events SDK</li>
-<li>DataCue storefront script</li>
+<li>Home</li>
+<li>Product template</li>
+<li>Category template</li>
+<li>Search</li>
+<li>Cart</li>
+<li>404 (not found or error page)</li>
+<li>Order confirmation page</li>
 </ul>
 
-<p>Place the snippets near the end of the <code>&lt;head&gt;</code> element of your main template. This will enable all the basic events:</p>
-
-<ul>
-<li>pageviews</li>
-<li>search</li>
-<li>banner/product clicks</li>
-</ul>
+<aside class="notice">
+  DataCue only collects data explicitly stored in the config object. However, we strongly advise you NOT to include any tracking scripts (including ours) on pages where sensitive data is entered like payment pages where credit card data maybe entered.
+</aside>
 <h2 id='the-config-object'>The config object</h2>
 <p>To properly set up tracking, you need to provide some information about the page that the user is currently visiting. You can do it by setting the following properties of the <code>window.datacueConfig</code> object:</p>
 
@@ -574,7 +588,7 @@
 <tr>
 <td><code>page_type</code></td>
 <td>Yes</td>
-<td>Current page. One of <code>&#39;home&#39;</code>, <code>&#39;product&#39;</code>, <code>&#39;category&#39;</code>, <code>&#39;cart&#39;</code>, <code>&#39;search&#39;</code> or <code>&#39;404&#39;</code></td>
+<td>Current page type. Can be: <code>home</code>, <code>product</code>, <code>category</code>, <code>cart</code>, <code>search</code>, <code>order confirmation</code> or <code>404</code></td>
 </tr>
 <tr>
 <td><code>product_id</code></td>
@@ -592,12 +606,43 @@
 <td>On category pages, id of currently viewed category</td>
 </tr>
 <tr>
+<td><code>order_id</code></td>
+<td>If <code>page_type</code> = <code>&#39;order confirmation&#39;</code></td>
+<td>On order confirmatio pages, id of confirmed order</td>
+</tr>
+<tr>
 <td><code>term</code></td>
 <td>If <code>page_type</code> = <code>&#39;search&#39;</code></td>
 <td>On search results page, current search term</td>
 </tr>
 </tbody></table>
+<h3 id='product-pages'>Product pages</h3>
+<blockquote>
+<p>Synchronize product data automatically</p>
+</blockquote>
+<pre class="highlight html tab-html"><code><span class="nt">&lt;script&gt;</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">datacueConfig</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">api_key</span><span class="p">:</span> <span class="s1">'your-api-key'</span><span class="p">,</span>
+  <span class="na">user_id</span><span class="p">:</span> <span class="s1">'id of user / email address if guest checkout'</span><span class="p">,</span>
+  <span class="na">page_type</span><span class="p">:</span> <span class="s1">'product'</span><span class="p">,</span>
+  <span class="na">product_id</span><span class="p">:</span> <span class="s1">'p1'</span><span class="p">,</span>
+  <span class="na">variant_id</span><span class="p">:</span> <span class="s1">'v1'</span><span class="p">,</span>
+  <span class="na">product_update</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">name</span> <span class="p">:</span> <span class="s1">'Blue Regular Fit Jeans'</span><span class="p">,</span>
+      <span class="na">price</span> <span class="p">:</span> <span class="mf">99.50</span><span class="p">,</span>
+      <span class="na">full_price</span> <span class="p">:</span> <span class="mi">120</span><span class="p">,</span>
+      <span class="na">photo_url</span> <span class="p">:</span> <span class="s1">'https://mycoolstore.com/images/p1.jpg'</span><span class="p">,</span>
+      <span class="na">available</span><span class="p">:</span> <span class="kc">true</span>
+      <span class="na">stock</span><span class="p">:</span> <span class="mi">15</span>
+      <span class="na">categories</span><span class="p">:</span> <span class="p">[</span><span class="s1">'jeans'</span><span class="p">,</span><span class="s1">'summer'</span><span class="p">]</span>
+      <span class="na">brand</span><span class="p">:</span> <span class="s1">'Zayra'</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue-storefront.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
 
+</code></pre>
 <p>On product pages, you can also add an optional property <code>product_update</code> to the config object, to ensure that the most important information about your products is always synchronized. The following fields are supported at this time:</p>
 
 <table><thead>
@@ -631,10 +676,6 @@
 <td>Number of items remaining in stock</td>
 </tr>
 <tr>
-<td><code>main_category</code></td>
-<td>Main product category id</td>
-</tr>
-<tr>
 <td><code>categories</code></td>
 <td>Array of product&#39;s category ids</td>
 </tr>
@@ -643,9 +684,143 @@
 <td>Name of the brand</td>
 </tr>
 </tbody></table>
-<h2 id='inserting-banners'>Inserting banners</h2>
+<h3 id='order-confirmation'>Order confirmation</h3>
+<p>You can choose to send completed orders via the frontend or the backend.</p>
+<h4 id='backend-recommended'>Backend (recommended)</h4>
 <blockquote>
-<p>Home page banners</p>
+<p>Sending orders via backend (skip order_details object)</p>
+</blockquote>
+<pre class="highlight html tab-html"><code>
+<span class="nt">&lt;script&gt;</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">datacueConfig</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">api_key</span><span class="p">:</span> <span class="s1">'your-api-key'</span><span class="p">,</span>
+  <span class="na">user_id</span><span class="p">:</span> <span class="s1">'id of user / email address if guest checkout'</span><span class="p">,</span>
+  <span class="na">page_type</span><span class="p">:</span> <span class="s1">'order confirmation'</span>
+<span class="p">};</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue-storefront.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</code></pre>
+<p>Set the <code>user_id</code> field of the datacueConfig object to the user ID (if the user created an account) OR their email address (if it&#39;s a guest checkout).</p>
+
+<p>Refer to <a href="#create-order">create order</a> on how to send order data via the backend.</p>
+<h4 id='frontend'>Frontend</h4>
+<blockquote>
+<p>Sending orders via frontend</p>
+</blockquote>
+<pre class="highlight html tab-html"><code><span class="nt">&lt;script&gt;</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">datacueConfig</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">api_key</span><span class="p">:</span> <span class="s1">'your-api-key'</span><span class="p">,</span>
+  <span class="na">user_id</span><span class="p">:</span> <span class="s1">'id of user / email address if guest checkout'</span><span class="p">,</span>
+  <span class="na">page_type</span><span class="p">:</span> <span class="s1">'order confirmation'</span><span class="p">,</span>
+  <span class="na">order_id</span><span class="p">:</span> <span class="s1">'O123'</span><span class="p">,</span>
+  <span class="na">order_details</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">order_status</span> <span class="p">:</span> <span class="s1">'completed'</span><span class="p">,</span>
+    <span class="na">cart</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="na">product_id</span> <span class="p">:</span> <span class="s1">'p1'</span><span class="p">,</span>
+        <span class="na">variant_id</span> <span class="p">:</span> <span class="s1">'v1'</span><span class="p">,</span>
+        <span class="na">quantity</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="na">unit_price</span> <span class="p">:</span> <span class="mi">24</span><span class="p">,</span>
+        <span class="na">currency</span> <span class="p">:</span> <span class="s1">'USD'</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="na">product_id</span> <span class="p">:</span> <span class="s1">'p3'</span><span class="p">,</span>
+        <span class="na">variant_id</span> <span class="p">:</span> <span class="s1">'v2'</span><span class="p">,</span>
+        <span class="na">quantity</span> <span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+        <span class="na">unit_price</span> <span class="p">:</span> <span class="mi">42</span><span class="p">,</span>
+        <span class="na">currency</span> <span class="p">:</span> <span class="s1">'USD'</span>
+      <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="na">timestamp</span><span class="p">:</span> <span class="s1">'2018-04-04 23:29:04Z'</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue-storefront.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+</code></pre>
+<p>If you prefer to send order data from the frontend, you can include an optional property <code>order_details</code> to the config object. This allows you to send completed orders via the frontend instead of using any backend hooks.</p>
+
+<p><strong>order_details object</strong></p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Data Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>order_status</code></td>
+<td>String</td>
+<td>No</td>
+<td>Can be <code>completed</code> (default) or <code>cancelled</code></td>
+</tr>
+<tr>
+<td><code>cart</code></td>
+<td>Array</td>
+<td>Yes</td>
+<td>An array of line items in the order shopping cart (see below)</td>
+</tr>
+<tr>
+<td><code>timestamp</code></td>
+<td>ISO-8601 Date</td>
+<td>No</td>
+<td>Order creation date/time in UTC timezone</td>
+</tr>
+</tbody></table>
+
+<p><strong>cart object</strong></p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Data Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>product_id</code></td>
+<td>String</td>
+<td>Yes</td>
+<td>Product ID code</td>
+</tr>
+<tr>
+<td><code>variant_id</code></td>
+<td>String</td>
+<td>Yes</td>
+<td>Variant ID of the product</td>
+</tr>
+<tr>
+<td><code>unit_price</code></td>
+<td>Decimal</td>
+<td>Yes</td>
+<td>The unit price of the product (including any discounts)</td>
+</tr>
+<tr>
+<td><code>quantity</code></td>
+<td>Integer</td>
+<td>Yes</td>
+<td>Number of products purchased</td>
+</tr>
+</tbody></table>
+<h2 id='inserting-banners'>Inserting banners</h2>
+<p>Implementing banners, you have two choices:</p>
+
+<ol>
+<li>DataCue&#39;s standard banner layout (recommended)</li>
+<li>Custom banner layout</li>
+</ol>
+
+<p>If you choose the standard banner layout, a lot of things are already done for you like responsive design and a smooth loading process for each image. However, you must follow our banner size guidelines.</p>
+
+<p>Custom layout means you need to implement responsive design yourself in exchange for (almost) total flexibility in banner sizes.</p>
+
+<blockquote>
+<p>DataCue standard banner layout</p>
 </blockquote>
 <pre class="highlight html tab-html"><code><span class="nt">&lt;div</span>
   <span class="na">data-dc-banners</span>
@@ -653,15 +828,28 @@
   <span class="na">data-dc-static-link=</span><span class="s">"link/to/chosen/category"</span>
 <span class="nt">&gt;&lt;/div&gt;</span>
 </code></pre>
-<p>Once you&#39;re done configuring tracking, you can enable our widgets. You can read all about banners <a href="https://help.datacue.co/dashboard/banners.html">here</a>.</p>
+<blockquote>
+<p>Custom banner layout
+```html
+&lt;!-- This is just an example, you can arrange the divs anyway you like --&gt;</p>
+</blockquote>
 
-<p>Here&#39;s a brief summary:</p>
+<p><div class="custom-banners">
+  <div class="custom-static">
+    <a href="https://example.com/any-link-you-want">
+      <img src="https://example.com/some-banner-image.jpg" alt="">
+    </a>
+  </div>
+  <div class="custom-big" data-dc-main-insert-banner="1"></div>
+  <div class="custom-big" data-dc-main-insert-banner="2"></div>
+  <div class="custom-small" data-dc-sub-insert-banner="1"></div>
+  <div class="custom-small" data-dc-sub-insert-banner="2"></div>
+ </div>
+```</p>
 
-<ol>
-<li>There are two types of banners, wide: 1200x720px and narrow: 480x720px</li>
-<li>You upload all the banners you want us to personalize directly to DataCue. </li>
-<li>The Static banner is a wide banner (1200x720px) that shows up for everyone. Tell us where it is with the <code>data-dc-static-img</code> attribute and what the link should be with the <code>data-dc-static-link</code> attribute and we&#39;ll do the rest.</li>
-</ol>
+<p>You can read all about banners in our <a href="https://help.datacue.co/guide/banners.html#quick-start">usage guide</a></p>
+
+<p>For full details on custom layouts for banners, refer to our <a href="https://help.datacue.co/install/advanced.html#custom-banner-layout">advanced guide</a>.</p>
 <h2 id='inserting-products'>Inserting products</h2>
 <blockquote>
 <p>Product recommendations</p>
@@ -686,16 +874,14 @@
 <p>If you want to insert each recommendation in different areas of your website, you can specify a value for <code>data-dc-products</code> as shown in the code samples.</p>
 <h3 id='types-of-recommendations'>Types of recommendations</h3><h4 id='all-pages-home-product-category-search-404-cart-etc'>All pages (home, product, category, search, 404, cart etc)</h4>
 <ol>
-<li><p>Categories: Show multiple rows of products based on the product categories that best match the current customer&#39;s preferences.</p></li>
+<li><p>Related categories: Show multiple rows of products based on the product categories that best match the current customer&#39;s preferences.</p></li>
 <li><p>Related: Show top products that match the customer&#39;s preferences.</p></li>
 <li><p>Recently viewed: A list of all the products that were recently viewed by the user</p></li>
 </ol>
 <h4 id='category-page-only'>Category page only</h4>
 <ol>
-<li>Related: Show top products that are the most related to the current category being viewed based on your customers purchases.</li>
+<li>Top: Show top products that are the most related to the current category being viewed based on your customers purchases.</li>
 </ol>
-
-<p><em>Replaces the regular <code>related</code> carousel</em></p>
 <h4 id='product-page-only'>Product page only</h4>
 <ol>
 <li>Related: Show top products that are the most related to the current product being viewed based on your customers purchases.</li>
@@ -3122,39 +3308,7 @@ Update the product like so:
 <p>Endpoint: <code>DELETE</code> <code>https://api.datacue.co/v1/users/&lt;user_id&gt;</code></p>
 
 <p>When a user account is deleted from your system.</p>
-<h1 id='orders'>Orders</h1><h2 id='create-order'>Create Order</h2><pre class="highlight html tab-html"><code><span class="nt">&lt;script&gt;</span>
-<span class="nb">window</span><span class="p">.</span><span class="nx">datacueConfig</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">api_key</span><span class="p">:</span> <span class="s1">'your-api-key'</span><span class="p">,</span>
-  <span class="na">user_id</span><span class="p">:</span> <span class="s1">'id of user making purchase'</span><span class="p">,</span>
-  <span class="na">page_type</span><span class="p">:</span> <span class="s1">'order confirmation'</span><span class="p">,</span>
-  <span class="na">order_id</span><span class="p">:</span> <span class="s1">'O123'</span><span class="p">,</span>
-  <span class="na">orderDetails</span><span class="p">:</span> <span class="p">{</span>
-    <span class="na">order_id</span> <span class="p">:</span> <span class="s1">'O123'</span><span class="p">,</span>
-    <span class="na">user_id</span> <span class="p">:</span> <span class="s1">'U456'</span><span class="p">,</span>
-    <span class="na">order_status</span> <span class="p">:</span> <span class="s1">'completed'</span><span class="p">,</span>
-    <span class="na">cart</span><span class="p">:</span> <span class="p">[</span>
-      <span class="p">{</span>
-        <span class="na">product_id</span> <span class="p">:</span> <span class="s1">'p1'</span><span class="p">,</span>
-        <span class="na">variant_id</span> <span class="p">:</span> <span class="s1">'v1'</span><span class="p">,</span>
-        <span class="na">quantity</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="na">unit_price</span> <span class="p">:</span> <span class="mi">24</span><span class="p">,</span>
-        <span class="na">currency</span> <span class="p">:</span> <span class="s1">'USD'</span>
-      <span class="p">},</span>
-      <span class="p">{</span>
-        <span class="na">product_id</span> <span class="p">:</span> <span class="s1">'p3'</span><span class="p">,</span>
-        <span class="na">variant_id</span> <span class="p">:</span> <span class="s1">'v2'</span><span class="p">,</span>
-        <span class="na">quantity</span> <span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
-        <span class="na">unit_price</span> <span class="p">:</span> <span class="mi">42</span><span class="p">,</span>
-        <span class="na">currency</span> <span class="p">:</span> <span class="s1">'USD'</span>
-      <span class="p">}</span>
-    <span class="p">],</span>
-    <span class="na">timestamp</span><span class="p">:</span> <span class="s1">'2018-04-04 23:29:04Z'</span>
-  <span class="p">}</span>
-<span class="p">};</span>
-<span class="nt">&lt;/script&gt;</span>
-<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue-storefront.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-
+<h1 id='orders'>Orders</h1><h2 id='create-order'>Create Order</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!-- Refer to the store frontend section above to see frontend code samples --&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
 <span class="nv">$apikey</span> <span class="o">=</span> <span class="s2">"Your-API-Key-goes-here"</span><span class="p">;</span>
