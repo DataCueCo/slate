@@ -45,7 +45,10 @@ Refer to the [store frontend](#store-frontend) section to understand all the eve
 
 ### API URL
 
-The API is located at `https://api.datacue.co`.
+The backend data API is located at `https://api.datacue.co`.
+The frontend events API is located at `https://events.datacue.co`.
+
+Our javascript library interacts with `events.datacue.co` for you. This is why you don't see this URL in the frontend code samples.
 
 ### Authentication
 
@@ -136,9 +139,19 @@ For all other endpoints, we have reference implementations on how to sign your m
 ### Content-Type
 
 Whenever you are sending us JSON (all endpoints except `DELETE`). Remember to set a content-type header to "application/json", some http libraries will do this for you automatically.
+
 `Content-Type: application/json`
 
 # Store Frontend
+
+Integrate DataCue to your storefront in two steps:
+
+1. Add our javascript library and set a config object for all pages (except payment / order checkout pages)
+
+2. Include banner and/or product widgets to the pages you want to show recommendations
+
+
+## Include DataCue JS library
 
 > Remember to include the config snippet *before* the external scripts
 
@@ -147,7 +160,7 @@ Whenever you are sending us JSON (all endpoints except `DELETE`). Remember to se
 window.datacueConfig = {
   api_key: 'your-api-key',
   user_id: 'id of user (user_id field you send us for users)',
-  page_type: 'product', //can be many values, see table reference on the right
+  page_type: 'product', //can be many values, see the section 'Config object' on the left
   product_id: '1234', //only for product page
   variant_id: '2345'  //only for product page
 };
@@ -156,17 +169,20 @@ window.datacueConfig = {
 <script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
 ```
 
-The easiest way to start tracking browser/frontend events is to include our scripts. You only need three things:
+Place the snippets near the end of the `<head>` element of your main template. You should include it in these pages:
 
-- The config object
-- DataCue Events SDK
-- DataCue storefront script
+- Home
+- Product template
+- Category template
+- Search
+- Cart
+- 404 (not found or error page)
+- Order confirmation page
 
-Place the snippets near the end of the `<head>` element of your main template. This will enable all the basic events:
+<aside class="notice">
+  DataCue only collects data explicitly stored in the config object. However, we strongly advise you NOT to include any tracking scripts (including ours) on pages where sensitive data is entered like payment pages where credit card data maybe entered.
+</aside>
 
-- pageviews
-- search
-- banner/product clicks
 
 ## The config object
 
@@ -176,12 +192,41 @@ To properly set up tracking, you need to provide some information about the page
 | --------------- | ----------------------------- | ----------- |
 | `api_key`       | Yes                           | Your API key
 | `user_id`       | Yes (if logged in)            | If the visitor is not logged in, set the field to `null`
-| `page_type`     | Yes                           | Current page. One of `'home'`, `'product'`, `'category'`, `'cart'`, `'search'` or `'404'`
+| `page_type`     | Yes                           | Current page type. Can be: `home`, `product`, `category`, `cart`, `search`, `order confirmation` or `404`
 | `product_id`    | If `page_type` = `'product'`  | On product pages, id of currently viewed product
 | `variant_id`    | If `page_type` = `'product'`  | On product pages, id of currently viewed product variant, set to null if not applicable
 | `category_id`   | If `page_type` = `'category'` | On category pages, id of currently viewed category
+| `order_id`   | If `page_type` = `'order confirmation'` | On order confirmatio pages, id of confirmed order
 | `term`          | If `page_type` = `'search'`   | On search results page, current search term
 
+### Product pages
+
+> Synchronize product data automatically
+
+```html
+<script>
+window.datacueConfig = {
+  api_key: 'your-api-key',
+  user_id: 'id of user / email address if guest checkout',
+  page_type: 'product',
+  product_id: 'p1',
+  variant_id: 'v1',
+  product_update: {
+      name : 'Blue Regular Fit Jeans',
+      price : 99.50,
+      full_price : 120,
+      photo_url : 'https://mycoolstore.com/images/p1.jpg',
+      available: true
+      stock: 15
+      categories: ['jeans','summer']
+      brand: 'Zayra'
+  }
+};
+</script>
+<script src="https://cdn.datacue.co/js/datacue.js"></script>
+<script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
+
+```
 On product pages, you can also add an optional property `product_update` to the config object, to ensure that the most important information about your products is always synchronized. The following fields are supported at this time:
 
 | Property        | Description |
@@ -192,13 +237,103 @@ On product pages, you can also add an optional property `product_update` to the 
 | `photo_url`     | URL of the main product photo
 | `available`     | `true` or `false`
 | `stock`         | Number of items remaining in stock
-| `main_category` | Main product category id
 | `categories`    | Array of product's category ids
 | `brand`         | Name of the brand
 
+### Order confirmation
+
+You can choose to send completed orders via the frontend or the backend.
+
+#### Backend (recommended)
+
+> Sending orders via backend (skip order_details object)
+
+```html
+
+<script>
+window.datacueConfig = {
+  api_key: 'your-api-key',
+  user_id: 'id of user / email address if guest checkout',
+  page_type: 'order confirmation'
+};
+</script>
+<script src="https://cdn.datacue.co/js/datacue.js"></script>
+<script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
+```
+
+Set the `user_id` field of the datacueConfig object to the user ID (if the user created an account) OR their email address (if it's a guest checkout).
+
+Refer to [create order](#create-order) on how to send order data via the backend.
+
+#### Frontend
+
+> Sending orders via frontend
+
+```html
+<script>
+window.datacueConfig = {
+  api_key: 'your-api-key',
+  user_id: 'id of user / email address if guest checkout',
+  page_type: 'order confirmation',
+  order_id: 'O123',
+  order_details: {
+    order_status : 'completed',
+    cart: [
+      {
+        product_id : 'p1',
+        variant_id : 'v1',
+        quantity : 1,
+        unit_price : 24,
+        currency : 'USD'
+      },
+      {
+        product_id : 'p3',
+        variant_id : 'v2',
+        quantity : 9,
+        unit_price : 42,
+        currency : 'USD'
+      }
+    ],
+    timestamp: '2018-04-04 23:29:04Z'
+  }
+};
+</script>
+<script src="https://cdn.datacue.co/js/datacue.js"></script>
+<script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
+
+```
+
+If you prefer to send order data from the frontend, you can include an optional property `order_details` to the config object. This allows you to send completed orders via the frontend instead of using any backend hooks.
+
+**order_details object**
+
+| Property  | Data Type     | Required                      | Description |
+| --------- | ------------- | ----------------------------- | ----------- |
+| `order_status`          | String        | No                           | Can be `completed` (default) or `cancelled`
+| `cart`             | Array         | Yes                            | An array of line items in the order shopping cart (see below)
+| `timestamp`        | ISO-8601 Date | No                            | Order creation date/time in UTC timezone
+
+**cart object**
+
+| Property     | Data Type | Required | Description |
+| -------------| --------- | -------- | ----------- |
+| `product_id` | String    | Yes      | Product ID code
+| `variant_id` | String    | Yes      | Variant ID of the product
+| `unit_price` | Decimal   | Yes      | The unit price of the product (including any discounts)
+| `quantity`   | Integer   | Yes      | Number of products purchased
+
 ## Inserting banners
 
-> Home page banners
+Implementing banners, you have two choices:
+
+1. DataCue's standard banner layout (recommended)
+2. Custom banner layout
+
+If you choose the standard banner layout, a lot of things are already done for you like responsive design and a smooth loading process for each image. However, you must follow our banner size guidelines.
+
+Custom layout means you need to implement responsive design yourself in exchange for (almost) total flexibility in banner sizes.
+
+> DataCue standard banner layout
 
 ```html
 <div
@@ -208,15 +343,29 @@ On product pages, you can also add an optional property `product_update` to the 
 ></div>
 ```
 
-Once you're done configuring tracking, you can enable our widgets. You can read all about banners [here](https://help.datacue.co/dashboard/banners.html).
+> Custom banner layout
+```html
+<!-- This is just an example, you can arrange the divs anyway you like -->
+ 
+ <div class="custom-banners">
+  <div class="custom-static">
+    <a href="https://example.com/any-link-you-want">
+      <img src="https://example.com/some-banner-image.jpg" alt="">
+    </a>
+  </div>
+  <div class="custom-big" data-dc-main-insert-banner="1"></div>
+  <div class="custom-big" data-dc-main-insert-banner="2"></div>
+  <div class="custom-small" data-dc-sub-insert-banner="1"></div>
+  <div class="custom-small" data-dc-sub-insert-banner="2"></div>
+ </div>
+```
 
-Here's a brief summary:
+You can read all about banners in our [usage guide](https://help.datacue.co/guide/banners.html#quick-start)
 
-1. There are two types of banners, wide: 1200x720px and narrow: 480x720px
-2. You upload all the banners you want us to personalize directly to DataCue. 
-2. The Static banner is a wide banner (1200x720px) that shows up for everyone. Tell us where it is with the `data-dc-static-img` attribute and what the link should be with the `data-dc-static-link` attribute and we'll do the rest.
+For full details on custom layouts for banners, refer to our [advanced guide](https://help.datacue.co/install/advanced.html#custom-banner-layout).
 
 ## Inserting products
+
 > Product recommendations
 
 ```html
@@ -244,7 +393,7 @@ If you want to insert each recommendation in different areas of your website, yo
 
 #### All pages (home, product, category, search, 404, cart etc)
 
-1. Categories: Show multiple rows of products based on the product categories that best match the current customer's preferences.
+1. Related categories: Show multiple rows of products based on the product categories that best match the current customer's preferences.
 
 2. Related: Show top products that match the customer's preferences.
 
@@ -252,9 +401,7 @@ If you want to insert each recommendation in different areas of your website, yo
 
 #### Category page only
 
-1. Related: Show top products that are the most related to the current category being viewed based on your customers purchases.
-
-  *Replaces the regular `related` carousel*
+1. Top: Show top products that are the most related to the current category being viewed based on your customers purchases.
 
 #### Product page only
 
@@ -2427,39 +2574,7 @@ When a user account is deleted from your system.
 ## Create Order
 
 ```html
-<script>
-window.datacueConfig = {
-  api_key: 'your-api-key',
-  user_id: 'id of user making purchase',
-  page_type: 'order confirmation',
-  order_id: 'O123',
-  orderDetails: {
-    order_id : 'O123',
-    user_id : 'U456',
-    order_status : 'completed',
-    cart: [
-      {
-        product_id : 'p1',
-        variant_id : 'v1',
-        quantity : 1,
-        unit_price : 24,
-        currency : 'USD'
-      },
-      {
-        product_id : 'p3',
-        variant_id : 'v2',
-        quantity : 9,
-        unit_price : 42,
-        currency : 'USD'
-      }
-    ],
-    timestamp: '2018-04-04 23:29:04Z'
-  }
-};
-</script>
-<script src="https://cdn.datacue.co/js/datacue.js"></script>
-<script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
-
+<!-- Refer to the store frontend section above to see frontend code samples -->
 ```
 
 ```php
