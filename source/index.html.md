@@ -199,6 +199,25 @@ To properly set up tracking, you need to provide some information about the page
 | `order_id`   | If `page_type` = `'order confirmation'` | On order confirmatio pages, id of confirmed order
 | `term`          | If `page_type` = `'search'`   | On search results page, current search term
 
+### Home page
+
+> Register a home pageview
+
+```html
+<script>
+window.datacueConfig = {
+  api_key: 'your-api-key',
+  user_id: 'id of user / null if not logged in',
+  page_type: 'home'
+};
+</script>
+<script src="https://cdn.datacue.co/js/datacue.js"></script>
+<script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
+
+```
+
+Place this code on your home page.
+
 ### Product pages
 
 > Synchronize product data automatically
@@ -207,7 +226,7 @@ To properly set up tracking, you need to provide some information about the page
 <script>
 window.datacueConfig = {
   api_key: 'your-api-key',
-  user_id: 'id of user / email address if guest checkout',
+  user_id: 'id of user / null if not logged in',
   page_type: 'product',
   product_id: 'p1',
   variant_id: 'v1',
@@ -239,6 +258,88 @@ On product pages, you can also add an optional property `product_update` to the 
 | `stock`         | Number of items remaining in stock
 | `categories`    | Array of product's category ids
 | `brand`         | Name of the brand
+
+### Category pages
+
+> Register a category pageview
+
+```html
+<script>
+window.datacueConfig = {
+  api_key: 'your-api-key',
+  user_id: 'id of user / null if not logged in',
+  page_type: 'category',
+  category_id: 'jeans'
+};
+</script>
+<script src="https://cdn.datacue.co/js/datacue.js"></script>
+<script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
+
+```
+
+Place this code on your category template page.
+
+### Search pages
+
+> Register a user search
+
+```html
+<script>
+window.datacueConfig = {
+  api_key: 'your-api-key',
+  user_id: 'id of user / null if not logged in',
+  page_type: 'search',
+  term: 'blue jeans'
+};
+</script>
+<script src="https://cdn.datacue.co/js/datacue.js"></script>
+<script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
+
+```
+
+Place this code on your search results page
+
+### Cart page
+
+> Register a cart pageview
+
+```html
+<script>
+window.datacueConfig = {
+  api_key: 'your-api-key',
+  user_id: 'id of user / null if not logged in',
+  page_type: 'cart'
+};
+</script>
+<script src="https://cdn.datacue.co/js/datacue.js"></script>
+<script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
+
+```
+
+Place this code on your cart page.
+
+### 404 page
+
+> Register a 404 error pageview
+
+```html
+<script>
+window.datacueConfig = {
+  api_key: 'your-api-key',
+  user_id: 'id of user / null if not logged in',
+  page_type: '404'
+};
+</script>
+<script src="https://cdn.datacue.co/js/datacue.js"></script>
+<script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
+
+```
+
+Place this code on your cart page.
+
+<aside class="notice">
+  This is not related to shopping cart updates. Whenever the user modifies their cart (add product to cart, remove product from cart etc), you must call the cart update function (see below).
+</aside>
 
 ### Order confirmation
 
