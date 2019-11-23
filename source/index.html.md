@@ -146,9 +146,9 @@ Whenever you are sending us JSON (all endpoints except `DELETE`). Remember to se
 
 Integrate DataCue to your storefront in two steps:
 
-1. Add our javascript library and set a config object for all pages (except payment / order checkout pages)
+1. Add our Javascript library and set a config object for all pages (except payment / order checkout pages)
 
-2. Include banner and/or product widgets to the pages you want to show recommendations
+2. Include banner and product widgets to the pages you want to show recommendations
 
 
 ## Include DataCue JS library
@@ -220,7 +220,7 @@ Place this code on your home page.
 
 ### Product pages
 
-> Synchronize product data automatically
+> Register a product pageview
 
 ```html
 <script>
@@ -246,18 +246,13 @@ window.datacueConfig = {
 <script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
 
 ```
-On product pages, you can also add an optional property `product_update` to the config object, to ensure that the most important information about your products is always synchronized. The following fields are supported at this time:
 
-| Property        | Description |
-| --------------- | ----------- |
-| `name`          | Name of the product
-| `price`         | Current price, after all discounts applied
-| `full_price`    | Base price without any discounts
-| `photo_url`     | URL of the main product photo
-| `available`     | `true` or `false`
-| `stock`         | Number of items remaining in stock
-| `categories`    | Array of product's category ids
-| `brand`         | Name of the brand
+On category pages, you can also add an optional property `category_update` to the config object, to ensure we keep category details in sync.
+
+| Property        | Description                          |
+| --------------- | ------------------------------------ |
+| `name`          | Display name of the category         |
+| `link`          | Relative URL to access category page |
 
 ### Category pages
 
@@ -269,7 +264,11 @@ window.datacueConfig = {
   api_key: 'your-api-key',
   user_id: 'id of user / null if not logged in',
   page_type: 'category',
-  category_id: 'jeans'
+  category_id: 'jeans',
+  category_update: {
+    name: 'Jeans',
+    link: '/category/jeans'
+  }
 };
 </script>
 <script src="https://cdn.datacue.co/js/datacue.js"></script>
@@ -277,7 +276,6 @@ window.datacueConfig = {
 
 ```
 
-Place this code on your category template page.
 
 ### Search pages
 
