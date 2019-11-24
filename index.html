@@ -642,16 +642,97 @@ The frontend events API is located at <code>https://events.datacue.co</code>.</p
   <span class="na">user_id</span><span class="p">:</span> <span class="s1">'id of user / null if not logged in'</span><span class="p">,</span>
   <span class="na">page_type</span><span class="p">:</span> <span class="s1">'product'</span><span class="p">,</span>
   <span class="na">product_id</span><span class="p">:</span> <span class="s1">'p1'</span><span class="p">,</span>
-  <span class="na">variant_id</span><span class="p">:</span> <span class="s1">'v1'</span><span class="p">,</span>
-  <span class="na">product_update</span><span class="p">:</span> <span class="p">{</span>
+  <span class="na">product_update</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="na">variant_id</span><span class="p">:</span> <span class="s1">'v1'</span><span class="p">,</span>
       <span class="na">name</span> <span class="p">:</span> <span class="s1">'Blue Regular Fit Jeans'</span><span class="p">,</span>
       <span class="na">price</span> <span class="p">:</span> <span class="mf">99.50</span><span class="p">,</span>
       <span class="na">full_price</span> <span class="p">:</span> <span class="mi">120</span><span class="p">,</span>
       <span class="na">photo_url</span> <span class="p">:</span> <span class="s1">'https://mycoolstore.com/images/p1.jpg'</span><span class="p">,</span>
       <span class="na">available</span><span class="p">:</span> <span class="kc">true</span>
       <span class="na">stock</span><span class="p">:</span> <span class="mi">15</span>
-      <span class="na">categories</span><span class="p">:</span> <span class="p">[</span><span class="s1">'jeans'</span><span class="p">,</span><span class="s1">'summer'</span><span class="p">]</span>
+      <span class="na">category_ids</span><span class="p">:</span> <span class="p">[</span><span class="s1">'jeans'</span><span class="p">,</span><span class="s1">'summer'</span><span class="p">]</span>
       <span class="na">brand</span><span class="p">:</span> <span class="s1">'Zayra'</span>
+    <span class="p">},</span> <span class="p">{</span>
+      <span class="na">variant_id</span><span class="p">:</span> <span class="s1">'v2'</span><span class="p">,</span>
+      <span class="na">name</span> <span class="p">:</span> <span class="s1">'Green Regular Fit Jeans'</span><span class="p">,</span>
+      <span class="na">price</span> <span class="p">:</span> <span class="mf">99.50</span><span class="p">,</span>
+      <span class="na">full_price</span> <span class="p">:</span> <span class="mi">120</span><span class="p">,</span>
+      <span class="na">photo_url</span> <span class="p">:</span> <span class="s1">'https://mycoolstore.com/images/p1.jpg'</span><span class="p">,</span>
+      <span class="na">available</span><span class="p">:</span> <span class="kc">true</span>
+      <span class="na">stock</span><span class="p">:</span> <span class="mi">10</span>
+      <span class="na">category_ids</span><span class="p">:</span> <span class="p">[</span><span class="s1">'jeans'</span><span class="p">,</span><span class="s1">'summer'</span><span class="p">]</span>
+      <span class="na">brand</span><span class="p">:</span> <span class="s1">'Zayra'</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">};</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue-storefront.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+</code></pre>
+<p>On product pages, you can also add an optional property <code>product_update</code> to the config object, to ensure that the most important information about your products is always synchronized.</p>
+
+<p><code>product_update</code> is an array, with one element representing one variant of the product.</p>
+
+<p>If the product has no variants, then submit the array with one element and set the <code>variant_id</code> to <code>no-variants</code>.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>name</code></td>
+<td>Name of the product</td>
+</tr>
+<tr>
+<td><code>price</code></td>
+<td>Current price, after all discounts applied</td>
+</tr>
+<tr>
+<td><code>full_price</code></td>
+<td>Base price without any discounts</td>
+</tr>
+<tr>
+<td><code>photo_url</code></td>
+<td>URL of the main product photo</td>
+</tr>
+<tr>
+<td><code>available</code></td>
+<td><code>true</code> or <code>false</code></td>
+</tr>
+<tr>
+<td><code>stock</code></td>
+<td>Number of items remaining in stock</td>
+</tr>
+<tr>
+<td><code>main_category</code></td>
+<td>Main product category id</td>
+</tr>
+<tr>
+<td><code>category_ids</code></td>
+<td>Array of product&#39;s category ids</td>
+</tr>
+<tr>
+<td><code>brand</code></td>
+<td>Name of the brand</td>
+</tr>
+</tbody></table>
+<h3 id='category-pages'>Category pages</h3>
+<blockquote>
+<p>Register a category pageview</p>
+</blockquote>
+<pre class="highlight html tab-html"><code><span class="nt">&lt;script&gt;</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">datacueConfig</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">api_key</span><span class="p">:</span> <span class="s1">'your-api-key'</span><span class="p">,</span>
+  <span class="na">user_id</span><span class="p">:</span> <span class="s1">'id of user / null if not logged in'</span><span class="p">,</span>
+  <span class="na">page_type</span><span class="p">:</span> <span class="s1">'category'</span><span class="p">,</span>
+  <span class="na">category_id</span><span class="p">:</span> <span class="s1">'jeans'</span><span class="p">,</span>
+  <span class="na">category_update</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">name</span><span class="p">:</span> <span class="s1">'Jeans'</span><span class="p">,</span>
+    <span class="na">link</span><span class="p">:</span> <span class="s1">'/category/jeans'</span>
   <span class="p">}</span>
 <span class="p">};</span>
 <span class="nt">&lt;/script&gt;</span>
@@ -676,26 +757,7 @@ The frontend events API is located at <code>https://events.datacue.co</code>.</p
 <td>Relative URL to access category page</td>
 </tr>
 </tbody></table>
-<h3 id='category-pages'>Category pages</h3>
-<blockquote>
-<p>Register a category pageview</p>
-</blockquote>
-<pre class="highlight html tab-html"><code><span class="nt">&lt;script&gt;</span>
-<span class="nb">window</span><span class="p">.</span><span class="nx">datacueConfig</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">api_key</span><span class="p">:</span> <span class="s1">'your-api-key'</span><span class="p">,</span>
-  <span class="na">user_id</span><span class="p">:</span> <span class="s1">'id of user / null if not logged in'</span><span class="p">,</span>
-  <span class="na">page_type</span><span class="p">:</span> <span class="s1">'category'</span><span class="p">,</span>
-  <span class="na">category_id</span><span class="p">:</span> <span class="s1">'jeans'</span><span class="p">,</span>
-  <span class="na">category_update</span><span class="p">:</span> <span class="p">{</span>
-    <span class="na">name</span><span class="p">:</span> <span class="s1">'Jeans'</span><span class="p">,</span>
-    <span class="na">link</span><span class="p">:</span> <span class="s1">'/category/jeans'</span>
-  <span class="p">}</span>
-<span class="p">};</span>
-<span class="nt">&lt;/script&gt;</span>
-<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue-storefront.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-
-</code></pre><h3 id='search-pages'>Search pages</h3>
+<h3 id='search-pages'>Search pages</h3>
 <blockquote>
 <p>Register a user search</p>
 </blockquote>
@@ -2380,7 +2442,6 @@ Provides an overview of all user data received by the DataCue API from your stor
 <span class="nv">$data</span> <span class="o">=</span> <span class="p">[</span>
   <span class="s2">"product_id"</span> <span class="o">=&gt;</span> <span class="s2">"p1"</span><span class="p">,</span>
   <span class="s2">"variant_id"</span> <span class="o">=&gt;</span> <span class="s2">"v1"</span><span class="p">,</span>
-  <span class="s2">"main_category"</span> <span class="o">=&gt;</span> <span class="s2">"jeans"</span><span class="p">,</span>
   <span class="s2">"categories"</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s2">"men"</span><span class="p">,</span><span class="s2">"summer"</span><span class="p">,</span><span class="s2">"jeans"</span><span class="p">],</span>
   <span class="s2">"name"</span> <span class="o">=&gt;</span> <span class="s2">"cool jeans"</span><span class="p">,</span>
   <span class="s2">"brand"</span> <span class="o">=&gt;</span> <span class="s2">"zayra"</span><span class="p">,</span>
@@ -2416,7 +2477,6 @@ Provides an overview of all user data received by the DataCue API from your stor
 <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s">"product_id"</span><span class="p">:</span> <span class="s">"p1"</span><span class="p">,</span>
   <span class="s">"variant_id"</span><span class="p">:</span> <span class="s">"v1"</span><span class="p">,</span>
-  <span class="s">"main_category"</span><span class="p">:</span> <span class="s">"jeans"</span><span class="p">,</span>
   <span class="s">"categories"</span><span class="p">:</span> <span class="p">[</span><span class="s">"men"</span><span class="p">,</span><span class="s">"summer"</span><span class="p">,</span><span class="s">"jeans"</span><span class="p">],</span>
   <span class="s">"name"</span><span class="p">:</span> <span class="s">"cool jeans"</span><span class="p">,</span>
   <span class="s">"brand"</span><span class="p">:</span> <span class="s">"zayra"</span><span class="p">,</span>
@@ -2452,7 +2512,6 @@ Provides an overview of all user data received by the DataCue API from your stor
 <span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
   <span class="na">product_id</span><span class="p">:</span> <span class="s1">'p1'</span><span class="p">,</span>
   <span class="na">variant_id</span><span class="p">:</span> <span class="s1">'v1'</span><span class="p">,</span>
-  <span class="na">main_category</span><span class="p">:</span> <span class="s1">'jeans'</span><span class="p">,</span>
   <span class="na">categories</span><span class="p">:</span> <span class="p">[</span><span class="s1">'men'</span><span class="p">,</span><span class="s1">'summer'</span><span class="p">,</span><span class="s1">'jeans'</span><span class="p">],</span>
   <span class="na">name</span><span class="p">:</span> <span class="s1">'cool jeans'</span><span class="p">,</span>
   <span class="na">brand</span><span class="p">:</span> <span class="s1">'zayra'</span><span class="p">,</span>
@@ -2505,12 +2564,6 @@ Whenever a new product is created, send this request from your backend.</p>
 <td>String</td>
 <td>Yes</td>
 <td>A unique variant id within the product id, if you only use product SKUs set this to a constant such as &#39;no-variants&#39;</td>
-</tr>
-<tr>
-<td><code>main_category</code></td>
-<td>String</td>
-<td>Yes</td>
-<td>The most specific category for the product e.g. &#39;Jeans&#39;. Must be a valid category_id (see categories)</td>
 </tr>
 <tr>
 <td><code>categories</code></td>
@@ -2625,7 +2678,6 @@ Update the product like so:
 <span class="c1">// replace $variantId with the actual values you want to update
 </span><span class="nv">$variantId</span> <span class="o">=</span> <span class="s2">"v1"</span><span class="p">;</span>
 <span class="nv">$data</span> <span class="o">=</span> <span class="p">[</span>
-  <span class="s2">"main_category"</span> <span class="o">=&gt;</span> <span class="s2">"jeans"</span><span class="p">,</span>
   <span class="s2">"categories"</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s2">"men"</span><span class="p">,</span><span class="s2">"summer"</span><span class="p">,</span><span class="s2">"jeans"</span><span class="p">],</span>
   <span class="s2">"name"</span> <span class="o">=&gt;</span> <span class="s2">"cool jeans"</span><span class="p">,</span>
   <span class="s2">"brand"</span> <span class="o">=&gt;</span> <span class="s2">"zayra"</span><span class="p">,</span>
@@ -2661,7 +2713,6 @@ Update the product like so:
 <span class="n">apisecret</span> <span class="o">=</span> <span class="s">"your-api-secret-goes-here"</span>
 
 <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s">"main_category"</span><span class="p">:</span> <span class="s">"jeans"</span><span class="p">,</span>
   <span class="s">"categories"</span><span class="p">:</span> <span class="p">[</span><span class="s">"men"</span><span class="p">,</span><span class="s">"summer"</span><span class="p">,</span><span class="s">"jeans"</span><span class="p">],</span>
   <span class="s">"name"</span><span class="p">:</span> <span class="s">"cool jeans"</span><span class="p">,</span>
   <span class="s">"brand"</span><span class="p">:</span> <span class="s">"zayra"</span><span class="p">,</span>
@@ -2697,7 +2748,6 @@ Update the product like so:
 <span class="kr">const</span> <span class="nx">apisecret</span> <span class="o">=</span> <span class="s1">'your-api-secret-goes-here'</span><span class="p">;</span>
 
 <span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">main_category</span><span class="p">:</span> <span class="s1">'jeans'</span><span class="p">,</span>
   <span class="na">categories</span><span class="p">:</span> <span class="p">[</span><span class="s1">'men'</span><span class="p">,</span><span class="s1">'summer'</span><span class="p">,</span><span class="s1">'jeans'</span><span class="p">],</span>
   <span class="na">name</span><span class="p">:</span> <span class="s1">'cool jeans'</span><span class="p">,</span>
   <span class="na">brand</span><span class="p">:</span> <span class="s1">'zayra'</span><span class="p">,</span>
@@ -3755,7 +3805,6 @@ Update the product like so:
     <span class="p">[</span>
         <span class="s2">"product_id"</span> <span class="o">=&gt;</span> <span class="s2">"p1"</span><span class="p">,</span>
         <span class="s2">"variant_id"</span> <span class="o">=&gt;</span> <span class="s2">"v1"</span><span class="p">,</span>
-        <span class="s2">"main_category"</span> <span class="o">=&gt;</span> <span class="s2">"jeans"</span><span class="p">,</span>
         <span class="s2">"categories"</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s2">"jeans"</span><span class="p">,</span><span class="s2">"men"</span><span class="p">,</span><span class="s2">"summer"</span><span class="p">],</span>
         <span class="s2">"name"</span> <span class="o">=&gt;</span> <span class="s2">"cool jeans"</span><span class="p">,</span>
         <span class="s2">"brand"</span> <span class="o">=&gt;</span> <span class="s2">"zayra"</span><span class="p">,</span>
@@ -3774,7 +3823,6 @@ Update the product like so:
     <span class="p">],</span> <span class="p">[</span>
         <span class="s2">"product_id"</span> <span class="o">=&gt;</span> <span class="s2">"p2"</span><span class="p">,</span>
         <span class="s2">"variant_id"</span> <span class="o">=&gt;</span> <span class="s2">"v2"</span><span class="p">,</span>
-        <span class="s2">"main_category"</span> <span class="o">=&gt;</span> <span class="s2">"hats"</span><span class="p">,</span>
         <span class="s2">"categories"</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s2">"hats"</span><span class="p">,</span><span class="s2">"women"</span><span class="p">,</span><span class="s2">"summer"</span><span class="p">],</span>
         <span class="s2">"name"</span> <span class="o">=&gt;</span> <span class="s2">"summer hat"</span><span class="p">,</span>
         <span class="s2">"brand"</span> <span class="o">=&gt;</span> <span class="s2">"zayra"</span><span class="p">,</span>
@@ -3808,7 +3856,6 @@ Update the product like so:
     <span class="p">{</span>
       <span class="s">"product_id"</span> <span class="p">:</span> <span class="s">"p1"</span><span class="p">,</span>
       <span class="s">"variant_id"</span> <span class="p">:</span> <span class="s">"v1"</span><span class="p">,</span>
-      <span class="s">"main_category"</span> <span class="p">:</span> <span class="s">"jeans"</span><span class="p">,</span>
       <span class="s">"categories"</span> <span class="p">:</span> <span class="p">[</span><span class="s">"jeans"</span><span class="p">,</span><span class="s">"men"</span><span class="p">,</span><span class="s">"summer"</span><span class="p">],</span>
       <span class="s">"name"</span> <span class="p">:</span> <span class="s">"cool jeans"</span><span class="p">,</span>
       <span class="s">"brand"</span> <span class="p">:</span> <span class="s">"zayra"</span><span class="p">,</span>
@@ -3826,7 +3873,6 @@ Update the product like so:
     <span class="p">},</span> <span class="p">{</span>
       <span class="s">"product_id"</span> <span class="p">:</span> <span class="s">"p2"</span><span class="p">,</span>
       <span class="s">"variant_id"</span> <span class="p">:</span> <span class="s">"v2"</span><span class="p">,</span>
-      <span class="s">"main_category"</span> <span class="p">:</span> <span class="s">"hats"</span><span class="p">,</span>
       <span class="s">"categories"</span> <span class="p">:</span> <span class="p">[</span><span class="s">"hats"</span><span class="p">,</span><span class="s">"women"</span><span class="p">,</span><span class="s">"summer"</span><span class="p">],</span>
       <span class="s">"name"</span> <span class="p">:</span> <span class="s">"summer hat"</span><span class="p">,</span>
       <span class="s">"brand"</span> <span class="p">:</span> <span class="s">"zayra"</span><span class="p">,</span>
@@ -3863,7 +3909,6 @@ Update the product like so:
     <span class="p">{</span>
       <span class="na">product_id</span> <span class="p">:</span> <span class="s1">'p1'</span><span class="p">,</span>
       <span class="na">variant_id</span> <span class="p">:</span> <span class="s1">'v1'</span><span class="p">,</span>
-      <span class="na">main_category</span> <span class="p">:</span> <span class="s1">'jeans'</span><span class="p">,</span>
       <span class="na">categories</span> <span class="p">:</span> <span class="p">[</span><span class="s1">'jeans'</span><span class="p">,</span><span class="s1">'men'</span><span class="p">,</span><span class="s1">'summer'</span><span class="p">],</span>
       <span class="na">name</span> <span class="p">:</span> <span class="s1">'cool jeans'</span><span class="p">,</span>
       <span class="na">brand</span> <span class="p">:</span> <span class="s1">'zayra'</span><span class="p">,</span>
@@ -3881,7 +3926,6 @@ Update the product like so:
     <span class="p">},</span> <span class="p">{</span>
       <span class="na">product_id</span> <span class="p">:</span> <span class="s1">'p2'</span><span class="p">,</span>
       <span class="na">variant_id</span> <span class="p">:</span> <span class="s1">'v2'</span><span class="p">,</span>
-      <span class="na">main_category</span> <span class="p">:</span> <span class="s1">'hats'</span><span class="p">,</span>
       <span class="na">categories</span> <span class="p">:</span> <span class="p">[</span><span class="s1">'hats'</span><span class="p">,</span><span class="s1">'women'</span><span class="p">,</span><span class="s1">'summer'</span><span class="p">],</span>
       <span class="na">name</span> <span class="p">:</span> <span class="s1">'summer hat'</span><span class="p">,</span>
       <span class="na">brand</span> <span class="p">:</span> <span class="s1">'zayra'</span><span class="p">,</span>
