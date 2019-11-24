@@ -191,7 +191,7 @@ To properly set up tracking, you need to provide some information about the page
 | `user_id`       | Yes (if logged in)            | If the visitor is not logged in, set the field to `null`
 | `page_type`     | Yes                           | Current page type. Can be: `home`, `product`, `category`, `cart`, `search`, `order confirmation` or `404`
 | `product_id`    | If `page_type` = `'product'`  | On product pages, id of currently viewed product
-| `variant_id`    | If `page_type` = `'product'`  | On product pages, id of currently viewed product variant, set to null if not applicable
+| `variant_id`    | If `page_type` = `'product'`  | On product pages, id of currently viewed product variant, set to 'no-variants' if not applicable
 | `product_update`    | If `page_type` = `'product'`  | See product pageview section below for details
 | `category_id`   | If `page_type` = `'category'` | On category pages, id of currently viewed category
 | `category_update`    | If `page_type` = `'category'`  | See category pageview section below for details
