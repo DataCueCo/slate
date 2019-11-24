@@ -273,8 +273,7 @@ If the product has no variants, then submit the array with one element and set t
 | `photo_url`     | URL of the main product photo
 | `available`     | `true` or `false`
 | `stock`         | Number of items remaining in stock
-| `main_category` | Main product category id
-| `category_ids`    | Array of product's category ids
+| `category_ids`  | Array of product's category ids
 | `brand`         | Name of the brand
 
 ### Category pages
