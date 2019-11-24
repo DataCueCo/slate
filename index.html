@@ -542,9 +542,7 @@ The frontend events API is located at <code>https://events.datacue.co</code>.</p
 <span class="nb">window</span><span class="p">.</span><span class="nx">datacueConfig</span> <span class="o">=</span> <span class="p">{</span>
   <span class="na">api_key</span><span class="p">:</span> <span class="s1">'your-api-key'</span><span class="p">,</span>
   <span class="na">user_id</span><span class="p">:</span> <span class="s1">'id of user (user_id field you send us for users)'</span><span class="p">,</span>
-  <span class="na">page_type</span><span class="p">:</span> <span class="s1">'product'</span><span class="p">,</span> <span class="c1">//can be many values, see the section 'Config object' on the left</span>
-  <span class="na">product_id</span><span class="p">:</span> <span class="s1">'1234'</span><span class="p">,</span> <span class="c1">//only for product page</span>
-  <span class="na">variant_id</span><span class="p">:</span> <span class="s1">'2345'</span>  <span class="c1">//only for product page</span>
+  <span class="na">page_type</span><span class="p">:</span> <span class="s1">'home'</span><span class="p">,</span> <span class="c1">//can be many values, see the section 'Config object' on the left</span>
 <span class="p">};</span>
 <span class="nt">&lt;/script&gt;</span>
 <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://cdn.datacue.co/js/datacue.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
@@ -563,7 +561,7 @@ The frontend events API is located at <code>https://events.datacue.co</code>.</p
 </ul>
 
 <aside class="notice">
-  DataCue only collects data explicitly stored in the config object. However, we strongly advise you NOT to include any tracking scripts (including ours) on pages where sensitive data is entered like payment pages where credit card data maybe entered.
+  DataCue only collects data explicitly stored in the config object. However, we strongly advise you NOT to include any tracking scripts (including ours) on pages where sensitive data is entered like payment pages.
 </aside>
 <h2 id='the-config-object'>The config object</h2>
 <p>To properly set up tracking, you need to provide some information about the page that the user is currently visiting. You can do it by setting the following properties of the <code>window.datacueConfig</code> object:</p>
@@ -601,14 +599,29 @@ The frontend events API is located at <code>https://events.datacue.co</code>.</p
 <td>On product pages, id of currently viewed product variant, set to null if not applicable</td>
 </tr>
 <tr>
+<td><code>product_update</code></td>
+<td>If <code>page_type</code> = <code>&#39;product&#39;</code></td>
+<td>See product pageview section below for details</td>
+</tr>
+<tr>
 <td><code>category_id</code></td>
 <td>If <code>page_type</code> = <code>&#39;category&#39;</code></td>
 <td>On category pages, id of currently viewed category</td>
 </tr>
 <tr>
+<td><code>category_update</code></td>
+<td>If <code>page_type</code> = <code>&#39;category&#39;</code></td>
+<td>See category pageview section below for details</td>
+</tr>
+<tr>
 <td><code>order_id</code></td>
 <td>If <code>page_type</code> = <code>&#39;order confirmation&#39;</code></td>
-<td>On order confirmatio pages, id of confirmed order</td>
+<td>On order confirmation pages, id of confirmed order</td>
+</tr>
+<tr>
+<td><code>order_details</code></td>
+<td>If <code>page_type</code> = <code>&#39;order confirmation&#39;</code></td>
+<td>See order confirmation pageview section below for details</td>
 </tr>
 <tr>
 <td><code>term</code></td>
