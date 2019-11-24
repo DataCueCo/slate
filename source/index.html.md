@@ -160,9 +160,7 @@ Integrate DataCue to your storefront in two steps:
 window.datacueConfig = {
   api_key: 'your-api-key',
   user_id: 'id of user (user_id field you send us for users)',
-  page_type: 'product', //can be many values, see the section 'Config object' on the left
-  product_id: '1234', //only for product page
-  variant_id: '2345'  //only for product page
+  page_type: 'home', //can be many values, see the section 'Config object' on the left
 };
 </script>
 <script src="https://cdn.datacue.co/js/datacue.js"></script>
@@ -180,9 +178,8 @@ Place the snippets near the end of the `<head>` element of your main template. Y
 - Order confirmation page
 
 <aside class="notice">
-  DataCue only collects data explicitly stored in the config object. However, we strongly advise you NOT to include any tracking scripts (including ours) on pages where sensitive data is entered like payment pages where credit card data maybe entered.
+  DataCue only collects data explicitly stored in the config object. However, we strongly advise you NOT to include any tracking scripts (including ours) on pages where sensitive data is entered like payment pages.
 </aside>
-
 
 ## The config object
 
@@ -195,8 +192,11 @@ To properly set up tracking, you need to provide some information about the page
 | `page_type`     | Yes                           | Current page type. Can be: `home`, `product`, `category`, `cart`, `search`, `order confirmation` or `404`
 | `product_id`    | If `page_type` = `'product'`  | On product pages, id of currently viewed product
 | `variant_id`    | If `page_type` = `'product'`  | On product pages, id of currently viewed product variant, set to null if not applicable
+| `product_update`    | If `page_type` = `'product'`  | See product pageview section below for details
 | `category_id`   | If `page_type` = `'category'` | On category pages, id of currently viewed category
-| `order_id`   | If `page_type` = `'order confirmation'` | On order confirmatio pages, id of confirmed order
+| `category_update`    | If `page_type` = `'category'`  | See category pageview section below for details
+| `order_id`   | If `page_type` = `'order confirmation'` | On order confirmation pages, id of confirmed order
+| `order_details`    | If `page_type` = `'order confirmation'`  | See order confirmation pageview section below for details
 | `term`          | If `page_type` = `'search'`   | On search results page, current search term
 
 ### Home page
