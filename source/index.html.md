@@ -229,17 +229,29 @@ window.datacueConfig = {
   user_id: 'id of user / null if not logged in',
   page_type: 'product',
   product_id: 'p1',
-  variant_id: 'v1',
-  product_update: {
+  product_update: [
+    {
+      variant_id: 'v1',
       name : 'Blue Regular Fit Jeans',
       price : 99.50,
       full_price : 120,
       photo_url : 'https://mycoolstore.com/images/p1.jpg',
       available: true
       stock: 15
-      categories: ['jeans','summer']
+      category_ids: ['jeans','summer']
       brand: 'Zayra'
-  }
+    }, {
+      variant_id: 'v2',
+      name : 'Green Regular Fit Jeans',
+      price : 99.50,
+      full_price : 120,
+      photo_url : 'https://mycoolstore.com/images/p1.jpg',
+      available: true
+      stock: 10
+      category_ids: ['jeans','summer']
+      brand: 'Zayra'
+    }
+  ]
 };
 </script>
 <script src="https://cdn.datacue.co/js/datacue.js"></script>
@@ -247,12 +259,23 @@ window.datacueConfig = {
 
 ```
 
-On category pages, you can also add an optional property `category_update` to the config object, to ensure we keep category details in sync.
+On product pages, you can also add an optional property `product_update` to the config object, to ensure that the most important information about your products is always synchronized.
 
-| Property        | Description                          |
-| --------------- | ------------------------------------ |
-| `name`          | Display name of the category         |
-| `link`          | Relative URL to access category page |
+`product_update` is an array, with one element representing one variant of the product.
+
+If the product has no variants, then submit the array with one element and set the `variant_id` to `no-variants`.
+
+| Property        | Description |
+| --------------- | ----------- |
+| `name`          | Name of the product
+| `price`         | Current price, after all discounts applied
+| `full_price`    | Base price without any discounts
+| `photo_url`     | URL of the main product photo
+| `available`     | `true` or `false`
+| `stock`         | Number of items remaining in stock
+| `main_category` | Main product category id
+| `category_ids`    | Array of product's category ids
+| `brand`         | Name of the brand
 
 ### Category pages
 
@@ -276,6 +299,12 @@ window.datacueConfig = {
 
 ```
 
+On category pages, you can also add an optional property `category_update` to the config object, to ensure we keep category details in sync.
+
+| Property        | Description                          |
+| --------------- | ------------------------------------ |
+| `name`          | Display name of the category         |
+| `link`          | Relative URL to access category page |
 
 ### Search pages
 
@@ -1751,7 +1780,6 @@ $datacue = new \DataCue\Client($apikey, $apisecret);
 $data = [
   "product_id" => "p1",
   "variant_id" => "v1",
-  "main_category" => "jeans",
   "categories" => ["men","summer","jeans"],
   "name" => "cool jeans",
   "brand" => "zayra",
@@ -1790,7 +1818,6 @@ apisecret = "your-api-secret-goes-here"
 data = {
   "product_id": "p1",
   "variant_id": "v1",
-  "main_category": "jeans",
   "categories": ["men","summer","jeans"],
   "name": "cool jeans",
   "brand": "zayra",
@@ -1829,7 +1856,6 @@ const apisecret = 'your-api-secret-goes-here';
 const data = {
   product_id: 'p1',
   variant_id: 'v1',
-  main_category: 'jeans',
   categories: ['men','summer','jeans'],
   name: 'cool jeans',
   brand: 'zayra',
@@ -1868,7 +1894,6 @@ Whenever a new product is created, send this request from your backend.
 | ---------------- | ----------- | -------- | ----------- |
 | `product_id`     | String      | Yes      | The product id or SKU number
 | `variant_id`     | String      | Yes      | A unique variant id within the product id, if you only use product SKUs set this to a constant such as 'no-variants'
-| `main_category`  | String   | Yes   | The most specific category for the product e.g. 'Jeans'. Must be a valid category_id (see categories)
 | `categories`     | String Array| Yes       | A list of all the matching category ids as tags e.g. ["Jeans","Summer","Men"]. Must be a valid category_id (see categories)
 | `name`           | String      | Yes      | Name or Title of the product
 | `brand`          | String      | No       | Brand name of the product
@@ -1917,7 +1942,6 @@ $productId = "p1";
 // replace $variantId with the actual values you want to update
 $variantId = "v1";
 $data = [
-  "main_category" => "jeans",
   "categories" => ["men","summer","jeans"],
   "name" => "cool jeans",
   "brand" => "zayra",
@@ -1956,7 +1980,6 @@ apikey = "your-api-key-goes-here"
 apisecret = "your-api-secret-goes-here"
 
 data = {
-  "main_category": "jeans",
   "categories": ["men","summer","jeans"],
   "name": "cool jeans",
   "brand": "zayra",
@@ -1995,7 +2018,6 @@ const apikey = 'your-api-key-goes-here';
 const apisecret = 'your-api-secret-goes-here';
 
 const data = {
-  main_category: 'jeans',
   categories: ['men','summer','jeans'],
   name: 'cool jeans',
   brand: 'zayra',
@@ -3037,7 +3059,6 @@ $productDataList = [
     [
         "product_id" => "p1",
         "variant_id" => "v1",
-        "main_category" => "jeans",
         "categories" => ["jeans","men","summer"],
         "name" => "cool jeans",
         "brand" => "zayra",
@@ -3056,7 +3077,6 @@ $productDataList = [
     ], [
         "product_id" => "p2",
         "variant_id" => "v2",
-        "main_category" => "hats",
         "categories" => ["hats","women","summer"],
         "name" => "summer hat",
         "brand" => "zayra",
@@ -3093,7 +3113,6 @@ data = {
     {
       "product_id" : "p1",
       "variant_id" : "v1",
-      "main_category" : "jeans",
       "categories" : ["jeans","men","summer"],
       "name" : "cool jeans",
       "brand" : "zayra",
@@ -3111,7 +3130,6 @@ data = {
     }, {
       "product_id" : "p2",
       "variant_id" : "v2",
-      "main_category" : "hats",
       "categories" : ["hats","women","summer"],
       "name" : "summer hat",
       "brand" : "zayra",
@@ -3151,7 +3169,6 @@ const data = {
     {
       product_id : 'p1',
       variant_id : 'v1',
-      main_category : 'jeans',
       categories : ['jeans','men','summer'],
       name : 'cool jeans',
       brand : 'zayra',
@@ -3169,7 +3186,6 @@ const data = {
     }, {
       product_id : 'p2',
       variant_id : 'v2',
-      main_category : 'hats',
       categories : ['hats','women','summer'],
       name : 'summer hat',
       brand : 'zayra',
