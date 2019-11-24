@@ -236,9 +236,9 @@ window.datacueConfig = {
       price : 99.50,
       full_price : 120,
       photo_url : 'https://mycoolstore.com/images/p1.jpg',
-      available: true
-      stock: 15
-      category_ids: ['jeans','summer']
+      available: true,
+      stock: 15,
+      category_ids: ['jeans','summer'],
       brand: 'Zayra'
     }, {
       variant_id: 'v2',
@@ -246,9 +246,9 @@ window.datacueConfig = {
       price : 99.50,
       full_price : 120,
       photo_url : 'https://mycoolstore.com/images/p1.jpg',
-      available: true
-      stock: 10
-      category_ids: ['jeans','summer']
+      available: true,
+      stock: 10,
+      category_ids: ['jeans','summer'],
       brand: 'Zayra'
     }
   ]
