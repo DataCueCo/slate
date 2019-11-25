@@ -1779,7 +1779,7 @@ $datacue = new \DataCue\Client($apikey, $apisecret);
 $data = [
   "product_id" => "p1",
   "variant_id" => "v1",
-  "categories" => ["men","summer","jeans"],
+  "category_ids" => ["men","summer","jeans"],
   "name" => "cool jeans",
   "brand" => "zayra",
   "description" => "very fashionable jeans",
@@ -1817,7 +1817,7 @@ apisecret = "your-api-secret-goes-here"
 data = {
   "product_id": "p1",
   "variant_id": "v1",
-  "categories": ["men","summer","jeans"],
+  "category_ids": ["men","summer","jeans"],
   "name": "cool jeans",
   "brand": "zayra",
   "description": "very fashionable jeans",
@@ -1855,7 +1855,7 @@ const apisecret = 'your-api-secret-goes-here';
 const data = {
   product_id: 'p1',
   variant_id: 'v1',
-  categories: ['men','summer','jeans'],
+  category_ids: ['men','summer','jeans'],
   name: 'cool jeans',
   brand: 'zayra',
   description: 'very fashionable jeans',
@@ -1893,7 +1893,7 @@ Whenever a new product is created, send this request from your backend.
 | ---------------- | ----------- | -------- | ----------- |
 | `product_id`     | String      | Yes      | The product id or SKU number
 | `variant_id`     | String      | Yes      | A unique variant id within the product id, if you only use product SKUs set this to a constant such as 'no-variants'
-| `categories`     | String Array| Yes       | A list of all the matching category ids as tags e.g. ["Jeans","Summer","Men"]. Must be a valid category_id (see categories)
+| `category_ids`     | String Array| Yes       | A list of all the matching category ids as tags e.g. ["Jeans","Summer","Men"]. Must be a valid category_id (see categories)
 | `name`           | String      | Yes      | Name or Title of the product
 | `brand`          | String      | No       | Brand name of the product
 | `description`    | String      | No       | Long text description of the product
@@ -1915,6 +1915,7 @@ DataCue can feature your discounted products automatically. Use the `price` and 
 
 Lets say you have a product that usually costs $50. This week you have it's on discount and costs $40.
 Update the product like so:
+
 - `price` = 40.00
 - `full_price` = 50.00
 
@@ -1941,7 +1942,7 @@ $productId = "p1";
 // replace $variantId with the actual values you want to update
 $variantId = "v1";
 $data = [
-  "categories" => ["men","summer","jeans"],
+  "category_ids" => ["men","summer","jeans"],
   "name" => "cool jeans",
   "brand" => "zayra",
   "description" => "very fashionable jeans",
@@ -1979,7 +1980,7 @@ apikey = "your-api-key-goes-here"
 apisecret = "your-api-secret-goes-here"
 
 data = {
-  "categories": ["men","summer","jeans"],
+  "category_ids": ["men","summer","jeans"],
   "name": "cool jeans",
   "brand": "zayra",
   "description": "very fashionable jeans",
@@ -2017,7 +2018,7 @@ const apikey = 'your-api-key-goes-here';
 const apisecret = 'your-api-secret-goes-here';
 
 const data = {
-  categories: ['men','summer','jeans'],
+  category_ids: ['men','summer','jeans'],
   name: 'cool jeans',
   brand: 'zayra',
   description: 'very fashionable jeans',
@@ -3006,7 +3007,7 @@ When an order is deleted from your system.
 {
   "product_id": "P1",
   "variant_id": "V2",
-  "category_1": "jeans",
+  "category_ids": ["jeans"],
   "price": 50,
   "photo_url": "/products/p1.jpg",
   "link": "/products/p1"
@@ -3020,14 +3021,14 @@ When an order is deleted from your system.
   "batch": [{
     "product_id": "P1",
     "variant_id": "V2",
-    "category_1": "jeans",
+    "category_ids": ["jeans"],
     "price": 50,
     "photo_url": "/products/p1.jpg",
     "link": "/products/p1"
   }, {
     "product_id": "P2",
     "variant_id": "V1",
-    "category_1": "shirts",
+    "category_ids": ["shirts"],
     "price": 30,
     "photo_url": "/products/p2.jpg",
     "link": "/products/p2"
@@ -3058,7 +3059,7 @@ $productDataList = [
     [
         "product_id" => "p1",
         "variant_id" => "v1",
-        "categories" => ["jeans","men","summer"],
+        "category_ids" => ["jeans","men","summer"],
         "name" => "cool jeans",
         "brand" => "zayra",
         "description" => "very fashionable jeans",
@@ -3076,7 +3077,7 @@ $productDataList = [
     ], [
         "product_id" => "p2",
         "variant_id" => "v2",
-        "categories" => ["hats","women","summer"],
+        "category_ids" => ["hats","women","summer"],
         "name" => "summer hat",
         "brand" => "zayra",
         "description" => "very fashionable hat",
@@ -3112,7 +3113,7 @@ data = {
     {
       "product_id" : "p1",
       "variant_id" : "v1",
-      "categories" : ["jeans","men","summer"],
+      "category_ids" : ["jeans","men","summer"],
       "name" : "cool jeans",
       "brand" : "zayra",
       "description" : "very fashionable jeans",
@@ -3129,7 +3130,7 @@ data = {
     }, {
       "product_id" : "p2",
       "variant_id" : "v2",
-      "categories" : ["hats","women","summer"],
+      "category_ids" : ["hats","women","summer"],
       "name" : "summer hat",
       "brand" : "zayra",
       "description" : "very fashionable hat",
@@ -3168,7 +3169,7 @@ const data = {
     {
       product_id : 'p1',
       variant_id : 'v1',
-      categories : ['jeans','men','summer'],
+      category_ids : ['jeans','men','summer'],
       name : 'cool jeans',
       brand : 'zayra',
       description : 'very fashionable jeans',
@@ -3185,7 +3186,7 @@ const data = {
     }, {
       product_id : 'p2',
       variant_id : 'v2',
-      categories : ['hats','women','summer'],
+      category_ids : ['hats','women','summer'],
       name : 'summer hat',
       brand : 'zayra',
       description : 'very fashionable hat',
