@@ -681,9 +681,12 @@ The frontend events API is located at <code>https://events.datacue.co</code>.</p
 </code></pre>
 <p>On product pages, you can also add an optional property <code>product_update</code> to the config object, to ensure that the most important information about your products is always synchronized.</p>
 
-<p><code>product_update</code> is an array, with one element representing one variant of the product.</p>
+<p><code>product_update</code> is an array, with each array element representing a variant of the product. e.g. <code>[{variant_id:&quot;v1&quot;,...},{variant_id:&quot;v2&quot;,...}]</code>. </p>
 
-<p>If the product has no variants, then submit the array with one element and set the <code>variant_id</code> to <code>no-variants</code>.</p>
+<ul>
+<li>If the product has 5 variants, the array should contain 5 elements. </li>
+<li>If the product has no variants, then submit the array with one element with the product details and set the <code>variant_id</code> to <code>no-variants</code>.</li>
+</ul>
 
 <table><thead>
 <tr>
