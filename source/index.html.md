@@ -260,9 +260,10 @@ window.datacueConfig = {
 
 On product pages, you can also add an optional property `product_update` to the config object, to ensure that the most important information about your products is always synchronized.
 
-`product_update` is an array, with one element representing one variant of the product.
+`product_update` is an array, with each array element representing a variant of the product. e.g. `[{variant_id:"v1",...},{variant_id:"v2",...}]`. 
 
-If the product has no variants, then submit the array with one element and set the `variant_id` to `no-variants`.
+- If the product has 5 variants, the array should contain 5 elements. 
+- If the product has no variants, then submit the array with one element with the product details and set the `variant_id` to `no-variants`.
 
 | Property        | Description |
 | --------------- | ----------- |
