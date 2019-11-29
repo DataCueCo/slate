@@ -3014,7 +3014,7 @@ When an order is deleted from your system.
 }
 ```
 
-> To submit multiple, just send an array of product create requests in the batch field like so:
+> To submit multiple, just send an array of product create requests like so:
 
 ```json
 [{
@@ -3036,7 +3036,7 @@ When an order is deleted from your system.
 
 Use the batch endpoint if you want to do a bulk import, typically when you first start using DataCue and you want to add your historical orders, products or users.
 
-Build an array of your requests in the `batch` field, we accept a maximum of 500 items per request.
+Send an array of the items in the payload, we accept a maximum of 500 items per request.
 
 ## Create/Update Products
 
@@ -3308,7 +3308,7 @@ Endpoint: `POST` `https://api.datacue.co/v1/batch/categories`
 
 ### Request JSON fields
 
-Array of categories you are sending
+Array of categories
 
 > The above command returns a 201 response code
 
@@ -3428,7 +3428,7 @@ Endpoint: `POST` `https://api.datacue.co/v1/batch/orders`
 
 ### Request JSON fields
 
-Array of orders you are sending
+Array of orders object
 
 > The above command returns a 201 response code
 
