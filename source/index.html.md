@@ -3017,8 +3017,7 @@ When an order is deleted from your system.
 > To submit multiple, just send an array of product create requests in the batch field like so:
 
 ```json
-{
-  "batch": [{
+[{
     "product_id": "P1",
     "variant_id": "V2",
     "category_ids": ["jeans"],
@@ -3032,8 +3031,7 @@ When an order is deleted from your system.
     "price": 30,
     "photo_url": "/products/p2.jpg",
     "link": "/products/p2"
-  }]
-}
+}]
 ```
 
 Use the batch endpoint if you want to do a bulk import, typically when you first start using DataCue and you want to add your historical orders, products or users.
@@ -3108,45 +3106,43 @@ url = "https://api.datacue.co/v1/batch/products"
 apikey = "your-api-key-goes-here"
 apisecret = "your-api-secret-goes-here"
 
-data = {
-  "batch": [
-    {
-      "product_id" : "p1",
-      "variant_id" : "v1",
-      "category_ids" : ["jeans","men","summer"],
-      "name" : "cool jeans",
-      "brand" : "zayra",
-      "description" : "very fashionable jeans",
-      "color" : "blue",
-      "size" : "M",
-      "price" : 99,
-      "full_price" : 119,
-      "stock" : 5,
-      "extra" : {
-          "extra_feature": "details"
-      },
-      "photo_url" : "https://s3.amazonaws.com/image.png",
-      "link" : "/product/p1"
-    }, {
-      "product_id" : "p2",
-      "variant_id" : "v2",
-      "category_ids" : ["hats","women","summer"],
-      "name" : "summer hat",
-      "brand" : "zayra",
-      "description" : "very fashionable hat",
-      "color" : "black",
-      "size" : "",
-      "price" : 24,
-      "full_price" : 30,
-      "stock" : 5,
-      "extra" : {
-          "extra_feature": "details"
-      },
-      "photo_url": "https://s3.amazonaws.com/image.png",
-      "link": "/product/p2"
-    }
-  ]
-}
+data = [
+  {
+    "product_id" : "p1",
+    "variant_id" : "v1",
+    "category_ids" : ["jeans","men","summer"],
+    "name" : "cool jeans",
+    "brand" : "zayra",
+    "description" : "very fashionable jeans",
+    "color" : "blue",
+    "size" : "M",
+    "price" : 99,
+    "full_price" : 119,
+    "stock" : 5,
+    "extra" : {
+        "extra_feature": "details"
+    },
+    "photo_url" : "https://s3.amazonaws.com/image.png",
+    "link" : "/product/p1"
+  }, {
+    "product_id" : "p2",
+    "variant_id" : "v2",
+    "category_ids" : ["hats","women","summer"],
+    "name" : "summer hat",
+    "brand" : "zayra",
+    "description" : "very fashionable hat",
+    "color" : "black",
+    "size" : "",
+    "price" : 24,
+    "full_price" : 30,
+    "stock" : 5,
+    "extra" : {
+        "extra_feature": "details"
+    },
+    "photo_url": "https://s3.amazonaws.com/image.png",
+    "link": "/product/p2"
+  }
+]
 
 jsonData = json.dumps(data)
 checksum = hmac.new(bytes(apisecret,'utf-8'),
@@ -3164,45 +3160,43 @@ const url = 'https://api.datacue.co/v1/batch/products';
 const apikey = 'your-api-key-goes-here';
 const apisecret = 'your-api-secret-goes-here';
 
-const data = {
-  batch: [
-    {
-      product_id : 'p1',
-      variant_id : 'v1',
-      category_ids : ['jeans','men','summer'],
-      name : 'cool jeans',
-      brand : 'zayra',
-      description : 'very fashionable jeans',
-      color : 'blue',
-      size : 'M',
-      price : 99,
-      full_price : 119,
-      stock : 5,
-      extra : {
-          'extra_feature': 'details'
-      },
-      photo_url : 'https://s3.amazonaws.com/image.png',
-      link : '/product/p1'
-    }, {
-      product_id : 'p2',
-      variant_id : 'v2',
-      category_ids : ['hats','women','summer'],
-      name : 'summer hat',
-      brand : 'zayra',
-      description : 'very fashionable hat',
-      color : 'black',
-      size : '',
-      price : 24,
-      full_price : 30,
-      stock : 5,
-      extra : {
-          'extra_feature': 'details'
-      },
-      photo_url: 'https://s3.amazonaws.com/image.png',
-      link: '/product/p2'
-    }
-  ]
-};
+const data = [
+  {
+    product_id : 'p1',
+    variant_id : 'v1',
+    category_ids : ['jeans','men','summer'],
+    name : 'cool jeans',
+    brand : 'zayra',
+    description : 'very fashionable jeans',
+    color : 'blue',
+    size : 'M',
+    price : 99,
+    full_price : 119,
+    stock : 5,
+    extra : {
+        'extra_feature': 'details'
+    },
+    photo_url : 'https://s3.amazonaws.com/image.png',
+    link : '/product/p1'
+  }, {
+    product_id : 'p2',
+    variant_id : 'v2',
+    category_ids : ['hats','women','summer'],
+    name : 'summer hat',
+    brand : 'zayra',
+    description : 'very fashionable hat',
+    color : 'black',
+    size : '',
+    price : 24,
+    full_price : 30,
+    stock : 5,
+    extra : {
+        'extra_feature': 'details'
+    },
+    photo_url: 'https://s3.amazonaws.com/image.png',
+    link: '/product/p2'
+  }
+];
 
 var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
 
@@ -3215,11 +3209,9 @@ axios.post(url, data);
 
 Endpoint: `POST` `https://api.datacue.co/v1/batch/products`
 
-### Request JSON fields
+### Request JSON
 
-| FieldName | Data Type | Required | Description |
-| ------- | --------- | -------- | ----------- |
-| `batch` | Array     | Yes      | Array of products you are sending
+An array of product objects
 
 > The above command returns a 201 response code
 
@@ -3263,19 +3255,17 @@ url = "https://api.datacue.co/v1/batch/categories"
 apikey = "your-api-key-goes-here"
 apisecret = "your-api-secret-goes-here"
 
-data = {
-  "batch": [
-    {
-      "category_id" : "c1",
-      "name" : "jeans",
-      "link" : "/categories/jeans"
-    }, {
-      "category_id" : "c2",
-      "name" : "shoes",
-      "link" : "/categories/shoes"
-    }
-  ]
-}
+data = [
+  {
+    "category_id" : "c1",
+    "name" : "jeans",
+    "link" : "/categories/jeans"
+  }, {
+    "category_id" : "c2",
+    "name" : "shoes",
+    "link" : "/categories/shoes"
+  }
+]
 
 jsonData = json.dumps(data)
 checksum = hmac.new(bytes(apisecret,'utf-8'),
@@ -3293,19 +3283,17 @@ const url = 'https://api.datacue.co/v1/batch/products';
 const apikey = 'your-api-key-goes-here';
 const apisecret = 'your-api-secret-goes-here';
 
-const data = {
-  batch: [
-    {
-      category_id : 'c1',
-      name : 'jeans',
-      link : '/categories/jeans'
-    }, {
-      category_id : 'c2',
-      name : 'shoes',
-      link : '/categories/shoes'
-    }
-  ]
-};
+const data = [
+  {
+    category_id : 'c1',
+    name : 'jeans',
+    link : '/categories/jeans'
+  }, {
+    category_id : 'c2',
+    name : 'shoes',
+    link : '/categories/shoes'
+  }
+];
 
 var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
 
@@ -3320,9 +3308,7 @@ Endpoint: `POST` `https://api.datacue.co/v1/batch/categories`
 
 ### Request JSON fields
 
-| FieldName | Data Type | Required | Description |
-| ------- | --------- | -------- | ----------- |
-| `batch` | Array     | Yes      | Array of categories you are sending
+Array of categories you are sending
 
 > The above command returns a 201 response code
 
@@ -3373,26 +3359,24 @@ url = "https://api.datacue.co/v1/batch/orders"
 apikey = "your-api-key-goes-here"
 apisecret = "your-api-secret-goes-here"
 
-data = {
-  "batch": [
-    {
-      "order_id" : "o1",
-      "user_id" : "u1",
-      "cart" : [
-          {"product_id":  "p1", "variant_id" : "v1", "quantity" : 1, "unit_price":  24, "currency" : "USD"},
-          {"product_id":  "p2", "variant_id" : "v2", "quantity" : 9, "unit_price":  42, "currency" : "USD"},
-      ],
-      "timestamp": "2018-04-04 23:29:04Z",
-    }, {
-      "order_id" : "o2",
-      "user_id" : "u1",
-      "cart" : [
-          {"product_id" : "p1", "variant_id" : "v1", "quantity" : 1, "unit_price" : 24, "currency" : "USD"},
-          {"product_id" : "p2", "variant_id" : "v2", "quantity" : 9, "unit_price" : 42, "currency" : "USD"},
-      ],
-      "timestamp" : "2018-04-04 23:29:04Z",
-    ]
-}
+data = [
+{
+  "order_id" : "o1",
+  "user_id" : "u1",
+  "cart" : [
+      {"product_id":  "p1", "variant_id" : "v1", "quantity" : 1, "unit_price":  24, "currency" : "USD"},
+      {"product_id":  "p2", "variant_id" : "v2", "quantity" : 9, "unit_price":  42, "currency" : "USD"},
+  ],
+  "timestamp": "2018-04-04 23:29:04Z",
+}, {
+  "order_id" : "o2",
+  "user_id" : "u1",
+  "cart" : [
+      {"product_id" : "p1", "variant_id" : "v1", "quantity" : 1, "unit_price" : 24, "currency" : "USD"},
+      {"product_id" : "p2", "variant_id" : "v2", "quantity" : 9, "unit_price" : 42, "currency" : "USD"},
+  ],
+  "timestamp" : "2018-04-04 23:29:04Z",
+]
 
 jsonData = json.dumps(data)
 checksum = hmac.new(bytes(apisecret,'utf-8'),
@@ -3410,26 +3394,24 @@ const url = 'https://api.datacue.co/v1/batch/orders';
 const apikey = 'your-api-key-goes-here';
 const apisecret = 'your-api-secret-goes-here';
 
-const data = {
-  batch: [
-    {
-      order_id : 'o1',
-      user_id : 'u1',
-      cart : [
-          {'product_id':  'p1', 'variant_id' : 'v1', 'quantity' : 1, 'unit_price':  24, 'currency' : 'USD'},
-          {'product_id':  'p2', 'variant_id' : 'v2', 'quantity' : 9, 'unit_price':  42, 'currency' : 'USD'},
-      ],
-      timestamp: '2018-04-04 23:29:04Z',
-    }, {
-      order_id : 'o2',
-      user_id : 'u1',
-      cart : [
-          {'product_id' : 'p1', 'variant_id' : 'v1', 'quantity' : 1, 'unit_price' : 24, 'currency' : 'USD'},
-          {'product_id' : 'p2', 'variant_id' : 'v2', 'quantity' : 9, 'unit_price' : 42, 'currency' : 'USD'},
-      ],
-      timestamp : '2018-04-04 23:29:04Z',
-    ]
-};
+const data = [
+{
+  order_id : 'o1',
+  user_id : 'u1',
+  cart : [
+      {'product_id':  'p1', 'variant_id' : 'v1', 'quantity' : 1, 'unit_price':  24, 'currency' : 'USD'},
+      {'product_id':  'p2', 'variant_id' : 'v2', 'quantity' : 9, 'unit_price':  42, 'currency' : 'USD'},
+  ],
+  timestamp: '2018-04-04 23:29:04Z',
+}, {
+  order_id : 'o2',
+  user_id : 'u1',
+  cart : [
+      {'product_id' : 'p1', 'variant_id' : 'v1', 'quantity' : 1, 'unit_price' : 24, 'currency' : 'USD'},
+      {'product_id' : 'p2', 'variant_id' : 'v2', 'quantity' : 9, 'unit_price' : 42, 'currency' : 'USD'},
+  ],
+  timestamp : '2018-04-04 23:29:04Z',
+];
 
 var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
 
@@ -3446,9 +3428,7 @@ Endpoint: `POST` `https://api.datacue.co/v1/batch/orders`
 
 ### Request JSON fields
 
-| FieldName | Data Type | Required | Description |
-| ------- | --------- | -------- | ----------- |
-| `batch` | Array     | Yes      | Array of orders you are sending
+Array of orders you are sending
 
 > The above command returns a 201 response code
 
@@ -3489,18 +3469,16 @@ url = "https://api.datacue.co/v1/batch/users"
 apikey = "your-api-key-goes-here"
 apisecret = "your-api-secret-goes-here"
 
-data = {
-  "batch": [
-    {
-      "user_id": "u1"
-      "email": "u1@abc.com"
-    },
-    {
-      "user_id": "u2"
-      "email": "u2@abc.com"
-    }
-  ]
-}
+data = [
+  {
+    "user_id": "u1"
+    "email": "u1@abc.com"
+  },
+  {
+    "user_id": "u2"
+    "email": "u2@abc.com"
+  }
+]
 
 jsonData = json.dumps(data)
 checksum = hmac.new(bytes(apisecret,'utf-8'),
@@ -3518,15 +3496,15 @@ const url = 'https://api.datacue.co/v1/batch/users';
 const apikey = 'your-api-key-goes-here';
 const apisecret = 'your-api-secret-goes-here';
 
-const data = {
-  batch: [{
+const data = [
+  {
     user_id: 'u1',
     email: 'u1@abc.com'
   }, {
     user_id: 'u2',
     email: 'u2@abc.com'
-  }]
-};
+  }
+];
 
 var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
 
@@ -3541,9 +3519,7 @@ Endpoint: `POST` `https://api.datacue.co/v1/batch/users`
 
 ### Request JSON fields
 
-| FieldName | Data Type | Required | Description |
-| ------- | --------- | -------- | ----------- |
-| `batch` | Array     | Yes      | Array of users you are sending
+Array of users
 
 > The above command returns a 201 response code
 
@@ -3585,18 +3561,16 @@ url = "https://api.datacue.co/v1/batch/products"
 apikey = "your-api-key-goes-here"
 apisecret = "your-api-secret-goes-here"
 
-data = {
-  "batch": [
-    {
-      "product_id": "p1",
-      "variant_id":"v1"
-    },
-    {
-      "product_id": "p2",
-      "variant_id":"v1"
-    }
-  ]
-}
+data = [
+  {
+    "product_id": "p1",
+    "variant_id":"v1"
+  },
+  {
+    "product_id": "p2",
+    "variant_id":"v1"
+  }
+]
 
 jsonData = json.dumps(data)
 checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(jsonData, 'utf-8'), hashlib.sha256)
@@ -3608,15 +3582,14 @@ response = requests.delete(url, data=jsonData, auth=(apikey, checksum.hexdigest(
 const axios = require('axios');
 
 const url = 'https://api.datacue.co/v1/batch/products';
-const data = {
-  batch: [{
+const data = [{
     product_id: 'p1',
     variant_id: 'v1'
   }, {
     product_id: 'p2',
     variant_id: 'v1'
-  }]
-};
+  }
+];
 
 var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
 
@@ -3666,19 +3639,17 @@ url = "https://api.datacue.co/v1/batch/categories"
 apikey = "your-api-key-goes-here"
 apisecret = "your-api-secret-goes-here"
 
-data = {
-  "batch": [
-    {
-      "category_id": "c1"
-    },
-    {
-      "category_id": "c2"
-    },
-    {
-      "category_id": "c3"
-    }
-  ]
-}
+data = [
+  {
+    "category_id": "c1"
+  },
+  {
+    "category_id": "c2"
+  },
+  {
+    "category_id": "c3"
+  }
+];
 
 jsonData = json.dumps(data)
 checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(jsonData, 'utf-8'), hashlib.sha256)
@@ -3691,15 +3662,15 @@ const axios = require('axios');
 
 const url = 'https://api.datacue.co/v1/batch/categories';
 
-const data = {
-  batch: [{
+const data = [
+  {
     category_id: 'c1'
   }, {
     category_id: 'c2'
   }, {
     category_id: 'c3'
-  }]
-};
+  }
+];
 
 var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
 
@@ -3749,19 +3720,17 @@ url = "https://api.datacue.co/v1/batch/users"
 apikey = "your-api-key-goes-here"
 apisecret = "your-api-secret-goes-here"
 
-data = {
-  "batch": [
-    {
-      "user_id": "u1"
-    },
-    {
-      "user_id": "u2"
-    },
-    {
-      "user_id": "u3"
-    }
-  ]
-}
+data = [
+  {
+    "user_id": "u1"
+  },
+  {
+    "user_id": "u2"
+  },
+  {
+    "user_id": "u3"
+  }
+]
 
 jsonData = json.dumps(data)
 checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(jsonData, 'utf-8'), hashlib.sha256)
@@ -3774,15 +3743,15 @@ const axios = require('axios');
 
 const url = 'https://api.datacue.co/v1/batch/users';
 
-const data = {
-  batch: [{
+const data = [
+  {
     user_id: 'u1'
   }, {
     user_id: 'u2'
   }, {
     user_id: 'u3'
-  }]
-};
+  }
+];
 
 var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
 
@@ -3831,16 +3800,14 @@ url = "https://api.datacue.co/v1/batch/orders"
 apikey = "your-api-key-goes-here"
 apisecret = "your-api-secret-goes-here"
 
-data = {
-  "batch": [
-    {
-      "order_id": "o1"
-    },
-    {
-      "order_id": "o2"
-    }
-  ]
-}
+data = [
+  {
+    "order_id": "o1"
+  },
+  {
+    "order_id": "o2"
+  }
+]
 
 jsonData = json.dumps(data)
 checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(jsonData, 'utf-8'), hashlib.sha256)
@@ -3853,13 +3820,13 @@ const axios = require('axios');
 
 const url = 'https://api.datacue.co/v1/batch/orders';
 
-const data = {
-  batch: [{
+const data = [
+  {
     order_id: 'o1'
   }, {
     order_id: 'o2'
-  }]
-};
+  }
+];
 
 var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
 
