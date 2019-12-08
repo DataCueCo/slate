@@ -1432,7 +1432,7 @@ axios.get(url).then(response => {
 > The above command returns a 200 response code
 
 ```json
-{ "products":{"products":500,"variants":2500}, "orders":5000, "users":4900 }
+{ "categories":300,"products":{"products":500,"variants":2500}, "orders":5000, "users":4900 }
 ```
 
 
@@ -1443,6 +1443,7 @@ Provides an overview of all backend data received by the DataCue API from your s
 
 | FieldName       | Data Type   | Description |
 | ---------------- | ----------- | ----------- |
+| `categories`  | Integer   | Number of categories received
 | `products`     | Integer      | Number of unique product received (excluding variants)
 | `variants`     | Integer     | Number of unique product variants received
 | `orders`  | Integer   | Number of unique orders received
