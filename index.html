@@ -2105,7 +2105,7 @@ The frontend events API is located at <code>https://events.datacue.co</code>.</p
 <blockquote>
 <p>The above command returns a 200 response code</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"products"</span><span class="p">:{</span><span class="s2">"products"</span><span class="p">:</span><span class="mi">500</span><span class="p">,</span><span class="s2">"variants"</span><span class="p">:</span><span class="mi">2500</span><span class="p">},</span><span class="w"> </span><span class="s2">"orders"</span><span class="p">:</span><span class="mi">5000</span><span class="p">,</span><span class="w"> </span><span class="s2">"users"</span><span class="p">:</span><span class="mi">4900</span><span class="w"> </span><span class="p">}</span><span class="w">
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w"> </span><span class="s2">"categories"</span><span class="p">:</span><span class="mi">300</span><span class="p">,</span><span class="s2">"products"</span><span class="p">:{</span><span class="s2">"products"</span><span class="p">:</span><span class="mi">500</span><span class="p">,</span><span class="s2">"variants"</span><span class="p">:</span><span class="mi">2500</span><span class="p">},</span><span class="w"> </span><span class="s2">"orders"</span><span class="p">:</span><span class="mi">5000</span><span class="p">,</span><span class="w"> </span><span class="s2">"users"</span><span class="p">:</span><span class="mi">4900</span><span class="w"> </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>Endpoint: <code>GET</code> <code>https://api.datacue.co/v1/overview</code>
 Provides an overview of all backend data received by the DataCue API from your store.</p>
@@ -2117,6 +2117,11 @@ Provides an overview of all backend data received by the DataCue API from your s
 <th>Description</th>
 </tr>
 </thead><tbody>
+<tr>
+<td><code>categories</code></td>
+<td>Integer</td>
+<td>Number of categories received</td>
+</tr>
 <tr>
 <td><code>products</code></td>
 <td>Integer</td>
@@ -3779,7 +3784,7 @@ Update the product like so:</p>
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <blockquote>
-<p>To submit multiple, just send an array of product create requests in the batch field like so:</p>
+<p>To submit multiple, just send an array of product create requests like so:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">[{</span><span class="w">
     </span><span class="s2">"product_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"P1"</span><span class="p">,</span><span class="w">
@@ -3799,7 +3804,7 @@ Update the product like so:</p>
 </span></code></pre>
 <p>Use the batch endpoint if you want to do a bulk import, typically when you first start using DataCue and you want to add your historical orders, products or users.</p>
 
-<p>Build an array of your requests in the <code>batch</code> field, we accept a maximum of 500 items per request.</p>
+<p>Send an array of the items in the payload, we accept a maximum of 500 items per request.</p>
 <h2 id='create-update-products'>Create/Update Products</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
@@ -4041,7 +4046,7 @@ Update the product like so:</p>
 </code></pre>
 <p>Endpoint: <code>POST</code> <code>https://api.datacue.co/v1/batch/categories</code></p>
 <h3 id='request-json-fields-20'>Request JSON fields</h3>
-<p>Array of categories you are sending</p>
+<p>Array of categories</p>
 
 <blockquote>
 <p>The above command returns a 201 response code</p>
@@ -4147,7 +4152,7 @@ Update the product like so:</p>
 
 <aside class="notice">If any order_id(s) already exists in DataCue, we will <strong>replace</strong> the existing order with what you send.</aside>
 <h3 id='request-json-fields-21'>Request JSON fields</h3>
-<p>Array of orders you are sending</p>
+<p>Array of orders object</p>
 
 <blockquote>
 <p>The above command returns a 201 response code</p>
