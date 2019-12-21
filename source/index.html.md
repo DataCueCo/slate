@@ -2882,7 +2882,7 @@ import requests
 # replace this value with the order id you want to cancel
 orderId = "o1"
 
-url = f"https://api.datacue.co/v1/orders/{orderId}"
+url = f"https://api.datacue.co/v1/orders/{orderId}/status"
 apikey = "your-api-key-goes-here"
 apisecret = "your-api-secret-goes-here"
 
@@ -2893,7 +2893,7 @@ data = {
 jsonData = json.dumps(data)
 checksum = hmac.new(bytes(apisecret,'utf-8'), bytes(jsonData, 'utf-8'), hashlib.sha256)
 
-response = requests.put(url, data=jsonData, auth=(apikey, checksum.hexdigest())
+response = requests.patch(url, data=jsonData, auth=(apikey, checksum.hexdigest())
 ```
 
 ```javascript
@@ -2903,7 +2903,7 @@ const cryto = require('crypto');
 // replace this value with the order id you want to cancel
 const orderId = 'o1';
 
-const url = `https://api.datacue.co/v1/orders/${orderId}`
+const url = `https://api.datacue.co/v1/orders/${orderId}/status`
 const apikey = 'your-api-key-goes-here';
 const apisecret = 'your-api-secret-goes-here';
 
@@ -2916,16 +2916,14 @@ var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
 //add to default authentication header
 axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
 
-axios.put(url, data);
+axios.patch(url, data);
 ```
 
 > The above command returns a 204 response code
 
-Orders cannot be cancelled via the browser or frontend. You MUST use the REST API to do so as it's more secure.
+Orders cannot be cancelled via the browser API. You MUST use the more secure REST API to do so.
 
-Endpoint: `PUT` `https://api.datacue.co/v1/orders/<order_id>`
-
-When the order makes changes to their profile or when they configure any relevant preferences. For instance if they indicate their gender, this is very helpful for recommendations.
+Endpoint: `PATCH` `https://api.datacue.co/v1/orders/<order_id>/status`
 
 ### Request JSON fields
 
