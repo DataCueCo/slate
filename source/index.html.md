@@ -3374,8 +3374,8 @@ data = [
       {"product_id" : "p1", "variant_id" : "v1", "quantity" : 1, "unit_price" : 24, "currency" : "USD"},
       {"product_id" : "p2", "variant_id" : "v2", "quantity" : 9, "unit_price" : 42, "currency" : "USD"},
   ],
-  "timestamp" : "2018-04-04 23:29:04Z",
-]
+  "timestamp" : "2018-04-04 23:29:04Z"
+}]
 
 jsonData = json.dumps(data)
 checksum = hmac.new(bytes(apisecret,'utf-8'),
@@ -3410,7 +3410,7 @@ const data = [
       {'product_id' : 'p2', 'variant_id' : 'v2', 'quantity' : 9, 'unit_price' : 42, 'currency' : 'USD'},
   ],
   timestamp : '2018-04-04 23:29:04Z',
-];
+}];
 
 var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
 
