@@ -2710,6 +2710,7 @@ $datacue = new \DataCue\Client($apikey, $apisecret);
 $data = [
   "order_id" => "O123",
   "user_id" => "U456",
+  "order_status" => "completed",
   "cart" => [
     ["product_id" => "p1", "variant_id" => "v1", "quantity" => 1, "unit_price" => 24, "currency" => "USD"],
     ["product_id" => "p3", "variant_id" => "v2", "quantity" => 9, "unit_price" => 42, "currency" => "USD"]
@@ -2734,6 +2735,7 @@ apisecret = "your-api-secret-goes-here"
 data = {
   "order_id": "o123",
   "user_id": "u456",
+  "order_status": "completed",
   "cart": [
     {
       "product_id": "p1",
@@ -2816,7 +2818,7 @@ An Order is considered 'completed' as soon as the checkout process is completed 
 | `user_id`          | String        | Yes                           | User ID that made the order
 | `order_status`          | String        | No                           | Can be `completed` (default) or `cancelled`
 | `cart`             | Array         | No                            | An array of line items in the order shopping cart
-| `timestamp`        | ISO-8601 Date | No                            | Order creation date/time in UTC timezone
+| `timestamp`        | ISO-8601 Date | Yes                            | Order creation date/time in UTC timezone
 
 ### cart items
 
@@ -2866,10 +2868,11 @@ $apisecret = "Your-API-secret-goes-here";
 
 $datacue = new \DataCue\Client($apikey, $apisecret);
 
-// replace $orderId with the actual value you want to cancel
+// replace $orderId with the order id you want to modify
 $orderId = 'o1';
 
-$res = $datacue->orders->cancel($orderId);
+$res = $datacue->orders->cancel($orderId); //to cancel order
+$res = $datacue->orders->complete($orderId); //to complete order
 
 ```
 
@@ -2879,7 +2882,7 @@ import hmac
 import json
 import requests
 
-# replace this value with the order id you want to cancel
+# replace this value with the order id you want to modify
 orderId = "o1"
 
 url = f"https://api.datacue.co/v1/orders/{orderId}/status"
@@ -2900,7 +2903,7 @@ response = requests.patch(url, data=jsonData, auth=(apikey, checksum.hexdigest()
 const axios = require('axios');
 const cryto = require('crypto');
 
-// replace this value with the order id you want to cancel
+// replace this value with the order id you want to modify
 const orderId = 'o1';
 
 const url = `https://api.datacue.co/v1/orders/${orderId}/status`
@@ -3364,15 +3367,15 @@ data = [
   "user_id" : "u1",
   "cart" : [
       {"product_id":  "p1", "variant_id" : "v1", "quantity" : 1, "unit_price":  24, "currency" : "USD"},
-      {"product_id":  "p2", "variant_id" : "v2", "quantity" : 9, "unit_price":  42, "currency" : "USD"},
+      {"product_id":  "p2", "variant_id" : "v2", "quantity" : 9, "unit_price":  42, "currency" : "USD"}
   ],
-  "timestamp": "2018-04-04 23:29:04Z",
+  "timestamp": "2018-04-04 23:29:04Z"
 }, {
   "order_id" : "o2",
   "user_id" : "u1",
   "cart" : [
       {"product_id" : "p1", "variant_id" : "v1", "quantity" : 1, "unit_price" : 24, "currency" : "USD"},
-      {"product_id" : "p2", "variant_id" : "v2", "quantity" : 9, "unit_price" : 42, "currency" : "USD"},
+      {"product_id" : "p2", "variant_id" : "v2", "quantity" : 9, "unit_price" : 42, "currency" : "USD"}
   ],
   "timestamp" : "2018-04-04 23:29:04Z"
 }]
@@ -3399,7 +3402,7 @@ const data = [
   user_id : 'u1',
   cart : [
       {'product_id':  'p1', 'variant_id' : 'v1', 'quantity' : 1, 'unit_price':  24, 'currency' : 'USD'},
-      {'product_id':  'p2', 'variant_id' : 'v2', 'quantity' : 9, 'unit_price':  42, 'currency' : 'USD'},
+      {'product_id':  'p2', 'variant_id' : 'v2', 'quantity' : 9, 'unit_price':  42, 'currency' : 'USD'}
   ],
   timestamp: '2018-04-04 23:29:04Z',
 }, {
@@ -3407,7 +3410,7 @@ const data = [
   user_id : 'u1',
   cart : [
       {'product_id' : 'p1', 'variant_id' : 'v1', 'quantity' : 1, 'unit_price' : 24, 'currency' : 'USD'},
-      {'product_id' : 'p2', 'variant_id' : 'v2', 'quantity' : 9, 'unit_price' : 42, 'currency' : 'USD'},
+      {'product_id' : 'p2', 'variant_id' : 'v2', 'quantity' : 9, 'unit_price' : 42, 'currency' : 'USD'}
   ],
   timestamp : '2018-04-04 23:29:04Z',
 }];
