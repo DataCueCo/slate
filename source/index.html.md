@@ -25,9 +25,11 @@ We have code for your browser, Node, PHP and Python. You can view them in the da
 There are three major steps to complete the integration.
 
 ### 1. Import your historical data
+
 This is a one-time run. Refer to the [batch](#batch) endpoints to send us all your existing orders, products and users (sometimes called customers).
 
 ### 2. Integrate future store data changes
+
 Use the appropriate endpoints to ensure all updates to your store data are synchronized with DataCue.
 
 This includes:
@@ -95,29 +97,31 @@ response = requests.post(url, data=jsonData, auth=(apikey, checksum.hexdigest())
 ```
 
 ```javascript
-const axios = require('axios');
-const cryto = require('crypto');
+const axios = require("axios");
+const cryto = require("crypto");
 
-const url = 'https://api.datacue.co/v1/users'
-const apikey = 'your-api-key-goes-here';
-const apisecret = 'your-api-secret-goes-here';
+const url = "https://api.datacue.co/v1/users";
+const apikey = "your-api-key-goes-here";
+const apisecret = "your-api-secret-goes-here";
 
 const newUser = {
-  name : 'Spongebob',
-  email : 'pineapple@underthe.sea'
-}
+  name: "Spongebob",
+  email: "pineapple@underthe.sea"
+};
 
-var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(newUser));
+var hash = crypto
+  .createHmac("sha256", apisecret)
+  .update(JSON.Stringify(newUser));
 
 //add to default authentication header
-axios.defaults.auth = { username: 'API-key', password: hash.digest('hex') };
+axios.defaults.auth = { username: "API-key", password: hash.digest("hex") };
 
 axios.post(url, data);
 ```
 
 ```html
 <script>
-window.datacue.init('API-key');
+  window.datacue.init("API-key");
 </script>
 ```
 
@@ -150,18 +154,17 @@ Integrate DataCue to your storefront in two steps:
 
 2. Include banner and product widgets to the pages you want to show recommendations
 
-
 ## Include DataCue JS library
 
-> Remember to include the config snippet *before* the external scripts
+> Remember to include the config snippet _before_ the external scripts
 
 ```html
 <script>
-window.datacueConfig = {
-  api_key: 'your-api-key',
-  user_id: 'id of user (user_id field you send us for users)',
-  page_type: 'home', //can be many values, see the section 'Config object' on the left
-};
+  window.datacueConfig = {
+    api_key: "your-api-key",
+    user_id: "id of user (user_id field you send us for users)",
+    page_type: "home" //can be many values, see the section 'Config object' on the left
+  };
 </script>
 <script src="https://cdn.datacue.co/js/datacue.js"></script>
 <script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
@@ -185,18 +188,18 @@ Place the snippets near the end of the `<head>` element of your main template. Y
 
 To properly set up tracking, you need to provide some information about the page that the user is currently visiting. You can do it by setting the following properties of the `window.datacueConfig` object:
 
-| Property        | Required                      | Description |
-| --------------- | ----------------------------- | ----------- |
-| `api_key`       | Yes                           | Your API key
-| `user_id`       | Yes (if logged in)            | If the visitor is not logged in, set the field to `null`
-| `page_type`     | Yes                           | Current page type. Can be: `home`, `product`, `category`, `cart`, `search`, `order confirmation` or `404`
-| `product_id`    | If `page_type` = `'product'`  | On product pages, id of currently viewed product
-| `product_update`    | If `page_type` = `'product'`  | See product pageview section below for details
-| `category_id`   | If `page_type` = `'category'` | On category pages, id of currently viewed category
-| `category_update`    | If `page_type` = `'category'`  | See category pageview section below for details
-| `order_id`   | If `page_type` = `'order confirmation'` | On order confirmation pages, id of confirmed order
-| `order_details`    | If `page_type` = `'order confirmation'`  | See order confirmation pageview section below for details
-| `term`          | If `page_type` = `'search'`   | On search results page, current search term
+| Property          | Required                                | Description                                                                                               |
+| ----------------- | --------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| `api_key`         | Yes                                     | Your API key                                                                                              |
+| `user_id`         | Yes (if logged in)                      | If the visitor is not logged in, set the field to `null`                                                  |
+| `page_type`       | Yes                                     | Current page type. Can be: `home`, `product`, `category`, `cart`, `search`, `order confirmation` or `404` |
+| `product_id`      | If `page_type` = `'product'`            | On product pages, id of currently viewed product                                                          |
+| `product_update`  | If `page_type` = `'product'`            | See product pageview section below for details                                                            |
+| `category_id`     | If `page_type` = `'category'`           | On category pages, id of currently viewed category                                                        |
+| `category_update` | If `page_type` = `'category'`           | See category pageview section below for details                                                           |
+| `order_id`        | If `page_type` = `'order confirmation'` | On order confirmation pages, id of confirmed order                                                        |
+| `order_details`   | If `page_type` = `'order confirmation'` | See order confirmation pageview section below for details                                                 |
+| `term`            | If `page_type` = `'search'`             | On search results page, current search term                                                               |
 
 ### Home page
 
@@ -204,15 +207,14 @@ To properly set up tracking, you need to provide some information about the page
 
 ```html
 <script>
-window.datacueConfig = {
-  api_key: 'your-api-key',
-  user_id: 'id of user / null if not logged in',
-  page_type: 'home'
-};
+  window.datacueConfig = {
+    api_key: "your-api-key",
+    user_id: "id of user / null if not logged in",
+    page_type: "home"
+  };
 </script>
 <script src="https://cdn.datacue.co/js/datacue.js"></script>
 <script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
-
 ```
 
 Place this code on your home page.
@@ -223,58 +225,58 @@ Place this code on your home page.
 
 ```html
 <script>
-window.datacueConfig = {
-  api_key: 'your-api-key',
-  user_id: 'id of user / null if not logged in',
-  page_type: 'product',
-  product_id: 'p1',
-  product_update: [
-    {
-      variant_id: 'v1',
-      name : 'Blue Regular Fit Jeans',
-      price : 99.50,
-      full_price : 120,
-      photo_url : 'https://mycoolstore.com/images/p1.jpg',
-      available: true,
-      stock: 15,
-      category_ids: ['jeans','summer'],
-      brand: 'Zayra'
-    }, {
-      variant_id: 'v2',
-      name : 'Green Regular Fit Jeans',
-      price : 99.50,
-      full_price : 120,
-      photo_url : 'https://mycoolstore.com/images/p1.jpg',
-      available: true,
-      stock: 10,
-      category_ids: ['jeans','summer'],
-      brand: 'Zayra'
-    }
-  ]
-};
+  window.datacueConfig = {
+    api_key: "your-api-key",
+    user_id: "id of user / null if not logged in",
+    page_type: "product",
+    product_id: "p1",
+    product_update: [
+      {
+        variant_id: "v1",
+        name: "Blue Regular Fit Jeans",
+        price: 99.5,
+        full_price: 120,
+        photo_url: "https://mycoolstore.com/images/p1.jpg",
+        available: true,
+        stock: 15,
+        category_ids: ["jeans", "summer"],
+        brand: "Zayra"
+      },
+      {
+        variant_id: "v2",
+        name: "Green Regular Fit Jeans",
+        price: 99.5,
+        full_price: 120,
+        photo_url: "https://mycoolstore.com/images/p1.jpg",
+        available: true,
+        stock: 10,
+        category_ids: ["jeans", "summer"],
+        brand: "Zayra"
+      }
+    ]
+  };
 </script>
 <script src="https://cdn.datacue.co/js/datacue.js"></script>
 <script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
-
 ```
 
 On product pages, you can also add an optional property `product_update` to the config object, to ensure that the most important information about your products is always synchronized.
 
-`product_update` is an array, with each array element representing a variant of the product. e.g. `[{variant_id:"v1",...},{variant_id:"v2",...}]`. 
+`product_update` is an array, with each array element representing a variant of the product. e.g. `[{variant_id:"v1",...},{variant_id:"v2",...}]`.
 
-- If the product has 5 variants, the array should contain 5 elements. 
+- If the product has 5 variants, the array should contain 5 elements.
 - If the product has no variants, then submit the array with one element with the product details and set the `variant_id` to `no-variants`.
 
-| Property        | Description |
-| --------------- | ----------- |
-| `name`          | Name of the product
-| `price`         | Current price, after all discounts applied
-| `full_price`    | Base price without any discounts
-| `photo_url`     | URL of the main product photo
-| `available`     | `true` or `false`
-| `stock`         | Number of items remaining in stock
-| `category_ids`  | Array of product's category ids
-| `brand`         | Name of the brand
+| Property       | Description                                |
+| -------------- | ------------------------------------------ |
+| `name`         | Name of the product                        |
+| `price`        | Current price, after all discounts applied |
+| `full_price`   | Base price without any discounts           |
+| `photo_url`    | URL of the main product photo              |
+| `available`    | `true` or `false`                          |
+| `stock`        | Number of items remaining in stock         |
+| `category_ids` | Array of product's category ids            |
+| `brand`        | Name of the brand                          |
 
 ### Category pages
 
@@ -282,28 +284,27 @@ On product pages, you can also add an optional property `product_update` to the 
 
 ```html
 <script>
-window.datacueConfig = {
-  api_key: 'your-api-key',
-  user_id: 'id of user / null if not logged in',
-  page_type: 'category',
-  category_id: 'jeans',
-  category_update: {
-    name: 'Jeans',
-    link: '/category/jeans'
-  }
-};
+  window.datacueConfig = {
+    api_key: "your-api-key",
+    user_id: "id of user / null if not logged in",
+    page_type: "category",
+    category_id: "jeans",
+    category_update: {
+      name: "Jeans",
+      link: "/category/jeans"
+    }
+  };
 </script>
 <script src="https://cdn.datacue.co/js/datacue.js"></script>
 <script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
-
 ```
 
 On category pages, you can also add an optional property `category_update` to the config object, to ensure we keep category details in sync.
 
-| Property        | Description                          |
-| --------------- | ------------------------------------ |
-| `name`          | Display name of the category         |
-| `link`          | Relative URL to access category page |
+| Property | Description                          |
+| -------- | ------------------------------------ |
+| `name`   | Display name of the category         |
+| `link`   | Relative URL to access category page |
 
 ### Search pages
 
@@ -311,16 +312,15 @@ On category pages, you can also add an optional property `category_update` to th
 
 ```html
 <script>
-window.datacueConfig = {
-  api_key: 'your-api-key',
-  user_id: 'id of user / null if not logged in',
-  page_type: 'search',
-  term: 'blue jeans'
-};
+  window.datacueConfig = {
+    api_key: "your-api-key",
+    user_id: "id of user / null if not logged in",
+    page_type: "search",
+    term: "blue jeans"
+  };
 </script>
 <script src="https://cdn.datacue.co/js/datacue.js"></script>
 <script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
-
 ```
 
 Place this code on your search results page
@@ -331,15 +331,14 @@ Place this code on your search results page
 
 ```html
 <script>
-window.datacueConfig = {
-  api_key: 'your-api-key',
-  user_id: 'id of user / null if not logged in',
-  page_type: 'cart'
-};
+  window.datacueConfig = {
+    api_key: "your-api-key",
+    user_id: "id of user / null if not logged in",
+    page_type: "cart"
+  };
 </script>
 <script src="https://cdn.datacue.co/js/datacue.js"></script>
 <script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
-
 ```
 
 Place this code on your cart page.
@@ -350,15 +349,14 @@ Place this code on your cart page.
 
 ```html
 <script>
-window.datacueConfig = {
-  api_key: 'your-api-key',
-  user_id: 'id of user / null if not logged in',
-  page_type: '404'
-};
+  window.datacueConfig = {
+    api_key: "your-api-key",
+    user_id: "id of user / null if not logged in",
+    page_type: "404"
+  };
 </script>
 <script src="https://cdn.datacue.co/js/datacue.js"></script>
 <script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
-
 ```
 
 Place this code on your cart page.
@@ -376,13 +374,12 @@ You can choose to send completed orders via the frontend or the backend.
 > Sending orders via backend (skip order_details object)
 
 ```html
-
 <script>
-window.datacueConfig = {
-  api_key: 'your-api-key',
-  user_id: 'id of user / email address if guest checkout',
-  page_type: 'order confirmation'
-};
+  window.datacueConfig = {
+    api_key: "your-api-key",
+    user_id: "id of user / email address if guest checkout",
+    page_type: "order confirmation"
+  };
 </script>
 <script src="https://cdn.datacue.co/js/datacue.js"></script>
 <script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
@@ -398,56 +395,55 @@ Refer to [create order](#create-order) on how to send order data via the backend
 
 ```html
 <script>
-window.datacueConfig = {
-  api_key: 'your-api-key',
-  user_id: 'id of user / email address if guest checkout',
-  page_type: 'order confirmation',
-  order_id: 'O123',
-  order_details: {
-    order_status : 'completed',
-    cart: [
-      {
-        product_id : 'p1',
-        variant_id : 'v1',
-        quantity : 1,
-        unit_price : 24,
-        currency : 'USD'
-      },
-      {
-        product_id : 'p3',
-        variant_id : 'v2',
-        quantity : 9,
-        unit_price : 42,
-        currency : 'USD'
-      }
-    ],
-    timestamp: '2018-04-04 23:29:04Z'
-  }
-};
+  window.datacueConfig = {
+    api_key: "your-api-key",
+    user_id: "id of user / email address if guest checkout",
+    page_type: "order confirmation",
+    order_id: "O123",
+    order_details: {
+      order_status: "completed",
+      cart: [
+        {
+          product_id: "p1",
+          variant_id: "v1",
+          quantity: 1,
+          unit_price: 24,
+          currency: "USD"
+        },
+        {
+          product_id: "p3",
+          variant_id: "v2",
+          quantity: 9,
+          unit_price: 42,
+          currency: "USD"
+        }
+      ],
+      timestamp: "2018-04-04 23:29:04Z"
+    }
+  };
 </script>
 <script src="https://cdn.datacue.co/js/datacue.js"></script>
 <script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
-
 ```
 
 If you prefer to send order data from the frontend, you can include an optional property `order_details` to the config object. This allows you to send completed orders via the frontend instead of using any backend hooks.
 
 **order details object**
 
-| Property  | Data Type     | Required                      | Description |
-| --------- | ------------- | ----------------------------- | ----------- |
-| `order_status`          | String        | No                           | Can be `completed` (default) or `cancelled`
-| `cart`             | Array         | Yes                            | An array of line items in the order shopping cart (see below)
-| `timestamp`        | ISO-8601 Date | No                            | Order creation date/time in UTC timezone
+| Property       | Data Type     | Required | Description                                                   |
+| -------------- | ------------- | -------- | ------------------------------------------------------------- |
+| `order_status` | String        | No       | Can be `completed` (default) or `cancelled`                   |
+| `cart`         | Array         | Yes      | An array of line items in the order shopping cart (see below) |
+| `timestamp`    | ISO-8601 Date | No       | Order creation date/time in UTC timezone                      |
 
 **cart object**
 
-| Property     | Data Type | Required | Description |
-| -------------| --------- | -------- | ----------- |
-| `product_id` | String    | Yes      | Product ID code
-| `variant_id` | String    | Yes      | Variant ID of the product
-| `unit_price` | Decimal   | Yes      | The unit price of the product (including any discounts)
-| `quantity`   | Integer   | Yes      | Number of products purchased
+| Property     | Data Type | Required | Description                                             |
+| ------------ | --------- | -------- | ------------------------------------------------------- |
+| `product_id` | String    | Yes      | Product ID code                                         |
+| `variant_id` | String    | Yes      | Variant ID of the product                               |
+| `unit_price` | Decimal   | Yes      | The unit price of the product (including any discounts) |
+| `quantity`   | Integer   | Yes      | Number of products purchased                            |
 
 ## Inserting banners
 
@@ -471,20 +467,21 @@ Custom layout means you need to implement responsive design yourself in exchange
 ```
 
 > Custom banner layout
+
 ```html
 <!-- This is just an example, you can arrange the divs anyway you like -->
- 
- <div class="custom-banners">
+
+<div class="custom-banners">
   <div class="custom-static">
     <a href="https://example.com/any-link-you-want">
-      <img src="https://example.com/some-banner-image.jpg" alt="">
+      <img src="https://example.com/some-banner-image.jpg" alt="" />
     </a>
   </div>
   <div class="custom-big" data-dc-main-insert-banner="1"></div>
   <div class="custom-big" data-dc-main-insert-banner="2"></div>
   <div class="custom-small" data-dc-sub-insert-banner="1"></div>
   <div class="custom-small" data-dc-sub-insert-banner="2"></div>
- </div>
+</div>
 ```
 
 You can read all about banners in our [usage guide](https://help.datacue.co/guide/banners.html#quick-start)
@@ -534,7 +531,7 @@ If you want to insert each recommendation in different areas of your website, yo
 
 1. Related: Show top products that are the most related to the current product being viewed based on your customers purchases.
 
-  *Replaces the regular `related` carousel*
+   _Replaces the regular `related` carousel_
 
 2. Similar: All products that are similar to the existing product looking at name, brand, categories and description.
 
@@ -564,22 +561,22 @@ Just insert one of the following snippets and we'll do the rest. You can control
 
 All events are registered in a similar format. There are 4 main objects in each request, described in detail in the [next section](#parameter-breakdown).
 
-| Parameter   | Required | Description |
-| ----------- | -------- | ----------- |
-| `user`      | Yes      | All data that we know about the current user at the time.
-| `event`     | Yes      | Details about the event
-| `context`   | No       | Details about the user’s device and location
-| `timestamp` | No       | An ISO-8601 date string in UTC time for when the event happened
+| Parameter   | Required | Description                                                     |
+| ----------- | -------- | --------------------------------------------------------------- |
+| `user`      | Yes      | All data that we know about the current user at the time.       |
+| `event`     | Yes      | Details about the event                                         |
+| `context`   | No       | Details about the user’s device and location                    |
+| `timestamp` | No       | An ISO-8601 date string in UTC time for when the event happened |
 
 ## Parameter breakdown
 
 ### User
 
-| FieldName | Data Type   | Required               | Description |
-| -------------- | ----------- | ---------------------- | ----------- |
-| `user_id`      | String      | Yes (if logged in)     | The unique user id if the user has logged in
-| `anonymous_id` | String      | Yes (if not logged in) | An automatically generated visitor id if the user has not logged in.
-| `profile`      | JSON Object | No                     | Any user segmentation data you know about the user, see the table below for details.
+| FieldName      | Data Type   | Required               | Description                                                                          |
+| -------------- | ----------- | ---------------------- | ------------------------------------------------------------------------------------ |
+| `user_id`      | String      | Yes (if logged in)     | The unique user id if the user has logged in                                         |
+| `anonymous_id` | String      | Yes (if not logged in) | An automatically generated visitor id if the user has not logged in.                 |
+| `profile`      | JSON Object | No                     | Any user segmentation data you know about the user, see the table below for details. |
 
 <aside class="notice">
   If you send us both a <code>user_id</code> and <code>anonymous_id</code> we will record the <code>user_id</code>.
@@ -587,11 +584,11 @@ All events are registered in a similar format. There are 4 main objects in each 
 
 #### User Profile (user.profile)
 
-| FieldName | Data Type | Required | Description |
-| ---------- | --------- | -------- | ----------- |
-| `sex`      | String    | No       | Sex of the user
-| `segment`  | String    | No       | Custom segment name that you store e.g. Gold class / Member
-| `location` | String    | No       | Location of the user as a commune, city, region or country
+| FieldName  | Data Type | Required | Description                                                 |
+| ---------- | --------- | -------- | ----------------------------------------------------------- |
+| `sex`      | String    | No       | Sex of the user                                             |
+| `segment`  | String    | No       | Custom segment name that you store e.g. Gold class / Member |
+| `location` | String    | No       | Location of the user as a commune, city, region or country  |
 
 The above are the most common types of profile segments, since it's a JSON object you can specify any other fields you wish to use for personalization.
 
@@ -612,10 +609,10 @@ Refer to the example json on the right to view the format.
   }
 ```
 
-| FieldName   | Data Type | Required | Description |
-| ------------ | --------- | -------- | ----------- |
-| `ip`         | String    | No       | IP address
-| `user_agent` | String    | No       | User agent string of the browser
+| FieldName    | Data Type | Required | Description                      |
+| ------------ | --------- | -------- | -------------------------------- |
+| `ip`         | String    | No       | IP address                       |
+| `user_agent` | String    | No       | User agent string of the browser |
 
 ### Timestamp (optional)
 
@@ -627,47 +624,50 @@ Refer to the example json on the right to view the format.
   "timestamp": "2018-01-23 00:30:08.276Z"
 ```
 
-| FieldName  | Data Type     | Required | Description |
-| ----------- | ------------- | -------- | ----------- |
-| `timestamp` | ISO-8601 Date | No       | The current time in UTC for when the event happened. E.g. `"2017-11-01 00:29:03.123Z"`
+| FieldName   | Data Type     | Required | Description                                                                            |
+| ----------- | ------------- | -------- | -------------------------------------------------------------------------------------- |
+| `timestamp` | ISO-8601 Date | No       | The current time in UTC for when the event happened. E.g. `"2017-11-01 00:29:03.123Z"` |
 
 ## Cart update
 
 ```html
 <script>
+  // assign user_id and user.profile if you haven't yet
+  window.datacue.identify("019mr8mf4r", {
+    sex: "female",
+    location: "Santiago",
+    segment: "platinum"
+  });
 
-// assign user_id and user.profile if you haven't yet
-window.datacue.identify('019mr8mf4r', {
-  sex: 'female',
-  location: 'Santiago',
-  segment: 'platinum'
-});
-
-// track the event
-window.datacue.track({
-  type: 'cart',
-  subtype: 'update',
-  cart: [{
-    product_id: 'p1',
-    variant_id: 'v1',
-    quantity: 1,
-    unit_price: 24,
-    currency: 'USD'
-  },{
-    product_id: 'p2',
-    variant_id: 'v1',
-    quantity: 1,
-    unit_price: 24,
-    currency: 'USD'
-  },{
-    product_id: 'p3',
-    variant_id: 'v1',
-    quantity: 1,
-    unit_price: 24,
-    currency: 'USD'
-  }],
-  cart_link:'https://myshop.com/cart/123'
-});
+  // track the event
+  window.datacue.track({
+    type: "cart",
+    subtype: "update",
+    cart: [
+      {
+        product_id: "p1",
+        variant_id: "v1",
+        quantity: 1,
+        unit_price: 24,
+        currency: "USD"
+      },
+      {
+        product_id: "p2",
+        variant_id: "v1",
+        quantity: 1,
+        unit_price: 24,
+        currency: "USD"
+      },
+      {
+        product_id: "p3",
+        variant_id: "v1",
+        quantity: 1,
+        unit_price: 24,
+        currency: "USD"
+      }
+    ],
+    cart_link: "https://myshop.com/cart/123"
+  });
 </script>
 ```
 
@@ -681,7 +681,7 @@ window.datacue.track({
 ```
 
 ```javascript
-"browser only event (refer to the Browser tab)"
+"browser only event (refer to the Browser tab)";
 ```
 
 > The above command returns a 204 response code
@@ -695,32 +695,31 @@ Record whenever the users shopping cart changes. Whenever the user:
 
 ### Request JSON fields
 
-| FieldName  | Data Type | Required | Description |
-| ------ | --------- | -------- | ----------- |
-| `type`     | String    | Yes      | Set to `'cart'`
-| `subtype`  | String    | Yes      | Set to `'update'`
-| `cart`     | Array     | Yes      | Cart contents as an array of product, variant, unit price, quantity and currency
-| `cart_link`  | String    | Yes      | Link to view cart and resume shopping
+| FieldName   | Data Type | Required | Description                                                                      |
+| ----------- | --------- | -------- | -------------------------------------------------------------------------------- |
+| `type`      | String    | Yes      | Set to `'cart'`                                                                  |
+| `subtype`   | String    | Yes      | Set to `'update'`                                                                |
+| `cart`      | Array     | Yes      | Cart contents as an array of product, variant, unit price, quantity and currency |
+| `cart_link` | String    | Yes      | Link to view cart and resume shopping                                            |
 
 ## Add product to wishlist
 
 ```html
 <script>
+  // assign user_id and user.profile if you haven't yet
+  window.datacue.identify("019mr8mf4r", {
+    sex: "female",
+    location: "Santiago",
+    segment: "platinum"
+  });
 
-// assign user_id and user.profile if you haven't yet
-window.datacue.identify('019mr8mf4r', {
-  sex: 'female',
-  location: 'Santiago',
-  segment: 'platinum'
-});
-
-// track the event
-window.datacue.track({
-  type: 'wishlist',
-  subtype: 'add',
-  product_id: 'p1',
-  variant_id: 'v2'
-});
+  // track the event
+  window.datacue.track({
+    type: "wishlist",
+    subtype: "add",
+    product_id: "p1",
+    variant_id: "v2"
+  });
 </script>
 ```
 
@@ -734,7 +733,7 @@ window.datacue.track({
 ```
 
 ```javascript
-"browser only event (refer to the Browser tab)"
+"browser only event (refer to the Browser tab)";
 ```
 
 > The above command returns a 204 response code
@@ -743,32 +742,31 @@ Record changes to user's wishlist when a new product is added to it.
 
 ### Request JSON fields
 
-| FieldName   | Data Type | Required | Description |
-| ------------ | --------- | -------- | ----------- |
-| `type`       | String    | Yes      | Set to `'wishlist'`
-| `subtype`    | String    | Yes      | Set to `'add'`
-| `product_id` | String    | Yes      | Set to product id being added
-| `variant_id` | String    | No       | Set to product's variant id (if applicable)
+| FieldName    | Data Type | Required | Description                                 |
+| ------------ | --------- | -------- | ------------------------------------------- |
+| `type`       | String    | Yes      | Set to `'wishlist'`                         |
+| `subtype`    | String    | Yes      | Set to `'add'`                              |
+| `product_id` | String    | Yes      | Set to product id being added               |
+| `variant_id` | String    | No       | Set to product's variant id (if applicable) |
 
 ## Remove product from wishlist
 
 ```html
 <script>
+  // assign user_id and user.profile if you haven't yet
+  window.datacue.identify("019mr8mf4r", {
+    sex: "female",
+    location: "Santiago",
+    segment: "platinum"
+  });
 
-// assign user_id and user.profile if you haven't yet
-window.datacue.identify('019mr8mf4r', {
-  sex: 'female',
-  location: 'Santiago',
-  segment: 'platinum'
-});
-
-// track the event
-window.datacue.track({
-  type: 'wishlist',
-  subtype: 'remove',
-  product_id: 'p1',
-  variant_id: 'v2'
-});
+  // track the event
+  window.datacue.track({
+    type: "wishlist",
+    subtype: "remove",
+    product_id: "p1",
+    variant_id: "v2"
+  });
 </script>
 ```
 
@@ -782,7 +780,7 @@ window.datacue.track({
 ```
 
 ```javascript
-"browser only event (refer to the Browser tab)"
+"browser only event (refer to the Browser tab)";
 ```
 
 > The above command returns a 204 response code
@@ -791,44 +789,46 @@ Record changes to user's wishlist when a product is removed from it.
 
 ### Request JSON fields
 
-| FieldName   | Data Type | Required | Description |
-| ------------ | --------- | -------- | ----------- |
-| `type`       | String    | Yes      | Set to `'wishlist'`
-| `subtype`    | String    | Yes      | Set to `'remove'`
-| `product_id` | String    | Yes      | Set to product id being removed
-| `variant_id` | String    | No       | Set to product's variant id (if applicable)
+| FieldName    | Data Type | Required | Description                                 |
+| ------------ | --------- | -------- | ------------------------------------------- |
+| `type`       | String    | Yes      | Set to `'wishlist'`                         |
+| `subtype`    | String    | Yes      | Set to `'remove'`                           |
+| `product_id` | String    | Yes      | Set to product id being removed             |
+| `variant_id` | String    | No       | Set to product's variant id (if applicable) |
 
 ## Checkout started
 
 ```html
 <script>
+  // assign user_id and user.profile if you haven't yet
+  window.datacue.identify("019mr8mf4r", {
+    sex: "female",
+    location: "Santiago",
+    segment: "platinum"
+  });
 
-// assign user_id and user.profile if you haven't yet
-window.datacue.identify('019mr8mf4r', {
-  sex: 'female',
-  location: 'Santiago',
-  segment: 'platinum'
-});
-
-// track the event
-window.datacue.track({
-  type: 'checkout',
-  subtype: 'started',
-  cart: [{
-    product_id: 'p1',
-    variant: 'v1',
-    quantity: 1,
-    unit_price: 24,
-    currency: 'USD'
-  },{
-    product_id: 'p2',
-    variant: 'v2',
-    quantity: 3,
-    unit_price: 39,
-    currency: 'USD'
-  }],
-  cart_link:'https://myshop.com/cart/123'
-});
+  // track the event
+  window.datacue.track({
+    type: "checkout",
+    subtype: "started",
+    cart: [
+      {
+        product_id: "p1",
+        variant: "v1",
+        quantity: 1,
+        unit_price: 24,
+        currency: "USD"
+      },
+      {
+        product_id: "p2",
+        variant: "v2",
+        quantity: 3,
+        unit_price: 39,
+        currency: "USD"
+      }
+    ],
+    cart_link: "https://myshop.com/cart/123"
+  });
 </script>
 ```
 
@@ -842,7 +842,7 @@ window.datacue.track({
 ```
 
 ```javascript
-"browser only event (refer to the Browser tab)"
+"browser only event (refer to the Browser tab)";
 ```
 
 > The above command returns a 204 response code
@@ -851,29 +851,28 @@ Record the moment the user initiates the check out process, typically from their
 
 ### Request JSON fields
 
-| FieldName | Data Type | Required | Description |
-| ---------- | --------- | -------- | ----------- |
-| `type`     | String    | Yes      | Set to `'checkout'`
-| `subtype`  | String    | Yes      | Set to `'started'`
-| `cart`     | Array     | Yes      | Cart contents as an array of product, variant, unit price, quantity and currency
-| `cart_link`  | String    | Yes      | Link to view cart and resume shopping
+| FieldName   | Data Type | Required | Description                                                                      |
+| ----------- | --------- | -------- | -------------------------------------------------------------------------------- |
+| `type`      | String    | Yes      | Set to `'checkout'`                                                              |
+| `subtype`   | String    | Yes      | Set to `'started'`                                                               |
+| `cart`      | Array     | Yes      | Cart contents as an array of product, variant, unit price, quantity and currency |
+| `cart_link` | String    | Yes      | Link to view cart and resume shopping                                            |
 
 ## User Login
 
 ```html
 <script>
+  // assign user_id and user.profile if you haven't yet
+  window.datacue.identify("019mr8mf4r", {
+    sex: "female",
+    location: "Santiago",
+    segment: "platinum"
+  });
 
-// assign user_id and user.profile if you haven't yet
-window.datacue.identify('019mr8mf4r', {
-  sex: 'female',
-  location: 'Santiago',
-  segment: 'platinum'
-});
-
-// track the event
-window.datacue.track({
-  type: 'login'
-});
+  // track the event
+  window.datacue.track({
+    type: "login"
+  });
 </script>
 ```
 
@@ -887,7 +886,7 @@ window.datacue.track({
 ```
 
 ```javascript
-"browser only event (refer to the Browser tab)"
+"browser only event (refer to the Browser tab)";
 ```
 
 > The above command returns a 204 response code
@@ -896,34 +895,34 @@ Record a login event by a user on your website, if the user login is cached, you
 
 ### Request JSON fields
 
-| FieldName | Data Type | Required | Description |
-| ------ | --------- | -------- | ----------- |
-| `type` | String    | Yes      | Set to `'login'`
+| FieldName | Data Type | Required | Description      |
+| --------- | --------- | -------- | ---------------- |
+| `type`    | String    | Yes      | Set to `'login'` |
 
 # Optional Events
 
 You don't need to implement those if you're using our scripts.
 
-
 ## Home pageview
 
 ```html
 <script>
+  // assign user_id and user.profile if you haven't yet
+  window.datacue.identify("019mr8mf4r", {
+    sex: "female",
+    location: "Santiago",
+    segment: "platinum"
+  });
 
-// assign user_id and user.profile if you haven't yet
-window.datacue.identify('019mr8mf4r', {
-  sex: 'female',
-  location: 'Santiago',
-  segment: 'platinum'
-});
-
-// track the event
-window.datacue.track({
-  type: 'pageview',
-  subtype: 'home'
-}).then(function(response) {
-  // see response structure below
-});
+  // track the event
+  window.datacue
+    .track({
+      type: "pageview",
+      subtype: "home"
+    })
+    .then(function(response) {
+      // see response structure below
+    });
 </script>
 ```
 
@@ -937,7 +936,7 @@ window.datacue.track({
 ```
 
 ```javascript
-"browser only event (refer to the Browser tab)"
+"browser only event (refer to the Browser tab)";
 ```
 
 > The above command returns JSON structured like this:
@@ -1015,7 +1014,7 @@ window.datacue.track({
       "photo_url": "/products/18.jpg",
       "link": "/product/double-bed-2",
       "extra": {
-        "discount":"20%"
+        "discount": "20%"
       }
     }
   ]
@@ -1026,41 +1025,42 @@ Request banner and product recommendations when a user visits your home page
 
 ### Request JSON fields
 
-| FieldName | Data Type | Required | Description |
-| --------- | --------- | -------- | ----------- |
-| `type`    | String    | Yes      | Set to `'pageview'`
-| `subtype` | String    | Yes      | Set to `'home'`
+| FieldName | Data Type | Required | Description         |
+| --------- | --------- | -------- | ------------------- |
+| `type`    | String    | Yes      | Set to `'pageview'` |
+| `subtype` | String    | Yes      | Set to `'home'`     |
 
 ### Response JSON fields
 
-| FieldName             | Data Type | Description |
-| ---------------------- | --------- | ----------- |
-| `main_banners`         | Array     | An array of banner objects recommended for the current user
-| `sub_banners`          | Array     | An array of sub banner objects recommended for the current user
-| `related_product_skus` | Array     | An array of product objects recommended for the current user
-| `recent_product_skus`  | Array     | A live list of the last products the current user has viewed
+| FieldName              | Data Type | Description                                                     |
+| ---------------------- | --------- | --------------------------------------------------------------- |
+| `main_banners`         | Array     | An array of banner objects recommended for the current user     |
+| `sub_banners`          | Array     | An array of sub banner objects recommended for the current user |
+| `related_product_skus` | Array     | An array of product objects recommended for the current user    |
+| `recent_product_skus`  | Array     | A live list of the last products the current user has viewed    |
 
 ## Product pageview
 
 ```html
 <script>
+  // assign user_id and user.profile if you haven't yet
+  window.datacue.identify("019mr8mf4r", {
+    sex: "female",
+    location: "Santiago",
+    segment: "platinum"
+  });
 
-// assign user_id and user.profile if you haven't yet
-window.datacue.identify('019mr8mf4r', {
-  sex: 'female',
-  location: 'Santiago',
-  segment: 'platinum'
-});
-
-// track the event
-window.datacue.track({
-  type: 'pageview',
-  subtype: 'product',
-  product_id: 'p1',
-  variant_id: 'v1'
-}).then(function(response) {
-  // see response structure below
-});
+  // track the event
+  window.datacue
+    .track({
+      type: "pageview",
+      subtype: "product",
+      product_id: "p1",
+      variant_id: "v1"
+    })
+    .then(function(response) {
+      // see response structure below
+    });
 </script>
 ```
 
@@ -1074,7 +1074,7 @@ window.datacue.track({
 ```
 
 ```javascript
-"browser only event (refer to the Browser tab)"
+"browser only event (refer to the Browser tab)";
 ```
 
 > The above command returns JSON structured like this:
@@ -1124,8 +1124,7 @@ window.datacue.track({
       "price": "1299.00",
       "photo_url": "/products/18.jpg",
       "link": "/product/double-bed-2",
-      "extra": {
-      }
+      "extra": {}
     }
   ]
 }
@@ -1135,39 +1134,38 @@ Request product recommendations when a user visits a product page
 
 ### Request JSON fields
 
-| FieldName   | Data Type | Required | Description |
-| ------------ | --------- | -------- | ----------- |
-| `type`       | String    | Yes      | Set to `'pageview'`
-| `subtype`    | String    | Yes      | Set to `'product'`
-| `product_id` | String    | Yes      | Set to product id being viewed
-| `variant_id` | String    | No       | Set to product's variant id (if applicable)
+| FieldName    | Data Type | Required | Description                                 |
+| ------------ | --------- | -------- | ------------------------------------------- |
+| `type`       | String    | Yes      | Set to `'pageview'`                         |
+| `subtype`    | String    | Yes      | Set to `'product'`                          |
+| `product_id` | String    | Yes      | Set to product id being viewed              |
+| `variant_id` | String    | No       | Set to product's variant id (if applicable) |
 
 ### Response JSON fields
 
-| FieldName             | Data Type | Description |
-| ---------------------- | --------- | ----------- |
-| `similar_product_skus` | Array     | An array of product objects with similar characteristics to the current product
-| `related_product_skus` | Array     | An array of product objects that are frequently bought with the current product
-| `recent_product_skus`  | Array     | A live list of the last products the current user has viewed
+| FieldName              | Data Type | Description                                                                     |
+| ---------------------- | --------- | ------------------------------------------------------------------------------- |
+| `similar_product_skus` | Array     | An array of product objects with similar characteristics to the current product |
+| `related_product_skus` | Array     | An array of product objects that are frequently bought with the current product |
+| `recent_product_skus`  | Array     | A live list of the last products the current user has viewed                    |
 
 ## Category pageview
 
 ```html
 <script>
+  // assign user_id and user.profile if you haven't yet
+  window.datacue.identify("019mr8mf4r", {
+    sex: "female",
+    location: "Santiago",
+    segment: "platinum"
+  });
 
-// assign user_id and user.profile if you haven't yet
-window.datacue.identify('019mr8mf4r', {
-  sex: 'female',
-  location: 'Santiago',
-  segment: 'platinum'
-});
-
-// track the event
-window.datacue.track({
-  type: 'pageview',
-  subtype: 'category',
-  category_name: 'living-room'
-});
+  // track the event
+  window.datacue.track({
+    type: "pageview",
+    subtype: "category",
+    category_name: "living-room"
+  });
 </script>
 ```
 
@@ -1181,7 +1179,7 @@ window.datacue.track({
 ```
 
 ```javascript
-"browser only event (refer to the Browser tab)"
+"browser only event (refer to the Browser tab)";
 ```
 
 > The above command returns a 204 response code
@@ -1190,31 +1188,32 @@ Pages showing multiple products on a page, these are commonly called category, c
 
 ### Request JSON fields
 
-| FieldName      | Data Type | Required | Description |
-| --------------- | --------- | -------- | ----------- |
-| `type`          | String    | Yes      | Set to `'pageview'`
-| `subtype`       | String    | Yes      | Set to `'category'`
-| `category_name` | String    | Yes      | Set to the name of the category being viewed
+| FieldName       | Data Type | Required | Description                                  |
+| --------------- | --------- | -------- | -------------------------------------------- |
+| `type`          | String    | Yes      | Set to `'pageview'`                          |
+| `subtype`       | String    | Yes      | Set to `'category'`                          |
+| `category_name` | String    | Yes      | Set to the name of the category being viewed |
 
 ## Search
 
 ```html
 <script>
+  // assign user_id and user.profile if you haven't yet
+  window.datacue.identify("019mr8mf4r", {
+    sex: "female",
+    location: "Santiago",
+    segment: "platinum"
+  });
 
-// assign user_id and user.profile if you haven't yet
-window.datacue.identify('019mr8mf4r', {
-  sex: 'female',
-  location: 'Santiago',
-  segment: 'platinum'
-});
-
-// track the event
-window.datacue.track({
-  type: 'search',
-  term: 'tables'
-}).then(function(response) {
-  // see response structure below
-});
+  // track the event
+  window.datacue
+    .track({
+      type: "search",
+      term: "tables"
+    })
+    .then(function(response) {
+      // see response structure below
+    });
 </script>
 ```
 
@@ -1228,7 +1227,7 @@ window.datacue.track({
 ```
 
 ```javascript
-"browser only event (refer to the Browser tab)"
+"browser only event (refer to the Browser tab)";
 ```
 
 > The above command returns JSON structured like this:
@@ -1244,7 +1243,7 @@ window.datacue.track({
       "photo_url": "/products/18.jpg",
       "link": "/product/double-bed-2",
       "extra": {
-        "discount":"20%"
+        "discount": "20%"
       }
     }
   ]
@@ -1255,39 +1254,41 @@ Record when a user performs a search on your website
 
 ### Request JSON fields
 
-| FieldName | Data Type | Required | Description |
-| ------ | --------- | -------- | ----------- |
-| `type` | String    | Yes      | Set to `'search'`
-| `term` | String    | Yes      | Set to the user's search term
+| FieldName | Data Type | Required | Description                   |
+| --------- | --------- | -------- | ----------------------------- |
+| `type`    | String    | Yes      | Set to `'search'`             |
+| `term`    | String    | Yes      | Set to the user's search term |
 
 ### Response JSON fields
 
-| FieldName            | Data Type | Description |
-| --------------------- | --------- | ----------- |
-| `recent_product_skus` | Array     | A live list of the last products the current user has viewed
+| FieldName             | Data Type | Description                                                  |
+| --------------------- | --------- | ------------------------------------------------------------ |
+| `recent_product_skus` | Array     | A live list of the last products the current user has viewed |
 
 ## Banner click
 
 ```html
 <script>
+  // assign user_id and user.profile if you haven't yet
+  window.datacue.identify("019mr8mf4r", {
+    sex: "female",
+    location: "Santiago",
+    segment: "platinum"
+  });
 
-// assign user_id and user.profile if you haven't yet
-window.datacue.identify('019mr8mf4r', {
-  sex: 'female',
-  location: 'Santiago',
-  segment: 'platinum'
-});
-
-// track the event
-// NOTE: passing true as 2nd argument will defer
-// the event until next page load (helpful if your
-// shop is not a single page app)
-window.datacue.track({
-  type: 'click',
-  subtype: 'banner',
-  banner_id: 'b1',
-  category_id: 'c1'
-}, true);
+  // track the event
+  // NOTE: passing true as 2nd argument will defer
+  // the event until next page load (helpful if your
+  // shop is not a single page app)
+  window.datacue.track(
+    {
+      type: "click",
+      subtype: "banner",
+      banner_id: "b1",
+      category_id: "c1"
+    },
+    true
+  );
 </script>
 ```
 
@@ -1301,7 +1302,7 @@ window.datacue.track({
 ```
 
 ```javascript
-"browser only event (refer to the Browser tab)"
+"browser only event (refer to the Browser tab)";
 ```
 
 > The above command returns a 204 response code
@@ -1310,33 +1311,35 @@ Record clicks to a banner or a sub banner, typically on your home page
 
 ### Request JSON fields
 
-| FieldName  | Data Type | Required | Description |
-| ----------- | --------- | -------- | ----------- |
-| `type`      | String    | Yes      | Set to `'click'`
-| `subtype`   | String    | Yes      | Set to `'banner'`
-| `banner_id` | String    | Yes      | Set to the id of the clicked banner
+| FieldName   | Data Type | Required | Description                         |
+| ----------- | --------- | -------- | ----------------------------------- |
+| `type`      | String    | Yes      | Set to `'click'`                    |
+| `subtype`   | String    | Yes      | Set to `'banner'`                   |
+| `banner_id` | String    | Yes      | Set to the id of the clicked banner |
 
 ## Product click
 
 ```html
 <script>
+  // assign user_id and user.profile if you haven't yet
+  window.datacue.identify("019mr8mf4r", {
+    sex: "female",
+    location: "Santiago",
+    segment: "platinum"
+  });
 
-// assign user_id and user.profile if you haven't yet
-window.datacue.identify('019mr8mf4r', {
-  sex: 'female',
-  location: 'Santiago',
-  segment: 'platinum'
-});
-
-// track the event
-// NOTE: passing true as 2nd argument will defer
-// the event until next page load (helpful if your
-// shop is not a single page app)
-window.datacue.track({
-  type: 'click',
-  subtype: 'product',
-  product_id: 'p2'
-}, true);
+  // track the event
+  // NOTE: passing true as 2nd argument will defer
+  // the event until next page load (helpful if your
+  // shop is not a single page app)
+  window.datacue.track(
+    {
+      type: "click",
+      subtype: "product",
+      product_id: "p2"
+    },
+    true
+  );
 </script>
 ```
 
@@ -1350,7 +1353,7 @@ window.datacue.track({
 ```
 
 ```javascript
-"browser only event (refer to the Browser tab)"
+"browser only event (refer to the Browser tab)";
 ```
 
 > The above command returns a 204 response code
@@ -1359,11 +1362,11 @@ Record clicks on a product anywhere on your website.
 
 ### Request JSON fields
 
-| FieldName   | Data Type | Required | Description |
-| ------------ | --------- | -------- | ----------- |
-| `type`       | String    | Yes      | Set to `'click'`
-| `subtype`    | String    | Yes      | Set to `'related'`, `'similar'` or `'recent'`
-| `product_id` | String    | Yes      | Set to the id of the clicked product
+| FieldName    | Data Type | Required | Description                                   |
+| ------------ | --------- | -------- | --------------------------------------------- |
+| `type`       | String    | Yes      | Set to `'click'`                              |
+| `subtype`    | String    | Yes      | Set to `'related'`, `'similar'` or `'recent'` |
+| `product_id` | String    | Yes      | Set to the id of the clicked product          |
 
 # Overview
 
@@ -1408,46 +1411,53 @@ print(response.json())
 ```
 
 ```javascript
-const axios = require('axios');
-const cryto = require('crypto');
+const axios = require("axios");
+const cryto = require("crypto");
 
-const url = 'https://api.datacue.co/v1/overview'
-const apikey = 'your-api-key-goes-here';
-const apisecret = 'your-api-secret-goes-here';
+const url = "https://api.datacue.co/v1/overview";
+const apikey = "your-api-key-goes-here";
+const apisecret = "your-api-secret-goes-here";
 
-var hash = crypto.createHmac('sha256', apisecret).update("");
+var hash = crypto.createHmac("sha256", apisecret).update("");
 
 //add to default authentication header
-axios.defaults.auth = { username: 'API-key', password: hash.digest('hex') };
+axios.defaults.auth = { username: "API-key", password: hash.digest("hex") };
 
-axios.get(url).then(response => {
-  if (response.data) {
-    console.log(response.data);
-  }
-}).catch(err => {
-  console.err(err);
-});
+axios
+  .get(url)
+  .then(response => {
+    if (response.data) {
+      console.log(response.data);
+    }
+  })
+  .catch(err => {
+    console.err(err);
+  });
 ```
 
 > The above command returns a 200 response code
 
 ```json
-{ "categories":300,"products":{"products":500,"variants":2500}, "orders":5000, "users":4900 }
+{
+  "categories": 300,
+  "products": { "products": 500, "variants": 2500 },
+  "orders": 5000,
+  "users": 4900
+}
 ```
-
 
 Endpoint: `GET` `https://api.datacue.co/v1/overview`
 Provides an overview of all backend data received by the DataCue API from your store.
 
 ### Response JSON fields
 
-| FieldName       | Data Type   | Description |
-| ---------------- | ----------- | ----------- |
-| `categories`  | Integer   | Number of categories received
-| `products`     | Integer      | Number of unique product received (excluding variants)
-| `variants`     | Integer     | Number of unique product variants received
-| `orders`  | Integer   | Number of unique orders received
-| `users`     | Integer | Number of unique users received
+| FieldName    | Data Type | Description                                            |
+| ------------ | --------- | ------------------------------------------------------ |
+| `categories` | Integer   | Number of categories received                          |
+| `products`   | Integer   | Number of unique product received (excluding variants) |
+| `variants`   | Integer   | Number of unique product variants received             |
+| `orders`     | Integer   | Number of unique orders received                       |
+| `users`      | Integer   | Number of unique users received                        |
 
 ## Get Products
 
@@ -1490,31 +1500,34 @@ print(response.json())
 ```
 
 ```javascript
-const axios = require('axios');
-const cryto = require('crypto');
+const axios = require("axios");
+const cryto = require("crypto");
 
-const url = 'https://api.datacue.co/v1/overview/products'
-const apikey = 'your-api-key-goes-here';
-const apisecret = 'your-api-secret-goes-here';
+const url = "https://api.datacue.co/v1/overview/products";
+const apikey = "your-api-key-goes-here";
+const apisecret = "your-api-secret-goes-here";
 
-var hash = crypto.createHmac('sha256', apisecret).update("");
+var hash = crypto.createHmac("sha256", apisecret).update("");
 
 //add to default authentication header
-axios.defaults.auth = { username: 'API-key', password: hash.digest('hex') };
+axios.defaults.auth = { username: "API-key", password: hash.digest("hex") };
 
-axios.get(url).then(response => {
-  if (response.data) {
-    console.log(response.data);
-  }
-}).catch(err => {
-  console.err(err);
-});
+axios
+  .get(url)
+  .then(response => {
+    if (response.data) {
+      console.log(response.data);
+    }
+  })
+  .catch(err => {
+    console.err(err);
+  });
 ```
 
 > The above command returns a 200 response code
 
 ```json
-{ "ids": ["P1","P2"], "count": 2 }
+{ "ids": ["P1", "P2"], "count": 2 }
 ```
 
 Endpoint: `GET` `https://api.datacue.co/v1/overview/products`
@@ -1522,10 +1535,10 @@ Provides an overview of all product data received by the DataCue API from your s
 
 ### Response JSON fields
 
-| Field       | Data Type   | Description |
-| ----------- | ----------- | ----------- |
-| `ids`     | String Array      | Array of all product ids received successfully
-| `count`     | Integer     | Number of unique products
+| Field   | Data Type    | Description                                    |
+| ------- | ------------ | ---------------------------------------------- |
+| `ids`   | String Array | Array of all product ids received successfully |
+| `count` | Integer      | Number of unique products                      |
 
 ## Get Categories
 
@@ -1568,31 +1581,34 @@ print(response.json())
 ```
 
 ```javascript
-const axios = require('axios');
-const cryto = require('crypto');
+const axios = require("axios");
+const cryto = require("crypto");
 
-const url = 'https://api.datacue.co/v1/overview/categories'
-const apikey = 'your-api-key-goes-here';
-const apisecret = 'your-api-secret-goes-here';
+const url = "https://api.datacue.co/v1/overview/categories";
+const apikey = "your-api-key-goes-here";
+const apisecret = "your-api-secret-goes-here";
 
-var hash = crypto.createHmac('sha256', apisecret).update("");
+var hash = crypto.createHmac("sha256", apisecret).update("");
 
 //add to default authentication header
-axios.defaults.auth = { username: 'API-key', password: hash.digest('hex') };
+axios.defaults.auth = { username: "API-key", password: hash.digest("hex") };
 
-axios.get(url).then(response => {
-  if (response.data) {
-    console.log(response.data);
-  }
-}).catch(err => {
-  console.err(err);
-});
+axios
+  .get(url)
+  .then(response => {
+    if (response.data) {
+      console.log(response.data);
+    }
+  })
+  .catch(err => {
+    console.err(err);
+  });
 ```
 
 > The above command returns a 200 response code
 
 ```json
-{ "ids": ["C1","C2"], "count": 2 }
+{ "ids": ["C1", "C2"], "count": 2 }
 ```
 
 Endpoint: `GET` `https://api.datacue.co/v1/overview/categories`
@@ -1600,10 +1616,10 @@ Provides an overview of all categories received by the DataCue API from your sto
 
 ### Response JSON fields
 
-| Field       | Data Type   | Description |
-| ----------- | ----------- | ----------- |
-| `ids`     | String Array      | Array of all categoriy ids received successfully
-| `count`     | Integer     | Number of unique categories
+| Field   | Data Type    | Description                                      |
+| ------- | ------------ | ------------------------------------------------ |
+| `ids`   | String Array | Array of all categoriy ids received successfully |
+| `count` | Integer      | Number of unique categories                      |
 
 ## Get Orders
 
@@ -1646,31 +1662,34 @@ print(response.json())
 ```
 
 ```javascript
-const axios = require('axios');
-const cryto = require('crypto');
+const axios = require("axios");
+const cryto = require("crypto");
 
-const url = 'https://api.datacue.co/v1/overview/orders'
-const apikey = 'your-api-key-goes-here';
-const apisecret = 'your-api-secret-goes-here';
+const url = "https://api.datacue.co/v1/overview/orders";
+const apikey = "your-api-key-goes-here";
+const apisecret = "your-api-secret-goes-here";
 
-var hash = crypto.createHmac('sha256', apisecret).update("");
+var hash = crypto.createHmac("sha256", apisecret).update("");
 
 //add to default authentication header
-axios.defaults.auth = { username: 'API-key', password: hash.digest('hex') };
+axios.defaults.auth = { username: "API-key", password: hash.digest("hex") };
 
-axios.get(url).then(response => {
-  if (response.data) {
-    console.log(response.data);
-  }
-}).catch(err => {
-  console.err(err);
-});
+axios
+  .get(url)
+  .then(response => {
+    if (response.data) {
+      console.log(response.data);
+    }
+  })
+  .catch(err => {
+    console.err(err);
+  });
 ```
 
 > The above command returns a 200 response code
 
 ```json
-{ "ids": ["O1","O2"], "count": 2 }
+{ "ids": ["O1", "O2"], "count": 2 }
 ```
 
 Endpoint: `GET` `https://api.datacue.co/v1/overview/orders`
@@ -1678,10 +1697,10 @@ Provides an overview of all order data received by the DataCue API from your sto
 
 ### Response JSON fields
 
-| Field       | Data Type   | Description |
-| ----------- | ----------- | ----------- |
-| `ids`     | String Array      | Array of all order ids received successfully
-| `count`     | Integer     | Number of unique orders
+| Field   | Data Type    | Description                                  |
+| ------- | ------------ | -------------------------------------------- |
+| `ids`   | String Array | Array of all order ids received successfully |
+| `count` | Integer      | Number of unique orders                      |
 
 ## Get Users
 
@@ -1724,31 +1743,34 @@ print(response.json())
 ```
 
 ```javascript
-const axios = require('axios');
-const cryto = require('crypto');
+const axios = require("axios");
+const cryto = require("crypto");
 
-const url = 'https://api.datacue.co/v1/overview/users'
-const apikey = 'your-api-key-goes-here';
-const apisecret = 'your-api-secret-goes-here';
+const url = "https://api.datacue.co/v1/overview/users";
+const apikey = "your-api-key-goes-here";
+const apisecret = "your-api-secret-goes-here";
 
-var hash = crypto.createHmac('sha256', apisecret).update("");
+var hash = crypto.createHmac("sha256", apisecret).update("");
 
 //add to default authentication header
-axios.defaults.auth = { username: 'API-key', password: hash.digest('hex') };
+axios.defaults.auth = { username: "API-key", password: hash.digest("hex") };
 
-axios.get(url).then(response => {
-  if (response.data) {
-    console.log(response.data);
-  }
-}).catch(err => {
-  console.err(err);
-});
+axios
+  .get(url)
+  .then(response => {
+    if (response.data) {
+      console.log(response.data);
+    }
+  })
+  .catch(err => {
+    console.err(err);
+  });
 ```
 
 > The above command returns a 200 response code
 
 ```json
-{ "ids": ["U1","U2"], "count": 2 }
+{ "ids": ["U1", "U2"], "count": 2 }
 ```
 
 Endpoint: `GET` `https://api.datacue.co/v1/overview/users`
@@ -1756,10 +1778,10 @@ Provides an overview of all user data received by the DataCue API from your stor
 
 ### Response JSON fields
 
-| Field       | Data Type   | Description |
-| ----------- | ----------- | ----------- |
-| `ids`     | String Array      | Array of all users ids received successfully
-| `count`     | Integer     | Number of unique users
+| Field   | Data Type    | Description                                  |
+| ------- | ------------ | -------------------------------------------- |
+| `ids`   | String Array | Array of all users ids received successfully |
+| `count` | Integer      | Number of unique users                       |
 
 # Products
 
@@ -1846,39 +1868,39 @@ response = requests.post(url, data=jsonData, auth=(apikey, checksum.hexdigest())
 ```
 
 ```javascript
-const axios = require('axios');
-const cryto = require('crypto');
+const axios = require("axios");
+const cryto = require("crypto");
 
-const url = 'https://api.datacue.co/v1/products'
-const apikey = 'your-api-key-goes-here';
-const apisecret = 'your-api-secret-goes-here';
+const url = "https://api.datacue.co/v1/products";
+const apikey = "your-api-key-goes-here";
+const apisecret = "your-api-secret-goes-here";
 
 const data = {
-  product_id: 'p1',
-  variant_id: 'v1',
-  category_ids: ['men','summer','jeans'],
-  name: 'cool jeans',
-  brand: 'zayra',
-  description: 'very fashionable jeans',
-  color: 'blue',
-  size: 'M',
+  product_id: "p1",
+  variant_id: "v1",
+  category_ids: ["men", "summer", "jeans"],
+  name: "cool jeans",
+  brand: "zayra",
+  description: "very fashionable jeans",
+  color: "blue",
+  size: "M",
   price: 25000,
   full_price: 35000,
   available: true,
   stock: 5,
   rating: 90,
   extra: {
-    extra_feature: 'details'
+    extra_feature: "details"
   },
-  photo_url: 'https://s3.amazon.com/image.png',
-  link: '/product/p1',
-  owner_id: 'user_id_3'
+  photo_url: "https://s3.amazon.com/image.png",
+  link: "/product/p1",
+  owner_id: "user_id_3"
 };
 
-var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
+var hash = crypto.createHmac("sha256", apisecret).update(JSON.Stringify(data));
 
 //add to default authentication header
-axios.defaults.auth = { username: 'API-key', password: hash.digest('hex') };
+axios.defaults.auth = { username: "API-key", password: hash.digest("hex") };
 
 axios.post(url, data);
 ```
@@ -1890,25 +1912,25 @@ Whenever a new product is created, send this request from your backend.
 
 ### Request JSON fields
 
-| FieldName       | Data Type   | Required | Description |
-| ---------------- | ----------- | -------- | ----------- |
-| `product_id`     | String      | Yes      | The product id or SKU number
-| `variant_id`     | String      | Yes      | A unique variant id within the product id, if you only use product SKUs set this to a constant such as 'no-variants'
-| `category_ids`     | String Array| Yes       | A list of all the matching category ids as tags e.g. ["Jeans","Summer","Men"]. Must be a valid category_id (see categories)
-| `name`           | String      | Yes      | Name or Title of the product
-| `brand`          | String      | No       | Brand name of the product
-| `description`    | String      | No       | Long text description of the product
-| `color`          | String      | No       | Color of the product
-| `size`           | String      | No       | Size of the product
-| `price`          | Decimal     | Yes      | Current price including any discounts to two decimal places e.g. 4.50
-| `full_price`          | Decimal     | Yes      | Full price without discount to two decimal places e.g. 5.30
-| `available`      | Boolean     | No       | Is the product available for Sale (Default true)
-| `stock`          | Integer     | Yes      | Number of product in stock
-| `rating`          | Integer     | No      | Rating from 0-100 of the product/variant
-| `extra`          | JSON Object | No       | Any other fields you want to store about the product that you want to display on site e.g. discounts or promotions.
-| `photo_url`      | String      | Yes      | URL of the photo, you can use relative URLs as this is purely for your front-end to request the image
-| `link`           | String      | Yes      | URL of product page for this product e.g. /products/p1
-| `owner_id`       | String      | No       | If you're running a marketplace, store the product's owner or seller's user ID here.
+| FieldName      | Data Type    | Required | Description                                                                                                                 |
+| -------------- | ------------ | -------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `product_id`   | String       | Yes      | The product id or SKU number                                                                                                |
+| `variant_id`   | String       | Yes      | A unique variant id within the product id, if you only use product SKUs set this to a constant such as 'no-variants'        |
+| `category_ids` | String Array | Yes      | A list of all the matching category ids as tags e.g. ["Jeans","Summer","Men"]. Must be a valid category_id (see categories) |
+| `name`         | String       | Yes      | Name or Title of the product                                                                                                |
+| `brand`        | String       | No       | Brand name of the product                                                                                                   |
+| `description`  | String       | No       | Long text description of the product                                                                                        |
+| `color`        | String       | No       | Color of the product                                                                                                        |
+| `size`         | String       | No       | Size of the product                                                                                                         |
+| `price`        | Decimal      | Yes      | Current price including any discounts to two decimal places e.g. 4.50                                                       |
+| `full_price`   | Decimal      | Yes      | Full price without discount to two decimal places e.g. 5.30                                                                 |
+| `available`    | Boolean      | No       | Is the product available for Sale (Default true)                                                                            |
+| `stock`        | Integer      | Yes      | Number of product in stock                                                                                                  |
+| `rating`       | Integer      | No       | Rating from 0-100 of the product/variant                                                                                    |
+| `extra`        | JSON Object  | No       | Any other fields you want to store about the product that you want to display on site e.g. discounts or promotions.         |
+| `photo_url`    | String       | Yes      | URL of the photo, you can use relative URLs as this is purely for your front-end to request the image                       |
+| `link`         | String       | Yes      | URL of product page for this product e.g. /products/p1                                                                      |
+| `owner_id`     | String       | No       | If you're running a marketplace, store the product's owner or seller's user ID here.                                        |
 
 #### Discounts
 
@@ -2008,40 +2030,40 @@ response = requests.put(url, data=jsonData, auth=(apikey, checksum.hexdigest()))
 ```
 
 ```javascript
-const axios = require('axios');
-const cryto = require('crypto');
+const axios = require("axios");
+const cryto = require("crypto");
 
-const productId = 'p1';
-const variantId = 'v1';
+const productId = "p1";
+const variantId = "v1";
 
-const url = `https://api.datacue.co/v1/products/${productId}/${variantId}`
-const apikey = 'your-api-key-goes-here';
-const apisecret = 'your-api-secret-goes-here';
+const url = `https://api.datacue.co/v1/products/${productId}/${variantId}`;
+const apikey = "your-api-key-goes-here";
+const apisecret = "your-api-secret-goes-here";
 
 const data = {
-  category_ids: ['men','summer','jeans'],
-  name: 'cool jeans',
-  brand: 'zayra',
-  description: 'very fashionable jeans',
-  color: 'blue',
-  size: 'M',
+  category_ids: ["men", "summer", "jeans"],
+  name: "cool jeans",
+  brand: "zayra",
+  description: "very fashionable jeans",
+  color: "blue",
+  size: "M",
   price: 25000,
   full_price: 35000,
   available: true,
   stock: 5,
   rating: 90,
   extra: {
-    extra_feature: 'details'
+    extra_feature: "details"
   },
-  photo_url: 'https://s3.amazon.com/image.png',
-  link: '/product/p1',
-  owner_id: 'user_id_3'
+  photo_url: "https://s3.amazon.com/image.png",
+  link: "/product/p1",
+  owner_id: "user_id_3"
 };
 
-var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
+var hash = crypto.createHmac("sha256", apisecret).update(JSON.Stringify(data));
 
 //add to default authentication header
-axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
+axios.defaults.auth = { username: apikey, password: hash.digest("hex") };
 
 axios.put(url, data);
 ```
@@ -2109,21 +2131,21 @@ response = requests.delete(url, auth=(apikey, checksum.hexdigest()))
 ```
 
 ```javascript
-const axios = require('axios');
-const cryto = require('crypto');
+const axios = require("axios");
+const cryto = require("crypto");
 
 // replace these values with the product and variant id you want to delete
-const productId = 'p1';
-const variantId = 'v1';
+const productId = "p1";
+const variantId = "v1";
 
-const url = `https://api.datacue.co/v1/products/${productId}/${variantId}`
-const apikey = 'your-api-key-goes-here';
-const apisecret = 'your-api-secret-goes-here';
+const url = `https://api.datacue.co/v1/products/${productId}/${variantId}`;
+const apikey = "your-api-key-goes-here";
+const apisecret = "your-api-secret-goes-here";
 
-var hash = crypto.createHmac('sha256', apisecret).update('');
+var hash = crypto.createHmac("sha256", apisecret).update("");
 
 //add to default authentication header
-axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
+axios.defaults.auth = { username: apikey, password: hash.digest("hex") };
 
 axios.delete(url);
 ```
@@ -2219,11 +2241,11 @@ When a new category is created on your store
 
 ### Request JSON fields
 
-| FieldName | Data Type     | Required                      | Description |
-| ------------------ | ------------- | ----------------------------- | ----------- |
-| `category_id`          | String        | Yes                           | The unique category id assigned
-| `name`       | String        | Yes                           | Category friendly name
-| `link`        | String        | No                            | Link to the respective category's page
+| FieldName     | Data Type | Required | Description                            |
+| ------------- | --------- | -------- | -------------------------------------- |
+| `category_id` | String    | Yes      | The unique category id assigned        |
+| `name`        | String    | Yes      | Category friendly name                 |
+| `link`        | String    | No       | Link to the respective category's page |
 
 ## Update Category
 
@@ -2275,25 +2297,25 @@ response = requests.put(url, data=jsonData, auth=(apikey, checksum.hexdigest()))
 ```
 
 ```javascript
-const axios = require('axios');
-const cryto = require('crypto');
+const axios = require("axios");
+const cryto = require("crypto");
 
 // replace this value with the user id you want to update
-const categoryId = 'summer-jeans';
+const categoryId = "summer-jeans";
 
-const url = `https://api.datacue.co/v1/categories/${categoryId}`
-const apikey = 'your-api-key-goes-here';
-const apisecret = 'your-api-secret-goes-here';
+const url = `https://api.datacue.co/v1/categories/${categoryId}`;
+const apikey = "your-api-key-goes-here";
+const apisecret = "your-api-secret-goes-here";
 
 const data = {
-  name : "Summer Jeans Special",
-  link : "/categories/summer-jeans-2"
+  name: "Summer Jeans Special",
+  link: "/categories/summer-jeans-2"
 };
 
-var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
+var hash = crypto.createHmac("sha256", apisecret).update(JSON.Stringify(data));
 
 //add to default authentication header
-axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
+axios.defaults.auth = { username: apikey, password: hash.digest("hex") };
 
 axios.put(url, data);
 ```
@@ -2349,23 +2371,22 @@ response = requests.delete(url, auth=(apikey, checksum.hexdigest()))
 ```
 
 ```javascript
-const axios = require('axios');
-const cryto = require('crypto');
+const axios = require("axios");
+const cryto = require("crypto");
 
 // replace this value with the user id you want to delete
-const categoryId = 'summer-jeans';
+const categoryId = "summer-jeans";
 
-const url = `https://api.datacue.co/v1/categories/${categoryId}`
-const apikey = 'your-api-key-goes-here';
-const apisecret = 'your-api-secret-goes-here';
+const url = `https://api.datacue.co/v1/categories/${categoryId}`;
+const apikey = "your-api-key-goes-here";
+const apisecret = "your-api-secret-goes-here";
 
-var hash = crypto.createHmac('sha256', apisecret).update('');
+var hash = crypto.createHmac("sha256", apisecret).update("");
 
 //add to default authentication header
-axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
+axios.defaults.auth = { username: apikey, password: hash.digest("hex") };
 
 axios.delete(url);
-
 ```
 
 > The above command returns a 204 response code
@@ -2397,9 +2418,7 @@ $data = [
   "first_name" => "John",
   "last_name" => "Smith",
   "profile" => [
-    "location" => "santiago",
-    "sex" => "male",
-    "segment" => "platinum"
+    "loyalty_plan" => "platinum"
   ],
   "wishlist" => ["P1", "P3", "P4"], //array of product ids
   "email_subscriber" => true,
@@ -2428,9 +2447,7 @@ data = {
   "first_name": "John",
   "last_name": "Smith",
   "profile": {
-    "location": "santiago",
-    "sex": "male",
-    "segment": "platinum"
+    "loyalty_plan": "platinum"
   },
   "wishlist": ['P1','P3','P4'], #array of product ids
   "email_subscriber": True,
@@ -2446,34 +2463,32 @@ response = requests.post(url, data=jsonData, auth=(apikey, checksum.hexdigest())
 ```
 
 ```javascript
-const axios = require('axios');
-const cryto = require('crypto');
+const axios = require("axios");
+const cryto = require("crypto");
 
-const url = 'https://api.datacue.co/v1/users'
-const apikey = 'your-api-key-goes-here';
-const apisecret = 'your-api-secret-goes-here';
+const url = "https://api.datacue.co/v1/users";
+const apikey = "your-api-key-goes-here";
+const apisecret = "your-api-secret-goes-here";
 
 const data = {
-  user_id: 'u1',
-  email: 'xyz@abc.com',
-  title: 'Mr',
-  first_name: 'Noob',
-  last_name: 'Saibot',
+  user_id: "u1",
+  email: "xyz@abc.com",
+  title: "Mr",
+  first_name: "Noob",
+  last_name: "Saibot",
   profile: {
-    location: 'santiago',
-    sex: 'male',
-    segment: 'platinum'
+    loyalty_plan: "platinum"
   },
-  wishlist: ['P1','P3','P4'], //array of product ids
+  wishlist: ["P1", "P3", "P4"], //array of product ids
   email_subscriber: true,
   guest_account: false,
-  timestamp: '2018-04-04 23:29:04-03:00'
+  timestamp: "2018-04-04 23:29:04-03:00"
 };
 
-var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
+var hash = crypto.createHmac("sha256", apisecret).update(JSON.Stringify(data));
 
 //add to default authentication header
-axios.defaults.auth = { username: 'API-key', password: hash.digest('hex') };
+axios.defaults.auth = { username: "API-key", password: hash.digest("hex") };
 
 axios.post(url, data);
 ```
@@ -2486,27 +2501,19 @@ When a new user has successfully signed up / registered on your system.
 
 ### Request JSON fields
 
-| FieldName | Data Type     | Required                      | Description |
-| ------------------ | ------------- | ----------------------------- | ----------- |
-| `user_id`          | String        | Yes                           | The unique user id assigned
-| `anonymous_id`     | String        | No                            | Anonymous ID that was previously associated with this user prior to user sign up
-| `email`            | String        | Yes, if using email marketing | User's email address
-| `title`            | String        | No                            | Salutation e.g. Mr., Ms., Dr.
-| `first_name`       | String        | Yes                           | User's first name, if you store all the names in one field assign the name to this field
-| `last_name`        | String        | No                            | User's last name
-| `profile`          | JSON Object   | No                            | User's profile. See table below for field description
-| `email_subscriber` | Boolean       | No                            | Has this user consented to receive marketing email?
-| `guest_account` | Boolean       | No                            | Is this a guest account (user has no login credentials)
-| `wishlist`         | Array         | No                            | An array of product ids representing the products the user has on their wishlist.
-| `timestamp`        | ISO-8601 Date | No                            | User creation date/time in UTC timezone
-
-### profile
-
-| FieldName | Data Type | Required | Description |
-| ---------- | --------- | -------- | ----------- |
-| `sex`      | String    | No       | Sex of the user
-| `segment`  | String    | No       | Custom segment name that you store e.g. Gold class / Member
-| `location` | String    | No       | Location of the user as a commune, city, region or country
+| FieldName          | Data Type     | Required                      | Description                                                                              |
+| ------------------ | ------------- | ----------------------------- | ---------------------------------------------------------------------------------------- |
+| `user_id`          | String        | Yes                           | The unique user id assigned                                                              |
+| `anonymous_id`     | String        | No                            | Anonymous ID that was previously associated with this user prior to user sign up         |
+| `email`            | String        | Yes, if using email marketing | User's email address                                                                     |
+| `title`            | String        | No                            | Salutation e.g. Mr., Ms., Dr.                                                            |
+| `first_name`       | String        | Yes                           | User's first name, if you store all the names in one field assign the name to this field |
+| `last_name`        | String        | No                            | User's last name                                                                         |
+| `profile`          | JSON Object   | No                            | User profile information, like if they are on a loyalty program.                         |
+| `email_subscriber` | Boolean       | No                            | Has this user consented to receive marketing email?                                      |
+| `guest_account`    | Boolean       | No                            | Is this a guest account (user has no login credentials)                                  |
+| `wishlist`         | Array         | No                            | An array of product ids representing the products the user has on their wishlist.        |
+| `timestamp`        | ISO-8601 Date | No                            | User creation date/time in UTC timezone                                                  |
 
 ## Update User
 
@@ -2530,9 +2537,7 @@ $data = [
   "first_name" => "John",
   "last_name" => "Smith",
   "profile" => [
-    "location" => "santiago",
-    "sex" => "male",
-    "segment" => "platinum"
+    "loyalty_plan" => "platinum"
   ],
   "wishlist" => ["P1", "P3", "P4"], //array of product ids
   "email_subscriber" => true,
@@ -2564,9 +2569,7 @@ data = {
   "first_name": "John",
   "last_name": "Smith",
   "profile": {
-    "location": "santiago",
-    "sex": "male",
-    "segment": "platinum"
+    "loyalty_plan": "platinum"
   },
   "wishlist": ['P1','P3','P4'], #array of product ids
   "email_subscriber": True,
@@ -2581,36 +2584,34 @@ response = requests.put(url, data=jsonData, auth=(apikey, checksum.hexdigest()))
 ```
 
 ```javascript
-const axios = require('axios');
-const cryto = require('crypto');
+const axios = require("axios");
+const cryto = require("crypto");
 
 // replace this value with the user id you want to update
-const userId = 'u1';
+const userId = "u1";
 
-const url = `https://api.datacue.co/v1/users/${userId}`
-const apikey = 'your-api-key-goes-here';
-const apisecret = 'your-api-secret-goes-here';
+const url = `https://api.datacue.co/v1/users/${userId}`;
+const apikey = "your-api-key-goes-here";
+const apisecret = "your-api-secret-goes-here";
 
 const data = {
-  email: 'xyz@abc.com',
-  title: 'Mr',
-  first_name: 'Noob',
-  last_name: 'Saibot',
+  email: "xyz@abc.com",
+  title: "Mr",
+  first_name: "Noob",
+  last_name: "Saibot",
   profile: {
-    location: 'santiago',
-    sex: 'male',
-    segment: 'platinum'
+    loyalty_plan: "platinum"
   },
-  wishlist: ['P1','P3','P4'], //array of product ids
+  wishlist: ["P1", "P3", "P4"], //array of product ids
   email_subscriber: true,
   guest_account: false,
-  timestamp: '2018-04-04 23:29:04-03:00'
+  timestamp: "2018-04-04 23:29:04-03:00"
 };
 
-var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
+var hash = crypto.createHmac("sha256", apisecret).update(JSON.Stringify(data));
 
 //add to default authentication header
-axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
+axios.defaults.auth = { username: apikey, password: hash.digest("hex") };
 
 axios.put(url, data);
 ```
@@ -2666,23 +2667,22 @@ response = requests.delete(url, auth=(apikey, checksum.hexdigest()))
 ```
 
 ```javascript
-const axios = require('axios');
-const cryto = require('crypto');
+const axios = require("axios");
+const cryto = require("crypto");
 
 // replace this value with the user id you want to delete
-const userId = 'u1';
+const userId = "u1";
 
-const url = `https://api.datacue.co/v1/users/${userId}`
-const apikey = 'your-api-key-goes-here';
-const apisecret = 'your-api-secret-goes-here';
+const url = `https://api.datacue.co/v1/users/${userId}`;
+const apikey = "your-api-key-goes-here";
+const apisecret = "your-api-secret-goes-here";
 
-var hash = crypto.createHmac('sha256', apisecret).update('');
+var hash = crypto.createHmac("sha256", apisecret).update("");
 
 //add to default authentication header
-axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
+axios.defaults.auth = { username: apikey, password: hash.digest("hex") };
 
 axios.delete(url);
-
 ```
 
 > The above command returns a 204 response code
@@ -2762,40 +2762,40 @@ response = requests.post(url, data=jsonData, auth=(apikey, checksum.hexdigest())
 ```
 
 ```javascript
-const axios = require('axios');
-const cryto = require('crypto');
+const axios = require("axios");
+const cryto = require("crypto");
 
-const url = 'https://api.datacue.co/v1/orders'
-const apikey = 'your-api-key-goes-here';
-const apisecret = 'your-api-secret-goes-here';
+const url = "https://api.datacue.co/v1/orders";
+const apikey = "your-api-key-goes-here";
+const apisecret = "your-api-secret-goes-here";
 
 const data = {
-  order_id : 'O123',
-  user_id : 'U456',
-  order_status : 'completed',
+  order_id: "O123",
+  user_id: "U456",
+  order_status: "completed",
   cart: [
     {
-      product_id : 'p1',
-      variant_id : 'v1',
-      quantity : 1,
-      unit_price : 24,
-      currency : 'USD'
+      product_id: "p1",
+      variant_id: "v1",
+      quantity: 1,
+      unit_price: 24,
+      currency: "USD"
     },
     {
-      product_id : 'p3',
-      variant_id : 'v2',
-      quantity : 9,
-      unit_price : 42,
-      currency : 'USD'
+      product_id: "p3",
+      variant_id: "v2",
+      quantity: 9,
+      unit_price: 42,
+      currency: "USD"
     }
   ],
-  timestamp: '2018-04-04 23:29:04Z'
-}
+  timestamp: "2018-04-04 23:29:04Z"
+};
 
-var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
+var hash = crypto.createHmac("sha256", apisecret).update(JSON.Stringify(data));
 
 //add to default authentication header
-axios.defaults.auth = { username: 'API-key', password: hash.digest('hex') };
+axios.defaults.auth = { username: "API-key", password: hash.digest("hex") };
 
 axios.post(url, data);
 ```
@@ -2812,22 +2812,22 @@ An Order is considered 'completed' as soon as the checkout process is completed 
 
 ### Request JSON fields
 
-| FieldName | Data Type     | Required                      | Description |
-| ------------------ | ------------- | ----------------------------- | ----------- |
-| `order_id`         | String        | Yes                           | The unique order id assigned
-| `user_id`          | String        | Yes                           | User ID that made the order
-| `order_status`          | String        | No                           | Can be `completed` (default) or `cancelled`
-| `cart`             | Array         | No                            | An array of line items in the order shopping cart
-| `timestamp`        | ISO-8601 Date | Yes                            | Order creation date/time in UTC timezone
+| FieldName      | Data Type     | Required | Description                                       |
+| -------------- | ------------- | -------- | ------------------------------------------------- |
+| `order_id`     | String        | Yes      | The unique order id assigned                      |
+| `user_id`      | String        | Yes      | User ID that made the order                       |
+| `order_status` | String        | No       | Can be `completed` (default) or `cancelled`       |
+| `cart`         | Array         | No       | An array of line items in the order shopping cart |
+| `timestamp`    | ISO-8601 Date | Yes      | Order creation date/time in UTC timezone          |
 
 ### cart items
 
-| FieldName | Data Type | Required | Description |
-| ---------- | --------- | -------- | ----------- |
-| `product_id`      | String    | Yes       | Product ID code
-| `variant_id`  | String    | Yes       | Variant ID of the product
-| `unit_price` | Decimal    | Yes       | The unit price of the product (including any discounts)
-| `quantity` | Integer    | Yes       | Number of products purchased
+| FieldName    | Data Type | Required | Description                                             |
+| ------------ | --------- | -------- | ------------------------------------------------------- |
+| `product_id` | String    | Yes      | Product ID code                                         |
+| `variant_id` | String    | Yes      | Variant ID of the product                               |
+| `unit_price` | Decimal   | Yes      | The unit price of the product (including any discounts) |
+| `quantity`   | Integer   | Yes      | Number of products purchased                            |
 
 ### Guest checkout
 
@@ -2841,17 +2841,17 @@ To create a guest checkout, you just need to do two things.
 
 ```html
 <script>
-window.datacueConfig = {
-  api_key: 'your-api-key',
-  user_id: '<guest-email-id>',
-  page_type: 'order confirmation'
-};
+  window.datacueConfig = {
+    api_key: "your-api-key",
+    user_id: "<guest-email-id>",
+    page_type: "order confirmation"
+  };
 </script>
 
 <script src="https://cdn.datacue.co/js/datacue.js"></script>
 <script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
-
 ```
+
 ## Change Order Status
 
 Order status can be `completed` or `cancelled`.
@@ -2900,24 +2900,24 @@ response = requests.patch(url, data=jsonData, auth=(apikey, checksum.hexdigest()
 ```
 
 ```javascript
-const axios = require('axios');
-const cryto = require('crypto');
+const axios = require("axios");
+const cryto = require("crypto");
 
 // replace this value with the order id you want to modify
-const orderId = 'o1';
+const orderId = "o1";
 
-const url = `https://api.datacue.co/v1/orders/${orderId}/status`
-const apikey = 'your-api-key-goes-here';
-const apisecret = 'your-api-secret-goes-here';
+const url = `https://api.datacue.co/v1/orders/${orderId}/status`;
+const apikey = "your-api-key-goes-here";
+const apisecret = "your-api-secret-goes-here";
 
 const data = {
-  'order_status': 'cancelled'
-}
+  order_status: "cancelled"
+};
 
-var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
+var hash = crypto.createHmac("sha256", apisecret).update(JSON.Stringify(data));
 
 //add to default authentication header
-axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
+axios.defaults.auth = { username: apikey, password: hash.digest("hex") };
 
 axios.patch(url, data);
 ```
@@ -2930,9 +2930,9 @@ Endpoint: `PATCH` `https://api.datacue.co/v1/orders/<order_id>/status`
 
 ### Request JSON fields
 
-| Field | Data Type     | Required                      | Description |
-| ------------------ | ------------- | ----------------------------- | ----------- |
-| `order_status`          | String        | Yes                           | Can be `completed` or `cancelled`
+| Field          | Data Type | Required | Description                       |
+| -------------- | --------- | -------- | --------------------------------- |
+| `order_status` | String    | Yes      | Can be `completed` or `cancelled` |
 
 ## Delete Order
 
@@ -2974,23 +2974,22 @@ response = requests.delete(url, auth=(apikey, checksum.hexdigest()))
 ```
 
 ```javascript
-const axios = require('axios');
-const cryto = require('crypto');
+const axios = require("axios");
+const cryto = require("crypto");
 
 // replace this value with the order id you want to delete
-const orderId = 'o1';
+const orderId = "o1";
 
-const url = `https://api.datacue.co/v1/orders/${orderId}`
-const apikey = 'your-api-key-goes-here';
-const apisecret = 'your-api-secret-goes-here';
+const url = `https://api.datacue.co/v1/orders/${orderId}`;
+const apikey = "your-api-key-goes-here";
+const apisecret = "your-api-secret-goes-here";
 
-var hash = crypto.createHmac('sha256', apisecret).update('');
+var hash = crypto.createHmac("sha256", apisecret).update("");
 
 //add to default authentication header
-axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
+axios.defaults.auth = { username: apikey, password: hash.digest("hex") };
 
 axios.delete(url);
-
 ```
 
 > The above command returns a 204 response code
@@ -3019,21 +3018,24 @@ When an order is deleted from your system.
 > To submit multiple, just send an array of product create requests like so:
 
 ```json
-[{
+[
+  {
     "product_id": "P1",
     "variant_id": "V2",
     "category_ids": ["jeans"],
     "price": 50,
     "photo_url": "/products/p1.jpg",
     "link": "/products/p1"
-  }, {
+  },
+  {
     "product_id": "P2",
     "variant_id": "V1",
     "category_ids": ["shirts"],
     "price": 30,
     "photo_url": "/products/p2.jpg",
     "link": "/products/p2"
-}]
+  }
+]
 ```
 
 Use the batch endpoint if you want to do a bulk import, typically when you first start using DataCue and you want to add your historical orders, products or users.
@@ -3155,58 +3157,58 @@ response = requests.post(url, data=jsonData, auth=(apikey, checksum.hexdigest())
 ```
 
 ```javascript
-const axios = require('axios');
-const cryto = require('crypto');
+const axios = require("axios");
+const cryto = require("crypto");
 
-const url = 'https://api.datacue.co/v1/batch/products';
-const apikey = 'your-api-key-goes-here';
-const apisecret = 'your-api-secret-goes-here';
+const url = "https://api.datacue.co/v1/batch/products";
+const apikey = "your-api-key-goes-here";
+const apisecret = "your-api-secret-goes-here";
 
 const data = [
   {
-    product_id : 'p1',
-    variant_id : 'v1',
-    category_ids : ['jeans','men','summer'],
-    name : 'cool jeans',
-    brand : 'zayra',
-    description : 'very fashionable jeans',
-    color : 'blue',
-    size : 'M',
-    price : 99,
-    full_price : 119,
-    stock : 5,
-    extra : {
-        'extra_feature': 'details'
+    product_id: "p1",
+    variant_id: "v1",
+    category_ids: ["jeans", "men", "summer"],
+    name: "cool jeans",
+    brand: "zayra",
+    description: "very fashionable jeans",
+    color: "blue",
+    size: "M",
+    price: 99,
+    full_price: 119,
+    stock: 5,
+    extra: {
+      extra_feature: "details"
     },
-    photo_url : 'https://s3.amazonaws.com/image.png',
-    link : '/product/p1'
-  }, {
-    product_id : 'p2',
-    variant_id : 'v2',
-    category_ids : ['hats','women','summer'],
-    name : 'summer hat',
-    brand : 'zayra',
-    description : 'very fashionable hat',
-    color : 'black',
-    size : '',
-    price : 24,
-    full_price : 30,
-    stock : 5,
-    extra : {
-        'extra_feature': 'details'
+    photo_url: "https://s3.amazonaws.com/image.png",
+    link: "/product/p1"
+  },
+  {
+    product_id: "p2",
+    variant_id: "v2",
+    category_ids: ["hats", "women", "summer"],
+    name: "summer hat",
+    brand: "zayra",
+    description: "very fashionable hat",
+    color: "black",
+    size: "",
+    price: 24,
+    full_price: 30,
+    stock: 5,
+    extra: {
+      extra_feature: "details"
     },
-    photo_url: 'https://s3.amazonaws.com/image.png',
-    link: '/product/p2'
+    photo_url: "https://s3.amazonaws.com/image.png",
+    link: "/product/p2"
   }
 ];
 
-var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
+var hash = crypto.createHmac("sha256", apisecret).update(JSON.Stringify(data));
 
 //add to default authentication header
-axios.defaults.auth = { username: 'API-key', password: hash.digest('hex') };
+axios.defaults.auth = { username: "API-key", password: hash.digest("hex") };
 
 axios.post(url, data);
-
 ```
 
 Endpoint: `POST` `https://api.datacue.co/v1/batch/products`
@@ -3278,32 +3280,32 @@ response = requests.post(url, data=jsonData, auth=(apikey, checksum.hexdigest())
 ```
 
 ```javascript
-const axios = require('axios');
-const cryto = require('crypto');
+const axios = require("axios");
+const cryto = require("crypto");
 
-const url = 'https://api.datacue.co/v1/batch/products';
-const apikey = 'your-api-key-goes-here';
-const apisecret = 'your-api-secret-goes-here';
+const url = "https://api.datacue.co/v1/batch/products";
+const apikey = "your-api-key-goes-here";
+const apisecret = "your-api-secret-goes-here";
 
 const data = [
   {
-    category_id : 'c1',
-    name : 'jeans',
-    link : '/categories/jeans'
-  }, {
-    category_id : 'c2',
-    name : 'shoes',
-    link : '/categories/shoes'
+    category_id: "c1",
+    name: "jeans",
+    link: "/categories/jeans"
+  },
+  {
+    category_id: "c2",
+    name: "shoes",
+    link: "/categories/shoes"
   }
 ];
 
-var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
+var hash = crypto.createHmac("sha256", apisecret).update(JSON.Stringify(data));
 
 //add to default authentication header
-axios.defaults.auth = { username: 'API-key', password: hash.digest('hex') };
+axios.defaults.auth = { username: "API-key", password: hash.digest("hex") };
 
 axios.post(url, data);
-
 ```
 
 Endpoint: `POST` `https://api.datacue.co/v1/batch/categories`
@@ -3389,39 +3391,64 @@ response = requests.post(url, data=jsonData, auth=(apikey, checksum.hexdigest())
 ```
 
 ```javascript
-const axios = require('axios');
-const cryto = require('crypto');
+const axios = require("axios");
+const cryto = require("crypto");
 
-const url = 'https://api.datacue.co/v1/batch/orders';
-const apikey = 'your-api-key-goes-here';
-const apisecret = 'your-api-secret-goes-here';
+const url = "https://api.datacue.co/v1/batch/orders";
+const apikey = "your-api-key-goes-here";
+const apisecret = "your-api-secret-goes-here";
 
 const data = [
-{
-  order_id : 'o1',
-  user_id : 'u1',
-  cart : [
-      {'product_id':  'p1', 'variant_id' : 'v1', 'quantity' : 1, 'unit_price':  24, 'currency' : 'USD'},
-      {'product_id':  'p2', 'variant_id' : 'v2', 'quantity' : 9, 'unit_price':  42, 'currency' : 'USD'}
-  ],
-  timestamp: '2018-04-04 23:29:04Z',
-}, {
-  order_id : 'o2',
-  user_id : 'u1',
-  cart : [
-      {'product_id' : 'p1', 'variant_id' : 'v1', 'quantity' : 1, 'unit_price' : 24, 'currency' : 'USD'},
-      {'product_id' : 'p2', 'variant_id' : 'v2', 'quantity' : 9, 'unit_price' : 42, 'currency' : 'USD'}
-  ],
-  timestamp : '2018-04-04 23:29:04Z',
-}];
+  {
+    order_id: "o1",
+    user_id: "u1",
+    cart: [
+      {
+        product_id: "p1",
+        variant_id: "v1",
+        quantity: 1,
+        unit_price: 24,
+        currency: "USD"
+      },
+      {
+        product_id: "p2",
+        variant_id: "v2",
+        quantity: 9,
+        unit_price: 42,
+        currency: "USD"
+      }
+    ],
+    timestamp: "2018-04-04 23:29:04Z"
+  },
+  {
+    order_id: "o2",
+    user_id: "u1",
+    cart: [
+      {
+        product_id: "p1",
+        variant_id: "v1",
+        quantity: 1,
+        unit_price: 24,
+        currency: "USD"
+      },
+      {
+        product_id: "p2",
+        variant_id: "v2",
+        quantity: 9,
+        unit_price: 42,
+        currency: "USD"
+      }
+    ],
+    timestamp: "2018-04-04 23:29:04Z"
+  }
+];
 
-var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
+var hash = crypto.createHmac("sha256", apisecret).update(JSON.Stringify(data));
 
 //add to default authentication header
-axios.defaults.auth = { username: 'API-key', password: hash.digest('hex') };
+axios.defaults.auth = { username: "API-key", password: hash.digest("hex") };
 
 axios.post(url, data);
-
 ```
 
 Endpoint: `POST` `https://api.datacue.co/v1/batch/orders`
@@ -3491,30 +3518,30 @@ response = requests.post(url, data=jsonData, auth=(apikey, checksum.hexdigest())
 ```
 
 ```javascript
-const axios = require('axios');
-const cryto = require('crypto');
+const axios = require("axios");
+const cryto = require("crypto");
 
-const url = 'https://api.datacue.co/v1/batch/users';
-const apikey = 'your-api-key-goes-here';
-const apisecret = 'your-api-secret-goes-here';
+const url = "https://api.datacue.co/v1/batch/users";
+const apikey = "your-api-key-goes-here";
+const apisecret = "your-api-secret-goes-here";
 
 const data = [
   {
-    user_id: 'u1',
-    email: 'u1@abc.com'
-  }, {
-    user_id: 'u2',
-    email: 'u2@abc.com'
+    user_id: "u1",
+    email: "u1@abc.com"
+  },
+  {
+    user_id: "u2",
+    email: "u2@abc.com"
   }
 ];
 
-var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
+var hash = crypto.createHmac("sha256", apisecret).update(JSON.Stringify(data));
 
 //add to default authentication header
-axios.defaults.auth = { username: 'API-key', password: hash.digest('hex') };
+axios.defaults.auth = { username: "API-key", password: hash.digest("hex") };
 
 axios.post(url, data);
-
 ```
 
 Endpoint: `POST` `https://api.datacue.co/v1/batch/users`
@@ -3581,22 +3608,24 @@ response = requests.delete(url, data=jsonData, auth=(apikey, checksum.hexdigest(
 ```
 
 ```javascript
-const axios = require('axios');
+const axios = require("axios");
 
-const url = 'https://api.datacue.co/v1/batch/products';
-const data = [{
-    product_id: 'p1',
-    variant_id: 'v1'
-  }, {
-    product_id: 'p2',
-    variant_id: 'v1'
+const url = "https://api.datacue.co/v1/batch/products";
+const data = [
+  {
+    product_id: "p1",
+    variant_id: "v1"
+  },
+  {
+    product_id: "p2",
+    variant_id: "v1"
   }
 ];
 
-var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
+var hash = crypto.createHmac("sha256", apisecret).update(JSON.Stringify(data));
 
 //add to default authentication header
-axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
+axios.defaults.auth = { username: apikey, password: hash.digest("hex") };
 
 axios.delete(url, data);
 ```
@@ -3660,24 +3689,26 @@ response = requests.delete(url, data=jsonData, auth=(apikey, checksum.hexdigest(
 ```
 
 ```javascript
-const axios = require('axios');
+const axios = require("axios");
 
-const url = 'https://api.datacue.co/v1/batch/categories';
+const url = "https://api.datacue.co/v1/batch/categories";
 
 const data = [
   {
-    category_id: 'c1'
-  }, {
-    category_id: 'c2'
-  }, {
-    category_id: 'c3'
+    category_id: "c1"
+  },
+  {
+    category_id: "c2"
+  },
+  {
+    category_id: "c3"
   }
 ];
 
-var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
+var hash = crypto.createHmac("sha256", apisecret).update(JSON.Stringify(data));
 
 //add to default authentication header
-axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
+axios.defaults.auth = { username: apikey, password: hash.digest("hex") };
 
 axios.delete(url, data);
 ```
@@ -3741,24 +3772,26 @@ response = requests.delete(url, data=jsonData, auth=(apikey, checksum.hexdigest(
 ```
 
 ```javascript
-const axios = require('axios');
+const axios = require("axios");
 
-const url = 'https://api.datacue.co/v1/batch/users';
+const url = "https://api.datacue.co/v1/batch/users";
 
 const data = [
   {
-    user_id: 'u1'
-  }, {
-    user_id: 'u2'
-  }, {
-    user_id: 'u3'
+    user_id: "u1"
+  },
+  {
+    user_id: "u2"
+  },
+  {
+    user_id: "u3"
   }
 ];
 
-var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
+var hash = crypto.createHmac("sha256", apisecret).update(JSON.Stringify(data));
 
 //add to default authentication header
-axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
+axios.defaults.auth = { username: apikey, password: hash.digest("hex") };
 
 axios.delete(url, data);
 ```
@@ -3818,22 +3851,23 @@ response = requests.delete(url, data=jsonData, auth=(apikey, checksum.hexdigest(
 ```
 
 ```javascript
-const axios = require('axios');
+const axios = require("axios");
 
-const url = 'https://api.datacue.co/v1/batch/orders';
+const url = "https://api.datacue.co/v1/batch/orders";
 
 const data = [
   {
-    order_id: 'o1'
-  }, {
-    order_id: 'o2'
+    order_id: "o1"
+  },
+  {
+    order_id: "o2"
   }
 ];
 
-var hash = crypto.createHmac('sha256', apisecret).update(JSON.Stringify(data));
+var hash = crypto.createHmac("sha256", apisecret).update(JSON.Stringify(data));
 
 //add to default authentication header
-axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
+axios.defaults.auth = { username: apikey, password: hash.digest("hex") };
 
 axios.delete(url, data);
 ```
@@ -3850,16 +3884,16 @@ Delete multiple orders within one request. Batch DELETE requests only require an
 
 ```json
 {
-    "status": [
-        {
-            "order_id": "o1",
-            "status": "OK"
-        },
-        {
-            "order_id": "o2",
-            "status": "OK"
-        }
-    ]
+  "status": [
+    {
+      "order_id": "o1",
+      "status": "OK"
+    },
+    {
+      "order_id": "o2",
+      "status": "OK"
+    }
+  ]
 }
 ```
 
@@ -3898,14 +3932,14 @@ response = requests.delete(url, auth=(apikey, checksum.hexdigest()))
 ```
 
 ```javascript
-const axios = require('axios');
+const axios = require("axios");
 
-const url = 'https://api.datacue.co/v1/batch/products/all';
+const url = "https://api.datacue.co/v1/batch/products/all";
 
-var hash = crypto.createHmac('sha256', apisecret).update("");
+var hash = crypto.createHmac("sha256", apisecret).update("");
 
 //add to default authentication header
-axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
+axios.defaults.auth = { username: apikey, password: hash.digest("hex") };
 
 axios.delete(url);
 ```
@@ -3955,14 +3989,14 @@ response = requests.delete(url, auth=(apikey, checksum.hexdigest()))
 ```
 
 ```javascript
-const axios = require('axios');
+const axios = require("axios");
 
-const url = 'https://api.datacue.co/v1/batch/categories/all';
+const url = "https://api.datacue.co/v1/batch/categories/all";
 
-var hash = crypto.createHmac('sha256', apisecret).update("");
+var hash = crypto.createHmac("sha256", apisecret).update("");
 
 //add to default authentication header
-axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
+axios.defaults.auth = { username: apikey, password: hash.digest("hex") };
 
 axios.delete(url);
 ```
@@ -4008,14 +4042,14 @@ response = requests.delete(url, auth=(apikey, checksum.hexdigest()))
 ```
 
 ```javascript
-const axios = require('axios');
+const axios = require("axios");
 
-const url = 'https://api.datacue.co/v1/batch/users/all';
+const url = "https://api.datacue.co/v1/batch/users/all";
 
-var hash = crypto.createHmac('sha256', apisecret).update("");
+var hash = crypto.createHmac("sha256", apisecret).update("");
 
 //add to default authentication header
-axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
+axios.defaults.auth = { username: apikey, password: hash.digest("hex") };
 
 axios.delete(url);
 ```
@@ -4061,14 +4095,14 @@ response = requests.delete(url, auth=(apikey, checksum.hexdigest()))
 ```
 
 ```javascript
-const axios = require('axios');
+const axios = require("axios");
 
-const url = 'https://api.datacue.co/v1/batch/orders/all';
+const url = "https://api.datacue.co/v1/batch/orders/all";
 
-var hash = crypto.createHmac('sha256', apisecret).update("");
+var hash = crypto.createHmac("sha256", apisecret).update("");
 
 //add to default authentication header
-axios.defaults.auth = { username: apikey, password: hash.digest('hex') };
+axios.defaults.auth = { username: apikey, password: hash.digest("hex") };
 
 axios.delete(url);
 ```
