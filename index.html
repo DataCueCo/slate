@@ -3119,7 +3119,7 @@ Update the product like so:</p>
   <span class="s2">"wishlist"</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s2">"P1"</span><span class="p">,</span> <span class="s2">"P3"</span><span class="p">,</span> <span class="s2">"P4"</span><span class="p">],</span> <span class="c1">//array of product ids
 </span>  <span class="s2">"email_subscriber"</span> <span class="o">=&gt;</span> <span class="kc">true</span><span class="p">,</span>
   <span class="s2">"guest_account"</span> <span class="o">=&gt;</span> <span class="kc">false</span><span class="p">,</span>
-  <span class="s2">"timestamp"</span> <span class="o">=&gt;</span> <span class="s2">"2018-04-04 23:29:04-03:00"</span>
+  <span class="s2">"timestamp"</span> <span class="o">=&gt;</span> <span class="s2">"2018-04-04 23:29:04-0300"</span>
 <span class="p">];</span>
 
 <span class="nv">$res</span> <span class="o">=</span> <span class="nv">$datacue</span><span class="o">-&gt;</span><span class="na">users</span><span class="o">-&gt;</span><span class="na">create</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
@@ -3145,7 +3145,7 @@ Update the product like so:</p>
   <span class="s">"wishlist"</span><span class="p">:</span> <span class="p">[</span><span class="s">'P1'</span><span class="p">,</span><span class="s">'P3'</span><span class="p">,</span><span class="s">'P4'</span><span class="p">],</span> <span class="c">#array of product ids</span>
   <span class="s">"email_subscriber"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
   <span class="s">"guest_account"</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
-  <span class="s">"timestamp"</span><span class="p">:</span> <span class="s">"2018-04-04 23:29:04-03:00"</span>
+  <span class="s">"timestamp"</span><span class="p">:</span> <span class="s">"2018-04-04 23:29:04-0300"</span>
 <span class="p">}</span>
 
 <span class="n">jsonData</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -3172,7 +3172,7 @@ Update the product like so:</p>
   <span class="na">wishlist</span><span class="p">:</span> <span class="p">[</span><span class="s2">"P1"</span><span class="p">,</span> <span class="s2">"P3"</span><span class="p">,</span> <span class="s2">"P4"</span><span class="p">],</span> <span class="c1">//array of product ids</span>
   <span class="na">email_subscriber</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
   <span class="na">guest_account</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-  <span class="na">timestamp</span><span class="p">:</span> <span class="s2">"2018-04-04 23:29:04-03:00"</span>
+  <span class="na">timestamp</span><span class="p">:</span> <span class="s2">"2018-04-04 23:29:04-0300"</span>
 <span class="p">};</span>
 
 <span class="kd">var</span> <span class="nx">hash</span> <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">createHmac</span><span class="p">(</span><span class="s2">"sha256"</span><span class="p">,</span> <span class="nx">apisecret</span><span class="p">).</span><span class="nx">update</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">Stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
@@ -3286,7 +3286,7 @@ Update the product like so:</p>
   <span class="s2">"wishlist"</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s2">"P1"</span><span class="p">,</span> <span class="s2">"P3"</span><span class="p">,</span> <span class="s2">"P4"</span><span class="p">],</span> <span class="c1">//array of product ids
 </span>  <span class="s2">"email_subscriber"</span> <span class="o">=&gt;</span> <span class="kc">true</span><span class="p">,</span>
   <span class="s2">"guest_account"</span> <span class="o">=&gt;</span> <span class="kc">false</span><span class="p">,</span>
-  <span class="s2">"timestamp"</span> <span class="o">=&gt;</span> <span class="s2">"2018-04-04 23:29:04-03:00"</span>
+  <span class="s2">"timestamp"</span> <span class="o">=&gt;</span> <span class="s2">"2018-04-04 23:29:04-0300"</span>
 <span class="p">];</span>
 
 <span class="nv">$res</span> <span class="o">=</span> <span class="nv">$datacue</span><span class="o">-&gt;</span><span class="na">users</span><span class="o">-&gt;</span><span class="na">update</span><span class="p">(</span><span class="nv">$userId</span><span class="p">,</span> <span class="nv">$data</span><span class="p">);</span>
@@ -3315,7 +3315,7 @@ Update the product like so:</p>
   <span class="s">"wishlist"</span><span class="p">:</span> <span class="p">[</span><span class="s">'P1'</span><span class="p">,</span><span class="s">'P3'</span><span class="p">,</span><span class="s">'P4'</span><span class="p">],</span> <span class="c">#array of product ids</span>
   <span class="s">"email_subscriber"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
   <span class="s">"guest_account"</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
-  <span class="s">"timestamp"</span><span class="p">:</span> <span class="s">"2018-04-04 23:29:04-03:00"</span>
+  <span class="s">"timestamp"</span><span class="p">:</span> <span class="s">"2018-04-04 23:29:04-0300"</span>
 <span class="p">}</span>
 
 <span class="n">jsonData</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -3343,7 +3343,7 @@ Update the product like so:</p>
   <span class="na">wishlist</span><span class="p">:</span> <span class="p">[</span><span class="s2">"P1"</span><span class="p">,</span> <span class="s2">"P3"</span><span class="p">,</span> <span class="s2">"P4"</span><span class="p">],</span> <span class="c1">//array of product ids</span>
   <span class="na">email_subscriber</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
   <span class="na">guest_account</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-  <span class="na">timestamp</span><span class="p">:</span> <span class="s2">"2018-04-04 23:29:04-03:00"</span>
+  <span class="na">timestamp</span><span class="p">:</span> <span class="s2">"2018-04-04 23:29:04-0300"</span>
 <span class="p">};</span>
 
 <span class="kd">var</span> <span class="nx">hash</span> <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">createHmac</span><span class="p">(</span><span class="s2">"sha256"</span><span class="p">,</span> <span class="nx">apisecret</span><span class="p">).</span><span class="nx">update</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">Stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
