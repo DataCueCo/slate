@@ -3490,19 +3490,19 @@ $userDataList = [
       "guest_account" => false,
       "timestamp" => "2018-04-04 23:29:04-0300"
     ], [
-  "user_id" => "u2",
-  "email" => "patrick@bikinibottom.com",
-  "title" => "Mr",
-  "first_name" => "Patrick",
-  "last_name" => "Starfish",
-  "profile" => [
-    "loyalty_plan" => "gold"
-  ],
-  "wishlist" => ["p1"], //array of product ids
-  "email_subscriber" => true,
-  "guest_account" => false,
-  "timestamp" => "2018-04-04 23:29:04Z"
-]
+      "user_id" => "u2",
+      "email" => "patrick@bikinibottom.com",
+      "title" => "Mr",
+      "first_name" => "Patrick",
+      "last_name" => "Starfish",
+      "profile" => [
+        "loyalty_plan" => "gold"
+      ],
+      "wishlist" => ["p1"], //array of product ids
+      "email_subscriber" => true,
+      "guest_account" => false,
+      "timestamp" => "2018-04-04 23:29:04Z"
+  ]
 ];
 $res = $datacue->users->batchCreate($userDataList);
 
