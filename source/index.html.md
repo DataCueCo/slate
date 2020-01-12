@@ -2413,14 +2413,14 @@ $datacue = new \DataCue\Client($apikey, $apisecret);
 
 $data = [
   "user_id" => "u1",
-  "email" => "xyz@abc.com",
+  "email" => "spongebob@bikinibottom.com",
   "title" => "Mr",
-  "first_name" => "John",
-  "last_name" => "Smith",
+  "first_name" => "Spongebob",
+  "last_name" => "Squarepants",
   "profile" => [
     "loyalty_plan" => "platinum"
   ],
-  "wishlist" => ["P1", "P3", "P4"], //array of product ids
+  "wishlist" => ["p1", "p3", "p4"], //array of product ids
   "email_subscriber" => true,
   "guest_account" => false,
   "timestamp" => "2018-04-04 23:29:04-0300"
@@ -2441,18 +2441,18 @@ apikey = "your-api-key-goes-here"
 apisecret = "your-api-secret-goes-here"
 
 data = {
-  "user_id": "u1",
-  "email": "xyz@abc.com",
-  "title": "Mr",
-  "first_name": "John",
-  "last_name": "Smith",
-  "profile": {
-    "loyalty_plan": "platinum"
+  "user_id" : "u1",
+  "email" : "spongebob@bikinibottom.com",
+  "title" : "Mr",
+  "first_name" : "Spongebob",
+  "last_name" : "Squarepants",
+  "profile" : {
+    "loyalty_plan" : "platinum"
   },
-  "wishlist": ['P1','P3','P4'], #array of product ids
-  "email_subscriber": True,
-  "guest_account": False,
-  "timestamp": "2018-04-04 23:29:04-0300"
+  "wishlist" : ["p1", "p3", "p4"], # array of product ids
+  "email_subscriber" : True,
+  "guest_account" : False,
+  "timestamp" : "2018-04-04 23:29:04-0300"
 }
 
 jsonData = json.dumps(data)
@@ -2471,18 +2471,18 @@ const apikey = "your-api-key-goes-here";
 const apisecret = "your-api-secret-goes-here";
 
 const data = {
-  user_id: "u1",
-  email: "xyz@abc.com",
-  title: "Mr",
-  first_name: "Noob",
-  last_name: "Saibot",
-  profile: {
-    loyalty_plan: "platinum"
+  user_id : "u1",
+  email : "spongebob@bikinibottom.com",
+  title : "Mr",
+  first_name : "Spongebob",
+  last_name : "Squarepants",
+  profile : {
+    "loyalty_plan" : "platinum"
   },
-  wishlist: ["P1", "P3", "P4"], //array of product ids
-  email_subscriber: true,
-  guest_account: false,
-  timestamp: "2018-04-04 23:29:04-0300"
+  wishlist : ["p1", "p3", "p4"], // array of product ids
+  email_subscriber : true,
+  guest_account : false,
+  timestamp : "2018-04-04 23:29:04-0300"
 };
 
 var hash = crypto.createHmac("sha256", apisecret).update(JSON.Stringify(data));
@@ -3477,12 +3477,32 @@ $datacue = new \DataCue\Client($apikey, $apisecret, $options, $env);
 
 $userDataList = [
     [
-        "user_id" => "u1",
-        "email" => "xyz@abc.com",
+      "user_id" => "u1",
+      "email" => "spongebob@bikinibottom.com",
+      "title" => "Mr",
+      "first_name" => "Spongebob",
+      "last_name" => "Squarepants",
+      "profile" => [
+        "loyalty_plan" => "platinum"
+      ],
+      "wishlist" => ["p1", "p3", "p4"], //array of product ids
+      "email_subscriber" => true,
+      "guest_account" => false,
+      "timestamp" => "2018-04-04 23:29:04-0300"
     ], [
-        "user_id" => "u2",
-        "email" => "abc@abc.com",
-    ]
+  "user_id" => "u2",
+  "email" => "patrick@bikinibottom.com",
+  "title" => "Mr",
+  "first_name" => "Patrick",
+  "last_name" => "Starfish",
+  "profile" => [
+    "loyalty_plan" => "gold"
+  ],
+  "wishlist" => ["p1"], //array of product ids
+  "email_subscriber" => true,
+  "guest_account" => false,
+  "timestamp" => "2018-04-04 23:29:04Z"
+]
 ];
 $res = $datacue->users->batchCreate($userDataList);
 
@@ -3500,12 +3520,31 @@ apisecret = "your-api-secret-goes-here"
 
 data = [
   {
-    "user_id": "u1"
-    "email": "u1@abc.com"
-  },
-  {
-    "user_id": "u2"
-    "email": "u2@abc.com"
+    "user_id" : "u1",
+    "email" : "spongebob@bikinibottom.com",
+    "title" : "Mr",
+    "first_name" : "Spongebob",
+    "last_name" : "Squarepants",
+    "profile" : {
+      "loyalty_plan" : "platinum"
+    },
+    "wishlist" : ["p1", "p3", "p4"], # array of product ids
+    "email_subscriber" : True,
+    "guest_account" : False,
+    "timestamp" : "2018-04-04 23:29:04-0300"
+  }, {
+    "user_id" : "u2",
+    "email" : "patrick@bikinibottom.com",
+    "title" : "Mr",
+    "first_name" : "Patrick",
+    "last_name" : "Starfish",
+    "profile" : {
+      "loyalty_plan" : "gold"
+    },
+    "wishlist" : ["p1"], # array of product ids
+    "email_subscriber" : True,
+    "guest_account" : False,
+    "timestamp" : "2018-04-04 23:29:04Z"
   }
 ]
 
@@ -3527,12 +3566,31 @@ const apisecret = "your-api-secret-goes-here";
 
 const data = [
   {
-    user_id: "u1",
-    email: "u1@abc.com"
-  },
-  {
-    user_id: "u2",
-    email: "u2@abc.com"
+    user_id : "u1",
+    email : spongebob@bikinibottom.com",
+    title : "Mr",
+    first_name : "Spongebob",
+    last_name : "Squarepants",
+    profile : {
+      loyalty_plan : "platinum"
+    },
+    wishlist : ["p1", "p3", "p4"], // array of product ids
+    email_subscriber : true,
+    guest_account : false,
+    timestamp : "2018-04-04 23:29:04-0300"
+  }, {
+    user_id : "u2",
+    email : "patrick@bikinibottom.com",
+    title : "Mr",
+    first_name : "Patrick",
+    last_name : "Starfish",
+    profile : {
+      loyalty_plan : "gold"
+    },
+    wishlist : ["p1"], // array of product ids
+    email_subscriber : true,
+    guest_account : false,
+    timestamp : "2018-04-04 23:29:04Z"
   }
 ];
 
