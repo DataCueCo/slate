@@ -2507,7 +2507,7 @@ When a new user has successfully signed up / registered on your system.
 | `anonymous_id`     | String        | No                            | Anonymous ID that was previously associated with this user prior to user sign up         |
 | `email`            | String        | Yes, if using email marketing | User's email address                                                                     |
 | `title`            | String        | No                            | Salutation e.g. Mr., Ms., Dr.                                                            |
-| `first_name`       | String        | Yes                           | User's first name, if you store all the names in one field assign the name to this field |
+| `first_name`       | String        | No                           | User's first name, if you store all the names in one field assign the name to this field |
 | `last_name`        | String        | No                            | User's last name                                                                         |
 | `profile`          | JSON Object   | No                            | User profile information, like if they are on a loyalty program.                         |
 | `email_subscriber` | Boolean       | No                            | Has this user consented to receive marketing email?                                      |
