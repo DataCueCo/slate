@@ -2423,7 +2423,7 @@ $data = [
   "wishlist" => ["P1", "P3", "P4"], //array of product ids
   "email_subscriber" => true,
   "guest_account" => false,
-  "timestamp" => "2018-04-04 23:29:04-03:00"
+  "timestamp" => "2018-04-04 23:29:04-0300"
 ];
 
 $res = $datacue->users->create($data);
@@ -2452,7 +2452,7 @@ data = {
   "wishlist": ['P1','P3','P4'], #array of product ids
   "email_subscriber": True,
   "guest_account": False,
-  "timestamp": "2018-04-04 23:29:04-03:00"
+  "timestamp": "2018-04-04 23:29:04-0300"
 }
 
 jsonData = json.dumps(data)
@@ -2482,7 +2482,7 @@ const data = {
   wishlist: ["P1", "P3", "P4"], //array of product ids
   email_subscriber: true,
   guest_account: false,
-  timestamp: "2018-04-04 23:29:04-03:00"
+  timestamp: "2018-04-04 23:29:04-0300"
 };
 
 var hash = crypto.createHmac("sha256", apisecret).update(JSON.Stringify(data));
@@ -2542,7 +2542,7 @@ $data = [
   "wishlist" => ["P1", "P3", "P4"], //array of product ids
   "email_subscriber" => true,
   "guest_account" => false,
-  "timestamp" => "2018-04-04 23:29:04-03:00"
+  "timestamp" => "2018-04-04 23:29:04-0300"
 ];
 
 $res = $datacue->users->update($userId, $data);
@@ -2574,7 +2574,7 @@ data = {
   "wishlist": ['P1','P3','P4'], #array of product ids
   "email_subscriber": True,
   "guest_account": False,
-  "timestamp": "2018-04-04 23:29:04-03:00"
+  "timestamp": "2018-04-04 23:29:04-0300"
 }
 
 jsonData = json.dumps(data)
@@ -2605,7 +2605,7 @@ const data = {
   wishlist: ["P1", "P3", "P4"], //array of product ids
   email_subscriber: true,
   guest_account: false,
-  timestamp: "2018-04-04 23:29:04-03:00"
+  timestamp: "2018-04-04 23:29:04-0300"
 };
 
 var hash = crypto.createHmac("sha256", apisecret).update(JSON.Stringify(data));
