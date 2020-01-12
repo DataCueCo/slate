@@ -3567,7 +3567,7 @@ const apisecret = "your-api-secret-goes-here";
 const data = [
   {
     user_id : "u1",
-    email : spongebob@bikinibottom.com",
+    email : "spongebob@bikinibottom.com",
     title : "Mr",
     first_name : "Spongebob",
     last_name : "Squarepants",
