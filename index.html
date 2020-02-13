@@ -2897,7 +2897,8 @@ Update the product like so:</p>
 <span class="nv">$data</span> <span class="o">=</span> <span class="p">[</span>
   <span class="s2">"category_id"</span> <span class="o">=&gt;</span> <span class="s2">"summer-jeans"</span><span class="p">,</span>
   <span class="s2">"name"</span> <span class="o">=&gt;</span> <span class="s2">"Summer Jeans"</span><span class="p">,</span>
-  <span class="s2">"link"</span> <span class="o">=&gt;</span> <span class="s2">"/categories/summer-jeans"</span>
+  <span class="s2">"link"</span> <span class="o">=&gt;</span> <span class="s2">"/categories/summer-jeans"</span><span class="p">,</span>
+  <span class="s2">"active"</span> <span class="o">=&gt;</span> <span class="kc">true</span>
 <span class="p">];</span>
 
 <span class="nv">$res</span> <span class="o">=</span> <span class="nv">$datacue</span><span class="o">-&gt;</span><span class="na">categories</span><span class="o">-&gt;</span><span class="na">create</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
@@ -2914,7 +2915,8 @@ Update the product like so:</p>
 <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s">"category_id"</span><span class="p">:</span> <span class="s">"summer-jeans"</span><span class="p">,</span>
   <span class="s">"name"</span><span class="p">:</span> <span class="s">"Summer Jeans"</span><span class="p">,</span>
-  <span class="s">"link"</span><span class="p">:</span> <span class="s">"/categories/summer-jeans"</span>
+  <span class="s">"link"</span><span class="p">:</span> <span class="s">"/categories/summer-jeans"</span><span class="p">,</span>
+  <span class="s">"active"</span><span class="p">:</span> <span class="bp">True</span>
 <span class="p">}</span>
 
 <span class="n">jsonData</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -2973,7 +2975,7 @@ Update the product like so:</p>
 <tr>
 <td><code>link</code></td>
 <td>String</td>
-<td>No</td>
+<td>Yes</td>
 <td>Link to the respective category&#39;s page</td>
 </tr>
 </tbody></table>
@@ -3161,18 +3163,18 @@ Update the product like so:</p>
 <span class="kr">const</span> <span class="nx">apisecret</span> <span class="o">=</span> <span class="s2">"your-api-secret-goes-here"</span><span class="p">;</span>
 
 <span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">user_id</span> <span class="p">:</span> <span class="s2">"u1"</span><span class="p">,</span>
-  <span class="na">email</span> <span class="p">:</span> <span class="s2">"spongebob@bikinibottom.com"</span><span class="p">,</span>
-  <span class="na">title</span> <span class="p">:</span> <span class="s2">"Mr"</span><span class="p">,</span>
-  <span class="na">first_name</span> <span class="p">:</span> <span class="s2">"Spongebob"</span><span class="p">,</span>
-  <span class="na">last_name</span> <span class="p">:</span> <span class="s2">"Squarepants"</span><span class="p">,</span>
-  <span class="na">profile</span> <span class="p">:</span> <span class="p">{</span>
-    <span class="s2">"loyalty_plan"</span> <span class="p">:</span> <span class="s2">"platinum"</span>
+  <span class="na">user_id</span><span class="p">:</span> <span class="s2">"u1"</span><span class="p">,</span>
+  <span class="na">email</span><span class="p">:</span> <span class="s2">"spongebob@bikinibottom.com"</span><span class="p">,</span>
+  <span class="na">title</span><span class="p">:</span> <span class="s2">"Mr"</span><span class="p">,</span>
+  <span class="na">first_name</span><span class="p">:</span> <span class="s2">"Spongebob"</span><span class="p">,</span>
+  <span class="na">last_name</span><span class="p">:</span> <span class="s2">"Squarepants"</span><span class="p">,</span>
+  <span class="na">profile</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">loyalty_plan</span><span class="p">:</span> <span class="s2">"platinum"</span>
   <span class="p">},</span>
-  <span class="na">wishlist</span> <span class="p">:</span> <span class="p">[</span><span class="s2">"p1"</span><span class="p">,</span> <span class="s2">"p3"</span><span class="p">,</span> <span class="s2">"p4"</span><span class="p">],</span> <span class="c1">// array of product ids</span>
-  <span class="na">email_subscriber</span> <span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-  <span class="na">guest_account</span> <span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-  <span class="na">timestamp</span> <span class="p">:</span> <span class="s2">"2018-04-04 23:29:04-0300"</span>
+  <span class="na">wishlist</span><span class="p">:</span> <span class="p">[</span><span class="s2">"p1"</span><span class="p">,</span> <span class="s2">"p3"</span><span class="p">,</span> <span class="s2">"p4"</span><span class="p">],</span> <span class="c1">// array of product ids</span>
+  <span class="na">email_subscriber</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="na">guest_account</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="na">timestamp</span><span class="p">:</span> <span class="s2">"2018-04-04 23:29:04-0300"</span>
 <span class="p">};</span>
 
 <span class="kd">var</span> <span class="nx">hash</span> <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">createHmac</span><span class="p">(</span><span class="s2">"sha256"</span><span class="p">,</span> <span class="nx">apisecret</span><span class="p">).</span><span class="nx">update</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">Stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
@@ -4255,31 +4257,32 @@ Update the product like so:</p>
 
 <span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">[</span>
   <span class="p">{</span>
-    <span class="na">user_id</span> <span class="p">:</span> <span class="s2">"u1"</span><span class="p">,</span>
-    <span class="na">email</span> <span class="p">:</span> <span class="s2">"spongebob@bikinibottom.com"</span><span class="p">,</span>
-    <span class="na">title</span> <span class="p">:</span> <span class="s2">"Mr"</span><span class="p">,</span>
-    <span class="na">first_name</span> <span class="p">:</span> <span class="s2">"Spongebob"</span><span class="p">,</span>
-    <span class="na">last_name</span> <span class="p">:</span> <span class="s2">"Squarepants"</span><span class="p">,</span>
-    <span class="na">profile</span> <span class="p">:</span> <span class="p">{</span>
-      <span class="na">loyalty_plan</span> <span class="p">:</span> <span class="s2">"platinum"</span>
+    <span class="na">user_id</span><span class="p">:</span> <span class="s2">"u1"</span><span class="p">,</span>
+    <span class="na">email</span><span class="p">:</span> <span class="s2">"spongebob@bikinibottom.com"</span><span class="p">,</span>
+    <span class="na">title</span><span class="p">:</span> <span class="s2">"Mr"</span><span class="p">,</span>
+    <span class="na">first_name</span><span class="p">:</span> <span class="s2">"Spongebob"</span><span class="p">,</span>
+    <span class="na">last_name</span><span class="p">:</span> <span class="s2">"Squarepants"</span><span class="p">,</span>
+    <span class="na">profile</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">loyalty_plan</span><span class="p">:</span> <span class="s2">"platinum"</span>
     <span class="p">},</span>
-    <span class="na">wishlist</span> <span class="p">:</span> <span class="p">[</span><span class="s2">"p1"</span><span class="p">,</span> <span class="s2">"p3"</span><span class="p">,</span> <span class="s2">"p4"</span><span class="p">],</span> <span class="c1">// array of product ids</span>
-    <span class="na">email_subscriber</span> <span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-    <span class="na">guest_account</span> <span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="na">timestamp</span> <span class="p">:</span> <span class="s2">"2018-04-04 23:29:04-0300"</span>
-  <span class="p">},</span> <span class="p">{</span>
-    <span class="na">user_id</span> <span class="p">:</span> <span class="s2">"u2"</span><span class="p">,</span>
-    <span class="na">email</span> <span class="p">:</span> <span class="s2">"patrick@bikinibottom.com"</span><span class="p">,</span>
-    <span class="na">title</span> <span class="p">:</span> <span class="s2">"Mr"</span><span class="p">,</span>
-    <span class="na">first_name</span> <span class="p">:</span> <span class="s2">"Patrick"</span><span class="p">,</span>
-    <span class="na">last_name</span> <span class="p">:</span> <span class="s2">"Starfish"</span><span class="p">,</span>
-    <span class="na">profile</span> <span class="p">:</span> <span class="p">{</span>
-      <span class="na">loyalty_plan</span> <span class="p">:</span> <span class="s2">"gold"</span>
+    <span class="na">wishlist</span><span class="p">:</span> <span class="p">[</span><span class="s2">"p1"</span><span class="p">,</span> <span class="s2">"p3"</span><span class="p">,</span> <span class="s2">"p4"</span><span class="p">],</span> <span class="c1">// array of product ids</span>
+    <span class="na">email_subscriber</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="na">guest_account</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="na">timestamp</span><span class="p">:</span> <span class="s2">"2018-04-04 23:29:04-0300"</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="na">user_id</span><span class="p">:</span> <span class="s2">"u2"</span><span class="p">,</span>
+    <span class="na">email</span><span class="p">:</span> <span class="s2">"patrick@bikinibottom.com"</span><span class="p">,</span>
+    <span class="na">title</span><span class="p">:</span> <span class="s2">"Mr"</span><span class="p">,</span>
+    <span class="na">first_name</span><span class="p">:</span> <span class="s2">"Patrick"</span><span class="p">,</span>
+    <span class="na">last_name</span><span class="p">:</span> <span class="s2">"Starfish"</span><span class="p">,</span>
+    <span class="na">profile</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">loyalty_plan</span><span class="p">:</span> <span class="s2">"gold"</span>
     <span class="p">},</span>
-    <span class="na">wishlist</span> <span class="p">:</span> <span class="p">[</span><span class="s2">"p1"</span><span class="p">],</span> <span class="c1">// array of product ids</span>
-    <span class="na">email_subscriber</span> <span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-    <span class="na">guest_account</span> <span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-    <span class="na">timestamp</span> <span class="p">:</span> <span class="s2">"2018-04-04 23:29:04Z"</span>
+    <span class="na">wishlist</span><span class="p">:</span> <span class="p">[</span><span class="s2">"p1"</span><span class="p">],</span> <span class="c1">// array of product ids</span>
+    <span class="na">email_subscriber</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="na">guest_account</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="na">timestamp</span><span class="p">:</span> <span class="s2">"2018-04-04 23:29:04Z"</span>
   <span class="p">}</span>
 <span class="p">];</span>
 
