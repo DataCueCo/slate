@@ -2181,7 +2181,8 @@ $datacue = new \DataCue\Client($apikey, $apisecret);
 $data = [
   "category_id" => "summer-jeans",
   "name" => "Summer Jeans",
-  "link" => "/categories/summer-jeans"
+  "link" => "/categories/summer-jeans",
+  "active" => true
 ];
 
 $res = $datacue->categories->create($data);
@@ -2201,7 +2202,8 @@ apisecret = "your-api-secret-goes-here"
 data = {
   "category_id": "summer-jeans",
   "name": "Summer Jeans",
-  "link": "/categories/summer-jeans"
+  "link": "/categories/summer-jeans",
+  "active": True
 }
 
 jsonData = json.dumps(data)
@@ -2245,7 +2247,7 @@ When a new category is created on your store
 | ------------- | --------- | -------- | -------------------------------------- |
 | `category_id` | String    | Yes      | The unique category id assigned        |
 | `name`        | String    | Yes      | Category friendly name                 |
-| `link`        | String    | No       | Link to the respective category's page |
+| `link`        | String    | Yes      | Link to the respective category's page |
 
 ## Update Category
 
@@ -2471,18 +2473,18 @@ const apikey = "your-api-key-goes-here";
 const apisecret = "your-api-secret-goes-here";
 
 const data = {
-  user_id : "u1",
-  email : "spongebob@bikinibottom.com",
-  title : "Mr",
-  first_name : "Spongebob",
-  last_name : "Squarepants",
-  profile : {
-    "loyalty_plan" : "platinum"
+  user_id: "u1",
+  email: "spongebob@bikinibottom.com",
+  title: "Mr",
+  first_name: "Spongebob",
+  last_name: "Squarepants",
+  profile: {
+    loyalty_plan: "platinum"
   },
-  wishlist : ["p1", "p3", "p4"], // array of product ids
-  email_subscriber : true,
-  guest_account : false,
-  timestamp : "2018-04-04 23:29:04-0300"
+  wishlist: ["p1", "p3", "p4"], // array of product ids
+  email_subscriber: true,
+  guest_account: false,
+  timestamp: "2018-04-04 23:29:04-0300"
 };
 
 var hash = crypto.createHmac("sha256", apisecret).update(JSON.Stringify(data));
@@ -2507,7 +2509,7 @@ When a new user has successfully signed up / registered on your system.
 | `anonymous_id`     | String        | No                            | Anonymous ID that was previously associated with this user prior to user sign up         |
 | `email`            | String        | Yes, if using email marketing | User's email address                                                                     |
 | `title`            | String        | No                            | Salutation e.g. Mr., Ms., Dr.                                                            |
-| `first_name`       | String        | No                           | User's first name, if you store all the names in one field assign the name to this field |
+| `first_name`       | String        | No                            | User's first name, if you store all the names in one field assign the name to this field |
 | `last_name`        | String        | No                            | User's last name                                                                         |
 | `profile`          | JSON Object   | No                            | User profile information, like if they are on a loyalty program.                         |
 | `email_subscriber` | Boolean       | No                            | Has this user consented to receive marketing email?                                      |
@@ -3566,31 +3568,32 @@ const apisecret = "your-api-secret-goes-here";
 
 const data = [
   {
-    user_id : "u1",
-    email : "spongebob@bikinibottom.com",
-    title : "Mr",
-    first_name : "Spongebob",
-    last_name : "Squarepants",
-    profile : {
-      loyalty_plan : "platinum"
+    user_id: "u1",
+    email: "spongebob@bikinibottom.com",
+    title: "Mr",
+    first_name: "Spongebob",
+    last_name: "Squarepants",
+    profile: {
+      loyalty_plan: "platinum"
     },
-    wishlist : ["p1", "p3", "p4"], // array of product ids
-    email_subscriber : true,
-    guest_account : false,
-    timestamp : "2018-04-04 23:29:04-0300"
-  }, {
-    user_id : "u2",
-    email : "patrick@bikinibottom.com",
-    title : "Mr",
-    first_name : "Patrick",
-    last_name : "Starfish",
-    profile : {
-      loyalty_plan : "gold"
+    wishlist: ["p1", "p3", "p4"], // array of product ids
+    email_subscriber: true,
+    guest_account: false,
+    timestamp: "2018-04-04 23:29:04-0300"
+  },
+  {
+    user_id: "u2",
+    email: "patrick@bikinibottom.com",
+    title: "Mr",
+    first_name: "Patrick",
+    last_name: "Starfish",
+    profile: {
+      loyalty_plan: "gold"
     },
-    wishlist : ["p1"], // array of product ids
-    email_subscriber : true,
-    guest_account : false,
-    timestamp : "2018-04-04 23:29:04Z"
+    wishlist: ["p1"], // array of product ids
+    email_subscriber: true,
+    guest_account: false,
+    timestamp: "2018-04-04 23:29:04Z"
   }
 ];
 
