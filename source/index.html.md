@@ -499,9 +499,6 @@ For full details on custom layouts for banners, refer to our [advanced guide](ht
 <!-- ADVANCED: insert related/recommended products -->
 <div data-dc-products="related"></div>
 
-<!-- ADVANCED: insert related categories -->
-<div data-dc-products="categories"></div>
-
 <!-- ADVANCED: insert recently viewed products -->
 <div data-dc-products="recent"></div>
 
