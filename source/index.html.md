@@ -459,11 +459,14 @@ Custom layout means you need to implement responsive design yourself in exchange
 > DataCue standard banner layout
 
 ```html
-<div
-  data-dc-banners
-  data-dc-static-img="path/to/your/banner.jpg"
-  data-dc-static-link="link/to/chosen/category"
-></div>
+<div class="datacue-banners">
+<div class="datacue-banner datacue-banner-wide datacue-banner-static">
+  <a>
+    <!-- Replace the <<apikey>> in the image src with your assigned DataCue apikey -->
+    <img src="//cdn.datacue.co/<<apikey>>/static-banner.jpg" onerror="document.querySelector('.datacue-banner-static').style.display='none';"/>
+  </a>
+</div>
+
 ```
 
 > Custom banner layout
