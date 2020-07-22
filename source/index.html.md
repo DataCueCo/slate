@@ -170,6 +170,19 @@ Integrate DataCue to your storefront in two steps:
 <script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
 ```
 
+```php
+<?php
+"browser only event (refer to the Browser tab)"
+```
+
+```python
+"browser only event (refer to the Browser tab)"
+```
+
+```javascript
+"browser only event (refer to the Browser tab)";
+```
+
 Place the snippets near the end of the `<head>` element of your main template. You should include it in these pages:
 
 - Home
@@ -217,6 +230,19 @@ To properly set up tracking, you need to provide some information about the page
 <script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
 ```
 
+```php
+<?php
+"browser only event (refer to the Browser tab)"
+```
+
+```python
+"browser only event (refer to the Browser tab)"
+```
+
+```javascript
+"browser only event (refer to the Browser tab)";
+```
+
 Place this code on your home page.
 
 ### Product pages
@@ -260,6 +286,19 @@ Place this code on your home page.
 <script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
 ```
 
+```php
+<?php
+"browser only event (refer to the Browser tab)"
+```
+
+```python
+"browser only event (refer to the Browser tab)"
+```
+
+```javascript
+"browser only event (refer to the Browser tab)";
+```
+
 On product pages, you can also add an optional property `product_update` to the config object, to ensure that the most important information about your products is always synchronized.
 
 `product_update` is an array, with each array element representing a variant of the product. e.g. `[{variant_id:"v1",...},{variant_id:"v2",...}]`.
@@ -299,6 +338,19 @@ On product pages, you can also add an optional property `product_update` to the 
 <script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
 ```
 
+```php
+<?php
+"browser only event (refer to the Browser tab)"
+```
+
+```python
+"browser only event (refer to the Browser tab)"
+```
+
+```javascript
+"browser only event (refer to the Browser tab)";
+```
+
 On category pages, you can also add an optional property `category_update` to the config object, to ensure we keep category details in sync.
 
 | Property | Description                          |
@@ -323,6 +375,19 @@ On category pages, you can also add an optional property `category_update` to th
 <script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
 ```
 
+```php
+<?php
+"browser only event (refer to the Browser tab)"
+```
+
+```python
+"browser only event (refer to the Browser tab)"
+```
+
+```javascript
+"browser only event (refer to the Browser tab)";
+```
+
 Place this code on your search results page
 
 ### Cart page
@@ -341,6 +406,19 @@ Place this code on your search results page
 <script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
 ```
 
+```php
+<?php
+"browser only event (refer to the Browser tab)"
+```
+
+```python
+"browser only event (refer to the Browser tab)"
+```
+
+```javascript
+"browser only event (refer to the Browser tab)";
+```
+
 Place this code on your cart page.
 
 ### 404 page
@@ -357,6 +435,19 @@ Place this code on your cart page.
 </script>
 <script src="https://cdn.datacue.co/js/datacue.js"></script>
 <script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
+```
+
+```php
+<?php
+"browser only event (refer to the Browser tab)"
+```
+
+```python
+"browser only event (refer to the Browser tab)"
+```
+
+```javascript
+"browser only event (refer to the Browser tab)";
 ```
 
 Place this code on your cart page.
@@ -383,6 +474,19 @@ You can choose to send completed orders via the frontend or the backend.
 </script>
 <script src="https://cdn.datacue.co/js/datacue.js"></script>
 <script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
+```
+
+```php
+<?php
+"browser only event (refer to the Browser tab)"
+```
+
+```python
+"browser only event (refer to the Browser tab)"
+```
+
+```javascript
+"browser only event (refer to the Browser tab)";
 ```
 
 Set the `user_id` field of the datacueConfig object to the user ID (if the user created an account) OR their email address (if it's a guest checkout).
@@ -426,6 +530,19 @@ Refer to [create order](#create-order) on how to send order data via the backend
 <script src="https://cdn.datacue.co/js/datacue-storefront.js"></script>
 ```
 
+```php
+<?php
+"browser only event (refer to the Browser tab)"
+```
+
+```python
+"browser only event (refer to the Browser tab)"
+```
+
+```javascript
+"browser only event (refer to the Browser tab)";
+```
+
 If you prefer to send order data from the frontend, you can include an optional property `order_details` to the config object. This allows you to send completed orders via the frontend instead of using any backend hooks.
 
 **order details object**
@@ -463,10 +580,26 @@ Custom layout means you need to implement responsive design yourself in exchange
   <div class="datacue-banner datacue-banner-wide datacue-banner-static">
     <a>
       <!-- Replace the <<apikey>> in the image src with your assigned DataCue apikey -->
-      <img src="//cdn.datacue.co/client_assets/<<apikey>>/banners/static-banner.jpg" onerror="document.querySelector('.datacue-banner-static').style.display='none';"/>
+      <img
+        src="//cdn.datacue.co/client_assets/<<apikey>>/banners/static-banner.jpg"
+        onerror="document.querySelector('.datacue-banner-static').style.display='none';"
+      />
     </a>
   </div>
 </div>
+```
+
+```php
+<?php
+"browser only event (refer to the Browser tab)"
+```
+
+```python
+"browser only event (refer to the Browser tab)"
+```
+
+```javascript
+"browser only event (refer to the Browser tab)";
 ```
 
 > Custom banner layout
@@ -487,6 +620,19 @@ Custom layout means you need to implement responsive design yourself in exchange
 </div>
 ```
 
+```php
+<?php
+"browser only event (refer to the Browser tab)"
+```
+
+```python
+"browser only event (refer to the Browser tab)"
+```
+
+```javascript
+"browser only event (refer to the Browser tab)";
+```
+
 You can read all about banners in our [usage guide](https://help.datacue.co/guide/banners.html#quick-start)
 
 For full details on custom layouts for banners, refer to our [advanced guide](https://help.datacue.co/install/advanced.html#custom-banner-layout).
@@ -496,17 +642,36 @@ For full details on custom layouts for banners, refer to our [advanced guide](ht
 > Product recommendations
 
 ```html
-<!-- RECOMMENDED: insert all relevent product recommendations for current page type -->
+<!-- insert all relevent product recommendations for current page type -->
 <div data-dc-products></div>
 
-<!-- ADVANCED: insert related/recommended products -->
+<!-- ADVANCED: insert ONLY related/recommended products -->
 <div data-dc-products="related"></div>
 
-<!-- ADVANCED: insert recently viewed products -->
+<!-- ADVANCED: insert ONLY recently viewed products -->
 <div data-dc-products="recent"></div>
 
-<!-- ADVANCED: insert similar products (product page only) -->
+<!-- ADVANCED: insert ONLY similar products (product page only) -->
 <div data-dc-products="similar"></div>
+
+<!-- ADVANCED: insert ONLY dynamic categories (home page only)-->
+<div data-dc-products="categories"></div>
+
+<!-- ADVANCED: insert ONLY top products in category (category page only) -->
+<div data-dc-products="top"></div>
+```
+
+```php
+<?php
+"browser only event (refer to the Browser tab)"
+```
+
+```python
+"browser only event (refer to the Browser tab)"
+```
+
+```javascript
+"browser only event (refer to the Browser tab)";
 ```
 
 We strongly recommend that you just insert the `<div data-dc-products></div>` wherever you want to see product recommendations. DataCue will automatically display the most appropriate product recommendations based on the page type. If you want to hide any type of recommendation, you can do it easily from your dashboard.
@@ -920,7 +1085,7 @@ You don't need to implement those if you're using our scripts.
       type: "pageview",
       subtype: "home"
     })
-    .then(function(response) {
+    .then(function (response) {
       // see response structure below
     });
 </script>
@@ -1058,7 +1223,7 @@ Request banner and product recommendations when a user visits your home page
       product_id: "p1",
       variant_id: "v1"
     })
-    .then(function(response) {
+    .then(function (response) {
       // see response structure below
     });
 </script>
@@ -1211,7 +1376,7 @@ Pages showing multiple products on a page, these are commonly called category, c
       type: "search",
       term: "tables"
     })
-    .then(function(response) {
+    .then(function (response) {
       // see response structure below
     });
 </script>
@@ -1425,12 +1590,12 @@ axios.defaults.auth = { username: "API-key", password: hash.digest("hex") };
 
 axios
   .get(url)
-  .then(response => {
+  .then((response) => {
     if (response.data) {
       console.log(response.data);
     }
   })
-  .catch(err => {
+  .catch((err) => {
     console.err(err);
   });
 ```
@@ -1514,12 +1679,12 @@ axios.defaults.auth = { username: "API-key", password: hash.digest("hex") };
 
 axios
   .get(url)
-  .then(response => {
+  .then((response) => {
     if (response.data) {
       console.log(response.data);
     }
   })
-  .catch(err => {
+  .catch((err) => {
     console.err(err);
   });
 ```
@@ -1595,12 +1760,12 @@ axios.defaults.auth = { username: "API-key", password: hash.digest("hex") };
 
 axios
   .get(url)
-  .then(response => {
+  .then((response) => {
     if (response.data) {
       console.log(response.data);
     }
   })
-  .catch(err => {
+  .catch((err) => {
     console.err(err);
   });
 ```
@@ -1676,12 +1841,12 @@ axios.defaults.auth = { username: "API-key", password: hash.digest("hex") };
 
 axios
   .get(url)
-  .then(response => {
+  .then((response) => {
     if (response.data) {
       console.log(response.data);
     }
   })
-  .catch(err => {
+  .catch((err) => {
     console.err(err);
   });
 ```
@@ -1757,12 +1922,12 @@ axios.defaults.auth = { username: "API-key", password: hash.digest("hex") };
 
 axios
   .get(url)
-  .then(response => {
+  .then((response) => {
     if (response.data) {
       console.log(response.data);
     }
   })
-  .catch(err => {
+  .catch((err) => {
     console.err(err);
   });
 ```
@@ -1803,6 +1968,8 @@ $data = [
   "product_id" => "p1",
   "variant_id" => "v1",
   "category_ids" => ["men","summer","jeans"],
+  "type" => ["jeans"],
+  "tags" => "featured, premium",
   "name" => "cool jeans",
   "brand" => "zayra",
   "description" => "very fashionable jeans",
@@ -1841,6 +2008,8 @@ data = {
   "product_id": "p1",
   "variant_id": "v1",
   "category_ids": ["men","summer","jeans"],
+  "type" : ["jeans"],
+  "tags" : "featured, premium",
   "name": "cool jeans",
   "brand": "zayra",
   "description": "very fashionable jeans",
@@ -1879,6 +2048,8 @@ const data = {
   product_id: "p1",
   variant_id: "v1",
   category_ids: ["men", "summer", "jeans"],
+  type: ["jeans"],
+  tags: "featured, premium",
   name: "cool jeans",
   brand: "zayra",
   description: "very fashionable jeans",
@@ -1917,6 +2088,8 @@ Whenever a new product is created, send this request from your backend.
 | `product_id`   | String       | Yes      | The product id or SKU number                                                                                                |
 | `variant_id`   | String       | Yes      | A unique variant id within the product id, if you only use product SKUs set this to a constant such as 'no-variants'        |
 | `category_ids` | String Array | Yes      | A list of all the matching category ids as tags e.g. ["Jeans","Summer","Men"]. Must be a valid category_id (see categories) |
+| `type`         | String       | No       | Type of product                                                                                                             |
+| `tags`         | String       | No       | Any tags assigned to the product                                                                                            |
 | `name`         | String       | Yes      | Name or Title of the product                                                                                                |
 | `brand`        | String       | No       | Brand name of the product                                                                                                   |
 | `description`  | String       | No       | Long text description of the product                                                                                        |
@@ -1936,7 +2109,7 @@ Whenever a new product is created, send this request from your backend.
 
 DataCue can feature your discounted products automatically. Use the `price` and `full_price` field when you have a discount. If `full_price` is empty or less than `price`, we assume the product is not on discount.
 
-Lets say you have a product that usually costs $50. This week you have it's on discount and costs $40.
+Lets say you have a product that usually costs $50. This week, it's on discount and costs $40.
 Update the product like so:
 
 - `price` = 40.00
@@ -1968,6 +2141,8 @@ $data = [
   "category_ids" => ["men","summer","jeans"],
   "name" => "cool jeans",
   "brand" => "zayra",
+  "type" => "shorts",
+  "tags" => "promo, homepage",
   "description" => "very fashionable jeans",
   "color" => "blue",
   "size" => "M",
@@ -2006,6 +2181,8 @@ data = {
   "category_ids": ["men","summer","jeans"],
   "name": "cool jeans",
   "brand": "zayra",
+  "type": "shorts",
+  "tags": "promo, homepage",
   "description": "very fashionable jeans",
   "color": "blue",
   "size": "M",
@@ -2044,6 +2221,8 @@ const data = {
   category_ids: ["men", "summer", "jeans"],
   name: "cool jeans",
   brand: "zayra",
+  type: "shorts",
+  tags: "promo, homepage",
   description: "very fashionable jeans",
   color: "blue",
   size: "M",
