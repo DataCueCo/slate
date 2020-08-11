@@ -4120,24 +4120,7 @@ Delete multiple orders within one request. Batch DELETE requests only require an
 
 `order_id`
 
-> The above command returns a 207 multi status response code
-
-```json
-{
-  "status": [
-    {
-      "order_id": "o1",
-      "status": "OK"
-    },
-    {
-      "order_id": "o2",
-      "status": "OK"
-    }
-  ]
-}
-```
-
-We will send you a status for each item you sent, so you can handle and resend only items that had an error.
+> The above command returns a 204 response code if successful.
 
 ## Delete All Products
 
