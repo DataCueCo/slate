@@ -553,6 +553,7 @@ The frontend events API is located at <code>https://events.datacue.co</code>.</p
 <span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="s">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="s2">"browser only event (refer to the Browser tab)"</span><span class="p">;</span>
+
 </code></pre>
 <p>Place the snippets near the end of the <code>&lt;head&gt;</code> element of your main template. You should include it in these pages:</p>
 
@@ -647,6 +648,7 @@ The frontend events API is located at <code>https://events.datacue.co</code>.</p
 <span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="s">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="s2">"browser only event (refer to the Browser tab)"</span><span class="p">;</span>
+
 </code></pre>
 <p>Place this code on your home page.</p>
 <h3 id='product-pages'>Product pages</h3>
@@ -691,6 +693,7 @@ The frontend events API is located at <code>https://events.datacue.co</code>.</p
 <span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="s">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="s2">"browser only event (refer to the Browser tab)"</span><span class="p">;</span>
+
 </code></pre>
 <p>On product pages, you can also add an optional property <code>product_update</code> to the config object, to ensure that the most important information about your products is always synchronized.</p>
 
@@ -762,6 +765,7 @@ The frontend events API is located at <code>https://events.datacue.co</code>.</p
 <span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="s">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="s2">"browser only event (refer to the Browser tab)"</span><span class="p">;</span>
+
 </code></pre>
 <p>On category pages, you can also add an optional property <code>category_update</code> to the config object, to ensure we keep category details in sync.</p>
 
@@ -798,6 +802,7 @@ The frontend events API is located at <code>https://events.datacue.co</code>.</p
 <span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="s">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="s2">"browser only event (refer to the Browser tab)"</span><span class="p">;</span>
+
 </code></pre>
 <p>Place this code on your search results page</p>
 <h3 id='cart-page'>Cart page</h3>
@@ -817,6 +822,7 @@ The frontend events API is located at <code>https://events.datacue.co</code>.</p
 <span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="s">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="s2">"browser only event (refer to the Browser tab)"</span><span class="p">;</span>
+
 </code></pre>
 <p>Place this code on your cart page.</p>
 <h3 id='404-page'>404 page</h3>
@@ -836,6 +842,7 @@ The frontend events API is located at <code>https://events.datacue.co</code>.</p
 <span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="s">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="s2">"browser only event (refer to the Browser tab)"</span><span class="p">;</span>
+
 </code></pre>
 <p>Place this code on your cart page.</p>
 
@@ -861,6 +868,7 @@ The frontend events API is located at <code>https://events.datacue.co</code>.</p
 <span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="s">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="s2">"browser only event (refer to the Browser tab)"</span><span class="p">;</span>
+
 </code></pre>
 <p>Set the <code>user_id</code> field of the datacueConfig object to the user ID (if the user created an account) OR their email address (if it&#39;s a guest checkout).</p>
 
@@ -903,6 +911,7 @@ The frontend events API is located at <code>https://events.datacue.co</code>.</p
 <span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="s">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="s2">"browser only event (refer to the Browser tab)"</span><span class="p">;</span>
+
 </code></pre>
 <p>If you prefer to send order data from the frontend, you can include an optional property <code>order_details</code> to the config object. This allows you to send completed orders via the frontend instead of using any backend hooks.</p>
 
@@ -986,21 +995,16 @@ The frontend events API is located at <code>https://events.datacue.co</code>.</p
 <blockquote>
 <p>DataCue standard banner layout</p>
 </blockquote>
-<pre class="highlight html tab-html"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"datacue-banners"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"datacue-banner datacue-banner-wide datacue-banner-static"</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;a&gt;</span>
-      <span class="c">&lt;!-- Replace the &lt;&lt;apikey&gt;&gt; in the image src with your assigned DataCue apikey --&gt;</span>
-      <span class="nt">&lt;img</span>
-        <span class="na">src=</span><span class="s">"//cdn.datacue.co/client_assets/&lt;&lt;apikey&gt;&gt;/banners/static-banner.jpg"</span>
-        <span class="na">onerror=</span><span class="s">"document.querySelector('.datacue-banner-static').style.display='none';"</span>
-      <span class="nt">/&gt;</span>
-    <span class="nt">&lt;/a&gt;</span>
-  <span class="nt">&lt;/div&gt;</span>
-<span class="nt">&lt;/div&gt;</span>
+<pre class="highlight html tab-html"><code><span class="nt">&lt;div</span>
+  <span class="na">data-dc-banners</span>
+  <span class="na">data-dc-static-img=</span><span class="s">"path/to/your/banner.jpg"</span>
+  <span class="na">data-dc-static-link=</span><span class="s">"link/to/chosen/category"</span>
+<span class="nt">&gt;&lt;/div&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 <span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="s">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="s2">"browser only event (refer to the Browser tab)"</span><span class="p">;</span>
+
 </code></pre>
 <blockquote>
 <p>Custom banner layout</p>
@@ -1022,6 +1026,7 @@ The frontend events API is located at <code>https://events.datacue.co</code>.</p
 <span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="s">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="s2">"browser only event (refer to the Browser tab)"</span><span class="p">;</span>
+
 </code></pre>
 <p>You can read all about banners in our <a href="https://help.datacue.co/guide/banners.html#quick-start">usage guide</a></p>
 
@@ -1051,6 +1056,7 @@ The frontend events API is located at <code>https://events.datacue.co</code>.</p
 <span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="s">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="s2">"browser only event (refer to the Browser tab)"</span><span class="p">;</span>
+
 </code></pre>
 <p>We strongly recommend that you just insert the <code>&lt;div data-dc-products&gt;&lt;/div&gt;</code> wherever you want to see product recommendations. DataCue will automatically display the most appropriate product recommendations based on the page type. If you want to hide any type of recommendation, you can do it easily from your dashboard.</p>
 
@@ -1284,6 +1290,7 @@ The frontend events API is located at <code>https://events.datacue.co</code>.</p
 <span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="s">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="s2">"browser only event (refer to the Browser tab)"</span><span class="p">;</span>
+
 </code></pre>
 <blockquote>
 <p>The above command returns a 204 response code</p>
@@ -1351,6 +1358,7 @@ The frontend events API is located at <code>https://events.datacue.co</code>.</p
 <span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="s">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="s2">"browser only event (refer to the Browser tab)"</span><span class="p">;</span>
+
 </code></pre>
 <blockquote>
 <p>The above command returns a 204 response code</p>
@@ -1411,6 +1419,7 @@ The frontend events API is located at <code>https://events.datacue.co</code>.</p
 <span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="s">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="s2">"browser only event (refer to the Browser tab)"</span><span class="p">;</span>
+
 </code></pre>
 <blockquote>
 <p>The above command returns a 204 response code</p>
@@ -1486,6 +1495,7 @@ The frontend events API is located at <code>https://events.datacue.co</code>.</p
 <span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="s">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="s2">"browser only event (refer to the Browser tab)"</span><span class="p">;</span>
+
 </code></pre>
 <blockquote>
 <p>The above command returns a 204 response code</p>
@@ -1543,6 +1553,7 @@ The frontend events API is located at <code>https://events.datacue.co</code>.</p
 <span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="s">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="s2">"browser only event (refer to the Browser tab)"</span><span class="p">;</span>
+
 </code></pre>
 <blockquote>
 <p>The above command returns a 204 response code</p>
@@ -1589,6 +1600,7 @@ The frontend events API is located at <code>https://events.datacue.co</code>.</p
 <span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="s">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="s2">"browser only event (refer to the Browser tab)"</span><span class="p">;</span>
+
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
@@ -1747,6 +1759,7 @@ The frontend events API is located at <code>https://events.datacue.co</code>.</p
 <span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="s">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="s2">"browser only event (refer to the Browser tab)"</span><span class="p">;</span>
+
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
@@ -1878,6 +1891,7 @@ The frontend events API is located at <code>https://events.datacue.co</code>.</p
 <span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="s">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="s2">"browser only event (refer to the Browser tab)"</span><span class="p">;</span>
+
 </code></pre>
 <blockquote>
 <p>The above command returns a 204 response code</p>
@@ -1934,6 +1948,7 @@ The frontend events API is located at <code>https://events.datacue.co</code>.</p
 <span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="s">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="s2">"browser only event (refer to the Browser tab)"</span><span class="p">;</span>
+
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
@@ -2017,6 +2032,7 @@ The frontend events API is located at <code>https://events.datacue.co</code>.</p
 <span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="s">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="s2">"browser only event (refer to the Browser tab)"</span><span class="p">;</span>
+
 </code></pre>
 <blockquote>
 <p>The above command returns a 204 response code</p>
@@ -2076,6 +2092,7 @@ The frontend events API is located at <code>https://events.datacue.co</code>.</p
 <span class="s2">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight python tab-python"><code><span class="s">"browser only event (refer to the Browser tab)"</span>
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="s2">"browser only event (refer to the Browser tab)"</span><span class="p">;</span>
+
 </code></pre>
 <blockquote>
 <p>The above command returns a 204 response code</p>
@@ -4653,22 +4670,8 @@ Update the product like so:</p>
 <p><code>order_id</code></p>
 
 <blockquote>
-<p>The above command returns a 207 multi status response code</p>
+<p>The above command returns a 204 response code if successful.</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"order_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"o1"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OK"</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"order_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"o2"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OK"</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>We will send you a status for each item you sent, so you can handle and resend only items that had an error.</p>
 <h2 id='delete-all-products'>Delete All Products</h2><pre class="highlight html tab-html"><code><span class="c">&lt;!--- backend only event (refer to the Python, PHP or Node tab) --&gt;</span>
 </code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 
