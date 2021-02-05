@@ -181,6 +181,7 @@ Integrate DataCue to your storefront in two steps:
 
 ```javascript
 "browser only event (refer to the Browser tab)";
+
 ```
 
 Place the snippets near the end of the `<head>` element of your main template. You should include it in these pages:
@@ -241,6 +242,7 @@ To properly set up tracking, you need to provide some information about the page
 
 ```javascript
 "browser only event (refer to the Browser tab)";
+
 ```
 
 Place this code on your home page.
@@ -297,6 +299,7 @@ Place this code on your home page.
 
 ```javascript
 "browser only event (refer to the Browser tab)";
+
 ```
 
 On product pages, you can also add an optional property `product_update` to the config object, to ensure that the most important information about your products is always synchronized.
@@ -349,6 +352,7 @@ On product pages, you can also add an optional property `product_update` to the 
 
 ```javascript
 "browser only event (refer to the Browser tab)";
+
 ```
 
 On category pages, you can also add an optional property `category_update` to the config object, to ensure we keep category details in sync.
@@ -386,6 +390,7 @@ On category pages, you can also add an optional property `category_update` to th
 
 ```javascript
 "browser only event (refer to the Browser tab)";
+
 ```
 
 Place this code on your search results page
@@ -417,6 +422,7 @@ Place this code on your search results page
 
 ```javascript
 "browser only event (refer to the Browser tab)";
+
 ```
 
 Place this code on your cart page.
@@ -448,6 +454,7 @@ Place this code on your cart page.
 
 ```javascript
 "browser only event (refer to the Browser tab)";
+
 ```
 
 Place this code on your cart page.
@@ -487,6 +494,7 @@ You can choose to send completed orders via the frontend or the backend.
 
 ```javascript
 "browser only event (refer to the Browser tab)";
+
 ```
 
 Set the `user_id` field of the datacueConfig object to the user ID (if the user created an account) OR their email address (if it's a guest checkout).
@@ -541,6 +549,7 @@ Refer to [create order](#create-order) on how to send order data via the backend
 
 ```javascript
 "browser only event (refer to the Browser tab)";
+
 ```
 
 If you prefer to send order data from the frontend, you can include an optional property `order_details` to the config object. This allows you to send completed orders via the frontend instead of using any backend hooks.
@@ -576,17 +585,11 @@ Custom layout means you need to implement responsive design yourself in exchange
 > DataCue standard banner layout
 
 ```html
-<div class="datacue-banners">
-  <div class="datacue-banner datacue-banner-wide datacue-banner-static">
-    <a>
-      <!-- Replace the <<apikey>> in the image src with your assigned DataCue apikey -->
-      <img
-        src="//cdn.datacue.co/client_assets/<<apikey>>/banners/static-banner.jpg"
-        onerror="document.querySelector('.datacue-banner-static').style.display='none';"
-      />
-    </a>
-  </div>
-</div>
+<div
+  data-dc-banners
+  data-dc-static-img="path/to/your/banner.jpg"
+  data-dc-static-link="link/to/chosen/category"
+></div>
 ```
 
 ```php
@@ -600,6 +603,7 @@ Custom layout means you need to implement responsive design yourself in exchange
 
 ```javascript
 "browser only event (refer to the Browser tab)";
+
 ```
 
 > Custom banner layout
@@ -631,6 +635,7 @@ Custom layout means you need to implement responsive design yourself in exchange
 
 ```javascript
 "browser only event (refer to the Browser tab)";
+
 ```
 
 You can read all about banners in our [usage guide](https://help.datacue.co/guide/banners.html#quick-start)
@@ -672,6 +677,7 @@ For full details on custom layouts for banners, refer to our [advanced guide](ht
 
 ```javascript
 "browser only event (refer to the Browser tab)";
+
 ```
 
 We strongly recommend that you just insert the `<div data-dc-products></div>` wherever you want to see product recommendations. DataCue will automatically display the most appropriate product recommendations based on the page type. If you want to hide any type of recommendation, you can do it easily from your dashboard.
@@ -847,6 +853,7 @@ Refer to the example json on the right to view the format.
 
 ```javascript
 "browser only event (refer to the Browser tab)";
+
 ```
 
 > The above command returns a 204 response code
@@ -899,6 +906,7 @@ Record whenever the users shopping cart changes. Whenever the user:
 
 ```javascript
 "browser only event (refer to the Browser tab)";
+
 ```
 
 > The above command returns a 204 response code
@@ -946,6 +954,7 @@ Record changes to user's wishlist when a new product is added to it.
 
 ```javascript
 "browser only event (refer to the Browser tab)";
+
 ```
 
 > The above command returns a 204 response code
@@ -1008,6 +1017,7 @@ Record changes to user's wishlist when a product is removed from it.
 
 ```javascript
 "browser only event (refer to the Browser tab)";
+
 ```
 
 > The above command returns a 204 response code
@@ -1052,6 +1062,7 @@ Record the moment the user initiates the check out process, typically from their
 
 ```javascript
 "browser only event (refer to the Browser tab)";
+
 ```
 
 > The above command returns a 204 response code
@@ -1102,6 +1113,7 @@ You don't need to implement those if you're using our scripts.
 
 ```javascript
 "browser only event (refer to the Browser tab)";
+
 ```
 
 > The above command returns JSON structured like this:
@@ -1240,6 +1252,7 @@ Request banner and product recommendations when a user visits your home page
 
 ```javascript
 "browser only event (refer to the Browser tab)";
+
 ```
 
 > The above command returns JSON structured like this:
@@ -1345,6 +1358,7 @@ Request product recommendations when a user visits a product page
 
 ```javascript
 "browser only event (refer to the Browser tab)";
+
 ```
 
 > The above command returns a 204 response code
@@ -1393,6 +1407,7 @@ Pages showing multiple products on a page, these are commonly called category, c
 
 ```javascript
 "browser only event (refer to the Browser tab)";
+
 ```
 
 > The above command returns JSON structured like this:
@@ -1468,6 +1483,7 @@ Record when a user performs a search on your website
 
 ```javascript
 "browser only event (refer to the Browser tab)";
+
 ```
 
 > The above command returns a 204 response code
@@ -1519,6 +1535,7 @@ Record clicks to a banner or a sub banner, typically on your home page
 
 ```javascript
 "browser only event (refer to the Browser tab)";
+
 ```
 
 > The above command returns a 204 response code
